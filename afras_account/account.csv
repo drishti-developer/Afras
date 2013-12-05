@@ -1,0 +1,338 @@
+Account Code	1			parent_id
+10,00,000	Assets			
+11,00,000	Current Assets			10,00,000
+11,10,000	Cash & Cash Equivalent			11,00,000
+11,11,000	Cash in bank			11,10,000
+11,11,001	Riyadh Bank			11,11,000
+11,11,002	Rajhi Bank			11,11,000
+11,12,000	Cash in funds			11,10,000
+11,12,001	Cash In Head Office			11,12,000
+11,12,002	Cash Branches			11,12,000
+11,20,000	Receivables			11,00,000
+11,21,000	Retail			11,20,000
+11,21,001	Retail			11,21,000
+11,22,000	Corporate			11,20,000
+11,22,001	Corporate			11,22,000
+11,23,000	Others			11,20,000
+11,23,001	Cash sale customers			11,23,000
+11,23,002	Installment sale customers			11,23,000
+11,24,003	Associated Companies			11,23,000
+11,23,004	Accident insurance companies (the second party)			11,23,000
+11,30,000	Advance Payment			11,00,000
+11,31,000	Suppliers			11,30,000
+11,31,001	Auto suppliers			11,31,000
+11,31,002	Other Suppliers			11,31,000
+11,32,000	Compensation & Benefits			11,30,000
+11,32,001	Basic salary			11,32,000
+11,32,002	Over Time Allowance			11,32,000
+11,32,003	Housing allowance			11,32,000
+11,32,004	Housing expnses 			11,32,000
+11,32,005	Transportation allowance			11,32,000
+11,32,006	Training expenses			11,32,000
+11,32,007	Medical Insurance			11,32,000
+11,32,008	Bouns & Rewards			11,32,000
+11,32,009	Sales commissions			11,32,000
+11,32,010	Holiday Allownce			11,32,000
+11,32,011	End of service allowance			11,32,000
+11,32,012	Airline tickets & travel expenses			11,32,000
+11,32,013	GOSI			11,32,000
+11,32,014	Iqama  fees			11,32,000
+11,32,015	Exit & Entry visa 			11,32,000
+11,33,000	Occupancy Expenses			11,30,000
+11,33,001	Rent stores 			11,33,000
+11,33,002	Rent workshops			11,33,000
+11,33,003	Rent Offices			11,33,000
+11,33,004	Rent Lands			11,33,000
+11,34,000	Advance Government expenses			11,30,000
+11,34,001	Issuance and renewal cars license  			11,34,000
+11,34,002	Tamm (authorizations cars)			11,34,000
+11,34,003	Shomoos (traffic)			11,34,000
+11,35,000	Advertising & Marketing expenses			11,30,000
+11,35,001	Press  Advertising Expenses			11,35,000
+11,35,002	Media advertising  Expenses			11,35,000
+11,35,003	E-marketing Expenses			11,35,000
+11,35,004	Sponsorship & Events Expenses			11,35,000
+11,35,005	Marketing Research Expenses			11,35,000
+11,35,006	Survey Expenses			11,35,000
+11,36,000	Proffessional & Consulting Expenses			11,30,000
+11,36,001	External Audit Fees			11,36,000
+11,36,002	Intenal Audit Fees			11,36,000
+11,36,003	Lawyer`s Fees			11,36,000
+11,36,004	Consulting Fees			11,36,000
+11,37,000	IT & Communications Expenses			11,30,000
+11,37,001	Internet			11,37,000
+11,37,002	Subscriptions			11,37,000
+11,38,000	Insurance Expenses			11,30,000
+11,38,001	Car Insurance 			11,38,000
+11,40,000	Other Current Assets			11,00,000
+11,41,000	Inentory			11,40,000
+11,41,001	Cars Stocks			11,41,000
+11,41,002	Spare parts Stocks			11,41,000
+11,42,000	Bank Margin			11,40,000
+11,42,001	Bank Margin			11,42,000
+12,00,000	Non-current Assets			10,00,000
+12,10,000	Property & Equipments			12,00,000
+12,11,000	Lands			12,10,000
+12,11,001	Lands			12,11,000
+12,12,000	Building and improvements			12,10,000
+12,12,001	Building and improvements			12,12,000
+12,12,002	Accumulated depreciation building and improvements			12,12,000
+12,13,000	Vehicles			12,10,000
+12,13,001	Vehicles			12,13,000
+12,13,002	Accumulated depreciation Vehicles			12,13,000
+12,14,000	ÿEquipments & tools			12,10,000
+12,14,001	 Equipments & tools			12,14,000
+12,14,002	ÿAccumulated depreciation Equipments & tools			12,14,000
+12,15,000	Furniture			12,10,000
+12,15,001	Furniture			12,15,000
+12,15,002	Accumulated depreciation Furniture			12,15,000
+12,16,000	Computer Hardware			12,10,000
+12,16,001	 Computer  Hardware			12,16,000
+12,16,002	Accumulated depreciation Computer Hardware			12,16,000
+12,17,000	Computer software & Implmantation			12,10,000
+12,17,001	Computer software & Implmantation			12,17,000
+12,17,002	Accumulated depreciation Computer software			12,17,000
+12,18,000	Project in progress			12,10,000
+12,18,001	Project in progress			12,18,000
+20,00,000	Liabilities & Total Equity			
+21,00,000	Current Liabilities			20,00,000
+21,10,000	Short-term debt			12,00,000
+21,11,000	Short-term debt			21,10,000
+21,11,001	Short-term debt			21,11,000
+21,20,000	Current portion of long-term debt			12,00,000
+21,21,000	Current portion of long-term debt			21,20,000
+21,21,001	Current portion of long-term debt			21,21,000
+21,30,000	Accounts payable			12,00,000
+21,31,000	Suppliers			21,30,000
+21,31,001	Auto suppliers			21,31,000
+21,31,002	Other suppliers			21,31,000
+21,40,000	Accrued expenses			12,00,000
+21,41,000	Compensation & Benefits			21,40,000
+21,41,001	Basic salary			21,41,000
+21,41,002	Over Time Allowance			21,41,000
+21,41,003	Housing allowance			21,41,000
+21,41,004	Housing expnses 			21,41,000
+21,41,005	Transportation allowance			21,41,000
+21,41,006	Training expenses			21,41,000
+21,41,007	Medical Insurance			21,41,000
+21,41,008	Bouns & Rewards			21,41,000
+21,41,009	Sales commissions			21,41,000
+21,41,010	Holiday Allownce			21,41,000
+21,41,011	End of service allowance			21,41,000
+21,41,012	Airline tickets & travel expenses			21,41,000
+21,41,013	GOSI			21,41,000
+21,41,014	Iqama  fees			21,41,000
+21,41,015	Exit & Entry visa 			21,41,000
+21,42,000	Advertising & Marketing expenses			21,40,000
+21,42,001	Press  Advertising Expenses			21,42,000
+21,42,002	Media advertising  Expenses			21,42,000
+21,42,003	E-marketing Expenses			21,42,000
+21,42,004	Sponsorship & Events Expenses			21,42,000
+21,42,005	Marketing Research Expenses			21,42,000
+21,42,006	Survey Expenses			21,42,000
+21,43,000	Occupancy Expenses			21,40,000
+21,43,001	Rent stores 			21,43,000
+21,43,002	Rent workshops			21,43,000
+21,43,003	Rent Offices			21,43,000
+21,43,004	Rent Lands			21,43,000
+21,44,000	Proffessional & Consulting Expenses			21,40,000
+21,44,001	External Audit Fees			21,44,000
+21,44,002	Intenal Audit Fees			21,44,000
+21,44,003	Lawyer`s Fees			21,44,000
+21,44,004	Consulting Fees			21,44,000
+21,45,000	Insurance Expenses			21,40,000
+21,45,001	Car Insurance 			21,45,000
+21,50,000	Other Current Liabilities			12,00,000
+21,51,000	Advance payments from customers			21,50,000
+21,51,001	Payments of Retail			21,51,000
+21,51,002	Payments of corporate			21,51,000
+21,51,003	Payment of Government 			21,51,000
+21,52,000	Other payables			21,50,000
+21,52,001	Sister companies			21,52,000
+21,52,002	GOSI			21,52,000
+21,52,003	Department of Zakat and Income Tax			21,52,000
+22,00,000	Non-current liabilities			20,00,000
+22,10,000	Long-term debt			22,00,000
+22,11,000	Long-term debt			22,10,000
+22,11,001	Long-term debt			22,11,000
+22,20,000	Other Non-current liabilities			22,00,000
+22,21,000	Provision for end of service			22,20,000
+22,21,001	Provision for end of service			22,21,000
+30,00,000	Total Equity			
+31,00,000	Equity			30,00,000
+31,10,000	Capital			31,00,000
+31,11,000	Capital			31,10,000
+31,11,001	Capital			31,11,000
+31,20,000	Additional Capital			31,00,000
+31,21,000	Additional Capital			31,20,000
+31,21,001	Additional Capital			31,21,000
+31,30,000	Reserves			31,00,000
+31,31,000	Reserves			31,30,000
+31,31,001	Reserves			31,31,000
+31,40,000	Retained earnings			31,00,000
+31,41,000	Retained earnings			31,40,000
+31,41,001	Retained earnings			31,41,000
+40,00,000	Revenue			
+41,00,000	Operating revenue			40,00,000
+41,10,000	Rental revenue			41,00,000
+41,11,000	Rental Revenue			41,10,000
+41,20,000	Additional Rental revenue			41,00,000
+41,21,000	Revenue of extra Milage			41,20,000
+41,21,001	IndividualsRevenue			41,21,000
+41,21,002	Corporate Revenue			41,21,000
+41,22,000	Revenue of extra hours			41,20,000
+41,22,001	Individuals Leasing Revenue			41,22,000
+41,22,002	Corporate Leasing Revenue			41,22,000
+41,23,000	Authorizations			41,20,000
+41,23,001	Authorizations			41,23,000
+41,30,000	Other revenue			41,00,000
+41,31,000	Customer compensation for minor damage			41,30,000
+41,32,000	Accidents			41,30,000
+41,32,001	 Accidents Revenues			41,32,000
+41,32,002	 Accidents Expenses			41,32,000
+42,00,000	Profit [loss] from Sale of assets			40,00,000
+42,10,000	Sales of used Cars			42,00,000
+42,20,000	Sales of other assets			42,00,000
+50,00,000	Expenses			
+51,00,000	Cost of sales			50,00,000
+51,10,000	Depreciation			51,00,000
+51,11,000	Depreciation expense of  Vehicles			51,10,000
+51,11,001	Depreciation expense of  Vehicles			51,11,000
+51,12,000	Depreciation expense of  ÿEquipments & tools			51,10,000
+51,12,001	Depreciation expense of  ÿEquipments & tools			51,12,000
+51,20,000	Car maintenance			51,00,000
+51,21,000	Periodic maintenance expenses			51,20,000
+51,21,001	Maintenance			51,21,000
+51,21,002	Spare parts			51,21,000
+51,22,000	Non Periodic maintenance expenses			51,20,000
+51,22,001	Maintenance			51,22,000
+51,22,002	Spare parts			51,22,000
+51,30,000	Insurance			51,00,000
+51,31,000	Car insurance			51,30,000
+51,40,000	Compensation & Benefits			51,00,000
+51,40,100	Basic salary			51,40,000
+51,40,200	Over Time Allowance			51,40,000
+51,40,300	Housing allowance			51,40,000
+51,40,400	Housing expnses 			51,40,000
+51,40,500	Transportation allowance			51,40,000
+51,40,600	Training expenses			51,40,000
+51,40,700	Medical Insurance			51,40,000
+51,40,800	Bouns & Rewards			51,40,000
+51,40,900	Sales commissions			51,40,000
+51,41,000	Holiday Allownce			51,40,000
+51,41,100	End of service allowance			51,40,000
+51,41,200	Airline tickets & travel expenses			51,40,000
+51,41,300	GOSI			51,40,000
+51,41,400	Iqama  fees			51,40,000
+51,41,500	Exit & Entry visa 			51,40,000
+51,50,000	Occupancy Expenses			51,00,000
+51,51,000	Rent			51,50,000
+51,51,001	Rent stores 			51,51,000
+51,51,002	Rent workshops			51,51,000
+51,51,003	Rent Offices			51,51,000
+51,51,004	Rent Lands			51,51,000
+51,52,000	Deprciation 			51,50,000
+51,52,001	Depreciation expense of  Buildings and improvements			51,52,000
+51,52,002	Depreciation expense of  Furniture			51,52,000
+51,53,000	Utilites			51,50,000
+51,53,001	Electricity expenses			51,53,000
+51,53,002	Water expenses			51,53,000
+51,54,000	Maintainace Expenses 			51,50,000
+51,54,001	Maintanace expnses 			51,54,000
+51,55,000	Branch insurance 			51,50,000
+51,55,001	Branch insurance 			51,55,000
+51,60,000	Bad Debt			51,00,000
+51,61,000	Retail			51,60,000
+51,62,000	Corporate			51,60,000
+51,70,000	Other Expenses			51,00,000
+51,71,000	Workes uniform 			51,70,000
+51,72,000	Violations Expenses			51,70,000
+51,73,000	Car license fees			51,70,000
+51,74,000	Chamber of commerce varification expanses			51,70,000
+52,00,000	G&A Expenses			50,00,000
+52,10,000	Compensation & Benefits			52,00,000
+52,10,100	Basic salary			52,10,000
+52,10,101	Basic salary			52,10,100
+52,10,200	Over Time Allowance			52,10,000
+52,10,201	Over Time Allowance			52,10,200
+52,10,300	Housing allowance			52,10,000
+52,10,301	Housing allowance			52,10,300
+52,10,400	Housing expnses 			52,10,000
+52,10,401	Housing expnses 			52,10,400
+52,10,500	Transportation allowance			52,10,000
+52,10,501	Transportation allowance			52,10,500
+52,10,600	Training expenses			52,10,000
+52,10,601	Training expenses			52,10,600
+52,10,700	Medical Insurance			52,10,000
+52,10,701	Medical Insurance			52,10,700
+52,10,800	Bouns & Rewards			52,10,000
+52,10,801	Bouns & Rewards			52,10,800
+52,10,900	Sales commissions			52,10,000
+52,10,901	Sales commissions			52,10,900
+52,11,000	Holiday Allownce			52,10,000
+52,11,001	Holiday Allownce			52,11,000
+52,11,100	End of service allowance			52,10,000
+52,11,101	End of service allowance			52,11,100
+52,11,200	Airline tickets & travel expenses			52,10,000
+52,11,201	Airline tickets & travel expenses			52,11,200
+52,11,300	GOSI			52,10,000
+52,11,301	GOSI			52,11,300
+52,11,400	Iqama  fees			52,10,000
+52,11,401	Iqama  fees			52,11,400
+52,11,500	Exit & Entry visa 			52,10,000
+52,11,501	Exit & Entry visa 			52,11,500
+52,20,000	IT & Comunications Expenses			52,00,000
+52,21,000	IT Expenses 			52,20,000
+52,21,001	Deprciation expenses of  Computer Hardware			52,21,000
+52,21,002	Deprciation expenses of  Computer software & Implementation			52,21,000
+52,21,003	Software license Fees			52,21,000
+52,21,004	Technology Consulting Fees			52,21,000
+52,21,005	IT  Maintenance Fees 			52,21,000
+52,22,000	Communications Expanses 			52,20,000
+52,22,001	Telephone,Post and mobile			52,22,000
+52,22,002	 Internet			52,22,000
+52,30,000	Proffessional & Consulting Expenses			52,00,000
+52,31,000	External Audit Fees			52,30,000
+52,32,000	Intenal Audit Fees			52,30,000
+52,33,000	Lawyer`s Fees			52,30,000
+52,34,000	Consulting Fees			52,30,000
+52,40,000	Occupancy Expenses			52,00,000
+52,41,000	Rent			52,40,000
+52,41,001	Rent Offices			52,41,000
+52,41,002	Rent Lands			52,41,000
+52,42,000	Deprciation 			52,40,000
+52,42,001	Depreciation expense of  Buildings and improvements			52,42,000
+52,42,002	Depreciation expense of  Furniture			52,42,000
+52,42,003	Depreciation expense of  Vehicles			52,42,000
+52,43,000	Utilites			52,40,000
+52,43,001	Electricity expenses			52,43,000
+52,43,002	Water expenses			52,43,000
+52,44,000	Maintenance Expenses 			52,40,000
+52,44,001	Maintenance expnses 			52,44,000
+52,45,000	Hospitality expenses 			52,40,000
+52,46,000	Stationary expanses			52,40,000
+52,50,000	Other expanses			52,00,000
+52,51,000	Bidding form expanses			52,50,000
+52,52,000	Chamber of commerce varification expanses			52,50,000
+53,00,000	Advertising & Marketing expenses			50,00,000
+53,10,000	Press  Advertising Expenses			53,00,000
+53,20,000	Media advertising  Expenses			53,00,000
+53,30,000	E-marketing Expenses			53,00,000
+53,40,000	Sponsorship & Events Expenses			53,00,000
+53,50,000	Marketing Research Expenses			53,00,000
+53,60,000	Survey Expenses			53,00,000
+54,00,000	Finacial Charges			50,00,000
+54,10,000	Interst			54,00,000
+54,11,000	Bank 1			54,10,000
+54,12,000	Bank 2			54,10,000
+54,20,000	Non Interst 			54,00,000
+54,21,000	Bank 1			54,20,000
+54,21,000	Transfer Fees			54,21,000
+54,21,000	L.C. Fees			54,21,000
+54,21,000	L.G.Fees			54,21,000
+54,22,000	Bank 2			54,20,000
+54,22,001	Transfer Fees			54,22,000
+54,22,002	L.C. Fees			54,22,000
+54,22,003	L.G.Fees			54,22,000
+55,00,000	Zakat Expenses			50,00,000
+55,10,000	Zakat expenses 			55,00,000

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+	<data>
+		<record id="isa_fleet_import" model="ir.ui.view">
+            <field name="name">isa_fleet_import_wizard_form</field>
+            <field name="model">import.fleet</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Account" version="7.0">
+                    <sheet>
+                        <group>
+                        	<group>
+                        		<field name='file' widget='binary'/>
+                        	</group>
+                        	<button name="import_fleet_info" string="Validate" type="object" class="oe_highlight"/>
+                        </group>               
+                    </sheet>
+                </form>
+            </field>
+        </record>      
+        
+          <record id="action_fleet_import_wizard" model="ir.actions.act_window">
+            <field name="name">Import Account</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">import.fleet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="isa_fleet_import"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>  
+
+<menuitem id="import_fleet_wiz" action="action_fleet_import_wizard" name="Import Vehichle" parent="fleet.fleet_configuration" sequence="5" />
+		
+	</data>
+</openerp>

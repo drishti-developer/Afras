@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+      <record id="crms_instance_form" model="ir.ui.view">
+            <field name="name">crms.instance.form</field>
+            <field name="model">crms.instance</field>
+            <field name="arch" type="xml">
+                <form string="Car Rental Management System Instance" version="7.0">
+                	<group col="4" colspan="2">
+                		<field name="name" />
+                    	<field name="erp_ip" />
+                    	<field name="username" />
+                    	<field name="password" />
+                    </group>
+                    <group col="4" colspan="2">
+                    	<button name="add_update_currency" string="1. Add/Update Currencies" type="object" />
+                    	<field name="last_currency_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_country" string="2. Add/Update Country" type="object" />
+                    	<field name="last_country_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_region" string="3. Add/Update Region" type="object" />
+                    	<field name="last_region_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_city" string="4. Add/Update City" type="object" />
+                    	<field name="last_city_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_area" string="5. Add/Update Area" type="object" />
+                    	<field name="last_area_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_branch" string="6. Add/Update Branch" type="object" />
+                    	<field name="last_branch_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_manufacturer" string="7. Add/Update Manufacturer" type="object" />
+                    	<field name="last_manufacturer_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_cartype" string="8. Add/Update CarType" type="object" />
+                    	<field name="last_cartype_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_model" string="9. Add/Update Model" type="object" />
+                    	<field name="last_model_exported_date"/>
+                    	<newline/>
+                    	<button name="add_update_car" string="10. Add/Update Car" type="object" />
+                    	<field name="last_car_exported_date"/>
+                    	<newline/>
+                    	<!--<button name="add_update_customer" string="10. Add/Update Customer" type="object" />
+                    	<field name="last_customer_exported_date"/> -->
+                    </group>                    
+                </form>
+            </field>
+      </record>
+        
+      <record id="crms_instance_tree" model="ir.ui.view">
+            <field name="name">crms.instance.tree</field>
+            <field name="model">crms.instance</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="CRMS Instance" >
+                    <field name="name" />
+                    <field name="erp_ip"/>
+                </tree>
+            </field>
+      </record>
+
+      <record id="action_crms_instance" model="ir.actions.act_window">
+            <field name="name">CRMS Instance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crms.instance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+      </record>
+       
+      <menuitem id="menu_crms" name="CRMS" sequence="5"/>
+      <menuitem id="menu_crms_instance_parent" parent="menu_crms" name="CRMS" sequence="0"/>
+      <menuitem action="action_crms_instance" id="menu_crms_instance" parent="menu_crms_instance_parent" name = "CRMS Instance" sequence="0"/>
+      
+      <record id="crms_payment_form" model="ir.ui.view">
+            <field name="name">crms.payment.form</field>
+            <field name="model">crms.payment</field>
+            <field name="arch" type="xml">
+                <form string="CRMS Payment Detail" version="7.0">
+                	<group col="4" colspan="2">
+                		<field name="partner_id" readonly="1" />
+                		<field name="crms_id" readonly="1"/>
+                	</group>
+                	<group col="6" colspan="2">
+                    	<field name="vehicle_id" readonly="1" />
+                    	<field name="model_id" readonly="1" />
+                    	<field name="car_type_id" readonly="1" />
+                    </group>
+                    <group col="4" colspan="2">
+                    	<field name="crms_booking_id" readonly="1" />
+                    	<field name="rental_from_date" readonly="1" />
+                    	<field name="rental_to_date" readonly="1" />
+                    	<field name="no_of_days" readonly="1" />
+                    </group>
+                    <group col="6" colspan="2">                    
+                    	<field name="pickup_branch_id" readonly="1" />
+                    	<field name="drop_branch_id" readonly="1" />
+                    	<field name="booking_branch_id" readonly="1" />
+                    </group>
+                    <group col="4" colspan="2">
+                    	<field name="amount_paid" readonly="1" />
+                    	<field name="amount_receive_date" readonly="1" />
+                    	<field name="rental_amount" readonly="1" />
+                    	<field name="holding_amount" readonly="1" />
+                    	<field name="advance_amount" readonly="1" />
+                    	<field name="balance_due_amount" readonly="1" />
+                    	<field name="payment_type" readonly="1" />
+                    </group>
+                </form>
+            </field>
+      </record>
+        
+      <record id="crms_payment_tree" model="ir.ui.view">
+            <field name="name">crms.payment.tree</field>
+            <field name="model">crms.payment</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="CRMS Payment Details" >
+                    <field name="partner_id" />
+                    <field name="vehicle_id"/>
+                </tree>
+            </field>
+      </record>
+
+      <record id="action_crms_payment" model="ir.actions.act_window">
+            <field name="name">CRMS Payment Detail</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crms.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+      </record> 
+      
+      <menuitem action="action_crms_payment" id="menu_crms_payment" parent="menu_crms_instance_parent" name = "CRMS Payment Details" sequence="1"  />
+      
+	</data>
+</openerp>

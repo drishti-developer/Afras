@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="account_common_report_view3" model="ir.ui.view">
+            <field name="name">Common Report</field>
+            <field name="model">accounting.report</field>
+            <field name="inherit_id" ref="account.account_common_report_view"/>
+            <field name="arch" type="xml">
+                <field name="target_move" position="after">
+                    <field name="level" />
+                    <field name="child_cost_center" />
+                    <field name="fleet_report"/>
+                    <field name="entry_type" invisible="1"/>
+                    <newline/>
+                    
+<!--                     <field name="car_id" attrs="{ 'invisible':[('entry_type', '!=', 'car')]}"/> -->
+<!--                     <field name="branch_id" attrs="{ 'invisible':[('entry_type', '!=', 'branch')]}"/> -->
+<!--                     <field name="area_id" attrs="{ 'invisible':[('entry_type', '!=', 'area')]}"/> -->
+<!--                     <field name="city_id" attrs="{ 'invisible':[('entry_type', '!=', 'city')]}"/> -->
+<!--                     <field name="region_id" attrs="{ 'invisible':[('entry_type', '!=', 'region')]}"/> -->
+<!--                     <field name="country_id" attrs="{ 'invisible':[('entry_type', '!=', 'nlco')]}"/> -->
+                    
+                    
+	                  
+	                       
+                </field>
+                  <xpath expr="//notebook/page[@string='Filters']" position="after">
+	                    <page string="Cost Center">
+	                        
+	                            <field name="cost_analytic_ids" domain="[('company_id','=',company_id)]">
+	                              <tree string="Test" >
+									    <field name="name"/>
+							            <field name="entry_type"/>
+							           
+										 <field name="code"/>
+										 <field name="parent_id"/>
+									</tree>
+									</field>
+	                            </page>
+	                    </xpath>
+	                
+            </field>
+        </record>
+    </data>
+</openerp>

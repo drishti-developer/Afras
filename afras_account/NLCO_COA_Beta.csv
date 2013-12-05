@@ -1,0 +1,264 @@
+id,user_type,code,company_id,type,name,currency_mode,parent_id
+1,Asset View,111,Your Company,View,Assets,At Date,
+2,Asset View,112,Your Company,View,Current Assets,At Date,Assets
+3,Asset View,113,Your Company,View,Cash & Cash Eqivelant,At Date,Current Assets
+4,Asset View,114,Your Company,View,Cash in bank,At Date,Cash & Cash Eqivelant
+5,Bank,115,Your Company,Liquidity,Riyad Bank,At Date,Cash in bank
+6,Bank,116,Your Company,Liquidity,Al Rajhi Bank,At Date,Cash in bank
+7,Asset View,117,Your Company,View,cash in funds,At Date,Cash & Cash Eqivelant
+8,Cash,118,Your Company,Liquidity,Cash In Head Office,At Date,cash in funds
+9,Cash,119,Your Company,Liquidity,Cash branches,At Date,cash in funds
+10,Receivable,120,Your Company,View,Receivables,At Date,Current Assets
+11,Receivable,121,Your Company,View,Retail,At Date,Receivables
+12,Receivable,122,Your Company,Receivable,Retail,At Date,Retail
+13,Receivable,123,Your Company,View,Corporate,At Date,Receivables
+14,Receivable,124,Your Company,Receivable,Corporate,At Date,Corporate
+15,Receivable,125,Your Company,View,Government,At Date,Receivables
+16,Receivable,126,Your Company,Receivable,government organization (1),At Date,Government
+17,Receivable,127,Your Company,Receivable,government organization (2),At Date,Government
+18,Receivable,128,Your Company,View,Others,At Date,Receivables
+19,Receivable,129,Your Company,Receivable,Cash sale customers,At Date,Others
+20,Receivable,130,Your Company,Receivable,Customers for sale,At Date,Others
+21,Receivable,131,Your Company,Receivable,Owe associates,At Date,Others
+22,Receivable,132,Your Company,Receivable,Accident insurance companies owe (the second party),At Date,Others
+23,Asset View,133,Your Company,View,Advance Payment,At Date,Current Assets
+24,Asset View,134,Your Company,View,Suppliers,At Date,Advance Payment
+25,Asset,135,Your Company,Regular,Auto suppliers,At Date,Suppliers
+26,Asset,136,Your Company,Regular,Sundry suppliers,At Date,Suppliers
+27,Asset View,137,Your Company,View,"Salaries,allwonces and insurance",At Date,Advance Payment
+28,Asset,138,Your Company,Regular,Salaries,At Date,"Salaries,allwonces and insurance"
+29,Asset,139,Your Company,Regular,Housing allowance,At Date,"Salaries,allwonces and insurance"
+30,Asset,140,Your Company,Regular,Social insurance,At Date,"Salaries,allwonces and insurance"
+31,Asset,141,Your Company,Regular,Medical Insurance,At Date,"Salaries,allwonces and insurance"
+32,Asset,142,Your Company,Regular,Rent housing,At Date,"Salaries,allwonces and insurance"
+33,Asset View,143,Your Company,View,Occupancy Expenses,At Date,Advance Payment
+34,Asset,144,Your Company,Regular,Rent stores and warehouses,At Date,Occupancy Expenses
+35,Asset,145,Your Company,Regular,Rent Devices and Cranes,At Date,Occupancy Expenses
+36,Asset,146,Your Company,Regular,Rent exhibitions and Offices,At Date,Occupancy Expenses
+37,Asset View,147,Your Company,View,Advance operating expenses,At Date,Advance Payment
+38,Asset,148,Your Company,Regular,Issuance and renewal forms cars,At Date,Advance operating expenses
+39,Asset,149,Your Company,Regular,Auto Maintenance contracts,At Date,Advance operating expenses
+40,Asset View,150,Your Company,View,Subscriptions,At Date,Advance Payment
+41,Asset,151,Your Company,Regular,Tamm (authorizations cars),At Date,Subscriptions
+42,Asset,152,Your Company,Regular,Suns (traffic),At Date,Subscriptions
+43,Asset,153,Your Company,Regular,Sama (Saudi Arabian Monetary),At Date,Subscriptions
+44,Asset View,154,Your Company,View,Other Current assets,At Date,Current Assets
+45,Asset View,155,Your Company,View,Inentory,At Date,Other Current assets
+46,Asset,156,Your Company,Regular,Cars Stocks,At Date,Inentory
+47,Asset,157,Your Company,Regular,Spare parts Stocks,At Date,Inentory
+48,Asset View,158,Your Company,View,Others,At Date,Other Current assets
+49,Asset,159,Your Company,Regular,Others,At Date,Others
+50,Asset View,160,Your Company,View,Non-current Assets,At Date,Assets
+51,Asset View,161,Your Company,View,Property & Equipments,At Date,Non-current Assets
+52,Asset View,162,Your Company,View,Lands,At Date,Property & Equipments
+53,Asset,163,Your Company,Regular,Lands,At Date,Lands
+54,Asset View,164,Your Company,View,building and improvements,At Date,Property & Equipments
+55,Asset,165,Your Company,Regular,building and improvements,At Date,building and improvements
+56,Asset View,166,Your Company,View,Vehicles,At Date,Property & Equipments
+57,Asset,167,Your Company,Regular,Vehicles,At Date,Vehicles
+58,Asset View,168,Your Company,View,Equipments &Technical tools,At Date,Property & Equipments
+59,Asset,169,Your Company,Regular,Equipments &Technical tools,At Date,Equipments &Technical tools
+60,Asset View,170,Your Company,View,Furniture,At Date,Property & Equipments
+61,Asset,171,Your Company,Regular,Furniture,At Date,Furniture
+62,Asset View,172,Your Company,View,Computers,At Date,Property & Equipments
+63,Asset,173,Your Company,Regular,Computers,At Date,Computers
+64,Asset View,174,Your Company,View,computer software,At Date,Property & Equipments
+65,Asset,175,Your Company,Regular,computer software,At Date,computer software
+66,Asset View,176,Your Company,View,Project in progress,At Date,Property & Equipments
+67,Asset,177,Your Company,Regular,Project in progress,At Date,Project in progress
+68,Liability View,178,Your Company,View,Liabilities & Total Equity,At Date,
+69,Liability View,179,Your Company,View,Current Liabilities,At Date,Liabilities & Total Equity
+70,Liability View,180,Your Company,View,Short-term debt,At Date,Current Liabilities
+71,Liability View,181,Your Company,View,Short-term debt,At Date,Short-term debt
+72,Liability,182,Your Company,Regular,Short-term debt,At Date,Short-term debt
+73,Liability View,183,Your Company,View,Current portion of long-term debt,At Date,Current Liabilities
+74,Liability View,184,Your Company,View,Current portion of long-term debt,At Date,Current portion of long-term debt
+75,Liability,185,Your Company,Regular,Current portion of long-term debt,At Date,Current portion of long-term debt
+76,Payable,186,Your Company,View,Accounts payable,At Date,Current Liabilities
+77,Payable,187,Your Company,View,Suppliers,At Date,Accounts payable
+78,Payable,188,Your Company,Payable,Auto suppliers,At Date,Suppliers
+79,Payable,189,Your Company,Payable,Sundry suppliers,At Date,Suppliers
+80,Liability View,190,Your Company,View,Accrued expenses,At Date,Current Liabilities
+81,Liability View,191,Your Company,View,Salaries & Benefits,At Date,Accrued expenses
+82,Liability,192,Your Company,Regular,Salaries,At Date,Salaries & Benefits
+83,Liability,193,Your Company,Regular,Housing allowance,At Date,Salaries & Benefits
+84,Liability,194,Your Company,Regular,Tickets,At Date,Salaries & Benefits
+85,Liability,195,Your Company,Regular,Leave allowance,At Date,Salaries & Benefits
+86,Liability,196,Your Company,Regular,Social insurance,At Date,Salaries & Benefits
+87,Liability,197,Your Company,Regular,Medical Insurance,At Date,Salaries & Benefits
+88,Liability,198,Your Company,Regular,Car Insurance,At Date,Salaries & Benefits
+89,Liability View,199,Your Company,View,Accrued operating expenses,At Date,Accrued expenses
+90,Liability,200,Your Company,Regular,Rent Hostels,At Date,Accrued operating expenses
+91,Liability,201,Your Company,Regular,Rent stores and warehouses,At Date,Accrued operating expenses
+92,Liability,202,Your Company,Regular,Rent Devices and Cranes,At Date,Accrued operating expenses
+93,Liability,203,Your Company,Regular,Rent exhibitions and Offices,At Date,Accrued operating expenses
+94,Liability,204,Your Company,Regular,Auto Maintenance contracts,At Date,Accrued operating expenses
+95,Liability,205,Your Company,Regular,Miscellaneous maintenance contracts,At Date,Accrued operating expenses
+96,Liability View,206,Your Company,View,Other accrued expenses,At Date,Accrued expenses
+97,Liability,207,Your Company,Regular,Tamm  (authorizations cars),At Date,Other accrued expenses
+98,Liability,208,Your Company,Regular,Suns (traffic),At Date,Other accrued expenses
+99,Liability,209,Your Company,Regular,Sama (Saudi Arabian Monetary),At Date,Other accrued expenses
+100,Liability,210,Your Company,Regular,Other .........,At Date,Other accrued expenses
+101,Payable,211,Your Company,View,Customer payments,At Date,Current Liabilities
+102,Payable,212,Your Company,Payable,Individuals payments,At Date,Customer payments
+103,Payable,213,Your Company,Payable,Company payments,At Date,Customer payments
+104,Payable,214,Your Company,View,Sundry payables,At Date,Current Liabilities
+105,Payable,215,Your Company,Payable,Accounts payable sister companies,At Date,Sundry payables
+106,Payable,216,Your Company,Payable,Payables Department of Zakat,At Date,Sundry payables
+107,Payable,217,Your Company,Payable,Insurance companies payables,At Date,Sundry payables
+108,Liability View,218,Your Company,View,Non-current liabilities,At Date,Liabilities & Total Equity
+109,Liability View,219,Your Company,View,Long-term debt,At Date,Non-current liabilities
+110,Liability View,220,Your Company,View,Other non-current liabilities,At Date,Non-current liabilities
+111,Liability View,221,Your Company,View,Provision for end of service,At Date,Other non-current liabilities
+112,Liability View,222,Your Company,View,Asset depreciation Complex,At Date,Other non-current liabilities
+113,Liability,223,Your Company,Regular,Depreciation Complex  buildings,At Date,Asset depreciation Complex
+114,Liability,224,Your Company,Regular,Depreciation Complex  buildings ready,At Date,Asset depreciation Complex
+115,Liability,225,Your Company,Regular,Depreciation Complex  cars,At Date,Asset depreciation Complex
+116,Liability,226,Your Company,Regular,Depreciation Complex technical tools,At Date,Asset depreciation Complex
+117,Liability,227,Your Company,Regular,Depreciation Complex Equipment and Cranes,At Date,Asset depreciation Complex
+118,Liability,228,Your Company,Regular,Depreciation Complex Furniture and furnishings,At Date,Asset depreciation Complex
+119,Liability,229,Your Company,Regular,Computers,At Date,Asset depreciation Complex
+120,Liability View,230,Your Company,View,Total Equity,At Date,
+121,Liability View,231,Your Company,View,"Capital,Profit and Reserves",At Date,Total Equity
+122,Liability View,232,Your Company,View,Capital,At Date,"Capital,Profit and Reserves"
+123,Liability View,233,Your Company,View,Retained earnings,At Date,"Capital,Profit and Reserves"
+124,Liability View,234,Your Company,View,partners,At Date,"Capital,Profit and Reserves"
+125,Liability,235,Your Company,Regular,Partner (1),At Date,partners
+126,Liability,236,Your Company,Regular,Partner (2),At Date,partners
+127,Liability View,237,Your Company,View,Reserves,At Date,"Capital,Profit and Reserves"
+128,Expense View,238,Your Company,View,Expenses,At Date,
+129,Expense View,239,Your Company,View,General and administrative expenses,At Date,Expenses
+130,Expense View,240,Your Company,View,Administrative expenses,At Date,General and administrative expenses
+131,Expense View,241,Your Company,View,Salaries & Benefits,At Date,Administrative expenses
+132,Expense,242,Your Company,Regular,Stays employment expenses,At Date,Salaries & Benefits
+133,Expense,243,Your Company,Regular,Basic salaries of administration,At Date,Salaries & Benefits
+134,Expense,244,Your Company,Regular,Vacations,At Date,Salaries & Benefits
+135,Expense,245,Your Company,Regular,End of service Enterprises,At Date,Salaries & Benefits
+136,Expense,246,Your Company,Regular,Remember travel management,At Date,Salaries & Benefits
+137,Expense,247,Your Company,Regular,Extra time,At Date,Salaries & Benefits
+138,Expense,248,Your Company,Regular,Social security expenses,At Date,Salaries & Benefits
+139,Expense,249,Your Company,Regular,Transportation allowance,At Date,Salaries & Benefits
+140,Expense,250,Your Company,Regular,Housing allowance,At Date,Salaries & Benefits
+141,Expense,251,Your Company,Regular,Mobile allowance,At Date,Salaries & Benefits
+142,Expense,252,Your Company,Regular,Administrative bonuses,At Date,Salaries & Benefits
+143,Expense,253,Your Company,Regular,Operating proportion of salaries,At Date,Salaries & Benefits
+144,Expense,254,Your Company,Regular,Conversion expenses Salaries,At Date,Salaries & Benefits
+145,Expense,255,Your Company,Regular,Fellowship Fund contribution salaries,At Date,Salaries & Benefits
+146,Expense,256,Your Company,Regular,Bonuses and commissions receivable,At Date,Salaries & Benefits
+147,Expense View,257,Your Company,View,General expenses,At Date,General and administrative expenses
+148,Expense,258,Your Company,Regular,Expenses and consulting fees Law Review,At Date,General expenses
+149,Expense,259,Your Company,Regular,Water and Electricity,At Date,General expenses
+150,Expense,260,Your Company,Regular,Telephone and Post,At Date,General expenses
+151,Expense,261,Your Company,Regular,Rent a Car,At Date,General expenses
+152,Expense,262,Your Company,Regular,Terms of brochures expenses,At Date,General expenses
+153,Expense,263,Your Company,Regular,Fees and subscriptions,At Date,General expenses
+154,Expense,264,Your Company,Regular,Office expenses,At Date,General expenses
+155,Expense,265,Your Company,Regular,Hospitality and Buffet,At Date,General expenses
+156,Expense,266,Your Company,Regular,Bad Debts,At Date,General expenses
+157,Expense,267,Your Company,Regular,Hospitality and expenses buffet and Water,At Date,General expenses
+158,Expense,268,Your Company,Regular,Certification fee expenses,At Date,General expenses
+159,Expense View,269,Your Company,View,Financing expenses,At Date,Expenses
+160,Expense,270,Your Company,Regular,Banking commission expense,At Date,Financing expenses
+161,Expense,271,Your Company,Regular,Expenses bank transfers,At Date,Financing expenses
+162,Expense,272,Your Company,Regular,Expenses primary issuance of a letter of guarantee,At Date,Financing expenses
+163,Expense,273,Your Company,Regular,Expenses final issuance of a letter of guarantee,At Date,Financing expenses
+164,Expense,274,Your Company,Regular,Open letters of credit expenses,At Date,Financing expenses
+165,Expense View,275,Your Company,View,Zakah expenses,At Date,Expenses
+166,Expense,276,Your Company,Regular,Zakat expenses in 2012,At Date,Zakah expenses
+167,Expense View,277,Your Company,View,Revenue costs,At Date,Expenses
+168,Expense View,278,Your Company,View,Operating expenses of salaries and benefits,At Date,Revenue costs
+169,Expense,279,Your Company,Regular,Basic salaries,At Date,Operating expenses of salaries and benefits
+170,Expense,280,Your Company,Regular,Vacation allowance,At Date,Operating expenses of salaries and benefits
+171,Expense,281,Your Company,Regular,End of service,At Date,Operating expenses of salaries and benefits
+172,Expense,282,Your Company,Regular,Tickets,At Date,Operating expenses of salaries and benefits
+173,Expense,283,Your Company,Regular,Extra time,At Date,Operating expenses of salaries and benefits
+174,Expense,284,Your Company,Regular,Banks ,At Date,Operating expenses of salaries and benefits
+175,Expense,285,Your Company,Regular,Transportation allowance,At Date,Operating expenses of salaries and benefits
+176,Expense,286,Your Company,Regular,Housing allowance,At Date,Operating expenses of salaries and benefits
+177,Expense,287,Your Company,Regular,Bonuses and commissions,At Date,Operating expenses of salaries and benefits
+178,Expense,288,Your Company,Regular,Conversion expenses Salaries,At Date,Operating expenses of salaries and benefits
+179,Expense,289,Your Company,Regular,Other expenses,At Date,Operating expenses of salaries and benefits
+180,Expense,290,Your Company,Regular,Mobile allowance,At Date,Other expenses
+181,Expense View,291,Your Company,View,Operating expenses,At Date,Revenue costs
+182,Expense,292,Your Company,Regular,Electricity expenses,At Date,Operating expenses
+183,Expense,293,Your Company,Regular,Mail and telephone expenses,At Date,Operating expenses
+184,Expense,294,Your Company,Regular,Fees and subscriptions expenses,At Date,Operating expenses
+185,Expense,295,Your Company,Regular,Maintenance Branch,At Date,Operating expenses
+186,Expense,296,Your Company,Regular,Consumables variety,At Date,Operating expenses
+187,Expense,297,Your Company,Regular,Rent expenses branches,At Date,Operating expenses
+188,Expense,298,Your Company,Regular,Branches of insurance expenses,At Date,Operating expenses
+189,Expense,299,Your Company,Regular,Maintenance and computer programming,At Date,Operating expenses
+190,Expense,300,Your Company,Regular,Rent housing expenses employment,At Date,Operating expenses
+191,Expense,301,Your Company,Regular,Electricity expenses labor housing,At Date,Operating expenses
+192,Expense,302,Your Company,Regular,Water housing expenses labor,At Date,Operating expenses
+193,Expense,303,Your Company,Regular,Labor housing maintenance expenses,At Date,Operating expenses
+194,Expense,304,Your Company,Regular,Transportation expenses and employment transitions,At Date,Operating expenses
+195,Expense,305,Your Company,Regular,internal and external travel,At Date,Operating expenses
+196,Expense,306,Your Company,Regular,Fines and costs to ensure transfer,At Date,Operating expenses
+197,Expense,307,Your Company,Regular,Furnishing expenses housing workers,At Date,Operating expenses
+198,Expense,308,Your Company,Regular,Expenses Zee workers,At Date,Operating expenses
+199,Expense,309,Your Company,Regular,Irregularities,At Date,Operating expenses
+200,Expense,310,Your Company,Regular,Other,At Date,Operating expenses
+201,Expense,311,Your Company,Regular,Employment and meal expenses,At Date,Other
+202,Expense View,312,Your Company,View,Car expenses and periodic maintenance,At Date,Revenue costs
+203,Expense,313,Your Company,Regular,Car Maintenance,At Date,Car expenses and periodic maintenance
+204,Expense,314,Your Company,Regular,Car Insurance,At Date,Car expenses and periodic maintenance
+205,Expense,315,Your Company,Regular,Auto Parts,At Date,Car expenses and periodic maintenance
+206,Expense,316,Your Company,Regular,Shipping and transport,At Date,Car expenses and periodic maintenance
+207,Expense,317,Your Company,Regular,Fuel expenses - Gasoline,At Date,Car expenses and periodic maintenance
+208,Expense,318,Your Company,Regular,Fuel expenses - Oils,At Date,Car expenses and periodic maintenance
+209,Expense,319,Your Company,Regular,Expenses cars,At Date,Car expenses and periodic maintenance
+210,Expense,320,Your Company,Regular,Expenses publish cars,At Date,Car expenses and periodic maintenance
+211,Expense,321,Your Company,Regular,Expenses examination and renewal forms,At Date,Car expenses and periodic maintenance
+212,Expense,322,Your Company,Regular,Expenses Carwash,At Date,Car expenses and periodic maintenance
+213,Expense,323,Your Company,Regular,Parking expenses,At Date,Car expenses and periodic maintenance
+214,Expense,324,Your Company,Regular,Authorizations fees and subscriptions,At Date,Car expenses and periodic maintenance
+215,Expense,325,Your Company,Regular,Miscellaneous expenses cars,At Date,Car expenses and periodic maintenance
+216,Expense View,326,Your Company,View,Depreciation expenses of operation,At Date,Revenue costs
+217,Expense View,327,Your Company,View,Depreciation expenses Buildings,At Date,Depreciation expenses of operation
+218,Expense,328,Your Company,Regular,Depreciation expenses Buildings,At Date,Depreciation expenses Buildings
+219,Expense View,329,Your Company,View,Depreciation expenses Prefabricated buildings,At Date,Depreciation expenses of operation
+220,Expense,330,Your Company,Regular,Depreciation expenses Prefabricated buildings,At Date,Depreciation expenses Prefabricated buildings
+221,Expense View,331,Your Company,View,Depreciation expenses cars,At Date,Depreciation expenses of operation
+222,Expense,332,Your Company,Regular,Depreciation expenses cars,At Date,Depreciation expenses cars
+223,Expense View,333,Your Company,View,"Depreciation expenses and technical tools,equipment and winches",At Date,Depreciation expenses of operation
+224,Expense,334,Your Company,Regular,"Depreciation expenses and technical tools,equipment and winches",At Date,"Depreciation expenses and technical tools,equipment and winches"
+225,Expense View,335,Your Company,View,Depreciation expenses Furniture and furnishings,At Date,Depreciation expenses of operation
+226,Expense,336,Your Company,Regular,Depreciation expense Furniture and furnishings,At Date,Depreciation expenses Furniture and furnishings
+227,Expense View,337,Your Company,View,Computer depreciation expenses,At Date,Depreciation expenses of operation
+228,Expense,338,Your Company,Regular,"Computers,Printers,Fax machine,Imaging and control system",At Date,Computer depreciation expenses
+229,Expense View,339,Your Company,View,Marketing expenses,At Date,Expenses
+230,Expense,340,Your Company,Regular,Advertising and Promotion,At Date,Marketing expenses
+231,Expense,341,Your Company,Regular,Marketing salaries,At Date,Marketing expenses
+232,Expense,342,Your Company,Regular,Business trips for sales,At Date,Marketing expenses
+233,Expense,343,Your Company,Regular,Sales promotion,At Date,Marketing expenses
+234,Expense,344,Your Company,Regular,Sundry expenses,At Date,Marketing expenses
+235,Expense View,345,Your Company,View,Cost of sales,At Date,Expenses
+236,Expense,346,Your Company,Regular,Cash cost of sales,At Date,Cost of sales
+237,Expense,347,Your Company,Regular,Cost of credit sales,At Date,Cost of sales
+238,Income View,348,Your Company,View,Revenue,At Date,
+239,Income View,349,Your Company,View,Operating Income,At Date,Revenue
+240,Income View,350,Your Company,View,Renting revenue,At Date,Operating Income
+241,Income,351,Your Company,Regular,Lease income individuals,At Date,Renting revenue
+242,Income,352,Your Company,Regular,Companies lease revenues,At Date,Renting revenue
+243,Income View,353,Your Company,View,Additional revenue,At Date,Operating Income
+244,Income View,354,Your Company,View,Revenue extra KM,At Date,Additional revenue
+245,Income,355,Your Company,Regular,Lease income individuals,At Date,Revenue extra KM
+246,Income,356,Your Company,Regular,Companies lease revenues,At Date,Revenue extra KM
+247,Income View,357,Your Company,View,Revenue extra hours,At Date,Additional revenue
+248,Income,358,Your Company,Regular,Lease income individuals,At Date,Revenue extra hours
+249,Income,359,Your Company,Regular,Companies lease revenues,At Date,Revenue extra hours
+250,Income,360,Your Company,Regular,Other Rental Income,At Date,Operating Income
+251,Income,361,Your Company,Regular,Revenue directly from the customer compensation,At Date,Other Rental Income
+252,Income,362,Your Company,Regular,Revenues incidents,At Date,Other Rental Income
+253,Income View,363,Your Company,View,Revenue from sale of assets,At Date,Revenue
+254,Income View,364,Your Company,View,Revenues Sale of assets (operating),At Date,Revenue from sale of assets
+255,Income View,365,Your Company,View,Sales of other assets,At Date,Revenue from sale of assets
+256,Income,366,Your Company,Regular,Lease income individuals,At Date,Sales of other assets
+257,Income,367,Your Company,Regular,Companies lease revenues,At Date,Sales of other assets
+258,Income View,368,Your Company,View,Sales revenue,At Date,Revenue
+259,Income,369,Your Company,Regular,Sales of cars in cash,At Date,Sales revenue
+260,Income,370,Your Company,Regular,Revenues cars for sale,At Date,Sales revenue
+261,Income View,371,Your Company,View,Other Revenue,At Date,Revenue
+262,Income,372,Your Company,Regular,Lease income individuals,At Date,Other Revenue
+263,Income,373,Your Company,Regular,Companies lease revenues,At Date,Other Revenue

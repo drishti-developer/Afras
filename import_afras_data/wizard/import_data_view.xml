@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+	<data>
+		<record id="data_import" model="ir.ui.view">
+            <field name="name">data_import_wizard_form</field>
+            <field name="model">data.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import data" version="7.0">
+                    <sheet>
+                        <group>
+                        	<group>
+                        		<field name='file' widget='binary'/>
+                                 <field name='date'/>     
+                        	</group>
+                        	<group>
+                        		<field name='file_name'/>
+                        		<field name='category_id'/>
+                                    
+                        	</group>
+                        </group>               
+                        <div class="oe_title">
+                        <button name="import_data" string="Import data" type="object" class="oe_highlight"/>
+                       
+                        </div>      
+                    </sheet>
+                </form>
+            </field>
+        </record>      
+        
+        
+         
+          <record id="action_data_import_wizard" model="ir.actions.act_window">
+            <field name="name">Import data</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">data.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="data_import"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>  
+
+<menuitem action="action_data_import_wizard" id="menu_data_import_wizard" sequence="20"  parent="account_asset.menu_finance_config_assets" />
+		
+	</data>
+</openerp>

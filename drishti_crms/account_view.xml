@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+		
+		
+
+		<record model="ir.ui.view" id="view_account_invoice_vehicle_form">
+			<field name="name">account.invoice.line.form1</field>
+			<field name="model">account.invoice.line</field>
+			<field name="inherit_id" ref="account.view_invoice_line_form" />
+			<field name="arch" type="xml">
+				<field name="account_id" position="after">
+					<field name="vehicle_id" invisible="1"/>
+					<field name="from_date" />
+					<field name="to_date" />
+				</field>
+			</field>
+		</record>
+
+
+
+		<record model="ir.ui.view" id="view_invoice_supplier_vehicle">
+			<field name="name">account.invoice.vehicle.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='quantity']"
+					position="before">
+					<field name="vehicle_id" domain="[('product_id', '=', product_id)]"
+						attrs="{'invisible':[('asset_category_id', '=', False)],}"/>
+				   		
+				    <field name="from_date" />
+					<field name="to_date" />		
+				</xpath>
+				<field name="invoice_line" position="attributes">
+				<attribute name="context">{'partner_id': partner_id, 'price_type': context.get('price_type') or False, 'type': type,'journal_id': journal_id}</attribute>
+				
+				</field>
+				<field name="account_id" position="attributes">
+			        <attribute name="context">{'journal_id1':journal_id, }</attribute>
+			        <attribute name="string">Credit A/C</attribute>
+			    </field>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']"
+				                    position="attributes">
+				     <attribute name="context">{'journal_id1':parent.journal_id, }</attribute>
+				</xpath>
+               <field name="journal_id" position="before">
+                <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+               </field>
+               
+               <xpath expr="//field[@name='invoice_line']"
+					position="attributes">
+				    <attribute name="context">{'partner_id': partner_id, 'price_type': context.get('price_type') or False, 'type': type,'default_account_analytic_id':cost_analytic_id, }</attribute> 
+			   </xpath>		
+				
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_invoice_form_vehicle">
+			<field name="name">account.invoice.vehicle.form12</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='quantity']"
+					position="before">
+					<field name="vehicle_id" invisible="1"
+						on_change="onchange_vehicle(vehicle_id,parent.date_invoice)" />
+				    <field name="from_date" />
+					<field name="to_date" />		
+				</xpath>
+				<field name="account_id" position="attributes">
+			        <attribute name="context">{'journal_id1':journal_id, }</attribute>
+			        <attribute name="string">Debit A/C</attribute>
+			    </field>
+				<xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']"
+				                    position="attributes">
+				     <attribute name="context">{'journal_id1':parent.journal_id, }</attribute>
+				</xpath>
+             <field name="journal_id" position="before">
+                <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+               </field>
+               
+               <xpath expr="//field[@name='invoice_line']"
+					position="attributes">
+				    <attribute name="context">{'type' : type, 'default_account_analytic_id':cost_analytic_id, }</attribute> 
+			   </xpath>		
+				
+               
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_sale_voucher_vehicle_form">
+			<field name="name">account.voucher.form11</field>
+			<field name="model">account.voucher</field>
+			<field name="inherit_id" ref="account_voucher.view_sale_receipt_form" />
+			<field name="arch" type="xml">
+				<xpath
+					expr="//field[@name='line_cr_ids']/tree/field[@name='account_analytic_id']"
+					position="after">
+					<field name="vehicle_id" on_change="onchange_vehicle(vehicle_id,parent.date)" invisible="1" />
+					<field name="from_date" />
+					<field name="to_date" />
+				</xpath>
+				<field name="account_id" position="attributes">
+				<attribute name="invisible">False</attribute>
+				<attribute name="string">Debit A/C</attribute>
+				</field>
+				<field name="account_id" position="attributes">
+			        <attribute name="context">{'journal_id1':journal_id, }</attribute>
+			    </field>
+				<xpath expr="//field[@name='line_cr_ids']/tree/field[@name='account_id']"
+				                    position="replace">
+				  <field name="account_id"  domain="[('user_type.report_type','=','income'), ('type','!=','view')]" 
+				         context="{'journal_id1':journal_id, }"/>                  
+<!-- 				     <attribute name="context">{'journal_id1':journal_id, }</attribute> -->
+				</xpath>
+				<field name="company_id" position="before">
+				 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+               </field>
+               <xpath expr="//field[@name='line_cr_ids']"
+					position="attributes">
+				    <attribute name="context">{'journal_id':journal_id, 'type':type, 'partner_id':partner_id, 'default_account_analytic_id':cost_analytic_id, }</attribute> 
+			   </xpath>	
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_purchase_voucher_vehicle_form">
+			<field name="name">account.voucher.form11</field>
+			<field name="model">account.voucher</field>
+			<field name="inherit_id" ref="account_voucher.view_purchase_receipt_form" />
+			<field name="arch" type="xml">
+				<xpath
+					expr="//field[@name='line_dr_ids']/tree/field[@name='account_analytic_id']"
+					position="after">
+					<field name="vehicle_id" on_change="onchange_vehicle(vehicle_id,parent.date)" invisible="1"/>
+					<field name="from_date" />
+					<field name="to_date" />
+				</xpath>
+				
+				<field name="account_id" position="replace">
+<!-- 				<attribute name="invisible">False</attribute> -->
+				</field>
+				<field  name="journal_id" position="after">
+				 <field name="account_id"  string="Credit A/C" />
+				</field>
+				
+				<field name="account_id" position="attributes">
+			        <attribute name="context">{'journal_id1':journal_id, }</attribute>
+			    </field>
+				<xpath expr="//field[@name='line_dr_ids']/tree/field[@name='account_id']"
+				                    position="replace">
+				  <field name="account_id"  domain="[('user_type.report_type','=','expense'), ('type','!=','view')]" 
+				         context="{'journal_id1':journal_id, }"/>                  
+<!-- 				     <attribute name="context">{'journal_id1':journal_id, }</attribute> -->
+				</xpath>
+				
+				<field name="company_id" position="before">
+				 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+               </field>
+				
+				<xpath expr="//field[@name='line_dr_ids']"
+					position="attributes">
+				    <attribute name="context">{'journal_id':journal_id,'partner_id':partner_id, 'default_account_analytic_id':cost_analytic_id, }</attribute> 
+			   </xpath>	
+			</field>
+		</record>
+
+
+
+		<record id="view_move_line_tree_vehicle" model="ir.ui.view">
+			<field name="name">account.move.line.tree11</field>
+			<field name="model">account.move.line</field>
+			<field name="priority">2</field>
+			<field name="inherit_id" ref="account.view_move_line_tree" />
+			<field name="arch" type="xml">
+				<field name="debit" position="after">
+
+					<field name="vehicle_id" invisible="1"/>
+					<field name="from_date" />
+					<field name="to_date" />
+<!-- 					<field name="cost_analytic_id" invisible="1"/> -->
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_move_form_vehicle" model="ir.ui.view">
+       <field name="name">account.move.form.vehicle</field>
+       <field name="model">account.move</field>
+       <field name="inherit_id" ref="account.view_move_form"/>
+       <field name="arch" type="xml">
+           <xpath expr="/form/sheet/notebook/page/field[@name='line_id']/tree/field[@name='analytic_account_id']" position="after">
+                     <field name="vehicle_id" invisible="1"/>
+					<field name="from_date" />
+					<field name="to_date" />
+           </xpath>
+           <xpath expr="/form/sheet/notebook/page/field[@name='line_id']/form/notebook/page/group/group/field[@name='analytic_account_id']" position="after">
+                    <field name="vehicle_id" invisible="1"/>
+					<field name="from_date" />
+					<field name="to_date" />
+           </xpath>
+           <field name="company_id" position="before">
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+           </field>
+           
+            <field name="line_id" position="attributes">
+            <attribute name="context">{'line_id': line_id , 'journal_id': journal_id , 'default_analytic_account_id': cost_analytic_id, }</attribute>
+            </field>
+            
+            
+<!--            <xpath expr="/form/sheet/notebook/page/field[@name='line_id']" -->
+<!-- 					position="attributes"> -->
+<!-- 				    <attribute name="context">{'line_id': line_id , 'journal_id': journal_id , 'default_analytic_account_id': cost_analytic_id, }</attribute>  -->
+<!-- 			   </xpath>	 -->
+       </field>
+    </record>
+
+		<record model='ir.ui.view' id='voucher_form_view_inherit_vehicle'>
+			<field name='name'>account.voucher.form.inherit.vehicle</field>
+			<field name='model'>account.voucher</field>
+			<field name='inherit_id' ref='account_voucher.view_voucher_form'/>
+			<field name='arch' type='xml'>
+<!-- 			<xpath expr="/form/header/button[@name='proforma_voucher']" position="after"> -->
+<!-- 					<button name="cancel_voucher" string="Cancel Voucher11" type="object" states="posted" /> -->
+<!-- 				</xpath> -->
+			<notebook position="inside">
+			   <page string="Rent">
+<!-- 			        <button name="purchase_receipt" string="Generate Receipt" type="object" states="posted" /> -->
+			        <group>
+			        <group>
+			        <field name="from_date"/>
+			        
+			        <field name="entry_type"/>
+			        </group>
+			        <group>
+			        <field name="no_months"/>
+			        <field name="car_id" attrs="{ 'invisible':[('entry_type', '!=', 'car')],'required':[('entry_type', '=', 'car')]}"/>
+					<field name="branch_id" attrs="{ 'invisible':[('entry_type', '!=', 'branch')],'required':[('entry_type', '=', 'branch')]}"/>
+					<field name="area_id" attrs="{ 'invisible':[('entry_type', '!=', 'area')],'required':[('entry_type', '=', 'area')]}"/>
+					<field name="city_id" attrs="{ 'invisible':[('entry_type', '!=', 'city')],'required':[('entry_type', '=', 'city')]}"/>
+					<field name="region_id" attrs="{ 'invisible':[('entry_type', '!=', 'region')],'required':[('entry_type', '=', 'region')]}"/>
+					<field name="segment" attrs="{ 'invisible':[('entry_type', '!=', 'segment')],'required':[('entry_type', '=', 'segment')]}"/>
+<!-- 					<field name="country_id" attrs="{ 'invisible':[('entry_type', '!=', 'nlco')]}"/>			 -->
+                    
+                    <field name="rent_jounral_id"/>
+                    </group>
+                    </group>
+			   </page>
+			   
+			</notebook>	
+			<field name="account_analytic_id" position="after">
+				<field name="vehicle_id" invisible="1"/>
+				<field name="to_date" />
+				<field name="from_date" />
+					
+			</field>
+			<field name="account_id" position="attributes">
+				<attribute name="invisible">False</attribute>
+			</field>
+            <field name="company_id" position="before">
+                 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+               </field>    
+			
+			<xpath expr="//field[@name='line_ids']"
+					position="attributes">
+				    <attribute name="context">{'journal_id':journal_id, 'type':type, 'partner_id':partner_id, 'default_account_analytic_id':cost_analytic_id, }</attribute> 
+			   </xpath>	
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_vendor_payment_cost_center_form">
+            <field name="name">account.voucher.payment.cost.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_payment_form" />
+            <field name="arch" type="xml">
+               <field name="company_id" position="before">
+                <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+               </field> 
+                
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_vendor_receipt_cost_center_form">
+            <field name="name">account.voucher.receipt.cost.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form" />
+            <field name="arch" type="xml">
+               <field name="company_id" position="before">
+                 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+               </field> 
+                
+            </field>
+        </record>
+        </data>
+        </openerp>

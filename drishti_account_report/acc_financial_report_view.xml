@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+	<data>
+		<report id="financial_report_id" 
+			model="account.financial.report" 
+			name="acc_financial_report" 
+			rml="drishti_account_report/report/acc_financial_report.rml"
+			string="account.financial.report"
+			auto="False">
+		</report>
+	</data>
+</openerp>

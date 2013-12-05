@@ -1,0 +1,2023 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+
+
+		<!-- Types -->
+		<record model="account.account.type" id="afras_account_type_asset_view">
+			<field name="name">Asset View</field>
+			<field name="code">view</field>
+			<field name="report_type">asset</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_bank">
+			<field name="name">Bank</field>
+			<field name="code">Bank</field>
+			<field name="report_type">asset</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_cash">
+			<field name="name">Cash</field>
+			<field name="code">Cash</field>
+			<field name="report_type">asset</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_receivable">
+			<field name="name">Receivable</field>
+			<field name="code">Receivable</field>
+			<field name="report_type">income</field>
+			<field name="close_method">unreconicled</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_asset">
+			<field name="name">Asset</field>
+			<field name="code">Asset</field>
+			<field name="report_type">asset</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_liability_view">
+			<field name="name">Liability View</field>
+			<field name="code">liability</field>
+			<field name="report_type">liability</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_liability">
+			<field name="name">Liability</field>
+			<field name="code">liability</field>
+			<field name="report_type">liability</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_payable">
+			<field name="name">Payable</field>
+			<field name="code">Payable</field>
+			<field name="report_type">expense</field>
+			<field name="close_method">unreconicled</field>
+		</record>
+		<record model="account.account.type" id="afras_account_type_expense_view">
+			<field name="name">Expense View</field>
+			<field name="code">expense</field>
+			<field name="report_type">expense</field>
+		</record>
+		<record model="account.account.type" id="afras_account_type_expense">
+			<field name="name">Expense</field>
+			<field name="code">expense</field>
+			<field name="report_type">expense</field>
+		</record>
+		<record model="account.account.type" id="afras_account_type_income_view">
+			<field name="name">Income View</field>
+			<field name="code">view</field>
+			<field name="report_type">income</field>
+		</record>
+		<record model="account.account.type" id="afras_account_type_income">
+			<field name="name">Income</field>
+			<field name="code">Income</field>
+			<field name="report_type">income</field>
+		</record>
+
+
+
+
+		<record id="afras_account_assets" model="account.account">
+			<field name="name">Assets</field>
+			<field name="code">111</field>
+			<field name="type">view</field>
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_current_assets" model="account.account">
+			<field name="name">Current Assets</field>
+			<field name="code">112</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_cash_&amp;_cash_eqivelant" model="account.account">
+			<field name="name">Cash &amp; Cash Eqivelant</field>
+			<field name="code">113</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_cash_in_bank" model="account.account">
+			<field name="name">Cash in bank</field>
+			<field name="code">114</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_cash_&amp;_cash_eqivelant" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_riyad_bank" model="account.account">
+			<field name="name">Riyad Bank</field>
+			<field name="code">115</field>
+			<field name="type">liquidity</field>
+			<field name="parent_id" ref="afras_account_cash_in_bank" />
+			<field name="user_type" ref="afras_account_type_bank" />
+		</record>
+		<record id="afras_account_al_rajhi_bank" model="account.account">
+			<field name="name">Al Rajhi Bank</field>
+			<field name="code">116</field>
+			<field name="type">liquidity</field>
+			<field name="parent_id" ref="afras_account_cash_in_bank" />
+			<field name="user_type" ref="afras_account_type_bank" />
+		</record>
+		<record id="afras_account_cash_in_funds" model="account.account">
+			<field name="name">cash in funds</field>
+			<field name="code">117</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_cash_&amp;_cash_eqivelant" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_cash_in_head_office" model="account.account">
+			<field name="name">Cash In Head Office</field>
+			<field name="code">118</field>
+			<field name="type">liquidity</field>
+			<field name="parent_id" ref="afras_account_cash_in_funds" />
+			<field name="user_type" ref="afras_account_type_cash" />
+		</record>
+		<record id="afras_account_cash_branches" model="account.account">
+			<field name="name">Cash branches</field>
+			<field name="code">119</field>
+			<field name="type">liquidity</field>
+			<field name="parent_id" ref="afras_account_cash_in_funds" />
+			<field name="user_type" ref="afras_account_type_cash" />
+		</record>
+		<record id="afras_account_receivables" model="account.account">
+			<field name="name">Receivables</field>
+			<field name="code">120</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_assets" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_retail" model="account.account">
+			<field name="name">Retail</field>
+			<field name="code">121</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_retail" model="account.account">
+			<field name="name">Retail</field>
+			<field name="code">122</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_retail" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_corporate" model="account.account">
+			<field name="name">Corporate</field>
+			<field name="code">123</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_corporate" model="account.account">
+			<field name="name">Corporate</field>
+			<field name="code">124</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_corporate" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_government" model="account.account">
+			<field name="name">Government</field>
+			<field name="code">125</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_government_organization_(1)" model="account.account">
+			<field name="name">government organization (1)</field>
+			<field name="code">126</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_government" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_government_organization_(2)" model="account.account">
+			<field name="name">government organization (2)</field>
+			<field name="code">127</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_government" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_others" model="account.account">
+			<field name="name">Others</field>
+			<field name="code">128</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_cash_sale_customers" model="account.account">
+			<field name="name">Cash sale customers</field>
+			<field name="code">129</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_others" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_customers_for_sale" model="account.account">
+			<field name="name">Customers for sale</field>
+			<field name="code">130</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_others" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_owe_associates" model="account.account">
+			<field name="name">Owe associates</field>
+			<field name="code">131</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_others" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record
+			id="afras_account_accident_insurance_companies_owe_(the_second_party)"
+			model="account.account">
+			<field name="name">Accident insurance companies owe (the second party)
+			</field>
+			<field name="code">132</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_others" />
+			<field name="user_type" ref="afras_account_type_receivable" />
+		</record>
+		<record id="afras_account_advance_payment" model="account.account">
+			<field name="name">Advance Payment</field>
+			<field name="code">133</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_suppliers" model="account.account">
+			<field name="name">Suppliers</field>
+			<field name="code">134</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_advance_payment" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_auto_suppliers" model="account.account">
+			<field name="name">Auto suppliers</field>
+			<field name="code">135</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_suppliers" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_sundry_suppliers" model="account.account">
+			<field name="name">Sundry suppliers</field>
+			<field name="code">136</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_suppliers" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_salaries,allwonces_and_insurance"
+			model="account.account">
+			<field name="name">Salaries,allwonces and insurance</field>
+			<field name="code">137</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_advance_payment" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_salaries" model="account.account">
+			<field name="name">Salaries</field>
+			<field name="code">138</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries,allwonces_and_insurance" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_housing_allowance" model="account.account">
+			<field name="name">Housing allowance</field>
+			<field name="code">139</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries,allwonces_and_insurance" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_social_insurance" model="account.account">
+			<field name="name">Social insurance</field>
+			<field name="code">140</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries,allwonces_and_insurance" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_medical_insurance" model="account.account">
+			<field name="name">Medical Insurance</field>
+			<field name="code">141</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries,allwonces_and_insurance" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_rent_housing" model="account.account">
+			<field name="name">Rent housing</field>
+			<field name="code">142</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries,allwonces_and_insurance" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_occupancy_expenses" model="account.account">
+			<field name="name">Occupancy Expenses</field>
+			<field name="code">143</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_advance_payment" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_rent_stores_and_warehouses" model="account.account">
+			<field name="name">Rent stores and warehouses</field>
+			<field name="code">144</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_occupancy_expenses" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_rent_devices_and_cranes" model="account.account">
+			<field name="name">Rent Devices and Cranes</field>
+			<field name="code">145</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_occupancy_expenses" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_rent_exhibitions_and_offices" model="account.account">
+			<field name="name">Rent exhibitions and Offices</field>
+			<field name="code">146</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_occupancy_expenses" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_advance_operating_expenses" model="account.account">
+			<field name="name">Advance operating expenses</field>
+			<field name="code">147</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_advance_payment" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_issuance_and_renewal_forms_cars"
+			model="account.account">
+			<field name="name">Issuance and renewal forms cars</field>
+			<field name="code">148</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_advance_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_auto_maintenance_contracts" model="account.account">
+			<field name="name">Auto Maintenance contracts</field>
+			<field name="code">149</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_advance_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_subscriptions" model="account.account">
+			<field name="name">Subscriptions</field>
+			<field name="code">150</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_advance_payment" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_tamm_(authorizations_cars)" model="account.account">
+			<field name="name">Tamm (authorizations cars)</field>
+			<field name="code">151</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_subscriptions" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_suns_(traffic)" model="account.account">
+			<field name="name">Suns (traffic)</field>
+			<field name="code">152</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_subscriptions" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_sama_(saudi_arabian_monetary)" model="account.account">
+			<field name="name">Sama (Saudi Arabian Monetary)</field>
+			<field name="code">153</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_subscriptions" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_other_current_assets" model="account.account">
+			<field name="name">Other Current assets</field>
+			<field name="code">154</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_inentory" model="account.account">
+			<field name="name">Inentory</field>
+			<field name="code">155</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_other_current_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_cars_stocks" model="account.account">
+			<field name="name">Cars Stocks</field>
+			<field name="code">156</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_inentory" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_spare_parts_stocks" model="account.account">
+			<field name="name">Spare parts Stocks</field>
+			<field name="code">157</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_inentory" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_others" model="account.account">
+			<field name="name">Others</field>
+			<field name="code">158</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_other_current_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_others" model="account.account">
+			<field name="name">Others</field>
+			<field name="code">159</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_others" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_non-current_assets" model="account.account">
+			<field name="name">Non-current Assets</field>
+			<field name="code">160</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_property_&amp;_equipments" model="account.account">
+			<field name="name">Property &amp; Equipments</field>
+			<field name="code">161</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_non-current_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_lands" model="account.account">
+			<field name="name">Lands</field>
+			<field name="code">162</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_property_&amp;_equipments" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_lands" model="account.account">
+			<field name="name">Lands</field>
+			<field name="code">163</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_lands" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_building_and_improvements" model="account.account">
+			<field name="name">building and improvements</field>
+			<field name="code">164</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_property_&amp;_equipments" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_building_and_improvements" model="account.account">
+			<field name="name">building and improvements</field>
+			<field name="code">165</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_building_and_improvements" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_vehicles" model="account.account">
+			<field name="name">Vehicles</field>
+			<field name="code">166</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_property_&amp;_equipments" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_vehicles" model="account.account">
+			<field name="name">Vehicles</field>
+			<field name="code">167</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_vehicles" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_equipments_&amp;technical_tools"
+			model="account.account">
+			<field name="name">Equipments &amp;Technical tools</field>
+			<field name="code">168</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_property_&amp;_equipments" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_equipments_&amp;technical_tools"
+			model="account.account">
+			<field name="name">Equipments &amp;Technical tools</field>
+			<field name="code">169</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_equipments_&amp;technical_tools" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_furniture" model="account.account">
+			<field name="name">Furniture</field>
+			<field name="code">170</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_property_&amp;_equipments" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_furniture" model="account.account">
+			<field name="name">Furniture</field>
+			<field name="code">171</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_furniture" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_computers" model="account.account">
+			<field name="name">Computers</field>
+			<field name="code">172</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_property_&amp;_equipments" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_computers" model="account.account">
+			<field name="name">Computers</field>
+			<field name="code">173</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_computers" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_computer_software" model="account.account">
+			<field name="name">computer software</field>
+			<field name="code">174</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_property_&amp;_equipments" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_computer_software" model="account.account">
+			<field name="name">computer software</field>
+			<field name="code">175</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_computer_software" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_project_in_progress" model="account.account">
+			<field name="name">Project in progress</field>
+			<field name="code">176</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_property_&amp;_equipments" />
+			<field name="user_type" ref="afras_account_type_asset_view" />
+		</record>
+		<record id="afras_account_project_in_progress" model="account.account">
+			<field name="name">Project in progress</field>
+			<field name="code">177</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_project_in_progress" />
+			<field name="user_type" ref="afras_account_type_asset" />
+		</record>
+		<record id="afras_account_liabilities_&amp;_total_equity"
+			model="account.account">
+			<field name="name">Liabilities &amp; Total Equity</field>
+			<field name="code">178</field>
+			<field name="type">view</field>
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_current_liabilities" model="account.account">
+			<field name="name">Current Liabilities</field>
+			<field name="code">179</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_liabilities_&amp;_total_equity" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_short-term_debt" model="account.account">
+			<field name="name">Short-term debt</field>
+			<field name="code">180</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_liabilities" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_short-term_debt" model="account.account">
+			<field name="name">Short-term debt</field>
+			<field name="code">181</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_short-term_debt" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_short-term_debt" model="account.account">
+			<field name="name">Short-term debt</field>
+			<field name="code">182</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_short-term_debt" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_current_portion_of_long-term_debt"
+			model="account.account">
+			<field name="name">Current portion of long-term debt</field>
+			<field name="code">183</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_liabilities" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_current_portion_of_long-term_debt"
+			model="account.account">
+			<field name="name">Current portion of long-term debt</field>
+			<field name="code">184</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_portion_of_long-term_debt" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_current_portion_of_long-term_debt"
+			model="account.account">
+			<field name="name">Current portion of long-term debt</field>
+			<field name="code">185</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_current_portion_of_long-term_debt" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_accounts_payable" model="account.account">
+			<field name="name">Accounts payable</field>
+			<field name="code">186</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_liabilities" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_suppliers" model="account.account">
+			<field name="name">Suppliers</field>
+			<field name="code">187</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_accounts_payable" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_auto_suppliers" model="account.account">
+			<field name="name">Auto suppliers</field>
+			<field name="code">188</field>
+			<field name="type">payable</field>
+			<field name="parent_id" ref="afras_account_suppliers" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_sundry_suppliers" model="account.account">
+			<field name="name">Sundry suppliers</field>
+			<field name="code">189</field>
+			<field name="type">payable</field>
+			<field name="parent_id" ref="afras_account_suppliers" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_accrued_expenses" model="account.account">
+			<field name="name">Accrued expenses</field>
+			<field name="code">190</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_liabilities" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_salaries_&amp;_benefits" model="account.account">
+			<field name="name">Salaries &amp; Benefits</field>
+			<field name="code">191</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_accrued_expenses" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_salaries" model="account.account">
+			<field name="name">Salaries</field>
+			<field name="code">192</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_housing_allowance" model="account.account">
+			<field name="name">Housing allowance</field>
+			<field name="code">193</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_tickets" model="account.account">
+			<field name="name">Tickets</field>
+			<field name="code">194</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_leave_allowance" model="account.account">
+			<field name="name">Leave allowance</field>
+			<field name="code">195</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_social_insurance" model="account.account">
+			<field name="name">Social insurance</field>
+			<field name="code">196</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_medical_insurance" model="account.account">
+			<field name="name">Medical Insurance</field>
+			<field name="code">197</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_car_insurance" model="account.account">
+			<field name="name">Car Insurance</field>
+			<field name="code">198</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_accrued_operating_expenses" model="account.account">
+			<field name="name">Accrued operating expenses</field>
+			<field name="code">199</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_accrued_expenses" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_rent_hostels" model="account.account">
+			<field name="name">Rent Hostels</field>
+			<field name="code">200</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_accrued_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_rent_stores_and_warehouses" model="account.account">
+			<field name="name">Rent stores and warehouses</field>
+			<field name="code">201</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_accrued_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_rent_devices_and_cranes" model="account.account">
+			<field name="name">Rent Devices and Cranes</field>
+			<field name="code">202</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_accrued_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_rent_exhibitions_and_offices" model="account.account">
+			<field name="name">Rent exhibitions and Offices</field>
+			<field name="code">203</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_accrued_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_auto_maintenance_contracts" model="account.account">
+			<field name="name">Auto Maintenance contracts</field>
+			<field name="code">204</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_accrued_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_miscellaneous_maintenance_contracts"
+			model="account.account">
+			<field name="name">Miscellaneous maintenance contracts</field>
+			<field name="code">205</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_accrued_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_other_accrued_expenses" model="account.account">
+			<field name="name">Other accrued expenses</field>
+			<field name="code">206</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_accrued_expenses" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_tamm__(authorizations_cars)" model="account.account">
+			<field name="name">Tamm (authorizations cars)</field>
+			<field name="code">207</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_accrued_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_suns_(traffic)" model="account.account">
+			<field name="name">Suns (traffic)</field>
+			<field name="code">208</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_accrued_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_sama_(saudi_arabian_monetary)" model="account.account">
+			<field name="name">Sama (Saudi Arabian Monetary)</field>
+			<field name="code">209</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_accrued_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_other" model="account.account">
+			<field name="name">Other .........</field>
+			<field name="code">210</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_accrued_expenses" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_customer_payments" model="account.account">
+			<field name="name">Customer payments</field>
+			<field name="code">211</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_liabilities" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_individuals_payments" model="account.account">
+			<field name="name">Individuals payments</field>
+			<field name="code">212</field>
+			<field name="type">payable</field>
+			<field name="parent_id" ref="afras_account_customer_payments" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_company_payments" model="account.account">
+			<field name="name">Company payments</field>
+			<field name="code">213</field>
+			<field name="type">payable</field>
+			<field name="parent_id" ref="afras_account_customer_payments" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_sundry_payables" model="account.account">
+			<field name="name">Sundry payables</field>
+			<field name="code">214</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_liabilities" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_accounts_payable_sister_companies"
+			model="account.account">
+			<field name="name">Accounts payable sister companies</field>
+			<field name="code">215</field>
+			<field name="type">payable</field>
+			<field name="parent_id" ref="afras_account_sundry_payables" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_payables_department_of_zakat" model="account.account">
+			<field name="name">Payables Department of Zakat</field>
+			<field name="code">216</field>
+			<field name="type">payable</field>
+			<field name="parent_id" ref="afras_account_sundry_payables" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_insurance_companies_payables" model="account.account">
+			<field name="name">Insurance companies payables</field>
+			<field name="code">217</field>
+			<field name="type">payable</field>
+			<field name="parent_id" ref="afras_account_sundry_payables" />
+			<field name="user_type" ref="afras_account_type_payable" />
+		</record>
+		<record id="afras_account_non-current_liabilities" model="account.account">
+			<field name="name">Non-current liabilities</field>
+			<field name="code">218</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_liabilities_&amp;_total_equity" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_long-term_debt" model="account.account">
+			<field name="name">Long-term debt</field>
+			<field name="code">219</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_non-current_liabilities" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_other_non-current_liabilities" model="account.account">
+			<field name="name">Other non-current liabilities</field>
+			<field name="code">220</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_non-current_liabilities" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_provision_for_end_of_service" model="account.account">
+			<field name="name">Provision for end of service</field>
+			<field name="code">221</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_other_non-current_liabilities" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_asset_depreciation_complex" model="account.account">
+			<field name="name">Asset depreciation Complex</field>
+			<field name="code">222</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_other_non-current_liabilities" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_depreciation_complex__buildings"
+			model="account.account">
+			<field name="name">Depreciation Complex buildings</field>
+			<field name="code">223</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_asset_depreciation_complex" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_depreciation_complex__buildings_ready"
+			model="account.account">
+			<field name="name">Depreciation Complex buildings ready</field>
+			<field name="code">224</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_asset_depreciation_complex" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_depreciation_complex__cars" model="account.account">
+			<field name="name">Depreciation Complex cars</field>
+			<field name="code">225</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_asset_depreciation_complex" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_depreciation_complex_technical_tools"
+			model="account.account">
+			<field name="name">Depreciation Complex technical tools</field>
+			<field name="code">226</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_asset_depreciation_complex" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_depreciation_complex_equipment_and_cranes"
+			model="account.account">
+			<field name="name">Depreciation Complex Equipment and Cranes</field>
+			<field name="code">227</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_asset_depreciation_complex" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_depreciation_complex_furniture_and_furnishings"
+			model="account.account">
+			<field name="name">Depreciation Complex Furniture and furnishings
+			</field>
+			<field name="code">228</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_asset_depreciation_complex" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_computers" model="account.account">
+			<field name="name">Computers</field>
+			<field name="code">229</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_asset_depreciation_complex" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_total_equity" model="account.account">
+			<field name="name">Total Equity</field>
+			<field name="code">230</field>
+			<field name="type">view</field>
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_capital,profit_and_reserves" model="account.account">
+			<field name="name">Capital,Profit and Reserves</field>
+			<field name="code">231</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_total_equity" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_capital" model="account.account">
+			<field name="name">Capital</field>
+			<field name="code">232</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_capital,profit_and_reserves" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_retained_earnings" model="account.account">
+			<field name="name">Retained earnings</field>
+			<field name="code">233</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_capital,profit_and_reserves" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_partners" model="account.account">
+			<field name="name">partners</field>
+			<field name="code">234</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_capital,profit_and_reserves" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_partner_(1)" model="account.account">
+			<field name="name">Partner (1)</field>
+			<field name="code">235</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_partners" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_partner_(2)" model="account.account">
+			<field name="name">Partner (2)</field>
+			<field name="code">236</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_partners" />
+			<field name="user_type" ref="afras_account_type_liability" />
+		</record>
+		<record id="afras_account_reserves" model="account.account">
+			<field name="name">Reserves</field>
+			<field name="code">237</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_capital,profit_and_reserves" />
+			<field name="user_type" ref="afras_account_type_liability_view" />
+		</record>
+		<record id="afras_account_expenses" model="account.account">
+			<field name="name">Expenses</field>
+			<field name="code">238</field>
+			<field name="type">view</field>
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_general_and_administrative_expenses"
+			model="account.account">
+			<field name="name">General and administrative expenses</field>
+			<field name="code">239</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_administrative_expenses" model="account.account">
+			<field name="name">Administrative expenses</field>
+			<field name="code">240</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_general_and_administrative_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_salaries_&amp;_benefits" model="account.account">
+			<field name="name">Salaries &amp; Benefits</field>
+			<field name="code">241</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_administrative_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_stays_employment_expenses" model="account.account">
+			<field name="name">Stays employment expenses</field>
+			<field name="code">242</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_basic_salaries_of_administration"
+			model="account.account">
+			<field name="name">Basic salaries of administration</field>
+			<field name="code">243</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_vacations" model="account.account">
+			<field name="name">Vacations</field>
+			<field name="code">244</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_end_of_service_enterprises" model="account.account">
+			<field name="name">End of service Enterprises</field>
+			<field name="code">245</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_remember_travel_management" model="account.account">
+			<field name="name">Remember travel management</field>
+			<field name="code">246</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_extra_time" model="account.account">
+			<field name="name">Extra time</field>
+			<field name="code">247</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_social_security_expenses" model="account.account">
+			<field name="name">Social security expenses</field>
+			<field name="code">248</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_transportation_allowance" model="account.account">
+			<field name="name">Transportation allowance</field>
+			<field name="code">249</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_housing_allowance" model="account.account">
+			<field name="name">Housing allowance</field>
+			<field name="code">250</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_mobile_allowance" model="account.account">
+			<field name="name">Mobile allowance</field>
+			<field name="code">251</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_administrative_bonuses" model="account.account">
+			<field name="name">Administrative bonuses</field>
+			<field name="code">252</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_operating_proportion_of_salaries"
+			model="account.account">
+			<field name="name">Operating proportion of salaries</field>
+			<field name="code">253</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_conversion_expenses_salaries" model="account.account">
+			<field name="name">Conversion expenses Salaries</field>
+			<field name="code">254</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_fellowship_fund_contribution_salaries"
+			model="account.account">
+			<field name="name">Fellowship Fund contribution salaries</field>
+			<field name="code">255</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_bonuses_and_commissions_receivable"
+			model="account.account">
+			<field name="name">Bonuses and commissions receivable</field>
+			<field name="code">256</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_salaries_&amp;_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_general_expenses" model="account.account">
+			<field name="name">General expenses</field>
+			<field name="code">257</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_general_and_administrative_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_expenses_and_consulting_fees_law_review"
+			model="account.account">
+			<field name="name">Expenses and consulting fees Law Review</field>
+			<field name="code">258</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_water_and_electricity" model="account.account">
+			<field name="name">Water and Electricity</field>
+			<field name="code">259</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_telephone_and_post" model="account.account">
+			<field name="name">Telephone and Post</field>
+			<field name="code">260</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_rent_a_car" model="account.account">
+			<field name="name">Rent a Car</field>
+			<field name="code">261</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_terms_of_brochures_expenses" model="account.account">
+			<field name="name">Terms of brochures expenses</field>
+			<field name="code">262</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_fees_and_subscriptions" model="account.account">
+			<field name="name">Fees and subscriptions</field>
+			<field name="code">263</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_office_expenses" model="account.account">
+			<field name="name">Office expenses</field>
+			<field name="code">264</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_hospitality_and_buffet" model="account.account">
+			<field name="name">Hospitality and Buffet</field>
+			<field name="code">265</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_bad_debts" model="account.account">
+			<field name="name">Bad Debts</field>
+			<field name="code">266</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_hospitality_and_expenses_buffet_and_water"
+			model="account.account">
+			<field name="name">Hospitality and expenses buffet and Water</field>
+			<field name="code">267</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_certification_fee_expenses" model="account.account">
+			<field name="name">Certification fee expenses</field>
+			<field name="code">268</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_general_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_financing_expenses" model="account.account">
+			<field name="name">Financing expenses</field>
+			<field name="code">269</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_banking_commission_expense" model="account.account">
+			<field name="name">Banking commission expense</field>
+			<field name="code">270</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_financing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_expenses_bank_transfers" model="account.account">
+			<field name="name">Expenses bank transfers</field>
+			<field name="code">271</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_financing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record
+			id="afras_account_expenses_primary_issuance_of_a_letter_of_guarantee"
+			model="account.account">
+			<field name="name">Expenses primary issuance of a letter of guarantee
+			</field>
+			<field name="code">272</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_financing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record
+			id="afras_account_expenses_final_issuance_of_a_letter_of_guarantee"
+			model="account.account">
+			<field name="name">Expenses final issuance of a letter of guarantee
+			</field>
+			<field name="code">273</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_financing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_open_letters_of_credit_expenses"
+			model="account.account">
+			<field name="name">Open letters of credit expenses</field>
+			<field name="code">274</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_financing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_zakah_expenses" model="account.account">
+			<field name="name">Zakah expenses</field>
+			<field name="code">275</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_zakat_expenses_in_2012" model="account.account">
+			<field name="name">Zakat expenses in 2012</field>
+			<field name="code">276</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_zakah_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_revenue_costs" model="account.account">
+			<field name="name">Revenue costs</field>
+			<field name="code">277</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_operating_expenses_of_salaries_and_benefits"
+			model="account.account">
+			<field name="name">Operating expenses of salaries and benefits</field>
+			<field name="code">278</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue_costs" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_basic_salaries" model="account.account">
+			<field name="name">Basic salaries</field>
+			<field name="code">279</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_vacation_allowance" model="account.account">
+			<field name="name">Vacation allowance</field>
+			<field name="code">280</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_end_of_service" model="account.account">
+			<field name="name">End of service</field>
+			<field name="code">281</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_tickets" model="account.account">
+			<field name="name">Tickets</field>
+			<field name="code">282</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_extra_time" model="account.account">
+			<field name="name">Extra time</field>
+			<field name="code">283</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_banks_" model="account.account">
+			<field name="name">Banks </field>
+			<field name="code">284</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_transportation_allowance" model="account.account">
+			<field name="name">Transportation allowance</field>
+			<field name="code">285</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_housing_allowance" model="account.account">
+			<field name="name">Housing allowance</field>
+			<field name="code">286</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_bonuses_and_commissions" model="account.account">
+			<field name="name">Bonuses and commissions</field>
+			<field name="code">287</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_conversion_expenses_salaries" model="account.account">
+			<field name="name">Conversion expenses Salaries</field>
+			<field name="code">288</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_other_expenses" model="account.account">
+			<field name="name">Other expenses</field>
+			<field name="code">289</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_operating_expenses_of_salaries_and_benefits" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_mobile_allowance" model="account.account">
+			<field name="name">Mobile allowance</field>
+			<field name="code">290</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_operating_expenses" model="account.account">
+			<field name="name">Operating expenses</field>
+			<field name="code">291</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue_costs" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_electricity_expenses" model="account.account">
+			<field name="name">Electricity expenses</field>
+			<field name="code">292</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_mail_and_telephone_expenses" model="account.account">
+			<field name="name">Mail and telephone expenses</field>
+			<field name="code">293</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_fees_and_subscriptions_expenses"
+			model="account.account">
+			<field name="name">Fees and subscriptions expenses</field>
+			<field name="code">294</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_maintenance_branch" model="account.account">
+			<field name="name">Maintenance Branch</field>
+			<field name="code">295</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_consumables_variety" model="account.account">
+			<field name="name">Consumables variety</field>
+			<field name="code">296</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_rent_expenses_branches" model="account.account">
+			<field name="name">Rent expenses branches</field>
+			<field name="code">297</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_branches_of_insurance_expenses"
+			model="account.account">
+			<field name="name">Branches of insurance expenses</field>
+			<field name="code">298</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_maintenance_and_computer_programming"
+			model="account.account">
+			<field name="name">Maintenance and computer programming</field>
+			<field name="code">299</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_rent_housing_expenses_employment"
+			model="account.account">
+			<field name="name">Rent housing expenses employment</field>
+			<field name="code">300</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_electricity_expenses_labor_housing"
+			model="account.account">
+			<field name="name">Electricity expenses labor housing</field>
+			<field name="code">301</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_water_housing_expenses_labor" model="account.account">
+			<field name="name">Water housing expenses labor</field>
+			<field name="code">302</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_labor_housing_maintenance_expenses"
+			model="account.account">
+			<field name="name">Labor housing maintenance expenses</field>
+			<field name="code">303</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record
+			id="afras_account_transportation_expenses_and_employment_transitions"
+			model="account.account">
+			<field name="name">Transportation expenses and employment transitions
+			</field>
+			<field name="code">304</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_internal_and_external_travel" model="account.account">
+			<field name="name">internal and external travel</field>
+			<field name="code">305</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_fines_and_costs_to_ensure_transfer"
+			model="account.account">
+			<field name="name">Fines and costs to ensure transfer</field>
+			<field name="code">306</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_furnishing_expenses_housing_workers"
+			model="account.account">
+			<field name="name">Furnishing expenses housing workers</field>
+			<field name="code">307</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_expenses_zee_workers" model="account.account">
+			<field name="name">Expenses Zee workers</field>
+			<field name="code">308</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_irregularities" model="account.account">
+			<field name="name">Irregularities</field>
+			<field name="code">309</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_other" model="account.account">
+			<field name="name">Other</field>
+			<field name="code">310</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_employment_and_meal_expenses" model="account.account">
+			<field name="name">Employment and meal expenses</field>
+			<field name="code">311</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_car_expenses_and_periodic_maintenance"
+			model="account.account">
+			<field name="name">Car expenses and periodic maintenance</field>
+			<field name="code">312</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue_costs" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_car_maintenance" model="account.account">
+			<field name="name">Car Maintenance</field>
+			<field name="code">313</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_car_insurance" model="account.account">
+			<field name="name">Car Insurance</field>
+			<field name="code">314</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_auto_parts" model="account.account">
+			<field name="name">Auto Parts</field>
+			<field name="code">315</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_shipping_and_transport" model="account.account">
+			<field name="name">Shipping and transport</field>
+			<field name="code">316</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_fuel_expenses_-_gasoline" model="account.account">
+			<field name="name">Fuel expenses - Gasoline</field>
+			<field name="code">317</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_fuel_expenses_-_oils" model="account.account">
+			<field name="name">Fuel expenses - Oils</field>
+			<field name="code">318</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_expenses_cars" model="account.account">
+			<field name="name">Expenses cars</field>
+			<field name="code">319</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_expenses_publish_cars" model="account.account">
+			<field name="name">Expenses publish cars</field>
+			<field name="code">320</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_expenses_examination_and_renewal_forms"
+			model="account.account">
+			<field name="name">Expenses examination and renewal forms</field>
+			<field name="code">321</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_expenses_carwash" model="account.account">
+			<field name="name">Expenses Carwash</field>
+			<field name="code">322</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_parking_expenses" model="account.account">
+			<field name="name">Parking expenses</field>
+			<field name="code">323</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_authorizations_fees_and_subscriptions"
+			model="account.account">
+			<field name="name">Authorizations fees and subscriptions</field>
+			<field name="code">324</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_miscellaneous_expenses_cars" model="account.account">
+			<field name="name">Miscellaneous expenses cars</field>
+			<field name="code">325</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_car_expenses_and_periodic_maintenance" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_depreciation_expenses_of_operation"
+			model="account.account">
+			<field name="name">Depreciation expenses of operation</field>
+			<field name="code">326</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue_costs" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_depreciation_expenses_buildings"
+			model="account.account">
+			<field name="name">Depreciation expenses Buildings</field>
+			<field name="code">327</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_depreciation_expenses_of_operation" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_depreciation_expenses_buildings"
+			model="account.account">
+			<field name="name">Depreciation expenses Buildings</field>
+			<field name="code">328</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_depreciation_expenses_buildings" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_depreciation_expenses_prefabricated_buildings"
+			model="account.account">
+			<field name="name">Depreciation expenses Prefabricated buildings
+			</field>
+			<field name="code">329</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_depreciation_expenses_of_operation" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_depreciation_expenses_prefabricated_buildings"
+			model="account.account">
+			<field name="name">Depreciation expenses Prefabricated buildings
+			</field>
+			<field name="code">330</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_depreciation_expenses_prefabricated_buildings" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_depreciation_expenses_cars" model="account.account">
+			<field name="name">Depreciation expenses cars</field>
+			<field name="code">331</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_depreciation_expenses_of_operation" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_depreciation_expenses_cars" model="account.account">
+			<field name="name">Depreciation expenses cars</field>
+			<field name="code">332</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_depreciation_expenses_cars" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record
+			id="afras_account_depreciation_expenses_and_technical_tools,equipment_and_winches"
+			model="account.account">
+			<field name="name">Depreciation expenses and technical tools,equipment
+				and winches
+			</field>
+			<field name="code">333</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_depreciation_expenses_of_operation" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record
+			id="afras_account_depreciation_expenses_and_technical_tools,equipment_and_winches"
+			model="account.account">
+			<field name="name">Depreciation expenses and technical tools,equipment
+				and winches
+			</field>
+			<field name="code">334</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_depreciation_expenses_and_technical_tools,equipment_and_winches" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record
+			id="afras_account_depreciation_expenses_furniture_and_furnishings"
+			model="account.account">
+			<field name="name">Depreciation expenses Furniture and furnishings
+			</field>
+			<field name="code">335</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_depreciation_expenses_of_operation" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_depreciation_expense_furniture_and_furnishings"
+			model="account.account">
+			<field name="name">Depreciation expense Furniture and furnishings
+			</field>
+			<field name="code">336</field>
+			<field name="type">other</field>
+			<field name="parent_id"
+				ref="afras_account_depreciation_expenses_furniture_and_furnishings" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_computer_depreciation_expenses"
+			model="account.account">
+			<field name="name">Computer depreciation expenses</field>
+			<field name="code">337</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_depreciation_expenses_of_operation" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record
+			id="afras_account_computers,printers,fax_machine,imaging_and_control_system"
+			model="account.account">
+			<field name="name">Computers,Printers,Fax machine,Imaging and control
+				system
+			</field>
+			<field name="code">338</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_computer_depreciation_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_marketing_expenses" model="account.account">
+			<field name="name">Marketing expenses</field>
+			<field name="code">339</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_advertising_and_promotion" model="account.account">
+			<field name="name">Advertising and Promotion</field>
+			<field name="code">340</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_marketing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_marketing_salaries" model="account.account">
+			<field name="name">Marketing salaries</field>
+			<field name="code">341</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_marketing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_business_trips_for_sales" model="account.account">
+			<field name="name">Business trips for sales</field>
+			<field name="code">342</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_marketing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_sales_promotion" model="account.account">
+			<field name="name">Sales promotion</field>
+			<field name="code">343</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_marketing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_sundry_expenses" model="account.account">
+			<field name="name">Sundry expenses</field>
+			<field name="code">344</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_marketing_expenses" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_cost_of_sales" model="account.account">
+			<field name="name">Cost of sales</field>
+			<field name="code">345</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_expenses" />
+			<field name="user_type" ref="afras_account_type_expense_view" />
+		</record>
+		<record id="afras_account_cash_cost_of_sales" model="account.account">
+			<field name="name">Cash cost of sales</field>
+			<field name="code">346</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_cost_of_sales" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_cost_of_credit_sales" model="account.account">
+			<field name="name">Cost of credit sales</field>
+			<field name="code">347</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_cost_of_sales" />
+			<field name="user_type" ref="afras_account_type_expense" />
+		</record>
+		<record id="afras_account_revenue" model="account.account">
+			<field name="name">Revenue</field>
+			<field name="code">348</field>
+			<field name="type">view</field>
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_operating_income" model="account.account">
+			<field name="name">Operating Income</field>
+			<field name="code">349</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_renting_revenue" model="account.account">
+			<field name="name">Renting revenue</field>
+			<field name="code">350</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_operating_income" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_lease_income_individuals" model="account.account">
+			<field name="name">Lease income individuals</field>
+			<field name="code">351</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_renting_revenue" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_companies_lease_revenues" model="account.account">
+			<field name="name">Companies lease revenues</field>
+			<field name="code">352</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_renting_revenue" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_additional_revenue" model="account.account">
+			<field name="name">Additional revenue</field>
+			<field name="code">353</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_operating_income" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_revenue_extra_km" model="account.account">
+			<field name="name">Revenue extra KM</field>
+			<field name="code">354</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_additional_revenue" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_lease_income_individuals" model="account.account">
+			<field name="name">Lease income individuals</field>
+			<field name="code">355</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_revenue_extra_km" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_companies_lease_revenues" model="account.account">
+			<field name="name">Companies lease revenues</field>
+			<field name="code">356</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_revenue_extra_km" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_revenue_extra_hours" model="account.account">
+			<field name="name">Revenue extra hours</field>
+			<field name="code">357</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_additional_revenue" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_lease_income_individuals" model="account.account">
+			<field name="name">Lease income individuals</field>
+			<field name="code">358</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_revenue_extra_hours" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_companies_lease_revenues" model="account.account">
+			<field name="name">Companies lease revenues</field>
+			<field name="code">359</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_revenue_extra_hours" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_other_rental_income" model="account.account">
+			<field name="name">Other Rental Income</field>
+			<field name="code">360</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_operating_income" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record
+			id="afras_account_revenue_directly_from_the_customer_compensation"
+			model="account.account">
+			<field name="name">Revenue directly from the customer compensation
+			</field>
+			<field name="code">361</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_rental_income" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_revenues_incidents" model="account.account">
+			<field name="name">Revenues incidents</field>
+			<field name="code">362</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_rental_income" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_revenue_from_sale_of_assets" model="account.account">
+			<field name="name">Revenue from sale of assets</field>
+			<field name="code">363</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_revenues_sale_of_assets_(operating)"
+			model="account.account">
+			<field name="name">Revenues Sale of assets (operating)</field>
+			<field name="code">364</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue_from_sale_of_assets" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_sales_of_other_assets" model="account.account">
+			<field name="name">Sales of other assets</field>
+			<field name="code">365</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue_from_sale_of_assets" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_lease_income_individuals" model="account.account">
+			<field name="name">Lease income individuals</field>
+			<field name="code">366</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_sales_of_other_assets" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_companies_lease_revenues" model="account.account">
+			<field name="name">Companies lease revenues</field>
+			<field name="code">367</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_sales_of_other_assets" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_sales_revenue" model="account.account">
+			<field name="name">Sales revenue</field>
+			<field name="code">368</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_sales_of_cars_in_cash" model="account.account">
+			<field name="name">Sales of cars in cash</field>
+			<field name="code">369</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_sales_revenue" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_revenues_cars_for_sale" model="account.account">
+			<field name="name">Revenues cars for sale</field>
+			<field name="code">370</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_sales_revenue" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_other_revenue" model="account.account">
+			<field name="name">Other Revenue</field>
+			<field name="code">371</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_revenue" />
+			<field name="user_type" ref="afras_account_type_income_view" />
+		</record>
+		<record id="afras_account_lease_income_individuals" model="account.account">
+			<field name="name">Lease income individuals</field>
+			<field name="code">372</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_revenue" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+		<record id="afras_account_companies_lease_revenues" model="account.account">
+			<field name="name">Companies lease revenues</field>
+			<field name="code">373</field>
+			<field name="type">other</field>
+			<field name="parent_id" ref="afras_account_other_revenue" />
+			<field name="user_type" ref="afras_account_type_income" />
+		</record>
+
+	</data>
+</openerp>
+

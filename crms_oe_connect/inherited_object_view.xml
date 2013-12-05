@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+		<record id="view_currency_form_inht" model="ir.ui.view">
+			<field name="name">res.currency.form.inht</field>
+			<field name="model">res.currency</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="base.view_currency_form" />
+			<field name="arch" type="xml">
+				<field name="company_id" position="after">
+					<field name="currency_name" required="1"/>
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_country_form_inht" model="ir.ui.view">
+			<field name="name">res.country.form.inht</field>
+			<field name="model">res.country</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="base.view_country_form" />
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="arabic_name" required="1"/>
+				</field>
+				<field name="code" position="replace">
+					<field name="code" required="1"/>
+				</field>
+				<field name="currency_id" position="replace">
+					<field name="currency_id" required="1"/>
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_res_state_city_inht" model="ir.ui.view">
+			<field name="name">res.state.city.form.inht</field>
+			<field name="model">res.state.city</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="drishti_crms.view_res_state_city_form" />
+			<field name="arch" type="xml">
+				<field name="country_id" position="after">
+					<field name="arabic_name" required="1"/>
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_res_city_area_inht" model="ir.ui.view">
+			<field name="name">res.city.area.form.inht</field>
+			<field name="model">res.city.area</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="drishti_crms.view_res_city_area_form" />
+			<field name="arch" type="xml">
+				<field name="state_id" position="after">
+					<field name="arabic_name" required="1"/>
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_sale_shop_form_inherit123" model="ir.ui.view">
+			<field name="name">sale.shop.inherit.form</field>
+			<field name="model">sale.shop</field>
+			<field name="inherit_id" ref="sale.view_shop_form" />
+			<field name="arch" type="xml">
+			    <xpath expr="//group[@name='shop']" position="before">
+                     <label for="arabic_name" class="oe_edit_only"/>
+                     <h2><field name="arabic_name" required="1"/></h2>
+                </xpath>
+                <field name="payment_default_id" position="after">
+                     <field name="location_type" required="1"/>
+                </field>
+                
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='fleet_vehicle_model_brand_form_inht'>
+            <field name="name">fleet.vehicle.model.brand.form.inht</field>
+            <field name="model">fleet.vehicle.model.brand</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_model_brand_form" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                	<group col="4" colspan="2">
+                		<field name="arabic_name" required="1"/>
+						<field name="routine_service_mileage" required="1"/>
+                	</group>
+				</field>
+            </field>
+        </record>
+    
+    	<record id="fleet_vehicle_model_form_inht1" model="ir.ui.view">
+			<field name="name">fleet.vehicle.model.form.inht1</field>
+			<field name="model">fleet.vehicle.model</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="fleet.fleet_vehicle_model_form" />
+			<field name="arch" type="xml">
+				<field name="modelname" position="after">
+					<label for="arabic_name" class="oe_edit_only"/>
+					<h1>
+						<field name="arabic_name" required="1"/>
+					</h1>					
+				</field>
+			</field>
+		</record>
+		
+		<record id="fleet_vehicle_form_inht" model="ir.ui.view">
+			<field name="name">fleet.vehicle.form.inht</field>
+			<field name="model">fleet.vehicle</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="fleet.fleet_vehicle_form" />
+			<field name="arch" type="xml">
+				<field name="license_plate" position="after">
+					<label for="license_plate_arabic" class="oe_edit_only"/>
+					<h1>
+						<field name="license_plate_arabic" required="1"/>
+					</h1>					
+				</field>
+				<field name="vin_sn" position="replace">
+					<field name="vin_sn" required="1"/>
+				</field>
+				<field name="barcode" position="replace">
+					<field name="barcode" required="1"/>
+				</field>
+				<field name="company_id" position="replace">
+					<field name="company_id" required="1"/>
+				</field>
+				<field name="model_year" position="replace">
+					<field name="model_year" required="1"/>
+				</field>
+				<field name="color" position="replace">
+					<field name="color" required="1"/>
+					<field name="color_arabic" required="1"/>
+				</field>
+				<field name="car_value" position="after">
+					<field name="assigned_for" required="1"/>
+				</field>
+				<field name="power" position="after">
+					<field name="current_branch_id"/>
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_partner_form_inht" model="ir.ui.view">
+			<field name="name">res.partner.form.inht</field>
+			<field name="model">res.partner</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<label for="arabic_name" class="oe_edit_only"/>
+					<h1>
+						<field name="arabic_name" required="1"/>
+					</h1>
+				</field>
+				<field name="street" position="replace">
+					<field name="street"/>
+				</field>
+				<field name="street2" position="replace">
+					<field name="street2"/>
+				</field>
+				<field name="mobile" position="replace">
+					<field name="mobile"/>
+				</field>
+				<field name="phone" position="replace">
+					<field name="phone"/>
+				</field>
+				<field name="email" position="replace">
+					<field name="email"/>
+				</field>
+				<xpath expr="/form/sheet/notebook/page[@string='Contacts']" position="before">
+					<page string="Details">
+						<group col="4" colspan="2">
+	                     	<field name="retail_type"/>
+	                     	<field name="id_number"/>
+	                     	<field name="employment_type"/>
+	                     	<field name="employee_code"/>
+	                     	<field name="customer_title"/>
+	                     	<field name="dob"/>
+	                     	<field name="nationality"/>
+	                     	<field name="preferred_lang"/>
+	                     	<field name="loyaltycard_id"/>
+	                     	<field name="cardexpiry_date"/>
+	                     	<field name="spouser_name"/>
+	                     	<field name="spouser_id"/>
+	                     </group>
+					</page>
+                </xpath>
+			</field>
+		</record>
+		
+	</data>
+</openerp>
+    

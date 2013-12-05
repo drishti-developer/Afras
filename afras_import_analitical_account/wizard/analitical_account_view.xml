@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+	<data>
+		<record id="afras_analitic_account_import" model="ir.ui.view">
+            <field name="name">Afras_Analitic Account Import Wizard Form</field>
+            <field name="model">import.analytical.account</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Analitic Account" version="7.0">
+                    <sheet>
+                        <group>
+                        	<group>
+                        		<field name='file' widget='binary'/>
+                        	</group>
+                        	<button name="import_account_info" string="Validate" type="object" class="oe_highlight"/>
+                        </group>               
+                    </sheet>
+                </form>
+            </field>
+        </record>      
+        
+          <record id="action_analitic_account_import_wizard" model="ir.actions.act_window">
+            <field name="name">Import Analitic Account</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">import.analytical.account</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="afras_analitic_account_import"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>  
+
+<menuitem id="import_analitic_account_wiz" action="action_analitic_account_import_wizard" name="Import Analitic Account" parent="account.menu_analytic_accounting" sequence="6" />
+		
+	</data>
+</openerp>

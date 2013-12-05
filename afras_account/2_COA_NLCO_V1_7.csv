@@ -1,0 +1,358 @@
+code,name,parent_id,user_type,company_id,type,currency_mode
+999999,NLCO,,Root/View,Your Company,View,At Date
+"10,00,000",Assets,NLCO,Asset View,Your Company,View,At Date
+"11,00,000",Current Assets,Assets,Asset View,Your Company,View,At Date
+"11,10,000",Cash & Cash Equivalent,Current Assets,Asset View,Your Company,View,At Date
+"11,11,000",Cash in bank,Cash & Cash Equivalent,Asset View,Your Company,View,At Date
+"11,11,001",Riyadh Bank,Cash in bank,Bank,Your Company,Liquidity,At Date
+"11,11,002",Rajhi Bank,Cash in bank,Bank,Your Company,Liquidity,At Date
+"11,12,000",Cash in funds,Cash & Cash Equivalent,Asset View,Your Company,View,At Date
+"11,12,001",Cash In Head Office,Cash in funds,Cash,Your Company,Liquidity,At Date
+"11,12,002",Cash Branches,Cash in funds,Cash,Your Company,Liquidity,At Date
+"11,20,000",Receivables,Current Assets,Receivable View,Your Company,View,At Date
+"11,21,000",Retail,Receivables,Receivable View,Your Company,View,At Date
+"11,21,001",Retail,Retail,Receivable,Your Company,Receivable,At Date
+"11,22,000",Corporate,Receivables,Receivable View,Your Company,View,At Date
+"11,22,001",Company 1,Corporate,Receivable,Your Company,Receivable,At Date
+"11,22,002",Company2,Corporate,Receivable,Your Company,Receivable,At Date
+"11,23,000",Government,Receivables,Receivable View,Your Company,View,At Date
+"11,23,001",Government Organization (1),Government,Receivable,Your Company,Receivable,At Date
+"11,23,002",Government Organization (2),Government,Receivable,Your Company,Receivable,At Date
+"11,24,000",Others,Receivables,Receivable View,Your Company,View,At Date
+"11,24,001",Cash sale customers,Others,Receivable,Your Company,Receivable,At Date
+"11,24,002",Installment sale customers,Others,Receivable,Your Company,Receivable,At Date
+"11,24,003",Associated Companies,Others,Receivable,Your Company,Receivable,At Date
+"11,24,004",Accident insurance companies (the second party),Others,Receivable,Your Company,Receivable,At Date
+"11,30,000",Advance Payment,Current Assets,Asset View,Your Company,View,At Date
+"11,31,000",Suppliers,Advance Payment,Asset View,Your Company,View,At Date
+"11,31,001",Auto suppliers,Suppliers,Asset,Your Company,Regular,At Date
+"11,31,002",Other Suppliers,Suppliers,Asset,Your Company,Regular,At Date
+"11,32,000",Compensation & Benefits,Advance Payment,Asset View,Your Company,View,At Date
+"11,32,001",Basic salary,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,002",Over Time Allowance,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,003",Housing allowance,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,004",Transportation allowance,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,005",Training expenses,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,006",Medical Insurance,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,007",Bouns & Rewards,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,008",Sales commissions,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,009",Holiday Allownce,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,010",End of service allowance,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,011",Airline tickets travel expenses,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,012",Social Insurance,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,013",Issue the residencie permits,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,014",Renewal of residence permits,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,015",Residencies converter,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,016",Passport fees and office work,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,32,017",Exit visas and the return expenses,Compensation & Benefits,Asset,Your Company,Regular,At Date
+"11,33,000",Occupancy Expenses,Advance Payment,Asset View,Your Company,View,At Date
+"11,33,001",Rent stores,Occupancy Expenses,Asset,Your Company,Regular,At Date
+"11,33,002",Rent workshops,Occupancy Expenses,Asset,Your Company,Regular,At Date
+"11,33,003",Rent Offices,Occupancy Expenses,Asset,Your Company,Regular,At Date
+"11,33,004",Rent Lands,Occupancy Expenses,Asset,Your Company,Regular,At Date
+"11,34,000",Advance operating expenses,Advance Payment,Asset View,Your Company,View,At Date
+"11,34,001",Issuance and renewal cars form,Advance operating expenses,Asset,Your Company,Regular,At Date
+"11,34,002",Auto Maintenance contracts,Advance operating expenses,Asset,Your Company,Regular,At Date
+"11,34,003",Tamm (authorizations cars),Advance operating expenses,Asset,Your Company,Regular,At Date
+"11,34,004",Shomoos (traffic),Advance operating expenses,Asset,Your Company,Regular,At Date
+"11,34,005",Sama (Saudi Arabian Monetary),Advance operating expenses,Asset,Your Company,Regular,At Date
+"11,35,000",Marketing expenses,Advance Payment,Asset View,Your Company,View,At Date
+"11,35,001",Public Relations,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,002",Marketing salaries,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,003",Advertising and Promotion,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,004",Business trips for sales,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,005",Media Advertising expenses,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,006",Sponsorship Expenses and promotional campaigns,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,007",Poromotion Expenses,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,008",Suppliers Relations Expenses,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,009",Marketing Research Expenses,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,010",E-marketing Expenses,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,011",Travel expenses,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,012",Travel allowance,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,35,013",Survey Expenses,Marketing expenses,Asset,Your Company,Regular,At Date
+"11,36,000",Proffessional & Consulting Expenses,Advance Payment,Asset View,Your Company,View,At Date
+"11,36,001",External Audit Fees,Proffessional & Consulting Expenses,Asset,Your Company,Regular,At Date
+"11,36,002",Intenal Audit Fees,Proffessional & Consulting Expenses,Asset,Your Company,Regular,At Date
+"11,36,003",Lawyer`s Fees,Proffessional & Consulting Expenses,Asset,Your Company,Regular,At Date
+"11,36,004",Consulting Fees,Proffessional & Consulting Expenses,Asset,Your Company,Regular,At Date
+"11,37,000",Technolgy & Comunications Expenses,Advance Payment,Asset View,Your Company,View,At Date
+"11,37,001",Pre-Paid Internet,Technolgy & Comunications Expenses,Asset,Your Company,Regular,At Date
+"11,37,002",Pre-Paid Subscription,Technolgy & Comunications Expenses,Asset,Your Company,Regular,At Date
+"11,38,000",Insurance Expenses,Advance Payment,Asset View,Your Company,View,At Date
+"11,38,001",Prepaid Insurance Agencies for cars,Insurance Expenses,Asset,Your Company,Regular,At Date
+"11,38,002",Prepaid insurance for car repair,Insurance Expenses,Asset,Your Company,Regular,At Date
+"11,38,003",Prepaid insurance for members,Insurance Expenses,Asset,Your Company,Regular,At Date
+"11,40,000",Other Current Assets,Current Assets,Asset View,Your Company,View,At Date
+"11,41,000",Inentory,Other Current Assets,Asset View,Your Company,View,At Date
+"11,41,001",Cars Stocks,Inentory,Asset,Your Company,Regular,At Date
+"11,41,002",Spare parts Stocks,Inentory,Asset,Your Company,Regular,At Date
+"11,42,000",Bank Margin,Other Current Assets,Asset View,Your Company,View,At Date
+"11,42,001",Bank Margin,Bank Margin,Asset,Your Company,Regular,At Date
+"12,00,000",Non-current Assets,Assets,Asset View,Your Company,View,At Date
+"12,10,000",Property & Equipments,Non-current Assets,Asset View,Your Company,View,At Date
+"12,11,000",Lands,Property & Equipments,Asset View,Your Company,View,At Date
+"12,11,100",Lands,Lands,Asset,Your Company,Regular,At Date
+"12,12,000",building and improvements,Property & Equipments,Asset View,Your Company,View,At Date
+"12,12,100",building and improvements,building and improvements,Asset,Your Company,Regular,At Date
+"12,12,101",Accumulated depreciation building and improvements,building and improvements,Asset,Your Company,Regular,At Date
+"12,13,000",Vehicles,Property & Equipments,Asset View,Your Company,View,At Date
+"12,13,100",Vehicles,Vehicles,Asset,Your Company,Regular,At Date
+"12,13,101",Accumulated depreciation Vehicles,Vehicles,Asset,Your Company,Regular,At Date
+"12,14,000",Equipments &Technical tools,Property & Equipments,Asset View,Your Company,View,At Date
+"12,14,100",Equipments &Technical tools,Equipments &Technical tools,Asset,Your Company,Regular,At Date
+"12,14,101",Accumulated depreciation Equipments &Technical tools,Equipments &Technical tools,Asset,Your Company,Regular,At Date
+"12,15,000",Furniture,Property & Equipments,Asset View,Your Company,View,At Date
+"12,15,100",Furniture,Furniture,Asset,Your Company,Regular,At Date
+"12,15,101",Accumulated depreciation Furniture,Furniture,Asset,Your Company,Regular,At Date
+"12,15,777","Computers , photocopiers and fax",Property & Equipments,Asset View,Your Company,View,At Date
+"12,15,888",Computers & Hardware,"Computers , photocopiers and fax",Asset,Your Company,Regular,At Date
+"12,15,999",Accumulated depreciation Computers & Hardware,"Computers , photocopiers and fax",Asset,Your Company,Regular,At Date
+"12,16,000",Computer software,Property & Equipments,Asset View,Your Company,View,At Date
+"12,16,100",Computer software,Computer software,Asset,Your Company,Regular,At Date
+"12,16,101",Accumulated depreciation Computer software,Computer software,Asset,Your Company,Regular,At Date
+"12,17,000",Project in progress,Property & Equipments,Asset View,Your Company,View,At Date
+"12,17,100",Project in progress,Project in progress,Asset,Your Company,Regular,At Date
+"20,00,000",Liabilities & Total Equity,NLCO,Liability View,Your Company,View,At Date
+"21,00,000",Current Liabilities,Liabilities & Total Equity,Liability View,Your Company,View,At Date
+"21,10,000",Short-term debt,Current Liabilities,Liability View,Your Company,View,At Date
+"21,10,100",Short-term debt,Short-term debt,Liability View,Your Company,View,At Date
+"21,10,101",Short-term debt,Short-term debt,Liability,Your Company,Regular,At Date
+"21,20,000",Current portion of long-term debt,Current Liabilities,Liability View,Your Company,View,At Date
+"21,20,100",Current portion of long-term debt,Current portion of long-term debt,Liability View,Your Company,View,At Date
+"21,20,101",Current portion of long-term debt,Current portion of long-term debt,Liability,Your Company,Regular,At Date
+"21,30,000",Accounts payable,Current Liabilities,Payable View,Your Company,View,At Date
+"21,30,100",Suppliers,Accounts payable,Payable View,Your Company,View,At Date
+"21,30,101",Auto suppliers,Suppliers,Payable,Your Company,Payable,At Date
+"21,30,102",Other suppliers,Suppliers,Payable,Your Company,Payable,At Date
+"21,40,000",Accrued expenses,Current Liabilities,Liability View,Your Company,View,At Date
+"21,40,100",Compensation & Benefits,Accrued expenses,Liability View,Your Company,View,At Date
+"21,40,101",Basic salary,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,102",Over Time Allowance,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,103",Housing allowance,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,104",Transportation allowance,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,105",Training expenses,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,106",Medical Insurance,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,107",Bouns & Rewards,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,108",Sales commissions,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,109",Holiday sallary allownce,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,110",End of service allowance,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,111",Airline tickets travel expenses,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,112",Social Insurance,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,113",Issue the residencie permits,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,114",Renewal of residence permits,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,115",Residencies converter,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,116",Passport fees and office work,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,117",Exit visas and the return expenses,Compensation & Benefits,Liability,Your Company,Regular,At Date
+"21,40,200",Accrued operating expenses,Accrued expenses,Liability View,Your Company,View,At Date
+"21,40,201",Rent Hostels,Accrued operating expenses,Liability,Your Company,Regular,At Date
+"21,40,202",Rent stores and warehouses,Accrued operating expenses,Liability,Your Company,Regular,At Date
+"21,40,203",Rent Equipments and Cranes,Accrued operating expenses,Liability,Your Company,Regular,At Date
+"21,40,204",Rent exhibitions and Offices,Accrued operating expenses,Liability,Your Company,Regular,At Date
+"21,40,205",Auto Maintenance contracts,Accrued operating expenses,Liability,Your Company,Regular,At Date
+"21,40,206",Miscellaneous maintenance contracts,Accrued operating expenses,Liability,Your Company,Regular,At Date
+"21,50,000",Other Current Liabilities,Current Liabilities,Liability View,Your Company,View,At Date
+"21,50,100",Advance payments from customers,Other Current Liabilities,Liability View,Your Company,View,At Date
+"21,50,101",Payments of Retail,Advance payments from customers,Liability,Your Company,Regular,At Date
+"21,50,102",Payments of corporate,Advance payments from customers,Liability,Your Company,Regular,At Date
+"21,50,103",Payment of Government,Advance payments from customers,Liability,Your Company,Regular,At Date
+"21,50,200",Other payables,Other Current Liabilities,Liability View,Your Company,View,At Date
+"21,50,201",Sister companies,Other payables,Liability,Your Company,Regular,At Date
+"21,50,202",Insurance companies,Other payables,Liability,Your Company,Regular,At Date
+"21,50,203",GOSI,Other payables,Liability,Your Company,Regular,At Date
+"21,50,204",Department of Zakat and Income Tax,Other payables,Liability,Your Company,Regular,At Date
+"22,00,000",Non-current liabilities,Liabilities & Total Equity,Liability View,Your Company,View,At Date
+"22,10,000",Long-term debt,Non-current liabilities,Liability View,Your Company,View,At Date
+"22,10,100",Long-term debt,Long-term debt,Liability View,Your Company,View,At Date
+"22,10,101",Long-term debt,Long-term debt,Liability,Your Company,Regular,At Date
+"22,20,000",Other Non-current liabilities,Non-current liabilities,Liability View,Your Company,View,At Date
+"22,20,100",Provision for end of service,Other Non-current liabilities,Liability,Your Company,Regular,At Date
+"30,00,000",Total Equity,NLCO,Liability View,Your Company,View,At Date
+"31,00,000",Equity,Total Equity,Liability View,Your Company,View,At Date
+"31,10,000",Capital,Equity,Liability,Your Company,Regular,At Date
+"31,20,000",Additional Capital,Equity,Liability,Your Company,Regular,At Date
+"31,30,000",Reserves,Equity,Liability,Your Company,Regular,At Date
+"31,40,000",Retained earnings,Equity,Liability,Your Company,Regular,At Date
+"40,00,000",Expenses,NLCO,Expense View,Your Company,View,At Date
+"41,00,000",Cost of Revenue,Expenses,Expense View,Your Company,View,At Date
+"41,10,000",Depreciation,Cost of Revenue,Expense View,Your Company,View,At Date
+"41,10,100",Depreciation expense of  Buildings and improvements,Depreciation,Expense,Your Company,Regular,At Date
+"41,10,200",Depreciation expense of  Vehicles,Depreciation,Expense,Your Company,Regular,At Date
+"41,10,300","Depreciation expense of  equipment, winches and technical tools",Depreciation,Expense,Your Company,Regular,At Date
+"41,10,400",Depreciation expense of  Furniture,Depreciation,Expense,Your Company,Regular,At Date
+"41,10,500","Depreciation expense of  Computer Hardware, Photo Copiers,Fax, Controling System",Depreciation,Expense,Your Company,Regular,At Date
+"41,10,600",Depreciation expense of  Computer Software,Depreciation,Expense,Your Company,Regular,At Date
+"41,20,000",Car maintenance,Cost of Revenue,Expense View,Your Company,View,At Date
+"41,20,100",Periodic maintenance expenses,Car maintenance,Expense View,Your Company,View,At Date
+"41,20,101",Maintenance,Periodic maintenance expenses,Expense,Your Company,Regular,At Date
+"41,20,102",Spare parts,Periodic maintenance expenses,Expense,Your Company,Regular,At Date
+"41,20,200",Non Periodic maintenance expenses,Car maintenance,Expense View,Your Company,View,At Date
+"41,20,201",Maintenance,Non Periodic maintenance expenses,Expense,Your Company,Regular,At Date
+"41,20,202",Spare parts,Non Periodic maintenance expenses,Expense,Your Company,Regular,At Date
+"41,30,000",Insurance,Cost of Revenue,Expense View,Your Company,View,At Date
+"41,30,100",Car insurance,Insurance,Expense,Your Company,Regular,At Date
+"41,40,000",Compensation & Benefits,Cost of Revenue,Expense View,Your Company,View,At Date
+"41,40,100",Basic salary,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,40,200",Over Time Allowance,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,40,300",Housing allowance,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,40,400",Transportation allowance,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,40,500",Training expenses,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,40,600",Medical Insurance,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,40,700",Bouns & Rewards,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,40,800",Sales commissions,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,40,900",Holiday Allownce,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,000",End of service allowance,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,100",Airline tickets travel expenses,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,200",Social Insurance,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,300",Issue the residencie permits,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,400",Renewal of residence permits,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,500",Residencies converter,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,600",Passport fees and office work,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,700",Exit visas and the return expenses,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,800",Rent expenses of labor housing,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,41,900",Utility,Compensation & Benefits,Expense View,Your Company,View,At Date
+"41,41,901",Electricity expenses of labor housing,Utility,Expense,Your Company,Regular,At Date
+"41,41,902",Water expenses of labor housing,Utility,Expense,Your Company,Regular,At Date
+"41,42,000",Maintenance expenses of labor housing,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,42,100",Transportation expenses,Compensation & Benefits,Expense,Your Company,Regular,At Date
+"41,50,000",Occupancy Expenses,Cost of Revenue,Expense View,Your Company,View,At Date
+"41,50,100",Electricity expenses,Occupancy Expenses,Expense,Your Company,Regular,At Date
+"41,50,200",Telephone & Post expenses,Occupancy Expenses,Expense,Your Company,Regular,At Date
+"41,50,300",Maintenance Branch,Occupancy Expenses,Expense,Your Company,Regular,At Date
+"41,50,400",Sundry Consumables,Occupancy Expenses,Expense,Your Company,Regular,At Date
+"41,50,500",Rent expenses branches,Occupancy Expenses,Expense,Your Company,Regular,At Date
+"41,50,600",Branches of insurance expenses,Occupancy Expenses,Expense,Your Company,Regular,At Date
+"41,50,700",Penalty & Residencies converter expenses,Occupancy Expenses,Expense,Your Company,Regular,At Date
+"41,50,800",Furnishing expenses of labor housing,Occupancy Expenses,Expense,Your Company,Regular,At Date
+"41,60,000",Bad Debt,Cost of Revenue,Expense View,Your Company,View,At Date
+"41,60,100",Retail,Bad Debt,Expense,Your Company,Regular,At Date
+"41,60,200",Corporate,Bad Debt,Expense,Your Company,Regular,At Date
+"41,70,000",Other Expenses,Cost of Revenue,Expense View,Your Company,View,At Date
+"41,70,100",Workes uniform,Other Expenses,Expense,Your Company,Regular,At Date
+"41,70,200",Violations Expenses,Other Expenses,Expense,Your Company,Regular,At Date
+"41,70,300",Expenses examination and renewal forms,Other Expenses,Expense,Your Company,Regular,At Date
+"42,00,000",G&A Expenses,Expenses,Expense View,Your Company,View,At Date
+"42,10,100",Salaries & Benefits,G&A Expenses,Expense View,Your Company,View,At Date
+"42,10,110",Basic salary,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,111",Basic salary,Basic salary,Expense,Your Company,Regular,At Date
+"42,10,120",Over Time Allowance,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,121",Over Time Allowance,Over Time Allowance,Expense,Your Company,Regular,At Date
+"42,10,130",Housing allowance,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,131",Housing allowance,Housing allowance,Expense,Your Company,Regular,At Date
+"42,10,140",Transportation allowance,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,141",Transportation allowance,Transportation allowance,Expense,Your Company,Regular,At Date
+"42,10,150",Training expenses,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,151",Training expenses,Training expenses,Expense,Your Company,Regular,At Date
+"42,10,160",Medical Insurance,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,161",Medical Insurance,Medical Insurance,Expense,Your Company,Regular,At Date
+"42,10,170",Bouns & Rewards,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,171",Bouns & Rewards,Bouns & Rewards,Expense,Your Company,Regular,At Date
+"42,10,180",Sales commissions,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,181",Sales commissions,Sales commissions,Expense,Your Company,Regular,At Date
+"42,10,190",Holiday Allownce,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,191",Holiday Allownce,Holiday Allownce,Expense,Your Company,Regular,At Date
+"42,10,200",End of service allowance,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,201",End of service allowance,End of service allowance,Expense,Your Company,Regular,At Date
+"42,10,210",Airline tickets travel expenses,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,211",Airline tickets travel expenses,Airline tickets travel expenses,Expense,Your Company,Regular,At Date
+"42,10,220",Social Insurance,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,221",Social Insurance,Social Insurance,Expense,Your Company,Regular,At Date
+"42,10,230",Issue the residencie permits,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,231",Issue the residencie permits,Issue the residencie permits,Expense,Your Company,Regular,At Date
+"42,10,240",Renewal of residence permits,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,241",Renewal of residence permits,Renewal of residence permits,Expense,Your Company,Regular,At Date
+"42,10,250",Residencies converter,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,251",Residencies converter,Residencies converter,Expense,Your Company,Regular,At Date
+"42,10,260",Passport fees and office work,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,261",Passport fees and office work,Passport fees and office work,Expense,Your Company,Regular,At Date
+"42,10,270",Exit visas and the return expenses,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,271",Exit visas and the return expenses,Exit visas and the return expenses,Expense,Your Company,Regular,At Date
+"42,10,280",Bonus of operating proportion,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,281",Bonus of operating proportion,Bonus of operating proportion,Expense,Your Company,Regular,At Date
+"42,10,290",Meal expenses for Manpower,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,291",Meal expenses for Manpower,Meal expenses for Manpower,Expense,Your Company,Regular,At Date
+"42,10,300",Internal and External travel,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,301",Internal and External travel,Internal and External travel,Expense,Your Company,Regular,At Date
+"42,10,310",Travel expenses,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,311",Travel expenses,Travel expenses,Expense,Your Company,Regular,At Date
+"42,10,320",Travel allowance,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,321",Travel allowance,Travel allowance,Expense,Your Company,Regular,At Date
+"42,10,330",Salary of fellowship fund contribution,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,331",Salary of fellowship fund contribution,Salary of fellowship fund contribution,Expense,Your Company,Regular,At Date
+"42,10,340",Banking expenses,Salaries & Benefits,Expense View,Your Company,View,At Date
+"42,10,341",Banking commission expense,Banking expenses,Expense,Your Company,Regular,At Date
+"42,20,000",Subscriptions of communication & IT,G&A Expenses,Expense View,Your Company,View,At Date
+"42,20,100","Telephone, Post and mobile",Subscriptions of communication & IT,Expense,Your Company,Regular,At Date
+"42,20,200",Internet,Subscriptions of communication & IT,Expense,Your Company,Regular,At Date
+"42,20,300",Subscription,Subscriptions of communication & IT,Expense,Your Company,Regular,At Date
+"42,30,000",Proffessional & Consulting Expenses,G&A Expenses,Expense View,Your Company,View,At Date
+"42,30,100",External Audit Fees,Proffessional & Consulting Expenses,Expense,Your Company,Regular,At Date
+"42,30,200",Intenal Audit Fees,Proffessional & Consulting Expenses,Expense,Your Company,Regular,At Date
+"42,30,300",Zakat Service Fees,Proffessional & Consulting Expenses,Expense,Your Company,Regular,At Date
+"42,30,400",Lawyer`s Fees,Proffessional & Consulting Expenses,Expense,Your Company,Regular,At Date
+"42,30,500",Consulting Fees,Proffessional & Consulting Expenses,Expense,Your Company,Regular,At Date
+"42,40,000",Depreciation,G&A Expenses,Expense View,Your Company,View,At Date
+"42,40,100",Depreciation expense of  Buildings and improvements,Depreciation,Expense,Your Company,Regular,At Date
+"42,40,200",Depreciation expense of  Vehicles,Depreciation,Expense,Your Company,Regular,At Date
+"42,40,300","Depreciation expense of  equipment, winches and technical tools",Depreciation,Expense,Your Company,Regular,At Date
+"42,40,400",Depreciation expense of  Furniture,Depreciation,Expense,Your Company,Regular,At Date
+"42,40,500","Depreciation expense of  Computer Hardware, Photo Copiers,Fax, Controling System",Depreciation,Expense,Your Company,Regular,At Date
+"42,40,600",Depreciation expense of  Computer Software,Depreciation,Expense,Your Company,Regular,At Date
+"42,50,000",Occupancy,G&A Expenses,Expense View,Your Company,View,At Date
+"42,50,100",Office expenses,Occupancy,Expense,Your Company,Regular,At Date
+"42,60,000",Bank Charges,G&A Expenses,Expense View,Your Company,View,At Date
+"42,60,100",Banking Commission expenses,Bank Charges,Expense,Your Company,Regular,At Date
+"42,70,000",Others,G&A Expenses,Expense View,Your Company,View,At Date
+"42,70,100",Water and Electricity,Others,Expense,Your Company,Regular,At Date
+"42,70,200","Hospitality, expenses buffet and Water",Others,Expense,Your Company,Regular,At Date
+"42,70,300",Certification fee expenses,Others,Expense,Your Company,Regular,At Date
+"42,70,400",Terms of brochures expenses,Others,Expense,Your Company,Regular,At Date
+"43,00,000",Marketing expenses,Expenses,Expense View,Your Company,View,At Date
+"43,10,000",Public Relations,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,20,000",Marketing salaries,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,30,000",Advertising and Promotion,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,40,000",Business trips for sales,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,50,000",Media Advertising expenses,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,60,000",Sponsorship Expenses and promotional campaigns,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,70,000",Poromotion Expenses,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,80,000",Suppliers Relations Expenses,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,90,000",Marketing Research Expenses,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,11,000",E-marketing Expenses,Marketing expenses,Expense,Your Company,Regular,At Date
+"43,12,000",Survey Expenses,Marketing expenses,Expense,Your Company,Regular,At Date
+"44,00,000",Finacial Charges,Expenses,Expense View,Your Company,View,At Date
+"44,10,000",Interst,Finacial Charges,Expense View,Your Company,View,At Date
+"44,10,100",Bank 1,Interst,Expense,Your Company,Regular,At Date
+"44,10,200",Bank 2,Interst,Expense,Your Company,Regular,At Date
+"44,20,000",Non Interst,Finacial Charges,Expense View,Your Company,View,At Date
+"44,20,100",Bank 1,Non Interst,Expense View,Your Company,View,At Date
+"44,20,101",Transfer Fees,Bank 1,Expense,Your Company,Regular,At Date
+"44,20,102",L.C. Fees,Bank 1,Expense,Your Company,Regular,At Date
+"44,20,103",L.G.Fees,Bank 1,Expense,Your Company,Regular,At Date
+"44,20,200",Bank 2,Non Interst,Expense View,Your Company,View,At Date
+"44,20,201",Transfer Fees,Bank 2,Expense,Your Company,Regular,At Date
+"44,20,202",L.C. Fees,Bank 2,Expense,Your Company,Regular,At Date
+"44,20,203",L.G.Fees,Bank 2,Expense,Your Company,Regular,At Date
+"45,00,000",Zakat Expenses,Expenses,Expense View,Your Company,View,At Date
+"45,10,000",Zakat expenses of 2012,Zakat Expenses,Expense,Your Company,Regular,At Date
+"50,00,000",Revenue,NLCO,Revenue View,Your Company,View,At Date
+"51,00,000",Operating revenue,Revenue,Revenue View,Your Company,View,At Date
+"51,10,000",Renting revenue,Operating revenue,Revenue View,Your Company,View,At Date
+"51,10,100",Retail Revenue,Renting revenue,Revenue,Your Company,Regular,At Date
+"51,10,200",Corporate Revenue,Renting revenue,Revenue,Your Company,Regular,At Date
+"51,10,300",Government Revenue,Renting revenue,Revenue,Your Company,Regular,At Date
+"51,20,000",Additional revenue,Operating revenue,Revenue View,Your Company,View,At Date
+"51,20,100",Revenue of extra KM,Additional revenue,Revenue View,Your Company,View,At Date
+"51,20,101",IndividualsRevenue,Revenue of extra KM,Revenue,Your Company,Regular,At Date
+"51,20,102",Corporate Revenue,Revenue of extra KM,Revenue,Your Company,Regular,At Date
+"51,20,200",Revenue of extra hours,Additional revenue,Revenue View,Your Company,View,At Date
+"51,20,201",Individuals Leasing Revenue,Revenue of extra hours,Revenue,Your Company,Regular,At Date
+"51,20,202",Corporate Leasing Revenue,Revenue of extra hours,Revenue,Your Company,Regular,At Date
+"51,20,300",Other revenue,Additional revenue,Revenue View,Your Company,View,At Date
+"51,20,301",Revenues of authorizations,Other revenue,Revenue,Your Company,Regular,At Date
+"51,30,000",Other revenue,Operating revenue,Revenue View,Your Company,View,At Date
+"51,30,100",Customer compensation of minor damage,Other revenue,Revenue,Your Company,Regular,At Date
+"51,30,200",Accidents,Other revenue,Revenue View,Your Company,View,At Date
+"51,30,201",Revenues accidents,Accidents,Revenue,Your Company,Regular,At Date
+"51,30,202",Expenses accidents,Accidents,Revenue,Your Company,Regular,At Date
+"52,00,000",Revenues Sale of assets,Revenue,Revenue View,Your Company,View,At Date
+"52,10,000",Sales of used Cars,Revenues Sale of assets,Revenue,Your Company,Regular,At Date
+"52,20,000",Other Revenues Sale of assets,Revenues Sale of assets,Revenue,Your Company,Regular,At Date

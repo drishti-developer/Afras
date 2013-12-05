@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_normal_car_form" model="ir.ui.view">
+			<field name="name">product.normal.car</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="purchase.view_product_supplier_inherit" />
+			<field name="arch" type="xml">
+				<div name="options" position="inside">
+					<field name="car" on_change="onchange_car(car)" />
+					<label for="car" />
+				</div>
+				<div class="oe_right oe_button_box" position="after">
+					<div class="oe_right" attrs="{ 'invisible':[('car', '=', False)]}">
+						<label for="model_id" class="oe_edit_only" />
+						<h4>
+							<field name="model_id" attrs="{ 'required':[('car', '=', True)]}"
+								on_change="on_change_model(model_id)" />
+								
+						</h4>
+						<label for="asset_category_id" class="oe_edit_only" />
+						<h4>
+							<field name="asset_category_id"  />
+								
+						</h4>
+						
+					</div>
+				</div>
+				<notebook position="inside">
+					<page string="Fleet" attrs="{ 'invisible':[('car', '=', False)]}">
+						<field name="vehicle_ids" />
+						
+					</page>
+				</notebook>
+				
+				
+			</field>
+		</record>
+		
+		
+		</data>
+		</openerp>

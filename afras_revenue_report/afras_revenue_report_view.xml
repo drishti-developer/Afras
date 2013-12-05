@@ -1,0 +1,83 @@
+<?xml version ='1.0'?>
+<openerp>
+	<data>
+		<!-- Form view of Revenue Report model-->
+		<record model='ir.ui.view' id='revenue_report_view_form'>
+			<field name='name'>revenue.report.form.view</field>
+			<field name='model'>revenue.report</field>
+			<field name='arch' type='xml'>
+				<form string='afras_revenue_report' version='7.0'>
+					<header>					
+						<button name='validate' string='Validate' type='object' attrs="{'invisible': [('state', '=', 'validate')]}"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<div class='oe_edit_only'>
+		                    <label for='name' class='oe_inline'/>
+		                    <label for='origin' class='e_inline'/>
+		                </div>
+		                <h1>
+		                    <field name='name' class='oe_inline' attrs="{'readonly':[('state', '=', 'validate')]}"/>
+						</h1>
+						<group>
+							<group> 
+		                        <field name='branch' attrs="{'readonly':[('state', '=', 'validate')]}"/> 
+		                        <field name='date' attrs="{'readonly':[('state', '=', 'validate')]}"/> 
+		                        <field name='journal_id' attrs="{'readonly':[('state', '=', 'validate')]}"/> 
+		                    </group>
+		                    <group> 
+		                         <field name='comment' attrs="{'readonly':[('state', '=', 'validate')]}"/> 
+		                         <field name='company_id' invisible="1"/>
+		                    </group>
+						</group>
+						<notebook>
+	            			<page string='Revenue Data'>
+	                           <field name='revenue_report_line' attrs="{'readonly':[('state', '=', 'validate')]}">
+	                              	<tree string="Items" editable="bottom">
+	                                  <field name="name"/>
+	                                  <field name="amount"/>
+	                                  <field name="debit_account"/>
+	                                  <field name="credit_account"/>
+	                              	</tree>
+                          	   </field> 
+	                       </page>
+						</notebook>
+					</sheet>
+					
+				</form>
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='revenue_report_view_tree'>
+             <field name='name'>revenue.report.tree.view</field>
+             <field name='model'>revenue.report</field>
+             <field name='arch' type='xml'>
+                 <tree string='Revenue Report'>
+                     <field name='name'/>
+		             <field name='branch'/>
+		             <field name='date'/> 
+		             <field name='journal_id'/> 
+		             <field name='company_id'/> 
+        		</tree>
+             </field>
+         </record>
+		
+		<!-- Action to open the form view of pnl model-->
+		<record model='ir.actions.act_window' id='action_view_revenue_report_form'>
+			<field name='name'>Daily Revenue Report</field>
+			<field name='res_model'>revenue.report</field>
+			<field name='view_type'>form</field>
+			<field name='view_mode'>tree,form</field>
+		</record>
+		
+		<!--Menu to execute the above action in order to open the form view of pnl model-->
+		<menuitem 
+			id='menu_action_view_revenue_report_form' 
+			action='action_view_revenue_report_form' 
+			name='Revenue Report' 
+			parent='account.menu_finance_receivables'
+			groups="group_afras_revenue_report_user"
+        	sequence='6'/> 
+	</data>
+</openerp> 
+ 

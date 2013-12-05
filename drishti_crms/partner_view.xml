@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_partner_form_type" model="ir.ui.view">
+			<field name="name">res.partner.type.form</field>
+			<field name="model">res.partner</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+				<field name="customer" position="after">
+					<field name="customer_type"
+						attrs="{ 'invisible':[('customer', '=', False)]}" />
+				</field>
+				<field name="city" position="replace">
+				<field name="city" placeholder="City" on_change="onchange_city(city_id)" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}" />
+<!-- 				<field name="city" invisible="True"/> -->
+				</field>
+				<field name="state_id" position="replace">
+				<field name="state_id" class="oe_no_button" placeholder="Region" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+				</field>
+			</field>
+		</record>
+		<record id="view_partner_type_tree" model="ir.ui.view">
+			<field name="name">res.partner.type.tree</field>
+			<field name="model">res.partner</field>
+			<field eval="8" name="priority" />
+			<field name="inherit_id" ref="base.view_partner_tree" />
+			<field name="arch" type="xml">
+				<field name="user_id" position="after">
+					<field name="customer_type" invisible="1" />
+				</field>
+			</field>
+		</record>
+
+		<record id="view_res_partner_filter_type" model="ir.ui.view">
+			<field name="name">res.partner.type.select</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_res_partner_filter" />
+			<field name="arch" type="xml">
+				<xpath expr="/search/filter[@string='Suppliers']" position="after">
+					<filter string="Retail Customers" name="retailer"
+						domain="[('customer_type','=','retailer')]" />
+					<filter string="Corporate Customers" name="corporate"
+						domain="[('customer_type','=','corporate')]" />
+				</xpath>
+				<xpath expr="/search/group/filter[@string='Salesperson']"
+					position="after">
+					<filter string="Customer Type" name="customer_type"
+						context="{'group_by' : 'customer_type'}" />
+				</xpath>
+
+			</field>
+		</record>
+
+		<record id="view_res_state_city_form" model="ir.ui.view">
+			<field name="name">res.state.city.form</field>
+			<field name="model">res.state.city</field>
+			<field name="arch" type="xml">
+				<form string="City" version="7.0">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" />
+								<field name="state_id" />
+<!-- 								<field name="analytic_id" /> -->
+							</group>
+							<group>
+								<field name="code" />
+								<field name="country_id" />
+							</group>
+						</group>
+						<notebook>
+						<page string="Car Info">
+								<field name="car_ids">
+									<tree string="Car Availability" editable="bottom">
+										<field name="vehicle_id" />
+										<field name="branch_id" />
+										<field name="area_id" />
+										<field name="city_id" />
+										<field name="region_id" />
+										<field name="country_id" />
+										<field name="date_from" />
+										<field name="date_to" />
+									</tree>
+								</field>
+							</page>
+							<page string="Cost Center Info">
+								<field name="analytic_ids" context="{'default_entry_type': 'city'}"  >
+									<tree string="Cost Center" editable="bottom">
+										 <field name="name" />
+										 <field name="code" />
+										 <field name="parent_id" domain="[('region_id','=', parent.state_id)]" />
+									    <field name="entry_type" domain="[('entry_type','=','city')]"/>
+										<field name="company_id" />	
+										
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_res_state_city_tree" model="ir.ui.view">
+			<field name="name">res.state.city.tree</field>
+			<field name="model">res.state.city</field>
+			<field name="arch" type="xml">
+				<tree string="City">
+					<field name="name" />
+					<field name="code" />
+					<field name="state_id" />
+					<field name="country_id" />
+					<field name="analytic_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_res_state_city_search" model="ir.ui.view">
+			<field name="name">res.state.city.search</field>
+			<field name="model">res.state.city</field>
+			<field name="arch" type="xml">
+				<search string="City">
+					<field name="name" />
+					<field name="code" />
+					<field name="state_id" />
+					<field name="country_id" />
+					<field name="analytic_id" />
+				</search>
+			</field>
+		</record>
+
+
+		<record id="res_state_city_action" model="ir.actions.act_window">
+			<field name="name">City</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.state.city</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_res_state_city_tree" />
+			<field name="search_view_id" ref="view_res_state_city_search" />
+
+		</record>
+
+		<record id="view_res_city_area_form" model="ir.ui.view">
+			<field name="name">res.city.area.form</field>
+			<field name="model">res.city.area</field>
+			<field name="arch" type="xml">
+				<form string="City" version="7.0">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+								<field name="city_id" />
+								<field name="country_id" />
+							</group>
+							<group>
+								<field name="code" />
+								<field name="state_id" />
+<!-- 								<field name="analytic_id" /> -->
+								
+							</group>
+						</group>
+					<notebook>
+						<page string="Car Info">
+								<field name="car_ids">
+									<tree string="Car Availability" editable="bottom">
+										<field name="vehicle_id" />
+										<field name="branch_id" />
+										<field name="area_id" />
+										<field name="city_id" />
+										<field name="region_id" />
+										<field name="country_id" />
+										<field name="date_from" />
+										<field name="date_to" />
+									</tree>
+								</field>
+							</page>
+							<page string="Cost Center Info">
+								<field name="analytic_ids" context="{'default_entry_type': 'area'}">
+									<tree string="Cost Center" editable="bottom">
+										 <field name="name" />
+										 <field name="code" />
+										 <field name="parent_id" domain="[('city_id','=', parent.city_id)]" />
+									     <field name="entry_type" />
+										 <field name="company_id" />	
+										
+									</tree>
+								</field>
+							</page>
+						</notebook>	
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_res_city_area_tree" model="ir.ui.view">
+			<field name="name">res.city.area.tree</field>
+			<field name="model">res.city.area</field>
+			<field name="arch" type="xml">
+				<tree string="City">
+					<field name="name" />
+					<field name="code" />
+					<field name="city_id" />
+					<field name="state_id" />
+					<field name="country_id" />
+					<field name="analytic_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_res_city_area_search" model="ir.ui.view">
+			<field name="name">res.city.area..search</field>
+			<field name="model">res.city.area</field>
+			<field name="arch" type="xml">
+				<search string="City">
+					<field name="name" />
+					<field name="code" />
+					<field name="city_id" />
+					<field name="state_id" />
+					<field name="country_id" />
+					<field name="analytic_id" />
+				</search>
+			</field>
+		</record>
+
+
+		<record id="res_city_area_action" model="ir.actions.act_window">
+			<field name="name">Area</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.city.area</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_res_city_area_tree" />
+			<field name="search_view_id" ref="view_res_city_area_search" />
+
+		</record>
+         <record id="view_country_calling_code_form" model="ir.ui.view">
+			<field name="name">res.country.form</field>
+			<field name="model">res.country</field>
+			<field eval="8" name="priority" />
+			<field name="inherit_id" ref="base.view_country_form" />
+			<field name="arch" type="xml">
+				<field name="code" position="after">
+					<field name="calling_code"/>
+<!-- 					<field name="analytic_id"/> -->
+				</field>	
+				<field name="address_format" position="after">
+				<group>
+				<notebook>
+						<page string="Car Info">
+								<field name="car_ids">
+									<tree string="Car Availability" editable="bottom">
+										<field name="vehicle_id" />
+										<field name="branch_id" />
+										<field name="area_id" />
+										<field name="city_id" />
+										<field name="region_id" />
+										<field name="country_id" />
+										<field name="date_from" />
+										<field name="date_to" />
+									</tree>
+								</field>
+							</page>
+							<page string="Cost Center Info">
+								<field name="analytic_ids">
+									<tree string="Cost Center" editable="bottom">
+										 <field name="name" />
+										 <field name="code" />
+										 <field name="parent_id" />
+									     <field name="entry_type" />
+										 <field name="company_id" />	
+										
+									</tree>
+								</field>
+							</page>
+						</notebook>
+			
+			</group>		
+			</field>
+		</field>	
+		</record>
+		
+        <record id="view_country_state_form_analytic" model="ir.ui.view">
+			<field name="name">res.country.state.form</field>
+			<field name="model">res.country.state</field>
+			<field eval="8" name="priority" />
+			<field name="inherit_id" ref="base.view_country_state_form" />
+			<field name="arch" type="xml">
+				<field name="country_id" position="after">
+<!-- 					<field name="analytic_id"  /> -->
+				
+				<notebook colspan="2">
+						<page string="Car Info">
+								<field name="car_ids">
+									<tree string="Car Availability" editable="bottom">
+										<field name="vehicle_id" />
+										<field name="branch_id" />
+										<field name="area_id" />
+										<field name="city_id" />
+										<field name="region_id" />
+										<field name="country_id" />
+										<field name="date_from" />
+										<field name="date_to" />
+									</tree>
+								</field>
+							</page>
+							<page string="Cost Center Info">
+								<field name="analytic_ids" context="{'default_entry_type': 'region'}">
+									<tree string="Cost Center" editable="bottom">
+										 <field name="name" />
+										 <field name="code" />
+										 <field name="parent_id" domain="[('entry_type','=', None)]"/>
+									     <field name="entry_type" />
+										 <field name="company_id" />	
+										
+									</tree>
+								</field>
+							</page>
+						</notebook>
+				</field>		
+			</field>
+		</record>
+		
+		<record id="base.action_country_state" model="ir.actions.act_window">
+			<field name="name">Region</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.country.state</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="base.view_country_state_tree" />
+			<field name="help">If you are working on the American market, you can
+				manage the different federal states you are working on from here.
+				Each state is attached to one country.
+			</field>
+		</record>
+        <menuitem name="Branch" action="sale.action_shop_form"
+			id="base.menu_branch" parent="base.menu_localisation"
+			sequence="5" groups="base.group_no_one" />
+			
+		<menuitem name="Region" action="base.action_country_state"
+			id="base.menu_country_state_partner" parent="base.menu_localisation"
+			sequence="2" groups="base.group_no_one" />
+		<menuitem action="res_state_city_action" id="menu_city"
+			parent="base.menu_localisation" sequence="3" groups="base.group_no_one" />
+		<menuitem action="res_city_area_action" id="menu_area"
+			parent="base.menu_localisation" sequence="4" groups="base.group_no_one" />
+
+     <menuitem action="base.action_res_company_form" id="menu_action_res_company_form1" 
+                       sequence="0" parent="base.menu_localisation"/>
+                       
+                       
+        
+             
+                      
+		<record id="view_sale_shop_form_inherit123" model="ir.ui.view">
+			<field name="name">sale.shop.inherit.form</field>
+			<field name="model">sale.shop</field>
+			<field name="inherit_id" ref="sale.view_shop_form" />
+			<field name="arch" type="xml">
+			     <xpath expr="//group[@name='shop']" position="before">
+                     <label for="code" class="oe_edit_only"/>
+                     <h2><field name="code" required="1"/></h2>
+                </xpath>
+                
+<!-- 			    <field name="name" position="after"> -->
+<!-- 			    <label for="code" class="oe_edit_only"/> -->
+<!--                     <h2><field name="code"/></h2> -->
+<!--                 </field>     -->
+                
+				<field name="payment_default_id" position="after">
+				    <field name="partner_id" />
+				    <field name="street" />
+					<field name="area_id" />
+					<field name="state_id" />
+					<field name="country_id" />
+					
+				</field>
+				<field name="project_id" position="replace">
+				   <field name="project_id" 
+				             groups="analytic.group_analytic_accounting" 
+				             domain="[('entry_type','=', 'branch'),('company_id','=',company_id)]"
+				             context="{'default_entry_type': 'branch',
+				             'form_view_ref': 'drishti_crms.view_account_analytic_account_form112',
+				             'default_company_id' : company_id ,'default_name': name ,
+				             'area_id': area_id}"
+				             />
+				   <field name="email" />
+				    <field name="phone" />
+                   <field name="street2" />
+					<field name="city_id" />
+					
+                    <field name="zip" />
+<!--                     <field name="location_id" /> -->
+				</field>	
+				<xpath expr="//group[@name='shop']" position="after">
+				<group>
+				<notebook>
+						<page string="Car Info">
+								<field name="car_ids">
+									<tree string="Car Availability" editable="bottom">
+										<field name="vehicle_id" />
+										<field name="branch_id" />
+										<field name="area_id" />
+										<field name="city_id" />
+										<field name="region_id" />
+										<field name="country_id" />
+										<field name="date_from" />
+										<field name="date_to" />
+									</tree>
+								</field>
+							</page>
+						
+								
+						</notebook>
+				</group>
+				</xpath>		
+				
+						
+				<!-- <xpath expr="//group[@name='project_id']" position="after"> <label 
+					for="warehouse_id" class="oe_edit_only"/> <h2><field name="warehouse_id" 
+					required="1"/></h2> </xpath> -->
+			</field>
+		</record>
+
+        <record id="sale.action_shop_form" model="ir.actions.act_window">
+            <field name="name">Branch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.shop</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="sale.view_shop_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new sale shop.
+              </p><p>
+                Each quotation or sales order must be linked to a shop. The
+                shop also defines the warehouse from which the products will be
+                delivered for each particular sales.
+              </p>
+            </field>
+        </record>
+        
+        
+         <record model="ir.ui.view" id="view_company_inherit_analytic_form">
+            <field name="name">res.company.form.inherit1</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+            
+                
+                    <field name="company_registry" position="after" >
+                      
+                        <field name="analytic_id" context="{'default_entry_type': 'company','default_company_id' : active_id}"
+                                                  domain="[('entry_type','=','company'),('company_id','=',active_id)]"/>
+                    </field>
+                
+            </field>
+        </record>
+        
+       
+	</data>
+</openerp>
+    

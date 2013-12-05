@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- <record id="fleet_vehicle_model_brand_form_model_name" model="ir.ui.view"> -->
+		<!-- <field name="name">fleet.vehicle.model.brand.form123</field> -->
+		<!-- <field name="model">fleet.vehicle.model.brand</field> -->
+		<!-- <field eval="8" name="priority" /> -->
+		<!-- <field name="inherit_id" ref="fleet.fleet_vehicle_model_brand_form" 
+			/> -->
+		<!-- <field name="arch" type="xml"> -->
+		<!-- <field name="name" position="after"> -->
+		<!-- <field name="model_name" /> -->
+		<!-- </field> -->
+		<!-- </field> -->
+		<!-- </record> -->
+		
+		<record id="fleet_vehicle_model_form_inht" model="ir.ui.view">
+			<field name="name">fleet.vehicle.model.form.inht</field>
+			<field name="model">fleet.vehicle.model</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="fleet.fleet_vehicle_model_form" />
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook/page[@string='Vendors']" position="after">
+					<page string="Details">
+						<group col="4" colspan="2">
+							<field name="fleet_type_id"/>
+							<field name="variant"/>
+							<field name="engine_capacity"/>
+							<field name="transmission"/>
+							<field name="no_of_seats"/>
+							<field name="no_of_doors"/>
+							<field name="no_of_luggages"/>
+							<field name="fuel"/>
+						</group>						
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+		<record model='ir.ui.view' id='fleet_vehicle_cost_distribution_form'>
+			<field name="name">fleet.vehicle.cost.distribution.form</field>
+			<field name="model">fleet.vehicle.cost.distribution</field>
+			<field name="arch" type="xml">
+				<form string="Vehicle Costing" version="7.0">
+
+					<sheet>
+						<group>
+							<group>
+								<field name="name" />
+								<field name="vehicle_id" />
+								<field name="branch_id" />
+								<field name="area_id" />
+								<field name="city_id" />
+								<field name="segment" />
+								<field name="date" />
+							</group>
+							<group>
+								<field name="region_id" />
+								<field name="country_id" />
+								<field name="debit" />
+								<field name="credit" />
+								<field name="amount" />
+								<field name="entry_type" />
+                                <field name="account_id" />
+                                <field name="analytic_line_id" />
+                                <field name="move_id" />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model='ir.ui.view' id='fleet_vehicle_cost_distribution_tree'>
+			<field name="name">fleet.vehicle.cost.distribution.tree</field>
+			<field name="model">fleet.vehicle.cost.distribution</field>
+			<field name="arch" type="xml">
+				<tree string="Vehicle Costing">
+					<field name="name" />
+					<field name="vehicle_id" />
+					<field name="branch_id" />
+					<field name="area_id" />
+					<field name="city_id" />
+					<field name="date" />
+
+					<field name="region_id" />
+					<field name="country_id" />
+					<field name="debit" />
+					<field name="credit" />
+					<field name="amount" />
+					<field name="entry_type" />
+                    <field name="account_id" />
+
+				</tree>
+			</field>
+		</record>
+
+		<record model='ir.ui.view' id='fleet_vehicle_cost_distribution_search'>
+			<field name="name">fleet.vehicle.cost.distribution.search</field>
+			<field name="model">fleet.vehicle.cost.distribution</field>
+			<field name="arch" type="xml">
+				<search string="Vehicle Costing">
+					<field name="name" />
+					<field name="vehicle_id" />
+					<field name="branch_id" />
+					<field name="area_id" />
+					<field name="city_id" />
+					<field name="date" />
+					<field name="region_id" />
+					<field name="country_id" />
+					<field name="debit" />
+					<field name="credit" />
+					<field name="amount" />
+					<field name="entry_type" />
+					<group expand="0" string="Group By...">
+                        <filter string="Vehicle"  domain="[]" context="{'group_by':'vehicle_id'}"/>
+                        <filter string="Branch"  domain="[]" context="{'group_by':'branch_id'}"/>
+                        <filter string="Area" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'area_id'}"/>
+                        <filter string="City" icon="terp-go-month" domain="[]" context="{'group_by':'city_id'}"/>
+                        <filter string="Region" icon="terp-go-month" domain="[]" context="{'group_by':'region_id'}"/>
+                        <filter string="Date" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Entry Type" icon="terp-go-month" domain="[]" context="{'group_by':'entry_type'}"/>
+                        <filter string="Account" icon="terp-go-month" domain="[]" context="{'group_by':'account_id'}"/> 
+                    </group>
+				</search>
+			</field>
+		</record>
+		
+		<record id="fleet_vehicle_cost_distribution_action" model="ir.actions.act_window">
+			<field name="name">Vehicle Daily Book</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">fleet.vehicle.cost.distribution</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="fleet_vehicle_cost_distribution_tree" />
+			<field name="search_view_id" ref="fleet_vehicle_cost_distribution_search" />
+
+		</record>
+		<menuitem name="Vehicle Daily Book" action="fleet_vehicle_cost_distribution_action"
+			id="fleet_vehicle_cost_distribution_menu" parent="account.menu_finance_entries"
+			sequence="18" groups="base.group_no_one" />
+		
+     <record model='ir.ui.view' id='fleet.fleet_vehicle_form'>
+			<field name="name">fleet.vehicle.form</field>
+			<field name="model">fleet.vehicle</field>
+			<field name="arch" type="xml">
+				<form string="Vehicle" version="7.0">
+					<header>
+						<field name="state_id" widget="statusbar" clickable="True" />
+					</header>
+					<sheet>
+						<field name="image_medium" widget='image' class="oe_left oe_avatar" />
+						<div class="oe_title">
+							<label for="model_id" class="oe_edit_only" />
+							<h1>
+								<field name="model_id" class="oe_inline" on_change="on_change_model(model_id)" />
+							</h1>
+							<label for="license_plate" class="oe_edit_only" />
+							<h2>
+								<field name="license_plate" class="oe_inline" />
+							</h2>
+							<label for="barcode" class="oe_edit_only" />
+							<h2>
+								<field name="barcode" class="oe_inline" />
+							</h2>
+							<label for="tag_ids" class="oe_edit_only" />
+							<field name="tag_ids" widget="many2many_tags" />
+						</div>
+						<div class="oe_right oe_button_box">
+							<button name="return_action_to_open" type="object"
+								context="{'xml_id':'fleet_vehicle_log_contract_act'}" string="Contracts"
+								help="show the contract for this vehicle" />
+							<button name="act_show_log_cost" type="object" string="Costs"
+								help="show all the costs for this vehicle" groups="fleet.group_fleet_manager" />
+							<button name="return_action_to_open" type="object"
+								context="{'xml_id':'fleet_vehicle_log_services_act'}" string="Services"
+								help="show the services logs for this vehicle" />
+							<button name="return_action_to_open" type="object"
+								context="{'xml_id':'fleet_vehicle_log_fuel_act'}" string="Fuel Logs"
+								help="show the fuel logs for this vehicle" />
+							<button name="return_action_to_open" type="object"
+								context="{'xml_id':'fleet_vehicle_odometer_act'}" string="Odometer Logs"
+								help="show the odometer logs for this vehicle" />
+						</div>
+						<notebook>
+							<page string="Properties">
+								<group col="2" string="General Properties">
+									<group>
+										<field name="driver_id" />
+										<field name="location" />
+										<field name="vin_sn" />
+                                        <field name="analytic_id" />
+										<field name="company_id" groups="base.group_multi_company" />
+									</group>
+									<group>
+										<label for="odometer" />
+										<div>
+											<field name="odometer" class="oe_inline" />
+											<field name="odometer_unit" class="oe_inline" />
+										</div>
+										<field name="acquisition_date" />
+										<field name="car_value" required="1"/>
+									</group>
+								</group>
+								<group col="2">
+									<group string="Additional Properties">
+										<field name="seats" />
+										<field name="doors" />
+										<field name="color" />
+										<field name="model_year" />
+										<field name="choose_car" />
+										<field name="engine_number" />
+									</group>
+									<group string="Engine Options">
+										<field name="transmission" />
+										<field name="fuel_type" />
+										<field name="co2" />
+										<field name="horsepower" />
+										<field name="horsepower_tax" />
+										<field name="power" />
+									</group>
+								</group>
+							<!--   <group col="2">
+							 <group>
+							   <field name="branch_id"/>
+							   <field name="area_id"/>
+							   
+							 </group>
+							 <group>
+							   <field name="city_id"/>
+							   <field name="region_id"/>
+							   <field name="country_id"/>
+							   
+							 </group>
+							 </group>	-->
+							</page>
+							<page string="Branch Info">
+								<field name="analytic_account_ids">
+									<tree string="Fleet Analytic Account" editable="bottom" context="{'default_analytic_id':analytic_id,}">
+									    <field name="branch_id"/>
+							            <field name="area_id"/>
+							            <field name="city_id"/>
+							            <field name="region_id"/>
+							            <field name="country_id"/>
+							            <field name="segment"/>
+							             <field name="company_id"/>
+										<field name="analytic_id"  />
+										<field name="date_from" />
+										<field name="date_to" />
+										<field name="vehicle_id" invisible="1" />
+										
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_ids" widget="mail_thread" options='{"thread_level": 1}' />
+						<field name="message_follower_ids" widget="mail_followers" />
+					</div>
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>

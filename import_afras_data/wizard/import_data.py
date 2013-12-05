@@ -1,0 +1,155 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    OpenERP, Open Source Management Solution
+#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+
+from osv import fields, osv
+from tools.translate import _
+import StringIO
+import cStringIO
+import base64
+import xlrd
+import string
+import calendar
+from calendar import monthrange
+from datetime import datetime,timedelta
+from dateutil.relativedelta import relativedelta
+
+class data_import(osv.osv_memory):
+    _name='data.import'
+    _columns={
+              'file':fields.binary("File Path:",required=True),
+              'file_name':fields.char('File Name:'),
+              'date' : fields.date('Depreciation Last date',required=True),
+              'category_id': fields.many2one('account.asset.category','Asset Category', required=True)
+              }
+    
+    def import_data(self,cr,uid,ids,context=None):
+        
+        depreciation_lin_obj = self.pool.get('account.asset.depreciation.line')
+        asset_obj = self.pool.get('account.asset.asset')
+        #vehicle_obj = self.pool.get('fleet.vehicle')
+        
+        cur_obj = self.browse(cr,uid,ids)[0]
+        file_data=cur_obj.file
+        val=base64.decodestring(file_data)
+        fp = StringIO.StringIO()
+        fp.write(val)     
+        wb = xlrd.open_workbook(file_contents=fp.getvalue())
+        sheet=wb.sheet_by_index(0)
+        date_dict = {}
+        i =1
+        dep_start_date = datetime.strptime(cur_obj.date,"%Y-%m-%d")   +  timedelta(days=1)
+        tot_dep_days = 365*5
+        dic = {}
+        while i < sheet.nrows:
+            print "i",i
+            asset_name =sheet.row_values(i,0,sheet.ncols)[0]
+            purchase_date1 = sheet.row_values(i,0,sheet.ncols)[1]
+            purchase_date =datetime.strptime(purchase_date1,"%Y/%m/%d")
+            gross_value =sheet.row_values(i,0,sheet.ncols)[2]
+            acumulated_depreciation = sheet.row_values(i,0,sheet.ncols)[3]
+            
+            salvage_value = gross_value - acumulated_depreciation
+            already_dept_days = (dep_start_date - purchase_date).days
+            remaining_days = tot_dep_days - already_dept_days
+            
+            depreciation_per_days = gross_value/tot_dep_days
+            real_accumlated_dept = already_dept_days *depreciation_per_days
+            dept_arrear  =  real_accumlated_dept-acumulated_depreciation
+            value_residual = gross_value - real_accumlated_dept
+            value_residual1 = gross_value - acumulated_depreciation
+            #remaining_depreciation_amount = 
+            
+            
+            vehicle_id = self.pool.get('fleet.vehicle').search(cr, uid, [('license_plate','ilike',asset_name)])
+            analytic_id = False
+            if vehicle_id:
+                vehicle_obj = self.pool.get('fleet.vehicle').browse(cr, uid, vehicle_id[0])
+                analytic_id = vehicle_obj.analytic_id and vehicle_obj.analytic_id.id or False
+                if len(vehicle_id)>1:
+                    dic[asset_name] =vehicle_id
+            print "dic",dic        
+            print "asset_name",asset_name,vehicle_id   
+            asset_vals = {
+                    'name' : asset_name,
+                    'vehicle_id' : vehicle_id and vehicle_id[0] or False,
+                    'category_id' : cur_obj.category_id.id,
+                    'purchase_date':purchase_date,
+                    'depreciation_start_date' : dep_start_date,
+                    'purchase_value':gross_value,
+                    'method_number' : remaining_days,
+                    'value_residual' : value_residual,
+                    'depreciation_period' : 'days',
+                    'cost_analytic_id': analytic_id or 26,
+                    'method_period': 1,
+                    'non_depreciation_value' : 0,
+                    'non_depreciation_period' : 'days',
+                    'prorata' : True,
+                    'already_depreciated_amt' :real_accumlated_dept ,
+                    'dept_arrear' : dept_arrear, 
+                    'analytic_id': analytic_id,
+                    }
+            
+            
+            asset_id = asset_obj.create(cr ,uid, asset_vals)
+            asset_obj.write(cr, uid,asset_id,{'already_depreciated_amt' : acumulated_depreciation, 'method_number':tot_dep_days} )
+            
+            vals = {
+                     'amount': dept_arrear,
+                     'asset_id': asset_id,
+                     'sequence': 1,
+                     'name': 'test',
+                     'remaining_value': 0,
+                     'depreciated_value': gross_value-dept_arrear,
+                     'depreciation_date': datetime.strptime(cur_obj.date,"%Y-%m-%d") +timedelta(days=remaining_days+1),
+                }
+            if dept_arrear:
+               if dept_arrear < 0:
+                
+          
+                    
+                    
+                    number = int(dept_arrear/depreciation_per_days) *-1
+                    dep_date1 = datetime.strptime(cur_obj.date,"%Y-%m-%d") + timedelta(days=(remaining_days-number-1)) 
+                    depreciated_value1 =   dept_arrear*-1 - depreciation_per_days*number
+                    vals['amount'] = depreciated_value1
+                    vals['depreciated_value'] = gross_value-depreciated_value1
+                    vals['depreciation_date'] = dep_date1
+                    #dep_date = datetime.strptime(cur_obj.date,"%Y-%m-%d") + timedelta(days=(remaining_days-number))    
+                    line_id = depreciation_lin_obj.search(cr, uid, [('asset_id','=',asset_id),('remaining_value','<',0 )])
+                    depreciation_lin_obj.unlink(cr,uid,line_id)
+                    
+#                     line_id1 = depreciation_lin_obj.search(cr, uid, [('asset_id','=',asset_id),('depreciation_date','=',dep_date1 )])  
+#                    
+#                     print "line_id",line_id,line_id1,dep_date,dep_date1
+#                     
+#                     if line_id1:
+#                        depreciation_lin_obj.write(cr, uid,line_id1[0],{'depreciated_value': depreciated_value1,'remaining_value':0})   
+#                print "vals",vals
+               depreciation_lin_obj.create(cr, uid,vals)
+            #depreciation_obj = self.pool.get('account.asset.depreciation.line')
+            
+            i +=1
+        import pprint
+        pprint.pprint(dic)           
+        return True
+    
+data_import()

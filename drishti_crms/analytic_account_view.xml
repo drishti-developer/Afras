@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+<record model="ir.ui.view" id="view_account_analytic_line_tree11">
+			<field name="name">account.analytic.line.vehicle.tree</field>
+			<field name="model">account.analytic.line</field>
+			<field name="inherit_id" ref="account.view_account_analytic_line_tree" />
+			<field name="arch" type="xml">
+				<field name="journal_id" position="after">
+					<field name="vehicle_id" />
+					<field name="entry_type" />
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_account_analytic_line_form11">
+			<field name="name">account.analytic.line.type.form</field>
+			<field name="model">account.analytic.line</field>
+			<field name="inherit_id" ref="account.view_account_analytic_line_form" />
+			<field name="arch" type="xml">
+				<field name="journal_id" position="after">
+					<field name="entry_type" />
+					<field name="split_entry" />
+					<field name="from_date" />
+					<field name="to_date" />
+					<field name="next_split_date" />
+					<field name="vehicle_id" />
+					<button name="split_analytic_line" type="object"
+								 string="Split record"
+								 />
+				</field>
+			</field>
+		</record>
+
+
+		<record id="view_account_analytic_line_filter11" model="ir.ui.view">
+			<field name="name">account.analytic.line.search</field>
+			<field name="model">account.analytic.line</field>
+			<field name="inherit_id" ref="account.view_account_analytic_line_filter" />
+			<field name="arch" type="xml">
+				<xpath expr="/search/group/filter[@string='Analytic Account']"
+					position="after">
+					<filter string="Vehicle" context="{'group_by':'vehicle_id'}" />
+					<filter string="Cost Center Type" context="{'group_by':'entry_type'}" />
+				</xpath>
+			</field>
+		</record>
+
+		<record id="account_analytic_account_form_form_entry_type" model="ir.ui.view">
+			<field name="name">account.analytic.account.invoice.form.inherit1
+			</field>
+			<field name="model">account.analytic.account</field>
+			<field name="inherit_id" ref="analytic.view_account_analytic_account_form" />
+			<field eval="40" name="priority" />
+			<field name="arch" type="xml">
+				<field name="partner_id" position="after">
+					<field name="entry_type"/>
+					<field name="vehicle_id" attrs="{ 'invisible':[('entry_type', '!=', 'car')]}"/>
+					<field name="branch_id" attrs="{ 'invisible':[('entry_type', '!=', 'branch')],'required':[('entry_type', '=', 'branch')]}"/>
+					<field name="area_id" attrs="{ 'invisible':[('entry_type', '!=', 'area')],'required':[('entry_type', '=', 'area')]}"/>
+					<field name="city_id" attrs="{ 'invisible':[('entry_type', '!=', 'city')],'required':[('entry_type', '=', 'city')]}"/>
+					<field name="region_id" attrs="{ 'invisible':[('entry_type', '!=', 'region')],'required':[('entry_type', '=', 'region')]}"/>
+					<field name="segment" attrs="{ 'invisible':[('entry_type', '!=', 'segment')],'required':[('entry_type', '=', 'segment')]}"/>
+<!-- 					<field name="country_id" attrs="{ 'invisible':[('entry_type', '!=', 'nlco')]}"/>			 -->
+				</field>
+			</field>
+		</record>
+		
+		</data>
+		</openerp>

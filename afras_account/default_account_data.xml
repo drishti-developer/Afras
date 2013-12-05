@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record forcecreate="True" id="account.property_account_receivable"
+			model="ir.property">
+			<field name="name">property_account_receivable</field>
+			<field name="fields_id"
+				search="[('model','=','res.partner'),('name','=','property_account_receivable')]" />
+			<field eval="'account.account,'+str(afras_account_1121001)"
+				name="value" />
+			<field name="company_id" ref="base.main_company" />
+		</record>
+		<record forcecreate="True" id="account.property_account_payable"
+			model="ir.property">
+			<field name="name">property_account_payable</field>
+			<field name="fields_id"
+				search="[('model','=','res.partner'),('name','=','property_account_payable')]" />
+			<field eval="'account.account,'+str(afras_account_1131001)"
+				name="value" />
+			<field name="company_id" ref="base.main_company" />
+		</record>
+
+
+		<record forcecreate="True" id="account.property_account_income"
+			model="ir.property">
+			<field name="name">property_account_income</field>
+			<field name="fields_id"
+				search="[('model','=','product.template'),('name','=','property_account_income')]" />
+			<field eval="'account.account,'+str(afras_account_4111000)"
+				name="value" />
+			<field name="company_id" ref="base.main_company" />
+		</record>
+		<record forcecreate="True" id="account.property_account_expense"
+			model="ir.property">
+			<field name="name">property_account_expense</field>
+			<field name="fields_id"
+				search="[('model','=','product.template'),('name','=','property_account_expense')]" />
+			<field eval="'account.account,'+str(afras_account_5111001)"
+				name="value" />
+			<field name="company_id" ref="base.main_company" />
+		</record>
+
+	</data>
+</openerp>

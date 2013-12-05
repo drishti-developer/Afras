@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	<record model="ir.ui.view" id="view_account_asset_category_form11">
+			<field name="name">account.asset.category.form1</field>
+			<field name="model">account.asset.category</field>
+			<field name="inherit_id" ref="account_asset.view_account_asset_category_form" />
+			<field name="arch" type="xml">
+			    <field name="method_period" position="after">
+			         <field name="depreciation_period" />
+			         <field name="non_depreciation_value" />
+			         <field name="non_depreciation_period" />
+			    </field>
+			</field>
+			</record>
+			
+     <record model="ir.ui.view" id="view_account_asset_asset_vehicle_form">
+			<field name="name">account.asset.asset.vehicle.form1</field>
+			<field name="model">account.asset.asset</field>
+			<field name="inherit_id" ref="account_asset.view_account_asset_asset_form" />
+			<field name="arch" type="xml">
+				<field name="code" position="after">				 
+					<field name="vehicle_id" on_change="onchange_vehicle_id(vehicle_id)"/>
+                </field>
+                <field name="company_id" position="after"> 
+                	<field name="analytic_id" attrs="{'required':[('vehicle_id', '&lt;&gt;', False)]}"/>
+	                <field name="already_depreciated_amt" readonly="1" />
+	                <field name="dept_arrear" readonly="1"/>
+                  	<field name="depreciation_start_date" />
+				</field>
+				<field name="category_id" position="attributes">
+					<attribute name="on_change">onchange_category_id(category_id,purchase_date)</attribute>
+				</field>
+				<field name="method_number" position="replace">
+					<label for="method_number" />
+						<div>
+							<field name="method_number" class="oe_inline" />
+							<field name="depreciation_period" class="oe_inline" />
+						</div>
+		       		<label for="non_depreciation_value" />
+					<div>
+						<field name="non_depreciation_value" class="oe_inline" />
+						<field name="non_depreciation_period" class="oe_inline" />
+					</div>
+					<field name="cost_analytic_id" required="1"/>		
+				</field>
+		
+		<!--			change monthly depreciation change to Period depreciation	-->
+
+				<field name="amount" position="replace">
+					<field name="amount" string="Period Depreciation"/>
+				</field>
+				
+			</field>
+		</record>
+	</data>
+</openerp>

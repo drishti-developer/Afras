@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+
+
+		<!-- Types -->
+		<record model="account.account.type" id="afras_account_type_asset_view1">
+			<field name="name">Asset View</field>
+			<field name="code">view</field>
+			<field name="report_type">asset</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_bank">
+			<field name="name">Bank</field>
+			<field name="code">Bank</field>
+			<field name="report_type">asset</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_cash">
+			<field name="name">Cash</field>
+			<field name="code">Cash</field>
+			<field name="report_type">asset</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_receivable">
+			<field name="name">Receivable</field>
+			<field name="code">Receivable</field>
+			<field name="report_type">income</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_asset">
+			<field name="name">Asset</field>
+			<field name="code">Asset</field>
+			<field name="report_type">asset</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_liability_view1">
+			<field name="name">Liability View</field>
+			<field name="code">liability</field>
+			<field name="report_type">liability</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_liability">
+			<field name="name">Liability</field>
+			<field name="code">liability</field>
+			<field name="report_type">liability</field>
+		</record>
+
+		<record model="account.account.type" id="afras_account_type_payable">
+			<field name="name">Payable</field>
+			<field name="code">Payable</field>
+			<field name="report_type">expense</field>
+		</record>
+		<record model="account.account.type" id="afras_account_type_expense_view1">
+			<field name="name">Expense View</field>
+			<field name="code">expense</field>
+			<field name="report_type">expense</field>
+		</record>
+		<record model="account.account.type" id="afras_account_type_expense_view1">
+			<field name="name">Expense</field>
+			<field name="code">expense</field>
+			<field name="report_type">expense</field>
+		</record>
+		<record model="account.account.type" id="afras_account_type_income_view1">
+			<field name="name">Income View</field>
+			<field name="code">view</field>
+			<field name="report_type">income</field>
+		</record>
+		<record model="account.account.type" id="afras_account_type_income">
+			<field name="name">Income</field>
+			<field name="code">Income</field>
+			<field name="report_type">income</field>
+		</record>
+
+
+
+		<!-- account/demo/account_minimal.xml -->
+		<record id="afras_account_nlco" model="account.account">
+			<field name="name">NLCO</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+		<record id="afras_account_assets" model="account.account">
+			<field name="name">Assets</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_nlco" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_current_assets" model="account.account">
+			<field name="name">Current Assets</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_cash_eqivelant" model="account.account">
+			<field name="name">Cash & Cash Eqivelant</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+
+		<record id="afras_account_cash_bank" model="account.account">
+			<field name="name">Cash in bank</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_cash_eqivelant" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_liquidity_riyad_bank" model="account.account">
+			<field name="name">Liquidity Riyad Bank</field>
+			<field name="code">NLCO</field>
+			<field name="type">liquidity</field>
+			<field name="parent_id" ref="afras_account_cash_bank" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_liquidity_rajhi_bank" model="account.account">
+			<field name="name">Liquidity Al Rajhi Bank</field>
+			<field name="code">NLCO</field>
+			<field name="type">liquidity</field>
+			<field name="parent_id" ref="afras_account_cash_bank" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+
+		<record id="afras_account_cash_fund" model="account.account">
+			<field name="name">cash in funds</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_cash_eqivelant" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_cash_fund" model="account.account">
+			<field name="name">cash in funds</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_cash_eqivelant" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_cash_head_office" model="account.account">
+			<field name="name">Cash In Head Office</field>
+			<field name="code">NLCO</field>
+			<field name="type">liquidity</field>
+			<field name="parent_id" ref="afras_account_cash_fund" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_cash_brances" model="account.account">
+			<field name="name">Cash branches</field>
+			<field name="code">NLCO</field>
+			<field name="type">liquidity</field>
+			<field name="parent_id" ref="afras_account_cash_fund" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_receivables" model="account.account">
+			<field name="name">Receivables</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_current_assets" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_retail_view" model="account.account">
+			<field name="name">Retail</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_retail" model="account.account">
+			<field name="name">Retail</field>
+			<field name="code">NLCO</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_retail_view" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_corporate_view" model="account.account">
+			<field name="name">Corporate</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_corporate" model="account.account">
+			<field name="name">Corporate</field>
+			<field name="code">NLCO</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+
+
+		<record id="afras_account_government_view" model="account.account">
+			<field name="name">Government</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_government_org1" model="account.account">
+			<field name="name">government organization (1)</field>
+			<field name="code">NLCO</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_government_view" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+		<record id="afras_account_government_org2" model="account.account">
+			<field name="name">government organization (2)</field>
+			<field name="code">NLCO</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_government_view" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+		<record id="afras_account_others_view" model="account.account">
+			<field name="name">Others</field>
+			<field name="code">NLCO</field>
+			<field name="type">view</field>
+			<field name="parent_id" ref="afras_account_receivables" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+		<record id="afras_account_cash_sale_customers" model="account.account">
+			<field name="name">Cash sale customers</field>
+			<field name="code">NLCO</field>
+			<field name="type">receivable</field>
+			<field name="parent_id" ref="afras_account_others_view" />
+			<field name="user_type" ref="afras_account_type_asset_view1" />
+		</record>
+
+
+
+
+
+		18 Receivable 128 Your Company View Others At Date Receivables
+		19
+		Receivable 129 Your Company Receivable Cash sale customers At Date
+		Others
+		20 Receivable 130 Your Company Receivable Customers for sale At
+		Date
+		Others
+		21 Receivable 131 Your Company Receivable Owe associates At
+		Date Others
+		22 Receivable 132 Your Company Receivable Accident
+		insurance companies
+		owe (the second party) At Date Others
+
+	</data>
+</openerp>    
