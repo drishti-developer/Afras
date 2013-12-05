@@ -63,7 +63,7 @@ class account_analytic_line(osv.osv):
             try:     
                 next_split_date =  datetime.datetime.strptime(alo.next_split_date,"%Y-%m-%d") 
             except:
-                from_date = datetime.datetime.strptime(alo.next_split_date,"%Y-%m-%d %H:%M:%S")           
+                next_split_date = datetime.datetime.strptime(alo.next_split_date,"%Y-%m-%d %H:%M:%S")           
             vehicle_id = False
             branch_id = False
             area_id = False
