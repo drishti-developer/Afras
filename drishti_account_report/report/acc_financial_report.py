@@ -32,12 +32,12 @@ class acc_financial_report(report_sxw.rml_parse, common_report_header):
        
 
     def get_lines(self, data):
-        print "data",data
+        
         lines = []
         account_obj = self.pool.get('account.account')
         analytic_obj = self.pool.get('account.analytic.account')
         currency_obj = self.pool.get('res.currency')
-      #  print "testing",data['form']['comparison_context']['cost_analytic_ids'],analytic_obj._get_children(self.cr, self.uid, data['form']['comparison_context']['cost_analytic_ids'])
+      
        
         data['form']['used_context']['cost_analytic_ids'] =  data['form']['comparison_context']['cost_analytic_ids']
         data['form']['used_context']['child_cost_center'] =  data['form']['comparison_context']['child_cost_center']

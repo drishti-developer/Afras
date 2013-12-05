@@ -30,7 +30,7 @@ class account_chart(osv.osv_memory):
         fiscalyear_id = data.get('fiscalyear', False) and data['fiscalyear'][0] or False
         cost_analytic_ids = data.get('cost_analytic_ids', False) and data['cost_analytic_ids'] or False
         child_cost_center = data.get('child_cost_center', False) and data['cost_analytic_ids'] or False
-        print "cost_analytic_ids",cost_analytic_ids
+        
         result['periods'] = []
         if data['period_from'] and data['period_to']:
             period_from = data.get('period_from', False) and data['period_from'][0] or False

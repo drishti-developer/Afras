@@ -34,7 +34,7 @@ def extend(class_to_extend):
 def _get_by_id( self,obj, cr, uid, prop_name, ids, context=None):
         prop = obj.pool.get('ir.property')
         vids = [obj._name + ',' + str(oid) for oid in  ids]
-        print "t"
+        
         domain = [('fields_id.model', '=', obj._name), ('fields_id.name', 'in', prop_name)]
         #domain = prop._get_domain(cr, uid, prop_name, obj._name, context)
         if vids:
@@ -43,7 +43,7 @@ def _get_by_id( self,obj, cr, uid, prop_name, ids, context=None):
         cid = [obj.pool.get('res.users').browse(cr,uid,uid).company_id.id]
         if cid:
              domain =  [('company_id','in',cid)] + domain
-        print "vids",domain
+        
         return prop.search(cr, uid, domain, context=context)
 
 class account_account(osv.osv):

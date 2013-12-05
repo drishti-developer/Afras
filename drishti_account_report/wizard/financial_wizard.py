@@ -86,7 +86,7 @@ class accounting_report(osv.osv_memory):
         if context is None:
             context = {}
         result = {}
-        print "data['form']['target_move']",data['form']['target_move']
+        
         result['fiscalyear'] = 'fiscalyear_id_cmp' in data['form'] and data['form']['fiscalyear_id_cmp'] or False
         result['journal_ids'] = 'journal_ids' in data['form'] and data['form']['journal_ids'] or False
         result['chart_account_id'] = 'chart_account_id' in data['form'] and data['form']['chart_account_id'] or False
@@ -101,7 +101,7 @@ class accounting_report(osv.osv_memory):
             result['period_to'] = data['form']['period_to_cmp']
         result['cost_analytic_ids'] = 'cost_analytic_ids' in data['form'] and data['form']['cost_analytic_ids'] or False
         result['child_cost_center'] = 'child_cost_center' in data['form'] and data['form']['child_cost_center']    
-        print "result",result
+        
         return result
 
    

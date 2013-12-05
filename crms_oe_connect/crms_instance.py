@@ -526,7 +526,7 @@ class crms_instance(osv.osv):
      vehicle_brw.color, vehicle_brw.color_arabic, date_today, int(vehicle_brw.odometer), vehicle_brw.company_id.name, vehicle_brw.model_year, vehicle_brw.model_id.id, vehicle_brw.model_id.crms_id, vehicle_brw.current_branch_id.id, vehicle_brw.current_branch_id.crms_id)
           
             car_str +="</CarList>"
-            print count
+            
             if allow : 
                 responsearray = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request(car_str, 'CarCreateRequest', 'CarResponse')
                 for response_dict in responsearray:
@@ -550,7 +550,7 @@ class crms_instance(osv.osv):
             vehicle_id = car_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSCarID'))])
             model_id = model_obj.search(cr,uid,[('crms_id','=',response_dict.get('CRMSModelID'))])
             branch_id = shop_obj.search(cr,uid,[('crms_id','=',response_dict.get('CRMSBranchID'))])
-            print response_dict
+            
             vals = {
                  'acquisition_date':response_dict.get('AcquisitionDate'),
                  'engine_number':response_dict.get('EngineNumber',False),
@@ -567,7 +567,7 @@ class crms_instance(osv.osv):
                  'model_year':response_dict.get('ModelYear'),
                  'company_id':1,
                  }
-            print vehicleid
+            
             if not vehicle_id :
                 vals['analytic_account_ids'] =[(0,0,{'branch_id':branch_id[0],'date_from':datetime.date.today()})]
                 car_id = car_obj.create(cr, uid, vals)
@@ -638,7 +638,7 @@ class crms_instance(osv.osv):
                 partner_obj.write(cr,uid,partner_id[0],vals)
             else:
                 new_partner_id = partner_obj.create(cr,uid,vals)
-                print new_partner_id
+               
         
         self.write(cr, uid, ids, {'last_customer_exported_date':datetime.datetime.today()}) #Updating the Date
 

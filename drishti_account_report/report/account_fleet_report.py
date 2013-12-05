@@ -93,7 +93,7 @@ class account_fleet_report(report_sxw.rml_parse, common_report_header):
                 'account_type': report.type =='sum' and 'view' or False, #used to underline the financial report balances
             }
            
-            print "lines",lines
+           
             account_ids = []
             if report.display_detail == 'no_detail':
                 #the rest of the loop is used to display the details of the financial report, so it's not needed here.
@@ -172,7 +172,7 @@ class account_fleet_report(report_sxw.rml_parse, common_report_header):
     #             elif entry_type == 'nlco' and form_value.get('country_id'):
     #                 entry_str = 'country_id=%s'
     #                 where.append(tuple([form_value.get('country_id')]))
-            print "where",where
+            
             self.cr.execute(
                     'select account_id,sum(amount)'\
                     'from fleet_vehicle_cost_distribution '\
