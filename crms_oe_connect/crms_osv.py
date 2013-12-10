@@ -28,7 +28,7 @@ from xml.dom.minidom import parse, parseString
 
 STANDARD_LIST_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><ResponseGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><ERPResponse><ResponseData DataCollectionDate="%(collectiondate)s" ResponseService="%(responsename)s"><ResponseCode>1</ResponseCode><ResponseMessage>SUCCESS</ResponseMessage>%(responsedata)s</ResponseData></ERPResponse></ResponseGroup>"""
 
-VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner',]
+VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner','crms.payment']
 
 CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle',]
 
@@ -271,13 +271,13 @@ class Call:
                     'requestdata' : request_str,
                     }
     
-            print "XML Requested Data:\n",request_data
+            #print "XML Requested Data:\n",request_data
             encoded_data = urllib.quote_plus(request_data.encode('utf-8')) # Encoding the XML Request
             encoded_data = "xml="+encoded_data
             #print "Encoded Requested Data:\n",encoded_data
             webf = urllib.urlopen(self.URL, encoded_data) #Sending the URL Request with encoded code using urllib library
             response = webf.read() #Web Response
-            print "Response",response
+            #print "Response",response
             webf.close()
             responseDOM = parseString(response) #Parsing the Response
             #print "Response from CRMS:\n",responseDOM.toprettyxml()
@@ -357,7 +357,7 @@ def ListRequest(self, cr, uid, date_from=False, date_to=False):
     
     return_response = "Invalid Request"
     if self._name in VIEW_CLASS_LIST:
-    	domain = ['|',('crms_id','!=',False),('crms_id','<=',0)]
+    	domain = ['|',('crms_id','!=',False),('crms_id','>',0)]
     	domain = []
     	browse_list = []
     	response_name = False
@@ -394,6 +394,9 @@ def ListRequest(self, cr, uid, date_from=False, date_to=False):
         elif self._name == 'res.partner' :
             browse_list = CUSTOMER_LIST
             response_name = "Customer"
+        elif self._name == 'crms.payment' :
+            browse_list = RENTAL_PAYMENT_LIST
+            response_name = "RentalPayment"
     	
     	if date_from : domain.append(('write_date','>=',date_from))
     	if date_to : domain.append(('write_date','<=',date_to))

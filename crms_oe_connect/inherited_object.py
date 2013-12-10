@@ -12,7 +12,7 @@ class res_currency(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             currency_brw = self.browse(cr, uid, record_id)
@@ -55,7 +55,7 @@ class Country(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             country_brw = self.browse(cr, uid, record_id)
@@ -103,7 +103,7 @@ class res_country_state(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             region_brw = self.browse(cr, uid, record_id)
@@ -149,7 +149,7 @@ class res_state_city(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             city_brw = self.browse(cr, uid, record_id)
@@ -197,7 +197,7 @@ class res_city_area(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             area_brw = self.browse(cr, uid, record_id)
@@ -249,7 +249,7 @@ class sale_shop(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             branch_brw = self.browse(cr, uid, record_id)
@@ -310,7 +310,7 @@ class fleet_vehicle_model_brand(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             manufacturer_brw = self.browse(cr, uid, record_id)            
@@ -356,7 +356,7 @@ class fleet_type(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             cartype_brw = self.browse(cr, uid, record_id)
@@ -382,12 +382,12 @@ class fleet_type(osv.osv):
         return True
     
     def create(self, cr, uid, data, context=None):
-        id = super(fleet_vehicle_model_brand, self).create(cr, uid, data, context=context)
+        id = super(fleet_type, self).create(cr, uid, data, context=context)
         self.update_crms(cr, uid, id)
         return id
    
     def write(self, cr, uid, ids, data, context=None):
-        res = super(fleet_vehicle_model_brand, self).write(cr, uid, ids, data, context=context)
+        res = super(fleet_type, self).write(cr, uid, ids, data, context=context)
         self.update_crms(cr, uid, ids[0])
         return res
     
@@ -402,7 +402,7 @@ class fleet_vehicle_model(osv.osv):
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
-        crms_instance_id = crms_obj.search(cr,uid,[])
+        crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             model_brw = self.browse(cr, uid, record_id)
@@ -410,7 +410,8 @@ class fleet_vehicle_model(osv.osv):
                 crms_str = False
                 if model_brw.crms_id and model_brw.crms_id >0:
                     crms_str = "\n<CRMSModelID>%s</CRMSModelID>"%(model_brw.crms_id)
-                     
+                
+                model_str = "<ModelList>\n"     
                 model_str += """<Model>
 <ERPModelID>%s</ERPModelID>%s
 <ModelNameInEng>%s</ModelNameInEng>

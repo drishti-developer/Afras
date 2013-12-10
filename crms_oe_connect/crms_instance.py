@@ -13,6 +13,8 @@ class crms_instance(osv.osv):
         'username' : fields.char(string='Username',size=256,required=True),
         'password' : fields.char(string='password',size=256,required=True),
         'erp_ip' : fields.char(string='ERP IP Address',size=256,required=True),
+        'active':fields.boolean(string='Active'),
+        'environment':fields.selection([('test', 'Test'), ('production', 'Production'),], 'Environment',required=True),
         'last_currency_exported_date': fields.datetime('Last Updated/Created Currency Date'),
         'last_country_exported_date': fields.datetime('Last Updated/Created Country Date'),
         'last_region_exported_date': fields.datetime('Last Updated/Created Region Date'),
@@ -25,6 +27,16 @@ class crms_instance(osv.osv):
         'last_car_exported_date': fields.datetime('Last Updated/Created Car Date'),
         'last_customer_exported_date': fields.datetime('Last Updated/Created Customer Date'),
         }
+    
+    def onchange_environment(self, cr, uid, ids, environment, context=None):
+        value = {}
+        if environment:
+            if environment=='test':
+                value = {'name': "http://117.218.242.69/NLCO/admin/updateCRMS"}
+            else:
+                value = {'name': "http://172.16.1.50/NLCO/admin/updateCRMS"}
+                
+        return {'value': value}
     
     #1. CURRRENCY CREATE / UPDATE CODE.
     def add_update_currency(self, cr, uid, ids, context=None):
@@ -409,7 +421,7 @@ class crms_instance(osv.osv):
         model_ids = model_obj.search(cr,uid,domain) # Searching state Value Accordingly
         if model_ids :
             allow = False
-            model_str = "<ModelList>\n"# Currency List String
+            model_str = "<ModelList>\n"# List String
             for model_brw in model_obj.browse(cr,uid,model_ids):
                      
                 if model_brw.modelname and model_brw.arabic_name and model_brw.variant and model_brw.engine_capacity and model_brw.transmission and model_brw.no_of_seats and model_brw.no_of_luggages and model_brw.no_of_doors and model_brw.fuel and model_brw.fleet_type_id and model_brw.fleet_type_id.crms_id and model_brw.brand_id and model_brw.brand_id.crms_id :
@@ -449,30 +461,32 @@ class crms_instance(osv.osv):
                     self.write(cr, uid, ids, {'last_model_exported_date':datetime.datetime.today()}) #Updating the Date
             
                     
-        #Extra Code
+        #Extra Code for importing Model from CRMS
 #         response_array = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request('', 'ModelListRequest', 'ModelList', 'Model')
 #         cartype_obj = self.pool.get('fleet.type')
 #         manufacturer_obj = self.pool.get('fleet.vehicle.model.brand') 
 #         for response_dict in response_array:
-#             model_id = model_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSModelID'))])
+#             manu_id = manufacturer_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSManufacturerID'))])
+#             type_id = cartype_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSCarTypeID'))])
+#             model_id = model_obj.search(cr, uid, ['|',('crms_id','=',response_dict.get('CRMSModelID')),('name','like',response_dict.get('ModelNameInEng'))])
+#             vals = {
+#                   'crms_id': response_dict.get('CRMSModelID'),
+#                   'modelname': response_dict.get('ModelNameInEng'),
+#                   'arabic_name': response_dict.get('ModelNameInAra'),
+#                   'fleet_type_id': type_id[0],
+#                   'brand_id': manu_id[0],
+#                   'engine_capacity': response_dict.get('EngineCapacity','Not-defined'),
+#                   'no_of_seats': response_dict.get('NumberOfPassengers',4),
+#                   'no_of_luggages': response_dict.get('NumberOfLuggages',4),
+#                   'no_of_doors': response_dict.get('NumberOfDoors',5),
+#                   'variant': response_dict.get('Variant','no-variant'),
+#                   'transmission': response_dict.get('Transmission','Not-Defined'),
+#                   'fuel': response_dict.get('Fuel','Petrol'),
+#                   }
 #             if not model_id:
-#                 manu_id = manufacturer_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSManufacturerID'))])
-#                 type_id = cartype_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSCarTypeID'))])
-#                 if manu_id and type_id:
-#                     model_obj.create(cr, uid, {
-#                                               'crms_id': response_dict.get('CRMSModelID'),
-#                                               'modelname': response_dict.get('ModelNameInEng'),
-#                                               'arabic_name': response_dict.get('ModelNameInAra'),
-#                                               'fleet_type_id': type_id[0],
-#                                               'brand_id': manu_id[0],
-#                                               'engine_capacity': response_dict.get('EngineCapacity','Not-defined'),
-#                                               'no_of_seats': response_dict.get('NumberOfPassengers',4),
-#                                               'no_of_luggages': response_dict.get('NumberOfLuggages',4),
-#                                               'no_of_doors': response_dict.get('NumberOfDoors',5),
-#                                               'variant': response_dict.get('Variant','no-variant'),
-#                                               'transmission': response_dict.get('Transmission','Not-Defined'),
-#                                               'fuel': response_dict.get('Fuel','Petrol'),
-#                                               })
+#                 model_obj.create(cr, uid, vals)
+#             else:
+#                 model_obj.write(cr, uid, model_id[0], vals)
             
         return True
     
@@ -491,7 +505,7 @@ class crms_instance(osv.osv):
             for vehicle_brw in car_obj.browse(cr,uid,car_ids):
                 branch_id = False
                 date_today = datetime.date.today()
-                      
+                       
                 if vehicle_brw.assigned_for and vehicle_brw.license_plate and vehicle_brw.license_plate_arabic and vehicle_brw.vin_sn and vehicle_brw.color and vehicle_brw.color_arabic and vehicle_brw.company_id and vehicle_brw.model_year and vehicle_brw.model_id and vehicle_brw.model_id.crms_id and vehicle_brw.current_branch_id and vehicle_brw.current_branch_id.crms_id:
                     count +=1    
                     allow = True
@@ -504,7 +518,7 @@ class crms_instance(osv.osv):
                         extra_str += "\n<CarValue>%s</CarValue>"%(vehicle_brw.car_value)
                     if vehicle_brw.barcode:
                         extra_str += "\n<Barcode>%s</Barcode>"%(vehicle_brw.barcode)
-                      
+                       
                     car_str += """<Car>
 <ERPCarID>%s</ERPCarID>
 <AssignedFor>%s</AssignedFor>
@@ -524,9 +538,9 @@ class crms_instance(osv.osv):
 </Car>\n
 """%(vehicle_brw.id, vehicle_brw.assigned_for, vehicle_brw.license_plate, vehicle_brw.license_plate_arabic, vehicle_brw.vin_sn, extra_str, \
      vehicle_brw.color, vehicle_brw.color_arabic, date_today, int(vehicle_brw.odometer), vehicle_brw.company_id.name, vehicle_brw.model_year, vehicle_brw.model_id.id, vehicle_brw.model_id.crms_id, vehicle_brw.current_branch_id.id, vehicle_brw.current_branch_id.crms_id)
-          
+           
             car_str +="</CarList>"
-            
+             
             if allow : 
                 responsearray = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request(car_str, 'CarCreateRequest', 'CarResponse')
                 for response_dict in responsearray:
@@ -541,11 +555,11 @@ class crms_instance(osv.osv):
             date_from = "FromDate='%s'"%(self_brw.last_car_exported_date)
               
         response_array = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request('', 'CarListRequest', 'CarList', 'Car', date_from, date_to)
-            #fleet_acc_obj = self.pool.get('fleet.analytic.account')
           
         model_obj = self.pool.get('fleet.vehicle.model')
         shop_obj = self.pool.get('sale.shop')
-        asset_obj = self.pool.get('account.asset.asset')
+        context.update({'crms_create':True})
+        
         for response_dict in response_array:
             vehicle_id = car_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSCarID'))])
             model_id = model_obj.search(cr,uid,[('crms_id','=',response_dict.get('CRMSModelID'))])
@@ -569,16 +583,9 @@ class crms_instance(osv.osv):
                  }
             
             if not vehicle_id :
-                vals['analytic_account_ids'] =[(0,0,{'branch_id':branch_id[0],'date_from':datetime.date.today()})]
-                car_id = car_obj.create(cr, uid, vals)
-                asset_obj.create(cr, uid, {
-                               'name':response_dict.get('LicenseInAra'),
-                               'company_id':1,
-                               'category_id':2,
-                               'depreciation_period':'months',
-                               'vehicle_id':car_id,
-                               'depreciation_start_date':datetime.date.today(),
-                               })
+                vals['analytic_account_ids'] =[(0,0,{'branch_id':branch_id[0],'date_from':datetime.date.today()})] if branch_id else False
+                car_id = car_obj.create(cr, uid, vals, context)
+                
             else:
                 crms_osv.search_branch(cr, uid, vehicle_id[0], branch_id)                
                 car_obj.write(cr,uid, vehicle_id[0],vals)

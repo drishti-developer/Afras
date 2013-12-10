@@ -36,7 +36,8 @@
     'depends': ['base', 'product', 'stock', 'drishti_crms'],
     'data': [    
                 'crms_instance_view.xml',
-                'inherited_object_view.xml'
+                'inherited_object_view.xml',
+                'wizard/import_crms_data_view.xml',
                  ],
     'demo': [],
     'test': [  
