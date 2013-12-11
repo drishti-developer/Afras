@@ -357,10 +357,10 @@ def ListRequest(self, cr, uid, date_from=False, date_to=False):
     
     return_response = "Invalid Request"
     if self._name in VIEW_CLASS_LIST:
-    	domain = ['|',('crms_id','!=',False),('crms_id','>',0)]
-    	domain = []
+    	domain = ['|',('crms_id','!=',False),('crms_id','>',0)]    	
     	browse_list = []
     	response_name = False
+    	
     	if self._name == 'res.currency' :
             response_name = "Currency"
             browse_list = CURRENCY_LIST
@@ -394,6 +394,7 @@ def ListRequest(self, cr, uid, date_from=False, date_to=False):
         elif self._name == 'res.partner' :
             browse_list = CUSTOMER_LIST
             response_name = "Customer"
+            domain = ['|',('crms_id','!=',False),('crms_id','>',0),('customer','=',True)]
         elif self._name == 'crms.payment' :
             browse_list = RENTAL_PAYMENT_LIST
             response_name = "RentalPayment"
