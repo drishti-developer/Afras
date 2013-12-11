@@ -8,10 +8,12 @@
             <field name="arch" type="xml">
                 <form string="Car Rental Management System Instance" version="7.0">
                 	<group col="4" colspan="2">
-                		<field name="name" />
-                    	<field name="erp_ip" />
-                    	<field name="username" />
-                    	<field name="password" />
+                    	<field name="environment" on_change="onchange_environment(environment)"/>
+                    	<field name="active"/>
+                		<field name="name"/>
+                    	<field name="erp_ip"/>
+                    	<field name="username"/>
+                    	<field name="password"/>
                     </group>
                     <group col="4" colspan="2">
                     	<button name="add_update_currency" string="1. Add/Update Currencies" type="object" />

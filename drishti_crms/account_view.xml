@@ -18,7 +18,18 @@
 			</field>
 		</record>
 
-
+        <!-- Register Payment Form (old Pay Invoice wizard) -->
+        <record model="ir.ui.view" id="view_vendor_receipt_dialog_form1">
+            <field name="name">account.voucher.receipt.dialog.form1</field>
+            <field name="model">account.voucher</field>
+			<field name="inherit_id" ref="account_voucher.view_vendor_receipt_dialog_form" />
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					
+					<field name="adjust_journal_id" />
+				</field>
+			</field>
+		</record>
 
 		<record model="ir.ui.view" id="view_invoice_supplier_vehicle">
 			<field name="name">account.invoice.vehicle.form</field>
@@ -299,6 +310,7 @@
                <field name="company_id" position="before">
                 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
                 <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+                <field name="adjust_journal_id" />
                </field> 
                 <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
                <field name="journal_id"
@@ -317,8 +329,9 @@
             <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form" />
             <field name="arch" type="xml">
                <field name="company_id" position="before">
-                 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
-                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+                  <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
+                  <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+                  <field name="adjust_journal_id" />
                </field> 
                <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
                 <field name="journal_id"
