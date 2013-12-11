@@ -36,6 +36,96 @@ class account_invoice(osv.osv):
               'customer_account_invoice_ids':fields.one2many('supplier.account.invoice','invoice_ids','Journal'),
               'is_intragroup_invoice_company': fields.boolean('Is an intra-group company'),
               }
+    
+    #########################################################################################################
+    def get_fiscal_position_id(self, cr, uid, fiscal_position, account_id,company_id, context=None):
+        fiscal_account_obj = self.pool.get('account.fiscal.position.account')
+        
+        fiscal_account_id = fiscal_account_obj.search(cr,uid,[('position_id','=',fiscal_position),('account_src_id','=',account_id),('company_id','=',company_id)])        
+        if fiscal_account_id:
+            return fiscal_account_obj.browse(cr, uid, fiscal_account_id).account_dest_id.id
+        else:
+            print "raise warning"
+            return true
+    def _get_invoice_lines(self, cr, uid, invoice,company_id, context=None):
+        invoice_lines = []
+        for line in invoice.invoice_line:
+            name = line.name
+            product_id = line.product_id and line.product_id.id or False
+            uos_id = line.uos_id and line.uos_id.id or False
+            quantity = line.quantity
+            price_unit = line.price_unit
+            origin = line.origin
+                
+#             invoice_line_vals = self.pool.get('account.invoice.line').product_id_change(cr, uid, False, product_id, uos_id,
+#                 line.quantity, name, context.get('invoice_type', False), context.get('invoice_partner_id', False),
+#                 context.get('invoice_fiscal_position', False), price_unit, context.get('partner_address_invoice_id', False),
+#                 context.get('invoice_currency_id', False), context)['value']
+            invoice_line_vals.update({
+                'name': name,
+                'origin': line.origin,
+                'uos_id': uos_id,
+                'product_id': product_id,
+                'price_unit': line.price_unit,
+                'quantity': quantity,
+                'discount': line.discount,
+                'note': line.note,
+                'account_id': self.get_fiscal_position_id(cr, uid, invoice.fiscal_position, line.account_id,company_id, context),
+            })
+            invoice_lines.append(invoice_line_vals)
+        return invoice_lines
+    
+    def create_inter_company_invoices(self, cr, uid, ids, context=None):
+        context_copy = dict(context or {})
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+        for invoice in self.browse(cr, uid, ids, context):
+            if  invoice.partner_id.partner_company_id:
+                for line in invoice.customer_account_invoice_ids:
+                    invoice_type = invoice.type.startswith('in_') and invoice.type.replace('in_', 'out_') or invoice.type.replace('out_', 'in_')
+                    partner_id = invoice.company_id.partner_id.id
+                    date_invoice = invoice.date_invoice
+                    payment_term = invoice.payment_term.id
+                    partner_bank_id = invoice.partner_bank_id.id
+                    company_id = line.company_id.id
+                    currency_id = invoice.currency_id.id
+                    journal_id = line.journal_id.id
+                    invoice_vals = self.onchange_partner_id(cr, uid, False, invoice_type, partner_id, date_invoice, \
+                                                        payment_term, partner_bank_id, company_id)['value']
+                    context_copy.update({
+                        'company_id': company_id,
+                        'invoice_type': invoice_type,
+                        'invoice_partner_id': partner_id,
+                      #  'invoice_fiscal_position': invoice_vals.get('fiscal_position', False),
+                        'invoice_currency_id': currency_id,
+                        'partner_address_invoice_id': invoice_vals.get('address_invoice_id', False),
+                    })
+                    invoice_vals.update({
+                        'origin': invoice.origin,
+                        'original_invoice_id': invoice.id,
+                        'type': invoice_type,
+                        'reference': invoice.number,
+                        'date_invoice': date_invoice,
+                        'date_due': invoice.date_due,
+                        'partner_id': partner_id,
+                        'currency_id': currency_id,
+                        'journal_id': journal_id,
+                        'company_id': company_id,
+                        'user_id': False,
+                        'invoice_line': map(lambda x: (0, 0, x), self._get_invoice_lines(cr, uid, invoice,line.company.id, context_copy)),
+                        'check_total': invoice.amount_total,
+                    })
+                    self.create(cr, 1, invoice_vals, context) #To bypass access and record rules
+        return True
+    
+    def action_number(self, cr, uid, ids, context=None):
+        """Override this original method to create invoice for the supplier/customer company"""
+        res = super(account_invoice, self).action_number(cr, uid, ids, context)
+        
+        self.create_inter_company_invoices(cr, uid, ids, context)
+        return res
+    
+ #################################################################################################################
     def onchange_fiscal_position(self,cr,uid,ids,fiscal_position,partner_id,context=None):
             print'========fiscial_position======',ids,uid,fiscal_position
             res={}
@@ -156,7 +246,8 @@ class account_fiscal_position_account(osv.osv):
     _name='account.fiscal.position.account'
     _inherit='account.fiscal.position.account'    
     _columns={
-              'company_id1':fields.many2one('res.company','Company Id'),
+               'company_id' : fields.related('account_dest_id','company_id',type='many2one',relation='res.company',string='Company',readonly=True,store=True),
+              
               }
         
         

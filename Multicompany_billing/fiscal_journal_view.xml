@@ -28,7 +28,7 @@
 	                    </field>
 	                   </field>
 	                   <xpath expr="/form/field/tree/field[@name='account_dest_id']" position="after">
-	                           <field name="company_id1"/>
+	                           <field name="company_id"/>
 	                 </xpath>  
             	</data>
             </field>
