@@ -1,28 +1,23 @@
-#Fri Nov 22 13:33:30 IST 2013
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
->>>>>>>=f90585c8e392e1a0504699f3f88393b863919849
+>>>>>>>=397f82cbbbe4ae27728c9ae490e5f923df2115a9
 eclipse.preferences.version=1
+encoding//Multicompany_billing/__openerp__.py=utf-8
+encoding//Multicompany_billing/partner.py=utf-8
 encoding//afras_account/__openerp__.py=utf-8
-<<<<<<< HEAD
 encoding//afras_coding_convention/__openerp__.py=utf-8
 encoding//crms_oe_connect/__openerp__.py=utf-8
-=======
 encoding//crms_oe_connect/crms_osv.py=utf-8
->>>>>>> 397f82cbbbe4ae27728c9ae490e5f923df2115a9
 encoding//drishti_account_report/report/common_report_header.py=utf-8
 encoding//drishti_account_report/wizard/financial_wizard.py=utf-8
 encoding//drishti_account_report/wizard/fleet_report.py=utf-8
 encoding//drishti_crms/__openerp__.py=utf-8
-<<<<<<< HEAD
+encoding//import_afras_data/__init__.py=utf-8
+encoding//import_afras_data/__openerp__.py=utf-8
+encoding//import_afras_data/wizard/__init__.py=utf-8
+encoding//import_afras_data/wizard/import_data.py=utf-8
 encoding//import_attendance/__init__.py=utf-8
 encoding//import_attendance/__openerp__.py=utf-8
 encoding//import_attendance/wizard/__init__.py=utf-8
 encoding//tradewings/tradewings.py=utf-8
 encoding//tradewings/wizard/crm_student_binding.py=utf-8
-=======
-encoding//import_afras_data/__init__.py=utf-8
-encoding//import_afras_data/__openerp__.py=utf-8
-encoding//import_afras_data/wizard/__init__.py=utf-8
-encoding//import_afras_data/wizard/import_data.py=utf-8
->>>>>>> 397f82cbbbe4ae27728c9ae490e5f923df2115a9

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_account_position_form" model="ir.ui.view">
+            <field name="name">account.fiscal.position.form</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_position_form"/>
+            <field name="arch" type="xml">
+            	<data>
+                <field name="active" position="after">
+           			 <field name="type"/>
+                 </field>
+	               <field name="account_ids" position="after">
+	                <separator string='Journal Mapping'/>
+	                    <field name="journal_ids" colspan="4" nolabel="1" attrs="{'invisible':[('type','=','icb')]}">
+	                        <tree string="journal_ids" editable="bottom">
+	                            <field name="journal_src_id"/>
+	                            <field name="journal_dest_id" widget="many2many_tags"/>
+	                        </tree>
+	                    </field>
+	                    <field name="journal_ids1" colspan="4" nolabel="1" attrs="{'invisible':[('type','!=','icb')]}">
+	                        <tree string="journal_ids1" editable="bottom">
+	                            <field name="journal_src_id"/>
+	                            <field name="inter_journal_dest_id"/>
+	                        </tree>
+	                    </field>
+	                   </field>
+	                   <xpath expr="/form/field/tree/field[@name='account_dest_id']" position="after">
+	                           <field name="company_id1"/>
+	                 </xpath>  
+            	</data>
+            </field>
+        </record>
+        
+        <!-- account Invoice journal form -->
+        
+        <record id="view_account_invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+            	<data>
+            	<xpath expr="/form/sheet/notebook/page[@string='Payments']" position="after">
+            	    <page string="Journals">
+                            <field name="customer_account_invoice_ids"  widget="many2one_list">
+                                <tree string="Journals" editable="bottom">
+                                <field name="partner_id"/>
+                                <field name="company_id"/>
+                                <field name="account_id"/>
+                                   <field name="journal_id"/>
+                                    <field name="percentage"/>
+                                    
+                                </tree>
+                            </field>
+                        </page>
+                       </xpath>
+                                                   <field name="fiscal_position" widget="selection" position="after">
+                                                       <field name="is_intragroup_invoice_company" invisible="1" />
+                                                    </field>
+                                                   
+                                                   
+                                                   
+                                                   
+               <xpath expr="/form/sheet/group/group/field[@name='partner_id']" position="replace">
+            	    <field string="Customer" name="partner_id"
+                                on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id)"
+                                groups="base.group_user" context="{'search_default_customer':1, 'show_address': 1}"
+                                options='{"always_reload": True}'
+                                domain="[('customer', '=', True)]"/>
+               </xpath>
+               <xpath expr="/form/sheet/group/group/field[@name='fiscal_position']" position="replace">
+            	     <field name="fiscal_position" widget="selection" attrs="{'required':[('is_intragroup_invoice_company','=',True)]}" on_change="onchange_fiscal_position(fiscal_position,partner_id)"/>
+               </xpath>
+				</data>                        
+            </field>
+        </record>
+	</data>
+</openerp>
