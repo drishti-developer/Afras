@@ -46,6 +46,7 @@ class res_company(osv.osv):
     _inherit='res.company'
     _columns={
                'is_shared_company': fields.boolean('Is Shared Company'),
+               'technology_company': fields.boolean('Is Tech Company'),
               }
 res_company()
 
