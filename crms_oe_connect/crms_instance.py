@@ -505,7 +505,7 @@ class crms_instance(osv.osv):
             for vehicle_brw in car_obj.browse(cr,uid,car_ids):
                 branch_id = False
                 date_today = datetime.date.today()
-                       
+                        
                 if vehicle_brw.assigned_for and vehicle_brw.license_plate and vehicle_brw.license_plate_arabic and vehicle_brw.vin_sn and vehicle_brw.color and vehicle_brw.color_arabic and vehicle_brw.company_id and vehicle_brw.model_year and vehicle_brw.model_id and vehicle_brw.model_id.crms_id and vehicle_brw.current_branch_id and vehicle_brw.current_branch_id.crms_id:
                     count +=1    
                     allow = True
@@ -518,7 +518,7 @@ class crms_instance(osv.osv):
                         extra_str += "\n<CarValue>%s</CarValue>"%(vehicle_brw.car_value)
                     if vehicle_brw.barcode:
                         extra_str += "\n<Barcode>%s</Barcode>"%(vehicle_brw.barcode)
-                       
+                        
                     car_str += """<Car>
 <ERPCarID>%s</ERPCarID>
 <AssignedFor>%s</AssignedFor>
@@ -538,9 +538,9 @@ class crms_instance(osv.osv):
 </Car>\n
 """%(vehicle_brw.id, vehicle_brw.assigned_for, vehicle_brw.license_plate, vehicle_brw.license_plate_arabic, vehicle_brw.vin_sn, extra_str, \
      vehicle_brw.color, vehicle_brw.color_arabic, date_today, int(vehicle_brw.odometer), vehicle_brw.company_id.name, vehicle_brw.model_year, vehicle_brw.model_id.id, vehicle_brw.model_id.crms_id, vehicle_brw.current_branch_id.id, vehicle_brw.current_branch_id.crms_id)
-           
+            
             car_str +="</CarList>"
-             
+              
             if allow : 
                 responsearray = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request(car_str, 'CarCreateRequest', 'CarResponse')
                 for response_dict in responsearray:
@@ -555,9 +555,11 @@ class crms_instance(osv.osv):
             date_from = "FromDate='%s'"%(self_brw.last_car_exported_date)
               
         response_array = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request('', 'CarListRequest', 'CarList', 'Car', date_from, date_to)
-          
+        print response_array  
         model_obj = self.pool.get('fleet.vehicle.model')
         shop_obj = self.pool.get('sale.shop')
+        fleet_analytic_obj = self.pool.get('fleet.analytic.account')
+        
         context.update({'crms_create':True})
         
         for response_dict in response_array:
@@ -565,32 +567,48 @@ class crms_instance(osv.osv):
             model_id = model_obj.search(cr,uid,[('crms_id','=',response_dict.get('CRMSModelID'))])
             branch_id = shop_obj.search(cr,uid,[('crms_id','=',response_dict.get('CRMSBranchID'))])
             
+            if not branch_id:# TODO: Need to put more logic for Corporate Segment.
+                segment = 'corporate'
+                field_name = 'client_id'
+                value = 141 # hardcoded res.partner(Client) ID.
+            else:
+                segment = 'retail'
+                field_name = 'branch_id'
+                value = branch_id[0]
+            
             vals = {
-                 'acquisition_date':response_dict.get('AcquisitionDate'),
-                 'engine_number':response_dict.get('EngineNumber',False),
-                 'vin_sn':response_dict.get('VIN'),
-                 'license_plate':response_dict.get('LicenseInEng'),
-                 'license_plate_arabic':response_dict.get('LicenseInAra'),
-                 'odometer':response_dict.get('Odometer') if response_dict.get('Odometer',0) > 0 else False,
-                 'color':response_dict.get('ColorInEng'),
-                 'color_arabic':response_dict.get('ColorInAra') or response_dict.get('ColorInEng'),
-                 'assigned_for':response_dict.get('AssignedFor'),
-                 'barcode':response_dict.get('Barcode'),
-                 'model_id':model_id[0],
-                 'crms_id':response_dict.get('CRMSCarID'),
-                 'model_year':response_dict.get('ModelYear'),
-                 'company_id':1,
-                 }
+             'acquisition_date':response_dict.get('AcquisitionDate'),
+             'engine_number':response_dict.get('EngineNumber',False),
+             'vin_sn':response_dict.get('VIN'),
+             'license_plate':response_dict.get('LicenseInEng'),
+             'license_plate_arabic':response_dict.get('LicenseInAra'),
+             'odometer':response_dict.get('Odometer') if response_dict.get('Odometer',0) > 0 else False,
+             'color':response_dict.get('ColorInEng'),
+             'color_arabic':response_dict.get('ColorInAra') or response_dict.get('ColorInEng'),
+             'assigned_for':response_dict.get('AssignedFor'),
+             'barcode':response_dict.get('Barcode'),
+             'model_id':model_id[0],
+             'crms_id':response_dict.get('CRMSCarID'),
+             'model_year':response_dict.get('ModelYear'),
+             'company_id':1,
+             }
             
             if not vehicle_id :
-                vals['analytic_account_ids'] =[(0,0,{'branch_id':branch_id[0],'date_from':datetime.date.today()})] if branch_id else False
+                vals['analytic_account_ids'] =[(0,0,{field_name :value,'date_from':datetime.date.today(),'segment':segment})]
                 car_id = car_obj.create(cr, uid, vals, context)
-                
-            else:
-                crms_osv.search_branch(cr, uid, vehicle_id[0], branch_id)                
+            else:                
+                if segment=='retail':
+                    crms_osv.search_branch(cr, uid, vehicle_id[0], branch_id)
+                else:# TODO: Need to put more logic for corporate. This code is shit.
+                    fleet_ana_id = fleet_analytic_obj.search(cr,uid, [('vehicle_id','=',vehicle_id[0])])
+                    current_branch_id = car_obj.read(cr,uid,vehicle_id[0],['current_branch_id'])['current_branch_id']
+                    if not fleet_ana_id:
+                        fleet_analytic_obj.create(cr,uid,{field_name :value,'date_from':datetime.date.today(),'segment':segment,'vehicle_id':vehicle_id[0]})
+                        vals['analytic_account_ids'] =[(0,0,{field_name :value,'date_from':datetime.date.today(),'segment':segment})]
+                                        
                 car_obj.write(cr,uid, vehicle_id[0],vals)
         
-        self.write(cr, uid, ids, {'last_model_exported_date':datetime.datetime.today()}) #Updating the Date
+        self.write(cr, uid, ids, {'last_car_exported_date':datetime.datetime.today()})
                                 
         return True
     

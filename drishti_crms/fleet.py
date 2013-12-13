@@ -16,27 +16,24 @@ class fleet_vehicle(osv.osv):
     _inherit = "fleet.vehicle"
     
     _columns = {
-                'product_id' : fields.many2one('product.product','Product'),
-                'model_year' : fields.integer('Model Year'),
-                'barcode' : fields.char('Vehicle Barcode',size=128),
-                'choose_car' : fields.char('Choose Car(Native/Foreign)',size=128),
-                'engine_number' : fields.char('Engine Number',size=128),
-                'analytic_account_ids': fields.one2many('fleet.analytic.account', 'vehicle_id', 'Vehicle'),
-                'branch_id': fields.many2one('sale.shop',  'Branch'),
-                'area_id': fields.many2one('res.city.area',  'Area'),
-                'city_id': fields.many2one('res.state.city',  'City'), 
-                'region_id': fields.many2one('res.country.state',  'State'),
-                'country_id': fields.many2one('res.country',  'Country'),
-                'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', ),
-               
-                }
+    'product_id' : fields.many2one('product.product','Product'),
+    'model_year' : fields.integer('Model Year'),
+    'barcode' : fields.char('Vehicle Barcode',size=128),
+    'choose_car' : fields.char('Choose Car(Native/Foreign)',size=128),
+    'engine_number' : fields.char('Engine Number',size=128),
+    'analytic_account_ids': fields.one2many('fleet.analytic.account', 'vehicle_id', 'Vehicle'),
+    'branch_id': fields.many2one('sale.shop',  'Branch'),
+    'area_id': fields.many2one('res.city.area',  'Area'),
+    'city_id': fields.many2one('res.state.city',  'City'), 
+    'region_id': fields.many2one('res.country.state',  'State'),
+    'country_id': fields.many2one('res.country',  'Country'),
+    'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', ),
+    }
     
     _defaults = {
-                 'car_value' :1,
-                 }
+     'car_value' : 1,
+     }
      
-    
-    
     def create(self, cr, uid, values, context=None):
         analytic_obj = self.pool.get('account.analytic.account')
         parent_id = analytic_obj.search(cr, uid, [('name','=','Vehicle')])
@@ -82,41 +79,57 @@ class fleet_vehicle(osv.osv):
                    if asset.depreciation_start_date > date_from['date_from'] and not asset.account_move_line_ids:
                        assetObj.write(cr, uid, asset_id[0],{'depreciation_start_date': date_from['date_from']})
                        assetObj.compute_depreciation_board(cr, uid, asset_id, context=context)      
-               
-        
               
         return True
     
-
+fleet_vehicle()
 
 class fleet_analytic_account(osv.osv):
+    
     _name = "fleet.analytic.account"
     _rec_name = "vehicle_id"
-    _columns = {
-                'vehicle_id' : fields.many2one('fleet.vehicle', 'Vehicle'),
-                'branch_id': fields.many2one('sale.shop',  'Branch'),
-                'area_id' : fields.related('branch_id','area_id',type='many2one',relation='res.city.area',string='Area',readonly=True,store=True),
-                'city_id' : fields.related('branch_id','city_id',type='many2one',relation='res.state.city',string='City',readonly=True,store=True),
-                'region_id' : fields.related('branch_id','state_id',type='many2one',relation='res.country.state',string='Region',readonly=True,store=True),
-                'country_id': fields.related('branch_id', 'country_id', type='many2one', relation='res.country', string='Country', readonly=True,store=True),
-                'company_id': fields.many2one('res.company','Company'), 
-                'segment': fields.selection([('retail','Retail'),('corporate','Corporate')],'Segment'),                        
-                'analytic_id' : fields.many2one('account.analytic.account','Analytic Account',),
-                'date_from': fields.date('From Date',required=True),
-                'date_to': fields.date('To Date'),
+    
+    def _city(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for val in self.browse(cr,uid,ids):
+            res[val.id] = False
+            if val.segment == 'retail':
+                if val.branch_id:
+                    res[val.id] = val.branch_id.area_id and val.branch_id.area_id.city_id and val.branch_id.area_id.city_id.id or False
                 
-                }      
+            else:
+                if val.client_id:
+                    res[val.id] = val.client_id.section_id and val.client_id.section_id.city_id and val.client_id.section_id.city_id.id or False
+        return res
+    
+    _columns = {
+    'vehicle_id' : fields.many2one('fleet.vehicle', 'Vehicle'),
+    'branch_id': fields.many2one('sale.shop',  'Branch'),
+    'area_id' : fields.related('branch_id','area_id',type='many2one',relation='res.city.area',string='Area',readonly=True,store=True),
+    'city_id' : fields.function(_city, string='City',type='many2one',relation='res.state.city',store=True),
+    'region_id' : fields.related('city_id','state_id',type='many2one',relation='res.country.state',string='Region',readonly=True,store=True),
+    'country_id': fields.related('city_id', 'country_id', type='many2one', relation='res.country', string='Country', readonly=True,store=True),
+    'company_id': fields.many2one('res.company','Company'), 
+    'segment': fields.selection([('retail','Retail'),('corporate','Corporate')],'Segment'),                        
+    'analytic_id' : fields.many2one('account.analytic.account','Analytic Account',),
+    'date_from': fields.date('From Date',required=True),
+    'date_to': fields.date('To Date'),
+    'client_id':fields.many2one('res.partner','Client'),
+    'team_id':fields.related('client_id','section_id',type='many2one',relation='crm.case.section',string='Team',readonly=True,store=True),
+    }
+    
+fleet_analytic_account()      
     
 class fleet_type(osv.osv):
-    _name = "fleet.type"
-    
+    _name = "fleet.type"    
     _columns = {
-                'name' : fields.char('Car Type',size=128,required=True),
-                }
+    'name' : fields.char('Car Type',size=128,required=True),
+    }
+    
+fleet_type()
 
 class fleet_vehicle_model(osv.osv):
     _inherit ="fleet.vehicle.model"
-    
 
     _columns = {
                 'fleet_type_id' : fields.many2one('fleet.type','Car Type', required=True),
@@ -148,11 +161,11 @@ class fleet_vehicle_model(osv.osv):
         self.pool.get('product.product').create(cr,uid,dic)
         return id
     
-    
+fleet_vehicle_model()    
     
 class fleet_vehicle_cost_distribution(osv.osv):
-    _name = "fleet.vehicle.cost.distribution"
     
+    _name = "fleet.vehicle.cost.distribution"
     _columns = {
                 'name': fields.char('Name',size=128),
                 'analytic_line_id' : fields.many2one('account.analytic.line','Analytic Line'),
@@ -177,5 +190,17 @@ class fleet_vehicle_cost_distribution(osv.osv):
     
                 }
     
-    
-        
+fleet_vehicle_cost_distribution()
+
+class crm_case_section(osv.osv):
+    _inherit='crm.case.section'
+    _columns={
+              'partner_ids':fields.one2many('res.partner','section_id','Client'),
+              'analytic_id' : fields.many2one('account.analytic.account','Analytic Account'),
+              'city_id' : fields.many2one('res.state.city', 'City', required=True),
+              'state_id' : fields.related('city_id','state_id',type='many2one',relation='res.country.state',string='Region',readonly=True),
+              'country_id': fields.related('state_id', 'country_id', type='many2one', relation='res.country', string='Country', readonly=True),
+              'arabic_name':fields.char('Arabic Name',size=64)
+              }
+
+crm_case_section()

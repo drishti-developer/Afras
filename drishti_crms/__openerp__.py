@@ -22,7 +22,7 @@
 {
     'name': 'CRMS',
     'version': '1.1',
-    'author': 'Amit Gupta',
+    'author': 'Drishti Tech',
     'category': 'Fleet Management',
     'sequence': 21,
     'website': 'http://www.drishtitech.com',
@@ -36,7 +36,7 @@
     'depends': [
                 'base', 'purchase','stock',
                 'fleet','account','account_asset',
-                'account_voucher','sale','sale_stock'
+                'account_voucher','sale','sale_stock','crm'
                 ],
     'data': [    
                'account_asset_view.xml',  
@@ -46,6 +46,7 @@
                'fleet_view.xml',
                'partner_view.xml',
                'product_view.xml',
+               'account_multi_invoice_view.xml',
             ],
     'demo': [],
     'test': [  
