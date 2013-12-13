@@ -585,8 +585,8 @@ class account_voucher(osv.osv):
                     
                     ),
                  'adjust_journal_id': fields.many2one('account.journal','Shared Service journal'),
-                'exp_account_id' : fields.many2one('account.account','Expenses Account'),
-                'entry_type': fields.selection([('car', 'Car'), ('branch', 'Branch'),
+                 'exp_account_id' : fields.many2one('account.account','Expenses Account'),
+                 'entry_type': fields.selection([('car', 'Car'), ('branch', 'Branch'),
                                                  ('area', 'Area'), ('city', 'City'),
                                                  ('region', 'Region'), ('segment', 'Segment'),('company','Company'),
                                                  ], 'Cost Center Type',),  
