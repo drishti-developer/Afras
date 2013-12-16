@@ -86,14 +86,15 @@ class account_invoice(osv.osv):
 
         opt = [('uid', str(uid))]
         if partner_id:
-
+            currnet_cmpny=self.pool.get('res.users').browse(cr,uid,uid).company_id
+            print'======current_company====',currnet_cmpny
             opt.insert(0, ('id', partner_id))
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             comp_id=self.pool.get('res.company').search(cr,uid,[('name','=',p.name)])
             acc_fiscal_posi=self.pool.get('account.fiscal.position')
             if company_id:
-                acc_fiscal_position=acc_fiscal_posi.search(cr,uid,[('type','=','icb'),('company_id','in',comp_id)])
-                if (p.property_account_receivable.company_id and (p.property_account_receivable.company_id.id != company_id)) and (p.property_account_payable.company_id and (p.property_account_payable.company_id.id != company_id)):
+               acc_fiscal_position=acc_fiscal_posi.search(cr,uid,[('type','=','icb'),('company_id','in',comp_id)])
+               if (p.property_account_receivable.company_id and (p.property_account_receivable.company_id.id != company_id)) and (p.property_account_payable.company_id and (p.property_account_payable.company_id.id != company_id)):
                     property_obj = self.pool.get('ir.property')
                     rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
                     pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
@@ -123,10 +124,8 @@ class account_invoice(osv.osv):
             fiscal_position = p.property_account_position and p.property_account_position.id or False
             if p.bank_ids:
                 bank_id = p.bank_ids[0].id
-            if acc_fiscal_position and p.is_intragroup_company:
+            if p.is_intragroup_company ==True:
                 value1=True
-            else:
-                value1=False
                 
         result = {'value': {
             'is_intragroup_invoice_company':value1,
