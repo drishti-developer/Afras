@@ -2,33 +2,37 @@
 <openerp>
     <data>
 
-        <record id="view_account_position_form" model="ir.ui.view">
+        <record id="view_account_position_form11" model="ir.ui.view">
             <field name="name">account.fiscal.position.form</field>
             <field name="model">account.fiscal.position</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="account.view_account_position_form"/>
             <field name="arch" type="xml">
             	<data>
-                <field name="active" position="after">
+                <field name="company_id" position="replace">
+                     <field name="company_id" required="1"/>
            			 <field name="type"/>
                  </field>
+                 
 	               <field name="account_ids" position="after">
 	                <separator string='Journal Mapping'/>
-	                    <field name="journal_ids" colspan="4" nolabel="1" attrs="{'invisible':[('type','=','icb')]}">
+	                    <field name="journal_ids" colspan="4" nolabel="1" attrs="{'invisible':[('type','=','icb')]}" >
 	                        <tree string="journal_ids" editable="bottom">
-	                            <field name="journal_src_id"/>
-	                            <field name="journal_dest_id" widget="many2many_tags"/>
+	                             <field name="journal_src_id"  domain="[('company_id', '=', parent.company_id)]" />
+	                             <field name="inter_journal_dest_id"  domain="[('company_id', '=', parent.company_id)]"/>
+	                           
+	                             <field name="company_ids" widget="many2many_tags"/>
 	                        </tree>
 	                    </field>
 	                    <field name="journal_ids1" colspan="4" nolabel="1" attrs="{'invisible':[('type','!=','icb')]}">
 	                        <tree string="journal_ids1" editable="bottom">
-	                            <field name="journal_src_id"/>
-	                            <field name="inter_journal_dest_id"/>
+	                            <field name="journal_src_id" domain="[('company_id', '=', parent.company_id)]"/>
+	                            <field name="journal_dest_id" widget="many2many_tags" domain="[('company_id', '!=', parent.company_id)]"/>
 	                        </tree>
 	                    </field>
 	                   </field>
 	                   <xpath expr="/form/field/tree/field[@name='account_dest_id']" position="after">
-	                           <field name="company_id1"/>
+	                           <field name="company_id"/>
 	                 </xpath>  
             	</data>
             </field>
@@ -59,6 +63,7 @@
                        </xpath>
                                                    <field name="fiscal_position" widget="selection" position="after">
                                                        <field name="is_intragroup_invoice_company" invisible="1" />
+                                                       <field name="fiscal_type" invisible="1" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
                                                     </field>
                                                    
                                                    
@@ -72,10 +77,95 @@
                                 domain="[('customer', '=', True)]"/>
                </xpath>
                <xpath expr="/form/sheet/group/group/field[@name='fiscal_position']" position="replace">
-            	     <field name="fiscal_position" widget="selection" attrs="{'required':[('is_intragroup_invoice_company','=',True)]}" on_change="onchange_fiscal_position(fiscal_position,partner_id)"/>
+            	     <field name="fiscal_position"  domain="[('type', '=', fiscal_type),('company_id', '=', company_id)]" attrs="{'required':[('fiscal_type','!=',False)]}"  on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
                </xpath>
+                 <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
+				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
+			   </xpath>	
 				</data>                        
             </field>
         </record>
+        
+       
+        
+        <!-- account Invoice journal form -->
+        
+        <record id="view_account_invoice_form12" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+            	<data>
+            	<xpath expr="/form/sheet/notebook/page[@string='Payments']" position="after">
+            	    <page string="Journals">
+                            <field name="customer_account_invoice_ids"  widget="many2one_list">
+                                <tree string="Journals" editable="bottom">
+                                <field name="partner_id"/>
+                                <field name="company_id"/>
+                                <field name="account_id"/>
+                                   <field name="journal_id"/>
+                                    <field name="percentage"/>
+                                    
+                                </tree>
+                            </field>
+                        </page>
+                       </xpath>
+                                                   <field name="fiscal_position" widget="selection" position="after">
+                                                       <field name="is_intragroup_invoice_company" invisible="1" />
+                                                       <field name="fiscal_type" invisible="1" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
+                                                    </field>
+                                                   
+                                                   
+                                                   
+                                                   
+            
+               <xpath expr="/form/sheet/group/group/field[@name='fiscal_position']" position="replace">
+            	     <field name="fiscal_position"  domain="[('type', '=', fiscal_type),('company_id', '=', company_id)]" attrs="{'required':[('fiscal_type','!=',False)]}" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
+               </xpath>
+                 <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
+				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
+			   </xpath>	
+				</data>                        
+            </field>
+        </record>
+        
+        
+        <record id="account_fiscal_default_account_tree" model="ir.ui.view">
+			<field name="name">account.fiscal.default.account.tree</field>
+			<field name="model">account.fiscal.default.account</field>
+			<field name="arch" type="xml">
+				<tree string="Default Account">
+					<field name="type" />
+					<field name="account_id" />
+					<field name="company_id" />
+					
+				</tree>
+			</field>
+		</record>
+		<record id="account_fiscal_default_account_form" model="ir.ui.view">
+			<field name="name">account.fiscal.default.account.form</field>
+			<field name="model">account.fiscal.default.account</field>
+			<field name="arch" type="xml">
+				<form string="Default Account">
+					<field name="type" />
+					<field name="account_id" />
+					<field name="company_id" />
+				</form>
+			</field>
+		</record>
+		<record id="account_fiscal_default_account_action" model="ir.actions.act_window">
+			<field name="name">Default Account</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.fiscal.default.account</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="account_fiscal_default_account_tree" />
+			
+		</record>
+		<menuitem
+            action="account_fiscal_default_account_action"
+            id="menu_action_account_fiscal_position_form11"
+            parent="account.next_id_27" sequence="21"/>
 	</data>
 </openerp>

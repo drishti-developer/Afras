@@ -28,12 +28,12 @@
     'website': 'http://www.drishtitech.com',
     'summary': 'Fiscal Position,res.company',
     'description': """
-         Cha
+         Internal Invoicing
          """,
  
     'images': [
                ],
-    'depends': ['base',"account" ],
+    'depends': ['base',"account","drishti_crms" ],
     'data': [    
              'fiscal_journal_view.xml',
              'res_company_view.xml'

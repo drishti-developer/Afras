@@ -6,3 +6,4 @@ import account_asset
 import analytic_account
 import product
 import stock
+import account_multi_invoice

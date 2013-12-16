@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
             	<field name="logo" position="after">
             	<field name="is_shared_company"/><b>(Is Shared Company?)</b>
+            	<field name="technology_company"/><b>(Is Tech Company?)</b>
             	</field>
             </field>
         </record>

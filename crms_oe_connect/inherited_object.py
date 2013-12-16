@@ -245,6 +245,7 @@ class sale_shop(osv.osv):
         'crms_id':fields.integer(string="CRMS ID"),
         'arabic_name':fields.char(string="Arabic Name",size=256),
         'location_type': fields.selection([('Branch', 'Branch'), ('Workshop', 'Workshop'),('Agency', 'Agency')], 'Location Type',),
+        'project_id': fields.many2one('account.analytic.account', 'Analytic Account',),
     }
     
     def update_crms(self,cr,uid,record_id):
@@ -458,19 +459,23 @@ class fleet_vehicle(osv.osv):
         res = {}
         
         for record in self.browse(cr, uid, ids, context=context):
-            current_branch_date = False
-            current_branch_id = False
-            
+            value_id = False
+            date_today = datetime.datetime.today().replace(microsecond=0)
             for ana_acc_id in record.analytic_account_ids:
-                if not current_branch_date:
-                    current_branch_date = ana_acc_id.date_from
-                    current_branch_id = ana_acc_id.branch_id.id
+                from_date = datetime.datetime.strptime(ana_acc_id.date_from,"%Y-%m-%d")
+                if date_today >= from_date:
+                    if ana_acc_id.segment=='retail':
+                        value_id = ana_acc_id.branch_id and ana_acc_id.branch_id.name or False
+                    else:
+                        value_id = ana_acc_id.client_id and ana_acc_id.client_id.name or False                        
+                    if ana_acc_id.date_to:
+                        to_date = datetime.datetime.strptime(ana_acc_id.date_to,"%Y-%m-%d")
+                        if date_today <= to_date:
+                            continue
+                        else:
+                            value_id = False
                     
-                elif current_branch_date < ana_acc_id.date_from:
-                    current_branch_date = ana_acc_id.date_from
-                    current_branch_id = ana_acc_id.branch_id.id
-                    
-            res[record.id] = current_branch_id
+            res[record.id] = value_id
         return res
     
     _columns = {
@@ -480,12 +485,13 @@ class fleet_vehicle(osv.osv):
         'assigned_for': fields.selection([('Corporate','Corporate'),('Retail','Retail'),('Awaiting for Barcode','Awaiting for Barcode')],string="Assigned For"),
         'licence_plate_arabic':fields.char("Licence Plate Arabic Name",size=256),
         'color_arabic':fields.char(string="Color Arabic Name",size=256),
-        'current_branch_id':fields.function(_vehicle_branch_get_fnc, type="many2one", relation="sale.shop", string='Branch', store=True),
+        'current_branch_id':fields.function(_vehicle_branch_get_fnc, type="char", string='Branch/Client'),
         'mvpi_expiry_date':fields.date(string='MVPIExpiryDate'),
     }
     
     def create(self, cr, uid, data, context=None):
-         
+        
+        context = context or {} 
         vehicle_id = super(fleet_vehicle, self).create(cr, uid, data, context=context)
         if not context.get('crms_create',False):
             reference_obj = self.pool.get('crms.instance')
@@ -564,7 +570,7 @@ class res_partner(osv.osv):
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
         'customer_type': fields.selection([('Retail', 'Retail'), ('Corporate', 'Corporate')], 'Customer Type'),
-        'retail_type': fields.selection([('Saudi National', 'Saudi National'), ('Saudi Resident', 'Saudi Resident'),('Visitor','Visitor')], 'Customer Type'),
+        'retail_type': fields.selection([('Saudi National', 'Saudi National'), ('Saudi Resident', 'Saudi Resident'),('Visitor','Visitor')], 'Retail Type'),
         'id_number':fields.char(string="ID Number",size=256),
         'employment_type':fields.selection([('Government', 'Government'), ('Company', 'Company')], 'Employment Type'),
         'designation':fields.char(string="Designation",size=256),

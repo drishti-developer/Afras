@@ -53,12 +53,12 @@ class data_import(osv.osv_memory):
         fp.write(val)     
         wb = xlrd.open_workbook(file_contents=fp.getvalue())
         sheet=wb.sheet_by_index(0)
-        i = 601
+        i = 1801
         dep_start_date = datetime.strptime(cur_obj.date,"%Y-%m-%d") + timedelta(days=1)
         tot_dep_days = 365*5
         
-        while i < 901:
-            print "Row Number:",i
+        while i < 2175:
+            
             asset_name =sheet.row_values(i,0,sheet.ncols)[0]
             asset_id = asset_obj.search(cr, uid, [('name','ilike',asset_name)])
             if not asset_id:
@@ -125,6 +125,7 @@ class data_import(osv.osv_memory):
                         depreciation_lin_obj.unlink(cr,uid,line_id)
                     depreciation_lin_obj.create(cr, uid,vals)
             
+            print "Row Number:",i,asset_name,asset_id
             i +=1
                    
         return True
