@@ -497,13 +497,10 @@ class account_invoice(osv.osv):
             comp_id=self.pool.get('res.company').search(cr,uid,[('name','=',p.name)])
             acc_fiscal_posi=self.pool.get('account.fiscal.position')
             if company_id:
-<<<<<<< HEAD
-               acc_fiscal_position=acc_fiscal_posi.search(cr,uid,[('type','=','icb'),('company_id','in',comp_id)])
-               if (p.property_account_receivable.company_id and (p.property_account_receivable.company_id.id != company_id)) and (p.property_account_payable.company_id and (p.property_account_payable.company_id.id != company_id)):
-=======
+
                 
                 if (p.property_account_receivable.company_id and (p.property_account_receivable.company_id.id != company_id)) and (p.property_account_payable.company_id and (p.property_account_payable.company_id.id != company_id)):
->>>>>>> e9d8af12d0b3db9a8a2242f80dc164b2bcf57aef
+
                     property_obj = self.pool.get('ir.property')
                     rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
                     pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
@@ -533,10 +530,10 @@ class account_invoice(osv.osv):
             fiscal_position = p.property_account_position and p.property_account_position.id or False
             if p.bank_ids:
                 bank_id = p.bank_ids[0].id
-<<<<<<< HEAD
+
             if p.is_intragroup_company ==True:
                 value1=True
-=======
+
                
             
             print "user_obj.company_id.is_shared_company",user_obj.company_id.is_shared_company
@@ -545,7 +542,7 @@ class account_invoice(osv.osv):
                   is_intragroup_company = True
             elif user_obj.company_id.is_shared_company:
                 fiscal_type  = 'ss'
->>>>>>> e9d8af12d0b3db9a8a2242f80dc164b2bcf57aef
+
                 
             elif user_obj.company_id.technology_company:
                 fiscal_type  = 'T'
