@@ -180,6 +180,7 @@ class account_invoice(osv.osv):
      
     def onchange_journal_id(self, cr, uid, ids, journal_id=False,position_id=False,fiscal_type=False,partner_id=False, context=None):
         result = {}
+        print journal_id,position_id,fiscal_type,partner_id,context
         if journal_id:
             journal = self.pool.get('account.journal').browse(cr, uid, journal_id, context=context)
             currency_id = journal.currency and journal.currency.id or journal.company_id.currency_id.id
@@ -192,7 +193,7 @@ class account_invoice(osv.osv):
             lst = []
             
             if position_id:
-                print "here"
+                print "here",position_id,journal_id
                 fiscal_jurnl_obj = self.pool.get('account.fiscal.journal')
                 fiscal_obj = self.pool.get('account.fiscal.position')
                 fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',journal_id),('position_id','=',position_id)])
