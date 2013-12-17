@@ -179,7 +179,7 @@ CUSTOMER_LIST  = [
             ('street2','Address2'),
             ('city','City'),
             ('zip','Zip'),
-            ('country_id','ERPCountryID'),
+            ('country_id',('id','ERPCountryID',194,'res.country')),
             ('mobile','Mobile'),
             ('phone','AltPhone'),
             ('working_number','WorkNumber'),
