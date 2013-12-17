@@ -122,6 +122,19 @@ class account_multi_invoice(osv.osv):
             
         for line in self_brw.invoice_line:
             inv_ana_acc_id = line.account_analytic_id.id
+            
+            invoice_line_dict = {
+            'name': line.name,
+            'origin': line.origin,
+            'sequence': line.sequence,
+            'uos_id': line.uos_id.id,
+            'product_id': line.product_id and line.product_id.id or False,
+            'account_id': line.account_id.id,
+            'price_unit': line.price_unit,
+            'quantity': line.quantity,
+            'account_analytic_id':line.account_analytic_id.id,
+            }
+            
             vehicle_id = vehicle_obj.search(cr, uid, [('analytic_id','=',inv_ana_acc_id)])
             if vehicle_id:
                 vehicle_brw = vehicle_obj.browse(cr, uid, vehicle_id[0])
@@ -141,28 +154,21 @@ class account_multi_invoice(osv.osv):
                             else:
                                 branch_id = False
                 
-                invoice_line_dict = {
-                'name': line.name,
-                'origin': line.origin,
-                'sequence': line.sequence,
-                'uos_id': line.uos_id.id,
-                'product_id': line.product_id and line.product_id.id or False,
-                'account_id': line.account_id.id,
-                'price_unit': line.price_unit,
-                'quantity': line.quantity,
-                'account_analytic_id':line.account_analytic_id.id,
-                }
-                
                 if branch_id:
-                    invoice_line_list = result.get(branch_id,[])                    
-                    invoice_line_list.append((0,0,invoice_line_dict))
-                    result[branch_id] = invoice_line_list
+                    parent_id = branch_id
                 else:
-                    invoice_line_list = result.get(compy_ana_acc_id[0],[])                    
-                    invoice_line_list.append((0,0,invoice_line_dict))
-                    result[compy_ana_acc_id[0]] = invoice_line_list
+                    parent_id = compy_ana_acc_id[0]
+            
+            else:
+                if line.account_analytic_id.parent_id:
+                    parent_id = line.account_analytic_id.parent_id.id
+                else:
+                    parent_id = line.account_analytic_id.id
+                    
+            invoice_line_list = result.get(parent_id,[])                    
+            invoice_line_list.append((0,0,invoice_line_dict))
+            result[parent_id] = invoice_line_list    
         
-        print result
         for key,value in result.iteritems():
             acc_invoice_id = account_invoice_obj.create(cr, uid, {
             'type':'in_invoice',
@@ -179,7 +185,6 @@ class account_multi_invoice(osv.osv):
             'company_id':self_brw.company_id.id,
             'cost_analytic_id':key,
             })
-            print acc_invoice_id
         
         self.write(cr, uid, ids, {'state':'invoiced'})
         return True

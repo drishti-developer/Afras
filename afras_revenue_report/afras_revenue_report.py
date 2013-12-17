@@ -37,12 +37,15 @@ class revenue_report(osv.osv):
         acc_11001_id = account_obj.search(cr,uid,[('code','=',str(1111001))])
         acc_21001_id = account_obj.search(cr,uid,[('code','=',str(1121001))])
         acc_51001_id = account_obj.search(cr,uid,[('code','=',str(2151001))])
+        acc_11000_id = account_obj.search(cr,uid,[('code','=',str(4111000))])
         
         account_ids = [
                        {'name':'Cash receivable','debit_account':acc_12002_id and acc_12002_id[0] or False,'credit_account':acc_21001_id and acc_21001_id[0] or False,},
-                       {'name':'Cash expenses','debit_account':acc_21001_id and acc_21001_id[0] or False,'credit_account':acc_12002_id and acc_12002_id[0] or False},
+                       {'name':'Cash Payed','debit_account':acc_21001_id and acc_21001_id[0] or False,'credit_account':acc_12002_id and acc_12002_id[0] or False},
                        {'name':'Non-Cash receivable','debit_account':acc_11001_id and acc_11001_id[0] or False,'credit_account':acc_21001_id and acc_21001_id[0] or False},
-                       {'name':'Non-Cash expenses','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11001_id and acc_11001_id[0] or False,},
+                       {'name':'Non-Cash Payed','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11001_id and acc_11001_id[0] or False,},
+                       {'name':'Arrears of closed contracts','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11000_id and acc_11000_id[0] or False,},
+                       {'name':'Arrears of open contracts','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11000_id and acc_11000_id[0] or False,},
                        {'name':'Customer Deposits','debit_account':acc_12002_id and acc_12002_id[0] or False,'credit_account':acc_51001_id and acc_51001_id[0] or False}
                        ]
         

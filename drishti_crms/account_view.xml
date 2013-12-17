@@ -96,6 +96,7 @@
              <field name="journal_id" position="before">
                 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
                 <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+               
                </field>
                
                <xpath expr="//field[@name='invoice_line']"

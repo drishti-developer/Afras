@@ -56,12 +56,15 @@
                                 <field name="account_id"/>
                                    <field name="journal_id"/>
                                     <field name="percentage"/>
-                                    
+                                    <field name="position_id"/>
+                                    <field name="fiscal_type"/>
                                 </tree>
                             </field>
                         </page>
                        </xpath>
                                                    <field name="fiscal_position" widget="selection" position="after">
+<!--                                                     <button name="split_tech_invoice" type="object" string="Tech Tesing"/> -->
+								
                                                        <field name="is_intragroup_invoice_company" invisible="1" />
                                                        <field name="fiscal_type" invisible="1" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
                                                     </field>
@@ -77,7 +80,7 @@
                                 domain="[('customer', '=', True)]"/>
                </xpath>
                <xpath expr="/form/sheet/group/group/field[@name='fiscal_position']" position="replace">
-            	     <field name="fiscal_position"  domain="[('type', '=', fiscal_type),('company_id', '=', company_id)]" attrs="{'required':[('fiscal_type','!=',False)]}"  on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
+            	     <field name="fiscal_position"  domain="[('company_id', '=', company_id)]" attrs="{'required':[('fiscal_type','!=',False)]}"  on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
                </xpath>
                  <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
 				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
@@ -106,6 +109,8 @@
                                 <field name="account_id"/>
                                    <field name="journal_id"/>
                                     <field name="percentage"/>
+                                    <field name="position_id"/>
+                                    <field name="fiscal_type"/>
                                     
                                 </tree>
                             </field>
@@ -121,7 +126,7 @@
                                                    
             
                <xpath expr="/form/sheet/group/group/field[@name='fiscal_position']" position="replace">
-            	     <field name="fiscal_position"  domain="[('type', '=', fiscal_type),('company_id', '=', company_id)]" attrs="{'required':[('fiscal_type','!=',False)]}" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
+            	     <field name="fiscal_position"  domain="[('company_id', '=', company_id)]" attrs="{'required':[('fiscal_type','!=',False)]}" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
                </xpath>
                  <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
 				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>

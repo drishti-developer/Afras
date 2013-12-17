@@ -311,6 +311,8 @@ def search_branch(self,cr,uid,car_id,branch_id):
 	current_branch_id = False
 	fleet_account_id = False
 	
+	#cr.execute('select id from fleet_analytic_account where date_from = (select max(date_from) from fleet_analytic_account where vehicle_id=%s) and vehicle_id=%s limit 1',(car_id,car_id))
+	#branch_id = cr.fetchone()
 	for ana_acc_id in car_brw.analytic_account_ids:
 		if not current_branch_date:
 			current_branch_date = ana_acc_id.date_from
@@ -324,7 +326,7 @@ def search_branch(self,cr,uid,car_id,branch_id):
 			
 	if current_branch_id:# TODO: Need to put more logic on creating/updating a branch.
 		if current_branch_id != int(branch_id):
-			acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today})
+			acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today,'segment':'retail'})
 			acc_obj.write(cr,uid,fleet_account_id,{'date_to':date_today})
 		
 	else :
