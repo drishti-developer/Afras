@@ -387,6 +387,7 @@ class account_invoice(osv.osv):
      
     def onchange_journal_id(self, cr, uid, ids, journal_id=False,position_id=False,fiscal_type=False,partner_id=False, context=None):
         result = {}
+        print journal_id,position_id,fiscal_type,partner_id,context
         if journal_id:
             journal = self.pool.get('account.journal').browse(cr, uid, journal_id, context=context)
             currency_id = journal.currency and journal.currency.id or journal.company_id.currency_id.id
@@ -400,7 +401,7 @@ class account_invoice(osv.osv):
             lst = []
             
             if position_id:
-                print "here"
+                print "here",position_id,journal_id
                 fiscal_jurnl_obj = self.pool.get('account.fiscal.journal')
                 fiscal_obj = self.pool.get('account.fiscal.position')
                 fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',journal_id),('position_id','=',position_id)])
@@ -460,10 +461,16 @@ class account_invoice(osv.osv):
             comp_id=self.pool.get('res.company').search(cr,uid,[('name','=',p.name)])
             acc_fiscal_posi=self.pool.get('account.fiscal.position')
             if company_id:
+<<<<<<< HEAD
+               acc_fiscal_position=acc_fiscal_posi.search(cr,uid,[('type','=','icb'),('company_id','in',comp_id)])
+               if (p.property_account_receivable.company_id and (p.property_account_receivable.company_id.id != company_id)) and (p.property_account_payable.company_id and (p.property_account_payable.company_id.id != company_id)):
+                
+=======
 
                 
                 if (p.property_account_receivable.company_id and (p.property_account_receivable.company_id.id != company_id)) and (p.property_account_payable.company_id and (p.property_account_payable.company_id.id != company_id)):
 
+>>>>>>> c849bea350351efe0c5a33550ee2ebe3f51912b2
                     property_obj = self.pool.get('ir.property')
                     rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
                     pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
@@ -493,10 +500,15 @@ class account_invoice(osv.osv):
             fiscal_position = p.property_account_position and p.property_account_position.id or False
             if p.bank_ids:
                 bank_id = p.bank_ids[0].id
+<<<<<<< HEAD
+            if p.is_intragroup_company ==True:
+                value1=True
+=======
 
             if p.is_intragroup_company ==True:
                 value1=True
 
+>>>>>>> c849bea350351efe0c5a33550ee2ebe3f51912b2
                
             
             print "user_obj.company_id.is_shared_company",user_obj.company_id.is_shared_company
@@ -505,7 +517,10 @@ class account_invoice(osv.osv):
                   is_intragroup_company = True
             elif user_obj.company_id.is_shared_company:
                 fiscal_type  = 'ss'
+<<<<<<< HEAD
+=======
 
+>>>>>>> c849bea350351efe0c5a33550ee2ebe3f51912b2
                 
             elif user_obj.company_id.technology_company:
                 fiscal_type  = 'T'
