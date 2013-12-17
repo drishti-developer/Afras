@@ -94,6 +94,8 @@ class account_invoice(osv.osv):
         # one entry in share company and other entry in partner company
         for partner_id in partner_ids:
             
+            total_debit_amt = 0
+            total_credit_amt = 0
             ctx = {}
             ctx1 = {}
             move_id = False
@@ -102,154 +104,122 @@ class account_invoice(osv.osv):
             position_id = False
             date1 = False
             journal_id1 = False
-            period_id =False 
-            tech_invoice_line = tech_invoice_obj.search(cr, uid, [('split_done','!=',True),('date','<',date),\
+            period_id =False
+            account_id = False 
+            tech_invoice_line = tech_invoice_obj.search(cr, uid, [('split_done','!=',True),('date','<',date),('date','>=',from_date)\
                                                                   ('fiscal_type','=','ss'),('partner_id','=',partner_id)])
             tech_invoice_obj.write(cr, uid, tech_invoice_line,{'split_done': True})
             
             # As of now creating account move base on first journal id and date
+           
             for tech_invoice_brw in tech_invoice_obj.browse(cr, uid,tech_invoice_line):
                 
+                # Get Currency of company
+                currency = tech_invoice_brw.journal_id.currency.id
+                #Get Company ID of both company
+                company_id = tech_invoice_brw.company_id.id
+                company_id1 = partner_dict[partner_id].id
+                
                 # Get the period id of both intercompany
-                ctx.update(company_id=tech_invoice_brw.company_id.id,account_period_prefer_normal=True)
+                ctx.update(company_id=company_id,account_period_prefer_normal=True)
                 period_ids = period_obj.find(cr, uid, to_date, context=ctx)
                 period_id = period_ids and period_ids[0] or False
                 
-                ctx1.update(company_id=partner_dict[partner_id].id,account_period_prefer_normal=True)
-                period_ids1 = period_obj.find(cr, uid, tech_invoice_brw.date, context=ctx1)
+                ctx1.update(company_id=company_id1,account_period_prefer_normal=True)
+                period_ids1 = period_obj.find(cr, uid, to_date, context=ctx1)
                 period_id1 = period_ids1 and period_ids1[0] or False
                 
-                
+                # Get journal_id and position id of share company
+                journal_id = tech_invoice_brw.journal_id.id
                 position_id = tech_invoice_brw.position_id.id
                 
-                account_move = {
-                                  'partner_id' : partner_id,
-                                  'date': to_date,
-                                  'period_id': period_id,
-                                  'journal_id': tech_invoice_brw.journal_id.id,
-                                  'state' : 'draft',
-                                  'company_id': tech_invoice_brw.company_id.id
-                                  }
-               
-                ctx1.update(company_id=partner_dict[partner_id].id,account_period_prefer_normal=True)
-                period_ids1 = period_obj.find(cr, uid, tech_invoice_brw.date, context=ctx1)
-                period_id1 = period_ids1 and period_ids1[0] or False
-                
-                fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',tech_invoice_brw.journal_id.id),('position_id','=',position_id)])
+                fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',journal_id),('position_id','=',position_id)])
                 if fiscal_jurnl_id: 
                      fiscal_jurnl_brw = fiscal_jurnl_obj.browse(cr,uid,fiscal_jurnl_id[0])
-                     print "fiscal_jurnl_brw",fiscal_jurnl_brw,fiscal_jurnl_brw.position_id.name
                      fiscal_type = fiscal_jurnl_brw.position_id.type
                      if fiscal_type == 'icb':
-                        
                         for journ in fiscal_jurnl_brw.journal_dest_id:
-                             
                             if journ.company_id.id == partner_dict[partner_id].id:
                                 journal_id1 =journ.id
+                partner_id1 = tech_invoice_brw.company_id.partner_id.id
+                
+                account_move = {
+                                  'partner_id' : partner_id, 'date': to_date,
+                                  'period_id': period_id, 'journal_id': journal_id,
+                                  'state' : 'draft', 'company_id': company_id,
+                                  }
                 account_move1 = {
-                                  'partner_id' : tech_invoice_brw.company_id.partner_id.id,
-                                  'date': tech_invoice_brw.date,
-                                  'period_id': period_id1,
-                                  'journal_id': journal_id1,
-                                  'state' : 'draft',
-                                  'company_id': partner_dict[partner_id].id
+                                  'partner_id' : partner_id1,  'date': to_date,
+                                  'period_id': period_id1,'journal_id': journal_id1,
+                                  'state' : 'draft','company_id': company_id1
                                   }
                 
-                company_id = tech_invoice_brw.company_id.id
-                company_id1 = partner_dict[partner_id].id
-                partner_id1 = tech_invoice_brw.company_id.partner_id.id
-                date1 =  tech_invoice_brw.date   
+                # Create two move for both company
                 move_id = move_obj.create(cr ,uid, account_move)
                 move_id1 = move_obj.create(cr ,uid, account_move1)
-               
-                currency = tech_invoice_brw.journal_id.currency.id
                 break
             
-            total_debit_amt = 0
-            account_id = False
             for tech_invoice_brw in tech_invoice_obj.browse(cr, uid,tech_invoice_line):
-
+                invoice_type = tech_invoice_brw.invoice_ids.type
                 for line in tech_invoice_brw.invoice_ids.invoice_line:
-        
-                    credit_amt = line.price_subtotal*(tech_invoice_brw.percentage/100)
+                    debit_amt = 0
+                    credit_amt  = 0
+                    if type == 'out_invoice':
+                       credit_amt = line.price_subtotal*(tech_invoice_brw.percentage/100)
+                    else:
+                       debit_amt = line.price_subtotal*(tech_invoice_brw.percentage/100)    
                     
+                    account_id = line.account_id.id
                     move_line = {
-                    'journal_id': tech_invoice_brw.journal_id.id,
-                    'period_id': period_id,
-                    'name': line.name or '/',
-                    'account_id': line.account_id.id,
-                    'move_id': move_id,
-                    'partner_id': tech_invoice_brw.partner_id.id,
-                    'currency_id': tech_invoice_brw.journal_id.currency.id,
-                   # 'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
-                   # 'vehicle_id': line.vehicle_id and line.vehicle_id.id or False,
-                   # 'from_date':line.from_date,
-                   # 'to_date':line.to_date,
-                    'quantity': 1,
-                    'credit': credit_amt,
-                    'debit': 0,
-                    'date': tech_invoice_brw.date,
-                    'price_unit':line.price_unit,
-                    'quantity':line.quantity,
+                    'journal_id': journal_id, 'period_id': period_id,
+                    'name': line.name or '/',  'account_id': account_id,
+                    'move_id': move_id, 'partner_id': partner_id,
+                    'currency_id': currency, 'date': tech_invoice_brw.date,
+                    'credit': credit_amt,'debit' : debit_amt,
                     'company_id' :company_id,
-                   # 'price':line.price_subtotal/tech_invoice_brw.percentage,
-                    
+                     #'quantity': 1,
+                    #'price_unit':line.price_unit,
+                   # 'quantity':line.quantity,
                    # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
                     }
+                    
+                    account_id1 = self.get_fiscal_position_id(cr, uid, position_id, line.account_id.id,company_id1,'out_invoice', context),
+                    
                     move_line1 = {
-                    #'journal_id': tech_invoice_brw.journal_id.id,
-                    'period_id': period_id1,
+                    'period_id': period_id1, 'account_id': account_id1,
                     'name': line.name or '/',
-                    'account_id': self.get_fiscal_position_id(cr, uid, position_id, line.account_id.id,company_id1,'out_invoice', context),
-                    'move_id': move_id1,
-                    'partner_id': partner_id1,
-                    'currency_id': tech_invoice_brw.journal_id.currency.id,
-                   # 'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
-                   # 'vehicle_id': line.vehicle_id and line.vehicle_id.id or False,
-                   # 'from_date':line.from_date,
-                   # 'to_date':line.to_date,
-                    'quantity': 1,
-                    'credit': 0,
-                    'debit': credit_amt,
-                    'date': tech_invoice_brw.date,
-                    'price_unit':line.price_unit,
-                    'quantity':line.quantity,
-                    'company_id' :company_id1,
-                   # 'price':line.price_subtotal/tech_invoice_brw.percentage,
+                    'move_id': move_id1,'partner_id': partner_id1,
+                    'currency_id': currency,
+                    'credit': debit_amt, 'debit': credit_amt,
+                    'date': tech_invoice_brw.date,'company_id' :company_id1,
                     
-                   # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
                     }
-                    print "move_line",move_line
+                    
                     move_line_obj.create(cr, uid, move_line)
                     move_line_obj.create(cr, uid, move_line1)
                     total_debit_amt += credit_amt
-                    
-                 
-                 #for 
-            
-            
-            
-            
-            
-         
+                    total_credit_amt += debit_amt
+
             
             if move_id :
+                if total_debit_amount > total_credit_amt:
+                    debit1 = total_debit_amount - total_credit_amt
+                    credit1 = 0  
+                else:
+                    credit1 = total_credit_amt - total_debit_amount
+                    debit1 = 0
                 move_line = {
-                   # 'journal_id': tech_invoice_brw.journal_id.id,
                     'period_id': period_id,
                     'name': '/',
-                    
-                    'move_id': move_id,
-                   'partner_id': partner_id,
+                    'move_id': move_id,'partner_id': partner_id,
                     'currency_id': currency,
-                  
-                    'quantity': 1,
-                    'credit':0,
-                    'debit': total_debit_amt,
+                    'credit': credit1,
+                    'debit': debit1,
                     'date': date,
                     'company_id' :company_id,
                  
                     }
+                
                 rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
                 pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
                 if not rec_pro_id:
@@ -281,24 +251,17 @@ class account_invoice(osv.osv):
                     'move_id': move_id1,
                    'partner_id': partner_id1,
                     'currency_id': currency,
-                   # 'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
-                   # 'vehicle_id': line.vehicle_id and line.vehicle_id.id or False,
-                   # 'from_date':line.from_date,
-                   # 'to_date':line.to_date,
+                 
                     'quantity': 1,
-                    'credit':total_debit_amt,
-                    'debit': 0,
+                    'credit':debit1,
+                    'debit': credit1,
                     'date': date,
                     'company_id' :company_id1,
-                 #   'price_unit':line.price_unit,
-                   # 'quantity':line.quantity,
-                   # 'price':line.price_subtotal/tech_invoice_brw.percentage,
-                    
-                   # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
+                
                     }
                 move_line_obj.create(cr, uid, move_line1)
          
-               # self.create_multicompany_entry(cr, uid, move_id,position_id ) 
+              
         return True
     
     def get_fiscal_position_id(self, cr, uid, fiscal_position, account_id,company_id,type, context=None):
