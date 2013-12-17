@@ -1,6 +1,8 @@
 from openerp.osv import fields, osv, orm
 from openerp.tools.translate import _
 from openerp import netsvc
+import datetime
+import time
 class account_fiscal_journal(osv.osv):
     _name = 'account.fiscal.journal'
     _columns = {
@@ -44,18 +46,259 @@ class supplier_account_invoice(osv.osv):
               'invoice_ids':fields.many2one('account.invoice','Account Invoice'),
               'partner_id':fields.many2one('res.partner','Partner Id'),
               'position_id': fields.many2one('account.fiscal.position', 'Fiscal Position',  ondelete='cascade'),
+              'date' : fields.related('invoice_ids','date_invoice',type='date',string='Date',store=True),
+              'fiscal_type' : fields.related('invoice_ids','fiscal_type',type='char',string='Fiscal Position Type',readonly=True,store=True),
+              'split_done': fields.boolean('Split Done'),
+              
               }
 class account_invoice(osv.osv):
     _inherit='account.invoice'
     _columns={
               'customer_account_invoice_ids':fields.one2many('supplier.account.invoice','invoice_ids','Journal'),
               'is_intragroup_invoice_company': fields.boolean('Is an intra-group company'),
-             'fiscal_type':fields.selection([('icb','Inter-Company Billing'),('T','Technology'),('ss','Share Service')],'Fiscal Position Type'),
+              'fiscal_type':fields.selection([('icb','Inter-Company Billing'),('T','Technology'),('ss','Share Service')],'Fiscal Position Type'),
               }
     
     #########################################################################################################
     
-    def split_tech_invoice(self, cr, uid,ids):
+    def split_tech_invoice(self, cr, uid, ids, context=None):
+        
+        tech_invoice_obj = self.pool.get('supplier.account.invoice')
+        move_obj = self.pool.get('account.move')
+        move_line_obj = self.pool.get('account.move.line')
+        company_obj = self.pool.get('res.company')
+        period_obj = self.pool.get('account.period')
+        res_partner = self.pool.get('res.partner')
+        fiscal_jurnl_obj = self.pool.get('account.fiscal.journal')
+        fiscal_obj = self.pool.get('account.fiscal.position')
+        property_obj = self.pool.get('ir.property')
+        
+        
+        date = datetime.datetime.strptime(time.strftime('%Y-%m-01'), '%Y-%m-%d') 
+        to_date = datetime.datetime.strptime(date.strftime('%Y-%m-01'), '%Y-%m-%d') - datetime.timedelta(days=1)   
+        from_date =  datetime.datetime.strptime(to_date.strftime('%Y-%m-01'), '%Y-%m-%d')
+         
+        company_ids = company_obj.search(cr, uid,[])
+        company_brws = company_obj.browse(cr, uid, company_ids)
+        partner_ids = []
+        partner_dict = {}
+        
+        # Get Related Partner ID of all company
+        for company_brw in company_brws:
+            partner_id = company_brw.partner_id.id
+            partner_ids.append(partner_id)
+            partner_dict[partner_id] = company_brw
+        
+        
+        #For each partner related to share company create two journal entry
+        # one entry in share company and other entry in partner company
+        for partner_id in partner_ids:
+            
+            ctx = {}
+            ctx1 = {}
+            move_id = False
+            move_id1 = False
+            currency = False
+            position_id = False
+            date1 = False
+            journal_id1 = False
+            period_id =False 
+            tech_invoice_line = tech_invoice_obj.search(cr, uid, [('split_done','!=',True),('date','<',date),\
+                                                                  ('fiscal_type','=','ss'),('partner_id','=',partner_id)])
+            tech_invoice_obj.write(cr, uid, tech_invoice_line,{'split_done': True})
+            
+            # As of now creating account move base on first journal id and date
+            for tech_invoice_brw in tech_invoice_obj.browse(cr, uid,tech_invoice_line):
+                
+                # Get the period id of both intercompany
+                ctx.update(company_id=tech_invoice_brw.company_id.id,account_period_prefer_normal=True)
+                period_ids = period_obj.find(cr, uid, to_date, context=ctx)
+                period_id = period_ids and period_ids[0] or False
+                
+                ctx1.update(company_id=partner_dict[partner_id].id,account_period_prefer_normal=True)
+                period_ids1 = period_obj.find(cr, uid, tech_invoice_brw.date, context=ctx1)
+                period_id1 = period_ids1 and period_ids1[0] or False
+                
+                
+                position_id = tech_invoice_brw.position_id.id
+                
+                account_move = {
+                                  'partner_id' : partner_id,
+                                  'date': to_date,
+                                  'period_id': period_id,
+                                  'journal_id': tech_invoice_brw.journal_id.id,
+                                  'state' : 'draft',
+                                  'company_id': tech_invoice_brw.company_id.id
+                                  }
+               
+                ctx1.update(company_id=partner_dict[partner_id].id,account_period_prefer_normal=True)
+                period_ids1 = period_obj.find(cr, uid, tech_invoice_brw.date, context=ctx1)
+                period_id1 = period_ids1 and period_ids1[0] or False
+                
+                fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',tech_invoice_brw.journal_id.id),('position_id','=',position_id)])
+                if fiscal_jurnl_id: 
+                     fiscal_jurnl_brw = fiscal_jurnl_obj.browse(cr,uid,fiscal_jurnl_id[0])
+                     print "fiscal_jurnl_brw",fiscal_jurnl_brw,fiscal_jurnl_brw.position_id.name
+                     fiscal_type = fiscal_jurnl_brw.position_id.type
+                     if fiscal_type == 'icb':
+                        
+                        for journ in fiscal_jurnl_brw.journal_dest_id:
+                             
+                            if journ.company_id.id == partner_dict[partner_id].id:
+                                journal_id1 =journ.id
+                account_move1 = {
+                                  'partner_id' : tech_invoice_brw.company_id.partner_id.id,
+                                  'date': tech_invoice_brw.date,
+                                  'period_id': period_id1,
+                                  'journal_id': journal_id1,
+                                  'state' : 'draft',
+                                  'company_id': partner_dict[partner_id].id
+                                  }
+                
+                company_id = tech_invoice_brw.company_id.id
+                company_id1 = partner_dict[partner_id].id
+                partner_id1 = tech_invoice_brw.company_id.partner_id.id
+                date1 =  tech_invoice_brw.date   
+                move_id = move_obj.create(cr ,uid, account_move)
+                move_id1 = move_obj.create(cr ,uid, account_move1)
+               
+                currency = tech_invoice_brw.journal_id.currency.id
+                break
+            
+            total_debit_amt = 0
+            account_id = False
+            for tech_invoice_brw in tech_invoice_obj.browse(cr, uid,tech_invoice_line):
+
+                for line in tech_invoice_brw.invoice_ids.invoice_line:
+        
+                    credit_amt = line.price_subtotal*(tech_invoice_brw.percentage/100)
+                    
+                    move_line = {
+                    'journal_id': tech_invoice_brw.journal_id.id,
+                    'period_id': period_id,
+                    'name': line.name or '/',
+                    'account_id': line.account_id.id,
+                    'move_id': move_id,
+                    'partner_id': tech_invoice_brw.partner_id.id,
+                    'currency_id': tech_invoice_brw.journal_id.currency.id,
+                   # 'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
+                   # 'vehicle_id': line.vehicle_id and line.vehicle_id.id or False,
+                   # 'from_date':line.from_date,
+                   # 'to_date':line.to_date,
+                    'quantity': 1,
+                    'credit': credit_amt,
+                    'debit': 0,
+                    'date': tech_invoice_brw.date,
+                    'price_unit':line.price_unit,
+                    'quantity':line.quantity,
+                    'company_id' :company_id,
+                   # 'price':line.price_subtotal/tech_invoice_brw.percentage,
+                    
+                   # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
+                    }
+                    move_line1 = {
+                    #'journal_id': tech_invoice_brw.journal_id.id,
+                    'period_id': period_id1,
+                    'name': line.name or '/',
+                    'account_id': self.get_fiscal_position_id(cr, uid, position_id, line.account_id.id,company_id1,'out_invoice', context),
+                    'move_id': move_id1,
+                    'partner_id': partner_id1,
+                    'currency_id': tech_invoice_brw.journal_id.currency.id,
+                   # 'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
+                   # 'vehicle_id': line.vehicle_id and line.vehicle_id.id or False,
+                   # 'from_date':line.from_date,
+                   # 'to_date':line.to_date,
+                    'quantity': 1,
+                    'credit': 0,
+                    'debit': credit_amt,
+                    'date': tech_invoice_brw.date,
+                    'price_unit':line.price_unit,
+                    'quantity':line.quantity,
+                    'company_id' :company_id1,
+                   # 'price':line.price_subtotal/tech_invoice_brw.percentage,
+                    
+                   # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
+                    }
+                    print "move_line",move_line
+                    move_line_obj.create(cr, uid, move_line)
+                    move_line_obj.create(cr, uid, move_line1)
+                    total_debit_amt += credit_amt
+                    
+                 
+                 #for 
+            
+            
+            
+            
+            
+         
+            
+            if move_id :
+                move_line = {
+                   # 'journal_id': tech_invoice_brw.journal_id.id,
+                    'period_id': period_id,
+                    'name': '/',
+                    
+                    'move_id': move_id,
+                   'partner_id': partner_id,
+                    'currency_id': currency,
+                  
+                    'quantity': 1,
+                    'credit':0,
+                    'debit': total_debit_amt,
+                    'date': date,
+                    'company_id' :company_id,
+                 
+                    }
+                rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
+                pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
+                if not rec_pro_id:
+                            rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('company_id','=',company_id)])
+                if not pay_pro_id:
+                            pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('company_id','=',company_id)])
+                rec_line_data = property_obj.read(cr,uid,rec_pro_id,['name','value_reference','res_id'])
+                pay_line_data = property_obj.read(cr,uid,pay_pro_id,['name','value_reference','res_id'])
+                rec_res_id = rec_line_data and rec_line_data[0].get('value_reference',False) and int(rec_line_data[0]['value_reference'].split(',')[1]) or False
+                pay_res_id = pay_line_data and pay_line_data[0].get('value_reference',False) and int(pay_line_data[0]['value_reference'].split(',')[1]) or False
+                move_line['account_id'] = rec_res_id
+                                 
+                move_line_obj.create(cr, uid, move_line)
+                rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id1)+''),('company_id','=',company_id1)])
+                pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id1)+''),('company_id','=',company_id1)])
+                if not rec_pro_id:
+                        rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('company_id','=',company_id1)])
+                if not pay_pro_id:
+                        pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('company_id','=',company_id1)])
+                rec_line_data = property_obj.read(cr,uid,rec_pro_id,['name','value_reference','res_id'])
+                pay_line_data = property_obj.read(cr,uid,pay_pro_id,['name','value_reference','res_id'])
+                rec_res_id1 = rec_line_data and rec_line_data[0].get('value_reference',False) and int(rec_line_data[0]['value_reference'].split(',')[1]) or False
+                pay_res_id1 = pay_line_data and pay_line_data[0].get('value_reference',False) and int(pay_line_data[0]['value_reference'].split(',')[1]) or False                 
+                move_line1 = {
+                   # 'journal_id': tech_invoice_brw.journal_id.id,
+                    'period_id': period_id1,
+                    'name': '/',
+                    'account_id': pay_res_id1,
+                    'move_id': move_id1,
+                   'partner_id': partner_id1,
+                    'currency_id': currency,
+                   # 'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
+                   # 'vehicle_id': line.vehicle_id and line.vehicle_id.id or False,
+                   # 'from_date':line.from_date,
+                   # 'to_date':line.to_date,
+                    'quantity': 1,
+                    'credit':total_debit_amt,
+                    'debit': 0,
+                    'date': date,
+                    'company_id' :company_id1,
+                 #   'price_unit':line.price_unit,
+                   # 'quantity':line.quantity,
+                   # 'price':line.price_subtotal/tech_invoice_brw.percentage,
+                    
+                   # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
+                    }
+                move_line_obj.create(cr, uid, move_line1)
+         
+               # self.create_multicompany_entry(cr, uid, move_id,position_id ) 
         return True
     
     def get_fiscal_position_id(self, cr, uid, fiscal_position, account_id,company_id,type, context=None):
@@ -123,9 +366,10 @@ class account_invoice(osv.osv):
                     fiscal_type = False
                     customer_account_invoice_ids = False
                     if line.position_id:
-                        fiscal_type = 'icb'
+                        fiscal_type = line.position_id.type
                         customer_account_invoice_ids = self.onchange_journal_id(cr, uid, False, \
                                                                                 journal_id,fiscal_position,fiscal_type,partner_id,)['value']['customer_account_invoice_ids']
+                        
                         print "customer_account_invoice_ids",customer_account_invoice_ids
                     invoice_vals = self.onchange_partner_id(cr, uid, False, invoice_type, partner_id, date_invoice, \
                                                         payment_term, partner_bank_id, company_id)['value']
@@ -172,7 +416,7 @@ class account_invoice(osv.osv):
         """Override this original method to create invoice for the supplier/customer company"""
         res = super(account_invoice, self).action_number(cr, uid, ids, context)
         fiscal_type = self.browse(cr, uid,ids)[0].fiscal_type
-        if fiscal_type == 'icb' or fiscal_type == 'ss':
+        if fiscal_type == 'icb' or fiscal_type == 'T':
              self.create_inter_company_invoices(cr, uid, ids, context)
         return res
     
@@ -189,6 +433,7 @@ class account_invoice(osv.osv):
                     'company_id': company_id,
                     }
                 }
+            company_id2 = journal.company_id.id
             lst = []
             
             if position_id:
@@ -196,24 +441,39 @@ class account_invoice(osv.osv):
                 fiscal_jurnl_obj = self.pool.get('account.fiscal.journal')
                 fiscal_obj = self.pool.get('account.fiscal.position')
                 fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',journal_id),('position_id','=',position_id)])
+                print "fiscal_jurnl_id",fiscal_jurnl_id
+                position_id1 = False
                 if fiscal_jurnl_id: 
                      fiscal_jurnl_brw = fiscal_jurnl_obj.browse(cr,uid,fiscal_jurnl_id[0])
+                     print "fiscal_jurnl_brw",fiscal_jurnl_brw,fiscal_jurnl_brw.position_id.name
+                     fiscal_type = fiscal_jurnl_brw.position_id.type
                      if fiscal_type == 'icb':
                         comp_id = self.pool.get('res.company').search(cr, uid, [('partner_id','=', partner_id)])  
                         for journ in fiscal_jurnl_brw.journal_dest_id:
                             print "here"   
                             if journ.company_id.id == comp_id[0]:
                                 part_id = self.pool.get('res.users').browse(cr, uid, uid).company_id.partner_id.id
-                                lst.append((0,0,{'journal_id':journ.id,'company_id':comp_id[0],'partner_id' : part_id,'percentage': 100})),
+                                if journ.company_id.is_shared_company:
+                                    print "Hereeeeee"
+                                    position_id1 = fiscal_obj.search(cr,uid,[('company_id','=',journ.company_id.id),('type','=','ss')])  
+                                    if position_id1:
+                                        position_id1 = position_id1[0]
+                                lst.append((0,0,{'journal_id':journ.id,'company_id':comp_id[0],'partner_id' : part_id,'percentage': 100,'position_id':position_id1})),
+                                
                      else:                                              
                              for comp in fiscal_jurnl_brw.company_ids :
-                                  company_id = self.pool.get('res.users').browse(cr, uid, uid).company_id.id
-                                  position_id = fiscal_obj.search(cr,uid,[('company_id','=',company_id),('type','=','icb')])
-                                  if position_id:
-                                      position_id = position_id[0]
-                                  lst.append((0,0,{'journal_id':fiscal_jurnl_brw.inter_journal_dest_id.id,'company_id':company_id,'position_id': position_id,'partner_id':comp.partner_id.id,'percentage':100/len(fiscal_jurnl_brw.company_ids)})),
-            result['value']['customer_account_invoice_ids'] = lst 
-                                         
+                                  if comp.is_shared_company:
+                                      type = 'ss'
+                                  else:
+                                      type = 'icb'
+                                     
+                                  position_id1 = fiscal_obj.search(cr,uid,[('company_id','=',company_id),('type','=','icb')])      
+                                  if position_id1:
+                                          position_id1 = position_id1[0]  
+                                      
+                                  lst.append((0,0,{'journal_id':fiscal_jurnl_brw.inter_journal_dest_id.id,'company_id':company_id,'position_id': position_id1,'partner_id':comp.partner_id.id,'percentage':100/len(fiscal_jurnl_brw.company_ids)})),
+                     result['value']['customer_account_invoice_ids'] = lst 
+                     result['value']['fiscal_type'] =fiscal_type                             
         return result 
  
    
