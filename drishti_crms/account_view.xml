@@ -28,6 +28,8 @@
 					
 					<field name="adjust_journal_id" />
 				</field>
+				
+				
 			</field>
 		</record>
 
@@ -69,6 +71,9 @@
 			  <!-- <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
 				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
 			   </xpath> -->		
+			 <!--  <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
+				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
+			   </xpath>		  -->
 				
 			</field>
 		</record>
@@ -82,8 +87,8 @@
 					position="before">
 					<field name="vehicle_id" invisible="1"
 						on_change="onchange_vehicle(vehicle_id,parent.date_invoice)" />
-				    <field name="from_date" />
-					<field name="to_date" />		
+				    <field name="from_date"/>
+					<field name="to_date"/>		
 				</xpath>
 				<field name="account_id" position="attributes">
 			        <attribute name="context">{'journal_id1':journal_id, }</attribute>
@@ -107,6 +112,9 @@
 			 <!-- <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
 				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
 			   </xpath> -->	
+		<!-- 	 <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
+				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
+			   </xpath>	  -->
                
 			</field>
 		</record>
@@ -146,7 +154,7 @@
 			   </xpath>	
 			   
 			    <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
-				   <field name="journal_id" domain="[('type','in',['sale','sale_refund']),('company_id','=','company_id')]" on_change="onchange_journal(journal_id, line_cr_ids, tax_id, partner_id, date, amount, type, company_id, context)" groups="account.group_account_user" options='{"no_open":True}' invisible="context.get('journal_id',False)"/>
+				   <field name="journal_id" domain="[('type','in',['sale','sale_refund']),('company_id','=',company_id)]" on_change="onchange_journal(journal_id, line_cr_ids, tax_id, partner_id, date, amount, type, company_id, context)" groups="account.group_account_user" options='{"no_open":True}' invisible="context.get('journal_id',False)"/>
 			   </xpath>
 			   
 			</field>
@@ -298,7 +306,7 @@
 				    <attribute name="context">{'journal_id':journal_id, 'type':type, 'partner_id':partner_id, 'default_account_analytic_id':cost_analytic_id, }</attribute> 
 			   </xpath>	
 			   <xpath expr="/form/sheet/group/field[@name='journal_id']" position="replace">
-                    <field name="journal_id" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id','=','company_id')]"/>
+                    <field name="journal_id" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id','=',company_id)]"/>
 			   </xpath>
 			</field>
 		</record>
@@ -315,7 +323,7 @@
                </field> 
                 <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
                <field name="journal_id"
-                                domain="[('type','in',['bank', 'cash'])('company_id','=','company_id')]"
+                                domain="[('type','in',['bank', 'cash'])('company_id','=',company_id)]"
                                 invisible="context.get('line_type', False)"
                                on_change="onchange_journal(journal_id, line_dr_ids, False, partner_id, date, amount, type, company_id, context)"
                                 string="Payment Method"
@@ -336,7 +344,7 @@
                </field> 
                <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
                 <field name="journal_id"
-                                domain="[('type','in',['bank', 'cash']),('company_id','=','company_id')]"
+                                domain="[('type','in',['bank', 'cash']),('company_id','=',company_id)]"
                                 on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
                                 string="Payment Method" options='{"no_open":True}' invisible="context.get('journal_id',False)"/>       
                    </xpath>

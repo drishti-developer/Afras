@@ -116,9 +116,9 @@
 				<field name="vin_sn" position="replace">
 					<field name="vin_sn" required="1"/>
 				</field>
-				<field name="barcode" position="replace">
+			<!-- 	 <field name="barcode" position="replace">
 					<field name="barcode" required="1"/>
-				</field>
+				</field>   -->
 				<field name="company_id" position="replace">
 					<field name="company_id" required="1"/>
 				</field>

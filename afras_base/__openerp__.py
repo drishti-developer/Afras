@@ -20,35 +20,24 @@
 ##############################################################################
 
 {
-    'name': 'CRMS',
+    'name': 'Multicompany base',
     'version': '1.1',
     'author': 'Drishti Tech',
-    'category': 'Fleet Management',
+    'category': 'Base',
     'sequence': 21,
     'website': 'http://www.drishtitech.com',
-    'summary': 'Car Rental Management System',
+    'summary': 'Base Module for multicompany',
     'description': """
-         Car Rental Management System
+         Multicompany
          """,
  
     'images': [
                ],
     'depends': [
-                'base', 'purchase','stock',
-                'fleet','account','account_asset',
-                'account_voucher','sale','sale_stock','crm'
+                'base'             
                 ],
     'data': [    
-               'account_asset_view.xml',  
-               'account_view.xml',
-               'advance_payment_view.xml',
-               'analytic_account_view.xml',
-               'fleet_view.xml',
-               'partner_view.xml',
-               'product_view.xml',
-               'wizard/pay_multi_invoice_view.xml',
-               'account_multi_invoice_view.xml',
-               'account_distribution_plan_view.xml',
+              
             ],
     'demo': [],
     'test': [  

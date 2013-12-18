@@ -5,6 +5,7 @@ eclipse.preferences.version=1
 encoding//Multicompany_billing/__openerp__.py=utf-8
 encoding//Multicompany_billing/partner.py=utf-8
 encoding//afras_account/__openerp__.py=utf-8
+encoding//afras_base/__openerp__.py=utf-8
 encoding//afras_coding_convention/__openerp__.py=utf-8
 encoding//crms_oe_connect/__openerp__.py=utf-8
 encoding//crms_oe_connect/crms_osv.py=utf-8

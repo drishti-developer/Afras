@@ -225,7 +225,7 @@ class account_analytic_account(osv.osv):
     
     _columns = {
                 
-                
+                'use_distribution_plan': fields.boolean('Use Distribution Plan'),
                 'entry_type': fields.selection([('car', 'Car'), ('branch', 'Branch'),
                                                 ('area', 'Area'), ('city', 'City'),
                                                 ('region', 'Region'), ('segment','Segment'),('company', 'Company'),

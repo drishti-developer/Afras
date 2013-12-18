@@ -936,6 +936,7 @@ class account_voucher(osv.osv):
             context = {}
         move_pool = self.pool.get('account.move')
         move_line_pool = self.pool.get('account.move.line')
+        user_obj = self.pool.get('res.users').browse(cr, uid, uid)
         for voucher in self.browse(cr, uid, ids, context=context):
             if voucher.move_id:
                 continue
@@ -948,7 +949,7 @@ class account_voucher(osv.osv):
             ctx.update({'date': voucher.date})
             # Create the account move record.
             move_id = move_pool.create(cr, uid, self.account_move_get(cr, uid, voucher.id, context=context), context=context)
-            if voucher.adjust_journal_id:
+            if voucher.adjust_journal_id and user_obj.company_id.is_shared_company:
                 move_id1 = move_pool.create(cr, uid, self.account_move_get1(cr, uid, voucher.id, context=context), context=context)
                 move_line_id1 = move_line_pool.create(cr, uid, self.first_move_line_get1(cr,uid,voucher.id, move_id1, company_currency, current_currency, context), context)
             # Get the name of the account_move just created
@@ -965,7 +966,7 @@ class account_voucher(osv.osv):
                 line_total = line_total + self._convert_amount(cr, uid, voucher.tax_amount, voucher.id, context=ctx)
             # Create one move line per voucher line where amount is not 0.0
             line_total, rec_list_ids = self.voucher_move_line_create(cr, uid, voucher.id, line_total, move_id, company_currency, current_currency, context)
-            if voucher.adjust_journal_id:
+            if voucher.adjust_journal_id and user_obj.company_id.is_shared_company:
                 self.voucher_move_line_create1(cr, uid, voucher.id, line_total, move_id1, company_currency, current_currency, context)
             # Create the writeoff line if needed
             ml_writeoff = self.writeoff_move_line_get(cr, uid, voucher.id, line_total, move_id, name, company_currency, current_currency, context)
@@ -1448,6 +1449,65 @@ class account_move_line(osv.osv):
                 'to_date' : obj_line.to_date,
                 'next_split_date' : obj_line.from_date or obj_line.date,
                 'entry_type' : obj_line.analytic_account_id.entry_type,
-               }  
+               } 
+        
+        
+    def create_analytic_lines(self, cr, uid, ids, context=None):
+        
+                
+        if context is None:
+            context = {}
+        super(account_move_line, self).create_analytic_lines(cr, uid, ids, context=context)
+        analytic_line_obj = self.pool.get('account.analytic.line')
+        period_obj = self.pool.get('account.period')
+        
+         
+        for line in self.browse(cr, uid, ids, context=context):
+           if line.analytic_account_id and line.analytic_account_id.use_distribution_plan:
+               
+               last_date = datetime.datetime.strptime((datetime.datetime.strptime(line.date, '%Y-%m-%d')).strftime('%Y-%m-01'), '%Y-%m-%d') - datetime.timedelta(days=1) 
+               ctx = {}
+               company_id = line.account_id.company_id.id
+        
+               ctx.update(company_id=company_id,account_period_prefer_normal=True)
+               period_ids = period_obj.find(cr, uid, last_date, context=ctx)
+               period_id = period_ids and period_ids[0] or False
+               dist_plan_id = self.pool.get('account.afras.cost.distribution').search(cr,uid, ['&',('related_analytic','=',line.analytic_account_id.id),\
+                                                                                                ('related_period','=',period_id)], context=context)
+               if not line.journal_id.analytic_journal_id:
+                   raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal.") % (line.journal_id.name,))
+               
+               toremove = analytic_line_obj.search(cr, uid, [('move_id','=',line.id)], context=context)
+               if toremove:
+                    analytic_line_obj.unlink(cr, uid, toremove, context=context)
+               val = (line.credit or  0.0) - (line.debit or 0.0)
+               if dist_plan_id:
+                 dist_plan_obj = self.pool.get('account.afras.cost.distribution').browse(cr, uid, dist_plan_id)
+                 for line2 in dist_plan_obj.distribution_lines:
+                   amt=val * (line2.rate/100)
+                   al_vals={
+                       'name': line.name,
+                       'date': line.date,
+                       'account_id': line2.analytic_account_id.id,
+                       'unit_amount': line.quantity,
+                       'product_id': line.product_id and line.product_id.id or False,
+                       'product_uom_id': line.product_uom_id and line.product_uom_id.id or False,
+                       'amount': amt,
+                       'general_account_id': line.account_id.id,
+                       'move_id': line.id,
+                       'journal_id': line.journal_id.analytic_journal_id.id,
+                       'ref': line.ref,
+                       'percentage': line2.rate
+                   }
+                   analytic_line_obj.create(cr, uid, al_vals, context=context)
+                   print "Creating MULTIPLE Analytical Entry-------------------"
+           else:
+                if line.analytic_account_id:
+                    if not line.journal_id.analytic_journal_id:
+                        raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal!") % (obj_line.journal_id.name, ))
+                    vals_line = self._prepare_analytic_line(cr, uid, line, context=context)
+                    analytic_line_obj.create(cr, uid, vals_line)
+                    print "Creating a Single Analytical Entry-------------------"
+        return True 
       
         
