@@ -64,6 +64,7 @@
 					<field name="region_id" attrs="{ 'invisible':[('entry_type', '!=', 'region')],'required':[('entry_type', '=', 'region')]}"/>
 					<field name="segment" attrs="{ 'invisible':[('entry_type', '!=', 'segment')],'required':[('entry_type', '=', 'segment')]}"/>
 <!-- 					<field name="country_id" attrs="{ 'invisible':[('entry_type', '!=', 'nlco')]}"/>			 -->
+				<field name="use_distribution_plan"/>
 				</field>
 			</field>
 		</record>
