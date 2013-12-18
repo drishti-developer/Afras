@@ -94,7 +94,8 @@
                 <form string="Multiple Expense Entry" version="7.0">
                 <header>
                      <button name="confirm_entry" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice" type="object"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,invoiced"/>
+                     <button name="%(action_pay_multi_invoice)d" type='action' string='Pay Invoice' states='invoiced' groups="account.group_account_invoice" class="oe_highlight" context="{'company_id':company_id,'amount_total':amount_total,'journal_id':journal_id}"/>
+                     <field name="state" widget="statusbar" statusbar_visible="draft,invoiced,paid"/>
                 </header>
                 <sheet string="Supplier Multi Invoice">
                     <group>
@@ -112,7 +113,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Multi Invoice">
+                        <page string="Invoice Lines">
                             <field name="invoice_line">
                                 <tree string="Invoice lines" editable="bottom">
                                     <field name="product_id"
@@ -134,6 +135,9 @@
                                 <label for="comment"/>
                             </div>
                             <field name="comment"/>
+                        </page>
+                        <page string="Invoices">
+                            <field name="invoice_ids"/>
                         </page>
                     </notebook>
                 </sheet>

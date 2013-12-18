@@ -1,3 +1,4 @@
+import wizard
 import partner
 import purchase
 import fleet
