@@ -146,7 +146,7 @@
 			   </xpath>	
 			   
 			    <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
-				   <field name="journal_id" domain="[('type','in',['sale','sale_refund']),('company_id','=','company_id')]" on_change="onchange_journal(journal_id, line_cr_ids, tax_id, partner_id, date, amount, type, company_id, context)" groups="account.group_account_user" options='{"no_open":True}' invisible="context.get('journal_id',False)"/>
+				   <field name="journal_id" domain="[('type','in',['sale','sale_refund']),('company_id','=',company_id)]" on_change="onchange_journal(journal_id, line_cr_ids, tax_id, partner_id, date, amount, type, company_id, context)" groups="account.group_account_user" options='{"no_open":True}' invisible="context.get('journal_id',False)"/>
 			   </xpath>
 			   
 			</field>

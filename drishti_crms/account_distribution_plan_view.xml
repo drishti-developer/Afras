@@ -1,0 +1,60 @@
+<?xml version ='1.0'?>
+<openerp>
+	<data>
+	
+		<record model='ir.ui.view' id='account_afras_cost_distribution_view_form'>
+			<field name='name'>Afras Cost Distribution Form View</field>
+			<field name='model'>account.afras.cost.distribution</field>
+			<field name='arch' type='xml'>
+				<form string='Account Cost Distribution Plan' version='7.0'>
+				<sheet>
+				<button name="create_plan_scheduler" string="Create Plans" type="object"/>
+				<group>
+                    <field name='name'/>
+                    <field name='related_analytic'/>
+                    <field name='related_period'/>
+                    <field name='journal_id'/>
+                </group>
+				<field name = 'distribution_lines' class="oe_inline">
+				<tree>
+					<field name= 'analytic_account_id'/>
+					<field name= 'rate'/>
+					</tree>
+				</field>	
+					</sheet>
+					
+				</form>
+			</field>
+		</record>
+		
+	
+		<record id="view_company_form_inherit" model="ir.ui.view">
+           <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+            
+	            <xpath expr="//field[@name='company_registry']" position="after">
+		            <field name='revenue_account'/>
+	            </xpath>
+			</field>
+		</record>
+
+		<!-- Action to open the form view of pnl model-->
+		<record model='ir.actions.act_window' id='action_account_afras_cost_distribution_view_form'>
+			<field name='name'>Action Afras Cost Distribution Form View</field>
+			<field name='res_model'>account.afras.cost.distribution</field>
+			<field name='view_type'>form</field>
+			<field name='view_mode'>tree,form</field>
+		</record>
+		
+		<!--Menu to execute the above action in order to open the form view of pnl model-->
+		<menuitem 
+			id='menu_action_account_afras_cost_distribution_view_form' 
+			action='action_account_afras_cost_distribution_view_form' 
+			name='Distribution Plans' 
+			parent="account.menu_analytic_accounting"
+        	sequence='9'/> 
+	</data>
+</openerp> 
+ 
