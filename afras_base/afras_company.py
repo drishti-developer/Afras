@@ -1,6 +1,17 @@
-from openerp.osv import fields, osv, orm
+from functools import partial
+import logging
+from lxml import etree
+from lxml.builder import E
+
+import openerp
+from openerp import SUPERUSER_ID
+from openerp import pooler, tools
+import openerp.exceptions
+from openerp.osv import fields,osv
+from openerp.osv.orm import browse_record
 from openerp.tools.translate import _
-from openerp import netsvc
+
+_logger = logging.getLogger(__name__)
 
 class res_partner(osv.osv):
     _description = 'Partner'
