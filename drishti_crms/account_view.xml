@@ -4,7 +4,19 @@
 		
 		
 		
-
+        <record model="ir.ui.view" id="view_account_tree_inherit2">
+			<field name="name">account.account.form.inherit</field>
+			<field name="model">account.account</field>
+			<field name="inherit_id" ref="account.view_account_list" />
+			<field name="arch" type="xml">
+				<field name="user_type" position="attributes">
+					<attribute name="invisible">False</attribute>
+					</field>
+					
+				</field>
+			
+		</record>
+		
 		<record model="ir.ui.view" id="view_account_invoice_vehicle_form">
 			<field name="name">account.invoice.line.form1</field>
 			<field name="model">account.invoice.line</field>

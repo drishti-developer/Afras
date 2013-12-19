@@ -24,7 +24,7 @@
 	                  
 	                       
                 </field>
-                  <xpath expr="//notebook/page[@string='Filters']" position="after">
+                  <xpath expr="//notebook/page[@string='Filters']" position="before">
 	                    <page string="Cost Center">
 	                        
 	                            <field name="cost_analytic_ids" domain="[('company_id','=',company_id)]">
