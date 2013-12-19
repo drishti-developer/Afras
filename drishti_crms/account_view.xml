@@ -28,8 +28,6 @@
 					
 					<field name="adjust_journal_id" />
 				</field>
-				
-				
 			</field>
 		</record>
 

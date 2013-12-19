@@ -1504,7 +1504,7 @@ class account_move_line(osv.osv):
            else:
                 if line.analytic_account_id:
                     if not line.journal_id.analytic_journal_id:
-                        raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal!") % (obj_line.journal_id.name, ))
+                        raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal!") % (line.journal_id.name, ))
                     vals_line = self._prepare_analytic_line(cr, uid, line, context=context)
                     analytic_line_obj.create(cr, uid, vals_line)
                     print "Creating a Single Analytical Entry-------------------"
