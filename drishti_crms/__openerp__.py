@@ -46,6 +46,7 @@
                'fleet_view.xml',
                'partner_view.xml',
                'product_view.xml',
+               'wizard/pay_multi_invoice_view.xml',
                'account_multi_invoice_view.xml',
                'account_distribution_plan_view.xml',
             ],

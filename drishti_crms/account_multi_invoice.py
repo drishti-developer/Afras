@@ -19,16 +19,21 @@
 #
 ##############################################################################
 
-import time
-from lxml import etree
 import openerp.addons.decimal_precision as dp
 import openerp.exceptions
-
 from openerp import netsvc
 from openerp import pooler
 from openerp.osv import fields, osv, orm
 from openerp.tools.translate import _
 import datetime
+
+class account_invoice(osv.osv):
+    _inherit = "account.invoice"
+    _columns = {
+    'multi_invoice_id': fields.many2one('account.multi.invoice','Multi Expenses'),
+    }
+    
+account_invoice()
 
 class account_multi_invoice(osv.osv):
     
@@ -79,6 +84,7 @@ class account_multi_invoice(osv.osv):
         'state': fields.selection([
             ('draft','Draft'),
             ('invoiced','Invoiced'),
+            ('paid','Paid'),
             ],'Status', select=True, readonly=True, track_visibility='onchange',),
         'date_invoice': fields.date('Invoice Date', readonly=True, states={'draft':[('readonly',False)]}, select=True, help="Keep empty to use the current date",required=True),
         'partner_id': fields.many2one('res.partner', 'Partner', change_default=True, readonly=True, required=True, states={'draft':[('readonly',False)]}, track_visibility='always'),
@@ -92,6 +98,7 @@ class account_multi_invoice(osv.osv):
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, track_visibility='always'),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'company_id': fields.many2one('res.company', 'Company', required=True, change_default=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'invoice_ids':fields.one2many('account.invoice','multi_invoice_id','Invoices',readonly=True)
     }
     
     _defaults = {
@@ -113,6 +120,7 @@ class account_multi_invoice(osv.osv):
         fleet_ana_obj = self.pool.get('fleet.analytic.account')
         analytic_account_obj = self.pool.get('account.analytic.account')
         account_invoice_obj = self.pool.get('account.invoice')
+        wf_service = netsvc.LocalService('workflow')
         
         self_brw = self.browse(cr, uid, ids)[0]
         invoice_date = datetime.datetime.strptime(self_brw.date_invoice,"%Y-%m-%d")        
@@ -184,11 +192,13 @@ class account_multi_invoice(osv.osv):
             'journal_id': self_brw.journal_id.id,
             'company_id':self_brw.company_id.id,
             'cost_analytic_id':key,
+            'multi_invoice_id':ids[0]
             })
+            wf_service.trg_validate(uid, 'account.invoice', acc_invoice_id, 'invoice_open', cr)
         
         self.write(cr, uid, ids, {'state':'invoiced'})
         return True
-
+    
     def unlink(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
