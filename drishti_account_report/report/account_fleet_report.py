@@ -71,11 +71,11 @@ class account_fleet_report(report_sxw.rml_parse, common_report_header):
                         date_to = period_dict['date_stop']
             
             if not date_from or not date_to:
-                fiscal_dates = self.pool.get('account.fiscalyear').read(cr,uid,form_value['fiscalyear_id'],['date_start','date_stop'])
+                fiscal_dates = self.pool.get('account.fiscalyear').read(self.cr,self.uid,form_value['fiscalyear_id'],['date_start','date_stop'])
                 if not date_from:
                     date_from = fiscal_dates['date_start']
                 if not date_to:
-                    date_to = fiscal_date['date_stop']
+                    date_to = fiscal_dates['date_stop']
             
             where.append(tuple([date_from]))
             where.append(tuple([date_to]))

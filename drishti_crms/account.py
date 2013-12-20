@@ -89,7 +89,7 @@ class account_account(osv.osv):
                 operand1,operand2 = name.split(' ',1) #name can contain spaces e.g. OpenERP S.A.
                 ids = self.search(cr, user, [('code', operator, operand1), ('name', operator, operand2)]+ args, limit=limit)
         else:
-            ids = self.search(cr, user, args, context=context, limit=limit)
+            ids = self.search(cr, user, args, context=context, limit=50000)
         return self.name_get(cr, user, ids, context=context)
     
     

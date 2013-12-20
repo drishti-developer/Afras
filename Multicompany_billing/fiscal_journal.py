@@ -202,11 +202,11 @@ class account_invoice(osv.osv):
 
             
             if move_id :
-                if total_debit_amount > total_credit_amt:
-                    debit1 = total_debit_amount - total_credit_amt
+                if total_debit_amt > total_credit_amt:
+                    debit1 = total_debit_amt - total_credit_amt
                     credit1 = 0  
                 else:
-                    credit1 = total_credit_amt - total_debit_amount
+                    credit1 = total_credit_amt - total_debit_amt
                     debit1 = 0
                 move_line = {
                     'period_id': period_id,
@@ -502,6 +502,8 @@ class account_invoice(osv.osv):
                 fiscal_type  = 'ss'
             elif user_obj.company_id.technology_company:
                 fiscal_type  = 'T'
+            else:
+                  fiscal_type = False   
             fiscal_id =  acc_fiscal_posi.search(cr,uid, [('type','=',fiscal_type),('company_id','=',user_obj.company_id.id)])
             if fiscal_id:
                       fiscal_position = fiscal_id[0]
