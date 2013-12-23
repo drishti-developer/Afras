@@ -1,0 +1,11 @@
+<openerp>
+    <data>
+        <report auto="False" 
+                 id="afras_asset_report_id" 
+                 menu="False" 
+                 model="account.asset.asset.wiz" 
+                 name="account_asset_asset_report" 
+                 rml="asset_report/report/asset.rml" 
+                 string="Asset Report"/>
+    </data>
+</openerp>
