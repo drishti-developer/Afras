@@ -332,12 +332,13 @@
                 <field name="adjust_journal_id" />
                </field> 
                 <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
+                
                <field name="journal_id"
-                                domain="[('type','in',['bank', 'cash'])('company_id','=',company_id)]"
+                                domain="[('type','in',['bank', 'cash']),('company_id','=',company_id)]"
                                 invisible="context.get('line_type', False)"
                                on_change="onchange_journal(journal_id, line_dr_ids, False, partner_id, date, amount, type, company_id, context)"
                                 string="Payment Method"
-                               options='{"no_open":True}'/>
+                               />
                 </xpath>
             </field>
         </record>
