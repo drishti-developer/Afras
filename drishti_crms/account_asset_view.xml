@@ -22,11 +22,22 @@
 			     <field name="purchase_date" position="after">
 			     <group expand="0" string="Group By...">
                         <filter string="Asset Category"  domain="[]" context="{'group_by':'category_id'}"/>
-                        
+                      
                     </group>
 			     
 			     </field>
 			     
+				</field>
+			</record>
+			
+			<record model="ir.ui.view" id="view_account_asset_ineherit">
+			<field name="name">account.asset.asset.inherit</field>
+			<field name="model">account.asset.asset</field>
+			<field name="inherit_id" ref="account_asset.view_account_asset_asset_form" />
+			<field name="arch" type="xml">
+			     <field name="parent_id" position="after">
+			     <field name="is_status"/>
+			     </field>
 				</field>
 			</record>
 			

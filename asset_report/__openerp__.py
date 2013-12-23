@@ -33,7 +33,7 @@
  
     'images': [
                ],
-    'depends': ['base',"account_asset",'account'],
+    'depends': ['base',"account_asset",'account','drishti_crms'],
     'data': [    
              'wizard/asset_view_wiz.xml',
              'report/asset_report_view.xml',

@@ -231,6 +231,7 @@ class account_asset_asset(osv.osv):
                 'non_depreciation_period' : fields.selection([('days','Days'),('months','Months')],'Non Depreciation Period'),
                 'cost_analytic_id': fields.many2one('account.analytic.account','Invoice Cost Center', required=True),
                  'value_residual': fields.function(_amount_residual, method=True, digits_compute=dp.get_precision('Account'), string='Residual Value'),
+               'is_status':fields.selection([('act','Active'),('inact','Inactive'),('rs','Ready to sell'),('sold','Sold')],'Status'),
                 }  
     
     def onchange_vehicle_id(self, cr, uid, ids, vehicle_id):
