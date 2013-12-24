@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <record model="ir.ui.view" id="asset_asset_sub_category_tree_view">
+             <field name="name">account.asset.sub.category.tree</field>
+             <field name="model">account.asset.sub.category</field>
+             <field name="type">tree</field>
+             <field name="arch" type="xml">
+                 <tree string="Analytic account">
+                     <field name="name"/>
+                     <field name="parent_id"/>
+                 </tree>
+             </field>
+         </record>
+         
+         <record id="view_account_sub_category_hierarchy" model="ir.ui.view">
+          <field name="name">account.asset.sub.category.hierarchy</field>
+          <field name="model">account.asset.sub.category</field>
+          <field name="field_parent">child_ids</field>
+          <field name="arch" type="xml">
+              <tree string="Analytic account hierarchy">
+                  <field name="name"/>
+            	</tree>
+           	</field>
+         </record>
+
+         <record model="ir.ui.view" id="asset_asset_sub_category_form_view">
+            <field name="name">account.asset.sub.category.form</field>
+             <field name="model">account.asset.sub.category</field>
+             <field name="type">tree</field>
+             <field name="arch" type="xml">
+                 <form string="Qualification">
+                 <group col="4" colspan="2">
+                     <field name="name"/>
+                     <field name="parent_id"/>
+                     <field name="child_ids" invisible="1"/>
+                     </group>
+                 </form>
+             </field>
+         </record>
+
+         <record model="ir.actions.act_window" id="action_asset_sub_category_view">
+             <field name="name">Asset Sub Category</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="res_model">account.asset.sub.category</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="asset_asset_sub_category_tree_view"/>
+         </record>
+            
+            
+	    <record model="ir.actions.act_window" id="action_account_asset_asset_hierarchy_tree">
+	        <field name="name">Asset Hierarchy</field>
+	        <field name="res_model">account.asset.sub.category</field>
+	        <field name="view_type">tree</field>
+	        <field name="domain">[('parent_id','=',False)]</field>
+	        <field name="view_id" ref="view_account_sub_category_hierarchy"/>
+	    </record>
+	    
+	     <record id="inherit_view_company_form" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+            <notebook>
+            	<page string="Allow shared company" attrs="{'invisible': [('is_shared_company','=',False)]}">
+            		<field name="company_ids"/>
+            	</page>
+            </notebook>
+	    	</field>
+	    </record>
+	    
+            
+        <record model="ir.ui.view" id="inherit_view_account_asset_asset_form">
+	        <field name="name">account.asset.asset.form</field>
+	        <field name="model">account.asset.asset</field>
+	        <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+	        <field name="arch" type="xml">
+	        <field name="category_id" position="after">
+	        <field name="sub_category_id" domain="[('parent_id','=',category_id)]"/>
+	        </field>
+             <notebook>
+            	<page string="Cost Center">
+            		<field name="cost_center_ids">
+            		  <tree string="Cost Center" editable="bottom">
+                         <field name="analytic_id"/>
+	                     <field name="from_date"/>
+	                     <field name="to_date"/>
+                      </tree>
+                      </field>
+            	</page>
+            </notebook>
+         </field>
+         </record>
+         
+         
+        <record model="ir.ui.view" id="inherit_view_account_asset_category_form">
+	       <field name="name">account.asset.category.form</field>
+	       <field name="model">account.asset.category</field>
+	       <field name="inherit_id" ref="account_asset.view_account_asset_category_form"/>
+	       <field name="arch" type="xml">
+		       <field name="name" position="after">
+		       		<field name="category_id"/>
+		       </field>
+		       
+           </field>
+        </record>
+            
+            
+	            
+		<menuitem id="asset_sub_category_menu_id" name="Asset Sub Category" parent="account_asset.menu_finance_config_assets"  action="action_asset_sub_category_view"/>
+		<menuitem id="asset_sub_category_hierarchi_id" name="Asset Category Hierarchy" parent="account_asset.menu_finance_config_assets" action="action_account_asset_asset_hierarchy_tree"/>
+		
+		
+		
+</data>
+</openerp>

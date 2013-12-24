@@ -19,11 +19,14 @@ class account_fiscal_default_account(osv.osv):
     _name = 'account.fiscal.default.account'
     _rec_name = 'type'
     _columns = {
-        'type':fields.selection([('in_invoice','Income Account'),('out_invoice','Expenses Account')],'Type',required=True),  
-        'account_id': fields.many2one('account.account', 'Account', required=True, ondelete='cascade'),     
-        'company_id' : fields.related('account_id','company_id',type='many2one',relation='res.company',string='Company',readonly=True,store=True),
-        
+        'type':fields.selection([('in_invoice','Income Account'),('out_invoice','Expenses Account'),('cost_center','Cost Center')],'Type',required=True),  
+        'account_id': fields.many2one('account.account', 'Account',ondelete='cascade'),     
+        'company_id' : fields.many2one('res.company','Company',required=True,),
+        'analitic_account_id':fields.many2one('account.analytic.account','Account'),
         }
+    _defaults={
+              'type':'in_invoice',
+              }
 account_fiscal_default_account()
 
 
