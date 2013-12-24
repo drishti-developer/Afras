@@ -1,5 +1,4 @@
-from osv import osv
-from osv import fields
+from openerp.osv import fields, osv, orm
 import time
 
 class res_company(osv.osv):
