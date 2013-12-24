@@ -37,5 +37,6 @@ class account_asset_asset_wiz(osv.osv_memory):
                 'datas':data,
                 }
         else:
+            raise osv.except_osv(('Warning !'),('No record exists for the options selected by the user'))
             return True
 account_asset_asset_wiz()
