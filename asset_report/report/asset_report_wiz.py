@@ -127,6 +127,6 @@ class account_asset_asset_report(report_sxw.rml_parse):
             
         
 
-report_sxw.report_sxw('report.account_asset_asset_report', 'account.asset.asset.wiz','afras_asset/report/asset.rml', parser=account_asset_asset_report)
+report_sxw.report_sxw('report.account_asset_asset_report', 'account.asset.asset.wiz','asset_report/report/asset.rml', parser=account_asset_asset_report)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

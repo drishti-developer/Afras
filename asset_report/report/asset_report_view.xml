@@ -5,7 +5,7 @@
                  menu="False" 
                  model="account.asset.asset.wiz" 
                  name="account_asset_asset_report" 
-                 rml="afras_asset/report/asset.rml" 
+                 rml="asset_report/report/asset.rml" 
                  string="Asset Report"/>
     </data>
 </openerp>
