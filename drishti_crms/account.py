@@ -950,7 +950,7 @@ class account_voucher(osv.osv):
             ctx.update({'date': voucher.date})
             # Create the account move record.
             move_id = move_pool.create(cr, uid, self.account_move_get(cr, uid, voucher.id, context=context), context=context)
-            if voucher.adjust_journal_id and user_obj.company_id.is_shared_company:
+            if voucher.adjust_journal_id:
                 move_id1 = move_pool.create(cr, uid, self.account_move_get1(cr, uid, voucher.id, context=context), context=context)
                 move_line_id1 = move_line_pool.create(cr, uid, self.first_move_line_get1(cr,uid,voucher.id, move_id1, company_currency, current_currency, context), context)
             # Get the name of the account_move just created
@@ -967,7 +967,7 @@ class account_voucher(osv.osv):
                 line_total = line_total + self._convert_amount(cr, uid, voucher.tax_amount, voucher.id, context=ctx)
             # Create one move line per voucher line where amount is not 0.0
             line_total, rec_list_ids = self.voucher_move_line_create(cr, uid, voucher.id, line_total, move_id, company_currency, current_currency, context)
-            if voucher.adjust_journal_id and user_obj.company_id.is_shared_company:
+            if voucher.adjust_journal_id:
                 self.voucher_move_line_create1(cr, uid, voucher.id, line_total, move_id1, company_currency, current_currency, context)
             # Create the writeoff line if needed
             ml_writeoff = self.writeoff_move_line_get(cr, uid, voucher.id, line_total, move_id, name, company_currency, current_currency, context)
@@ -1057,16 +1057,34 @@ class account_voucher(osv.osv):
                 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
             }
             if voucher.adjust_journal_id:
-                period_pool = self.pool.get('account.period')   
+                period_pool = self.pool.get('account.period')  
+                account_obj = self.pool.get('account.account')   
                 ctx = context.copy()
                 ctx.update({'company_id': voucher.adjust_journal_id.company_id.id, 'account_period_prefer_normal': True})
 #                 voucher_currency_id = currency_id or self.pool.get('res.company').browse(cr, uid, voucher.adjust_journal_id.company_id.id, context=ctx).currency_id.id
-                pids = period_pool.find(cr, uid, date, context=ctx) 
+                pids = period_pool.find(cr, uid, date, context=ctx)
+                property_obj = self.pool.get('ir.property')
+                company_id = voucher.adjust_journal_id.company_id.id
+                partner_id = voucher.company_id.partner_id.id
+                rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
+                pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
+                if not rec_pro_id:
+                        rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('company_id','=',company_id)])
+                if not pay_pro_id:
+                        pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('company_id','=',company_id)])
+                rec_line_data = property_obj.read(cr,uid,rec_pro_id,['name','value_reference','res_id'])
+                pay_line_data = property_obj.read(cr,uid,pay_pro_id,['name','value_reference','res_id'])
+                rece_acc_id = rec_line_data and rec_line_data[0].get('value_reference',False) and int(rec_line_data[0]['value_reference'].split(',')[1]) or False
+                pay_acc_id = pay_line_data and pay_line_data[0].get('value_reference',False) and int(pay_line_data[0]['value_reference'].split(',')[1]) or False
+                rece_acc = property_obj.get(cr, uid, 'property_account_receivable', 'res.partner', context={'force_company': voucher.adjust_journal_id.company_id.id})
+                pay_acc = property_obj.get(cr, uid, 'property_account_payable', 'res.partner', context={'force_company': voucher.adjust_journal_id.company_id.id})
+               
+                
                 move_line1 = {
                     'journal_id': voucher.adjust_journal_id.id,
                     'period_id': pids and pids[0] or False,
                     'name': line.name or '/',
-                    'account_id': 4646,
+                    
                     'move_id': move_id,
                     'partner_id': voucher.company_id.partner_id.id,
                     'currency_id': line.move_line_id and (company_currency <> line.move_line_id.currency_id.id and line.move_line_id.currency_id.id) or False,
@@ -1081,6 +1099,7 @@ class account_voucher(osv.osv):
                     'company_id': voucher.adjust_journal_id.company_id.id,
                    # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
             } 
+            #print period_pool.browse(cr, uid,pids[0]).company_id.name,acc.company_id.name,voucher.adjust_journal_id.company_id.name
             if amount < 0:
                 amount = -amount
                 if line.type == 'dr':
@@ -1092,10 +1111,13 @@ class account_voucher(osv.osv):
                 tot_line += amount
                 move_line['debit'] = amount
                 move_line1['debit'] = amount
+                move_line1['account_id'] = rece_acc_id #pay_acc and pay_acc.id or  False
+                
             else:
                 tot_line -= amount
                 move_line['credit'] = amount
                 move_line1['credit'] = amount
+                move_line1['account_id'] = pay_acc_id  #rece_acc and rece_acc.id or  False
             if voucher.tax_id and voucher.type in ('sale', 'purchase'):
                 move_line.update({
                     'account_tax_id': voucher.tax_id.id,
@@ -1200,7 +1222,8 @@ class account_voucher(osv.osv):
                 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
             }
             
-                
+#             if voucher.adjust_journal_id:
+#                  move_line['partner_id'] =  voucher.company_id.partner_id.id   
             if amount < 0:
                 amount = -amount
                 if line.type == 'dr':
