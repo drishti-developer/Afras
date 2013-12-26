@@ -86,6 +86,7 @@
                          <field name="analytic_id"/>
 	                     <field name="from_date"/>
 	                     <field name="to_date"/>
+	                     <field name="fleet_analytic_id" invisible="1"/>
                       </tree>
                       </field>
             	</page>

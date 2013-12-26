@@ -22,9 +22,10 @@ class account_asset_cost_center(osv.osv):
               'analytic_id':fields.many2one('account.analytic.account','Analytical Account'),
               'from_date': fields.date('From date'),
               'to_date': fields.date('Date To'),
+              'fleet_analytic_id':fields.many2one('fleet.analytic.account','Fleet Analytic Account'),
               'asset_id':fields.many2one('account.asset.asset','Asset')
-   }
-account_asset_sub_category()
+             }
+account_asset_cost_center()
     
 class account_asset_asset(osv.osv):
     _inherit = 'account.asset.asset'

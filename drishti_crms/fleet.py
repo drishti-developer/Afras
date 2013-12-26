@@ -103,20 +103,53 @@ class fleet_analytic_account(osv.osv):
         return res
     
     _columns = {
-    'vehicle_id' : fields.many2one('fleet.vehicle', 'Vehicle'),
-    'branch_id': fields.many2one('sale.shop',  'Branch'),
-    'area_id' : fields.related('branch_id','area_id',type='many2one',relation='res.city.area',string='Area',readonly=True,store=True),
-    'city_id' : fields.function(_city, string='City',type='many2one',relation='res.state.city',store=True),
-    'region_id' : fields.related('city_id','state_id',type='many2one',relation='res.country.state',string='Region',readonly=True,store=True),
-    'country_id': fields.related('city_id', 'country_id', type='many2one', relation='res.country', string='Country', readonly=True,store=True),
-    'company_id': fields.many2one('res.company','Company'), 
-    'segment': fields.selection([('retail','Retail'),('corporate','Corporate')],'Segment'),                        
-    'analytic_id' : fields.many2one('account.analytic.account','Analytic Account',),
-    'date_from': fields.date('From Date',required=True),
-    'date_to': fields.date('To Date'),
-    'client_id':fields.many2one('res.partner','Client'),
-    'team_id':fields.related('client_id','section_id',type='many2one',relation='crm.case.section',string='Team',readonly=True,store=True),
-    }
+            'vehicle_id' : fields.many2one('fleet.vehicle', 'Vehicle'),
+            'branch_id': fields.many2one('sale.shop',  'Branch'),
+            'area_id' : fields.related('branch_id','area_id',type='many2one',relation='res.city.area',string='Area',readonly=True,store=True),
+            'city_id' : fields.function(_city, string='City',type='many2one',relation='res.state.city',store=True),
+            'region_id' : fields.related('city_id','state_id',type='many2one',relation='res.country.state',string='Region',readonly=True,store=True),
+            'country_id': fields.related('city_id', 'country_id', type='many2one', relation='res.country', string='Country', readonly=True,store=True),
+            'company_id': fields.many2one('res.company','Company'), 
+            'segment': fields.selection([('retail','Retail'),('corporate','Corporate')],'Segment'),                        
+            'analytic_id' : fields.many2one('account.analytic.account','Analytic Account',),
+            'date_from': fields.date('From Date',required=True),
+            'date_to': fields.date('To Date'),
+            'client_id':fields.many2one('res.partner','Client'),
+            'team_id':fields.related('client_id','section_id',type='many2one',relation='crm.case.section',string='Team',readonly=True,store=True),
+            }
+    def create(self, cr, uid, data, context=None):
+        lst=[]
+        analytic_fleet_id=super(fleet_analytic_account, self).create(cr, uid, data, context=context)
+        lst.append((0,0,{'analytic_id':data['analytic_id'],'from_date':data['date_from'],'to_date':data['date_to']})),
+        account_asset_obj=self.pool.get('account.asset.asset')
+        account_cost_center_obj=self.pool.get('account.asset.cost.center')
+        asset_ids=account_asset_obj.search(cr,uid,([('vehicle_id','=',data['vehicle_id'])]))
+        if asset_ids:
+              account_costcenter_line_id = account_cost_center_obj.create(cr,uid,{'analytic_id':data['analytic_id'],'from_date':data['date_from'],'to_date':data['date_to'],'asset_id':asset_ids[0],'fleet_analytic_id':analytic_fleet_id},context=context)
+        return analytic_fleet_id
+    
+
+    def write(self, cr, uid, ids, vals, context=None):
+        res={}
+        date_from=vals['date_from']
+        to_date=vals['date_to']
+        if date_from:
+            date_from=vals['date_from']
+            res.update({'from_date':date_from})
+        if to_date:
+            to_date=vals['date_to']
+            res.update({'to_date':to_date})
+        if date_from and to_date:
+            res.update({'from_date':date_from,'to_date':to_date})     
+        account_cost_center_obj=self.pool.get('account.asset.cost.center')
+        account_asset_obj=self.pool.get('account.asset.asset')
+        obj=self.browse(cr,uid,ids[0])
+        asset_ids=account_asset_obj.search(cr,uid,([('vehicle_id','=',obj.vehicle_id.id)]))
+        asset_line_ids=account_asset_obj.browse(cr,uid,asset_ids[0])
+        cost_center_ids=account_cost_center_obj.search(cr,uid,[('fleet_analytic_id','=',ids)])
+        if cost_center_ids:
+            account_update=account_cost_center_obj.write(cr,uid,cost_center_ids,res,context=context)
+        return super(fleet_analytic_account, self).write(cr, uid, ids, vals, context=context)
     
 fleet_analytic_account()      
     

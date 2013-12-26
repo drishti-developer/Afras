@@ -560,8 +560,8 @@ class fleet_vehicle_odometer(osv.Model):
         return res
     
     _columns = {
-       'name': fields.function(_vehicle_log_name_get_fnc, type="char", string='Name', store=True), 
-        }
+                'name': fields.function(_vehicle_log_name_get_fnc, type="char", string='Name', store=True), 
+                }
     
 fleet_vehicle_odometer()
 
