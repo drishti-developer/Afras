@@ -1,0 +1,2 @@
+id,name,model_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_asset_sub_category_all,account.asset.sub.category,model_account_asset_sub_category,1,1,1,1

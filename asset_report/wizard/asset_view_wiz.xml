@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="afras_asset_wizard_form" model="ir.ui.view">
+            <field name="name">Asset Information</field>
+            <field name="model">account.asset.asset.wiz</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Asset Information" version="7.0">
+                <group colspan="4" col="4">
+                    <field name="asset_id"/>  
+                    <field name="asset_cat_id"/>
+                    <field name="status"/>
+                    <field name="asset_location"/>
+                    <field name="start_date"/>
+                    </group>
+                    <footer>
+                 <button name="print_report" string="Print" type="object" colspan="1" icon="gtk-print"/>
+                  <button special="cancel" string="Cancel" icon="gtk-cancel"/>       
+                 </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_afras_asset_wizard_form" model="ir.actions.act_window">
+            <field name="name">Asset Information</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.asset.asset.wiz</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="nodestroy">True</field>
+            <field name="view_id" ref="afras_asset_wizard_form"/>
+        </record>
+        <menuitem  id="menu_asset_report_id" parent="account_asset.menu_finance_assets" name="Asset Report" action="action_afras_asset_wizard_form" />
+    </data>
+</openerp>
