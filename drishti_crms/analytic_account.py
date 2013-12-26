@@ -1,15 +1,5 @@
-from openerp.osv import fields, osv, orm
-import time
-from openerp import SUPERUSER_ID
-from openerp import tools
-from openerp.tools.translate import _
+from openerp.osv import fields, osv
 import datetime
-
-from dateutil.relativedelta import relativedelta
-import calendar
-from openerp.tools import float_compare
-from openerp import netsvc
-import openerp.addons.decimal_precision as dp
 
 class account_analytic_line(osv.osv):
     _inherit = 'account.analytic.line'
@@ -70,6 +60,7 @@ class account_analytic_line(osv.osv):
             city_id = False
             region_id = False
             country_id = False
+            fleet_analytic_ids = False
             if alo.entry_type == 'car':
                 vehicle_id =  vehicle_obj.search(cr ,uid,[('analytic_id','=',alo.account_id.id)])
                 
@@ -105,11 +96,10 @@ class account_analytic_line(osv.osv):
             while next_split_date <= date:   
                 total_value  = 0
                 dic = {}
-                if type(fleet_analytic_ids) != type([]):
-                    fleet_analytic_ids1 = [fleet_analytic_ids]
+                if fleet_analytic_ids:
                 
                 
-                for analytic_id in fleet_analytic_ids:
+                  for analytic_id in fleet_analytic_ids:
                     
                     if datetime.datetime.strptime( analytic_id.date_from,"%Y-%m-%d") <= next_split_date and (not analytic_id.date_to or datetime.datetime.strptime( analytic_id.date_to,"%Y-%m-%d") >= next_split_date ):
                            
