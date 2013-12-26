@@ -36,7 +36,7 @@ class res_currency(osv.osv):
     
     def create(self, cr, uid, data, context=None):
         currency_id = super(res_currency, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, ids)
+        self.update_crms(cr, uid, currency_id)
         return currency_id
     
     def write(self, cr, uid, ids, data, context=None):
@@ -375,7 +375,6 @@ class fleet_type(osv.osv):
 
                 cartype_str += "</CarTypeList>"
                 responsearray = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request(cartype_str, 'CarTypeCreateRequest', 'CarTypeResponse')
-                write = False
                 for response_dict in responsearray:
                     if response_dict.get('RecordStatus',False) and response_dict.get('RecordStatus') == 'SUCCESS':
                         cr.execute("update fleet_type set crms_id=%s where id=%s",(int(response_dict.get('CRMSCarTypeID')), response_dict.get('ERPCarTypeID')))
@@ -465,9 +464,9 @@ class fleet_vehicle(osv.osv):
                 from_date = datetime.datetime.strptime(ana_acc_id.date_from,"%Y-%m-%d")
                 if date_today >= from_date:
                     if ana_acc_id.segment=='retail':
-                        value_id = ana_acc_id.branch_id and ana_acc_id.branch_id.name or False
-                    else:
-                        value_id = ana_acc_id.client_id and ana_acc_id.client_id.name or False                        
+                        value_id = ana_acc_id.branch_id and ana_acc_id.branch_id.id or False
+                    #else:
+                        #value_id = ana_acc_id.client_id and ana_acc_id.client_id.name or False                        
                     if ana_acc_id.date_to:
                         to_date = datetime.datetime.strptime(ana_acc_id.date_to,"%Y-%m-%d")
                         if date_today <= to_date:
@@ -485,7 +484,7 @@ class fleet_vehicle(osv.osv):
         'assigned_for': fields.selection([('Corporate','Corporate'),('Retail','Retail'),('Awaiting for Barcode','Awaiting for Barcode')],string="Assigned For"),
         'licence_plate_arabic':fields.char("Licence Plate Arabic Name",size=256),
         'color_arabic':fields.char(string="Color Arabic Name",size=256),
-        'current_branch_id':fields.function(_vehicle_branch_get_fnc, type="char", string='Branch/Client'),
+        'current_branch_id':fields.function(_vehicle_branch_get_fnc, type="many2one", relation="sale.shop", string='Branch'),
         'mvpi_expiry_date':fields.date(string='MVPIExpiryDate'),
     }
     
@@ -502,7 +501,6 @@ class fleet_vehicle(osv.osv):
                     raise osv.except_osv(_('Error'),_('Please add atleast one Branch'))
                 
                 self_brw = reference_obj.browse(cr,uid,reference_ids[0])
-                branch_id = False
                 date_today = datetime.date.today()
                              
                 if vehicle_brw.assigned_for and vehicle_brw.license_plate and vehicle_brw.license_plate_arabic and vehicle_brw.vin_sn and vehicle_brw.color and vehicle_brw.color_arabic and vehicle_brw.company_id and vehicle_brw.model_year and vehicle_brw.model_id and vehicle_brw.model_id.crms_id and vehicle_brw.current_branch_id and vehicle_brw.current_branch_id.crms_id:
@@ -560,8 +558,8 @@ class fleet_vehicle_odometer(osv.Model):
         return res
     
     _columns = {
-                'name': fields.function(_vehicle_log_name_get_fnc, type="char", string='Name', store=True), 
-                }
+       'name': fields.function(_vehicle_log_name_get_fnc, type="char", string='Name', store=True), 
+        }
     
 fleet_vehicle_odometer()
 
@@ -589,5 +587,3 @@ class res_partner(osv.osv):
         }
 
 res_partner()
-
-

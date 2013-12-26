@@ -77,6 +77,5 @@
       <menuitem id="menu_crms_instance_parent" parent="menu_crms" name="CRMS" sequence="0"/>
       <menuitem action="action_crms_instance" id="menu_crms_instance" parent="menu_crms_instance_parent" name = "CRMS Instance" sequence="0"/>
       
-     
 	</data>
 </openerp>
