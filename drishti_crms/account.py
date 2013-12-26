@@ -89,7 +89,7 @@ class account_account(osv.osv):
                 operand1,operand2 = name.split(' ',1) #name can contain spaces e.g. OpenERP S.A.
                 ids = self.search(cr, user, [('code', operator, operand1), ('name', operator, operand2)]+ args, limit=limit)
         else:
-            ids = self.search(cr, user, args, context=context, limit=limit)
+            ids = self.search(cr, user, args, context=context, limit=50000)
         return self.name_get(cr, user, ids, context=context)
     
     
@@ -349,6 +349,7 @@ class account_invoice(osv.osv):
             move_id = move_obj.create(cr, uid, move, context=ctx)
             new_move_name = move_obj.browse(cr, uid, move_id, context=ctx).name
             # make the invoice point to that move
+            print "hhhhhhhh",move_id,inv.id
             self.write(cr, uid, [inv.id], {'move_id': move_id,'period_id':period_id, 'move_name':new_move_name}, context=ctx)
             # Pass invoice in context in method post: used if you want to get the same
             # account move reference when creating the same invoice after a cancelled one:
@@ -949,7 +950,7 @@ class account_voucher(osv.osv):
             ctx.update({'date': voucher.date})
             # Create the account move record.
             move_id = move_pool.create(cr, uid, self.account_move_get(cr, uid, voucher.id, context=context), context=context)
-            if voucher.adjust_journal_id and user_obj.company_id.is_shared_company:
+            if voucher.adjust_journal_id:
                 move_id1 = move_pool.create(cr, uid, self.account_move_get1(cr, uid, voucher.id, context=context), context=context)
                 move_line_id1 = move_line_pool.create(cr, uid, self.first_move_line_get1(cr,uid,voucher.id, move_id1, company_currency, current_currency, context), context)
             # Get the name of the account_move just created
@@ -966,13 +967,14 @@ class account_voucher(osv.osv):
                 line_total = line_total + self._convert_amount(cr, uid, voucher.tax_amount, voucher.id, context=ctx)
             # Create one move line per voucher line where amount is not 0.0
             line_total, rec_list_ids = self.voucher_move_line_create(cr, uid, voucher.id, line_total, move_id, company_currency, current_currency, context)
-            if voucher.adjust_journal_id and user_obj.company_id.is_shared_company:
+            if voucher.adjust_journal_id:
                 self.voucher_move_line_create1(cr, uid, voucher.id, line_total, move_id1, company_currency, current_currency, context)
             # Create the writeoff line if needed
             ml_writeoff = self.writeoff_move_line_get(cr, uid, voucher.id, line_total, move_id, name, company_currency, current_currency, context)
             if ml_writeoff:
                 move_line_pool.create(cr, uid, ml_writeoff, context)
             # We post the voucher.
+            print "hhhherererertetrer",voucher.id,move_id
             self.write(cr, uid, [voucher.id], {
                 'move_id': move_id,
                 'state': 'posted',
@@ -1055,16 +1057,22 @@ class account_voucher(osv.osv):
                 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
             }
             if voucher.adjust_journal_id:
-                period_pool = self.pool.get('account.period')   
+                period_pool = self.pool.get('account.period')  
+                account_obj = self.pool.get('account.account')   
                 ctx = context.copy()
                 ctx.update({'company_id': voucher.adjust_journal_id.company_id.id, 'account_period_prefer_normal': True})
 #                 voucher_currency_id = currency_id or self.pool.get('res.company').browse(cr, uid, voucher.adjust_journal_id.company_id.id, context=ctx).currency_id.id
-                pids = period_pool.find(cr, uid, date, context=ctx) 
+                pids = period_pool.find(cr, uid, date, context=ctx)
+              
+                acc = self.pool.get('ir.property').get(cr, uid, 'property_account_receivable', 'res.partner', context={'force_company': voucher.adjust_journal_id.company_id.id})
+              
+               
+                
                 move_line1 = {
                     'journal_id': voucher.adjust_journal_id.id,
                     'period_id': pids and pids[0] or False,
                     'name': line.name or '/',
-                    'account_id': 4646,
+                    'account_id': acc and acc.id or  False,
                     'move_id': move_id,
                     'partner_id': voucher.company_id.partner_id.id,
                     'currency_id': line.move_line_id and (company_currency <> line.move_line_id.currency_id.id and line.move_line_id.currency_id.id) or False,
@@ -1079,6 +1087,7 @@ class account_voucher(osv.osv):
                     'company_id': voucher.adjust_journal_id.company_id.id,
                    # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
             } 
+            print period_pool.browse(cr, uid,pids[0]).company_id.name,acc.company_id.name,voucher.adjust_journal_id.company_id.name
             if amount < 0:
                 amount = -amount
                 if line.type == 'dr':
@@ -1504,7 +1513,7 @@ class account_move_line(osv.osv):
            else:
                 if line.analytic_account_id:
                     if not line.journal_id.analytic_journal_id:
-                        raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal!") % (obj_line.journal_id.name, ))
+                        raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal!") % (line.journal_id.name, ))
                     vals_line = self._prepare_analytic_line(cr, uid, line, context=context)
                     analytic_line_obj.create(cr, uid, vals_line)
                     print "Creating a Single Analytical Entry-------------------"

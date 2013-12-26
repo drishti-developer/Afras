@@ -104,7 +104,8 @@ class account_asset_depreciation_line(osv.osv):
             sign = (line.asset_id.category_id.journal_id.type == 'purchase' and 1) or -1
             asset_name = line.asset_id.name
             reference = line.name
-            vehicle_id = line.vehicle_id and line.vehicle_id.id or False
+            
+            vehicle_id = line.asset_id.vehicle_id and line.asset_id.vehicle_id.id or False
             cost_analytic_id = False
             if vehicle_id: 
                 fleet_analytic_account_obj = self.pool.get('fleet.analytic.account')
