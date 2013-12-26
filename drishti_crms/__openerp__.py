@@ -38,7 +38,7 @@
                 'fleet','account','account_asset',
                 'account_voucher','sale','sale_stock','crm'
                 ],
-    'data': [    
+    'data': [
                'account_asset_view.xml',  
                'account_view.xml',
                'advance_payment_view.xml',
@@ -49,6 +49,8 @@
                'wizard/pay_multi_invoice_view.xml',
                'account_multi_invoice_view.xml',
                'account_distribution_plan_view.xml',
+               'crms_payment_view.xml',
+               
             ],
     'demo': [],
     'test': [  
