@@ -117,6 +117,8 @@ class fleet_analytic_account(osv.osv):
             'client_id':fields.many2one('res.partner','Client'),
             'team_id':fields.related('client_id','section_id',type='many2one',relation='crm.case.section',string='Team',readonly=True,store=True),
             }
+    
+    
     def create(self, cr, uid, data, context=None):
         lst=[]
         analytic_fleet_id=super(fleet_analytic_account, self).create(cr, uid, data, context=context)
