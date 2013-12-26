@@ -19,11 +19,14 @@ class account_fiscal_default_account(osv.osv):
     _name = 'account.fiscal.default.account'
     _rec_name = 'type'
     _columns = {
-        'type':fields.selection([('in_invoice','Income Account'),('out_invoice','Expenses Account')],'Type',required=True),  
-        'account_id': fields.many2one('account.account', 'Account', required=True, ondelete='cascade'),     
-        'company_id' : fields.related('account_id','company_id',type='many2one',relation='res.company',string='Company',readonly=True,store=True),
-        
+        'type':fields.selection([('in_invoice','Income Account'),('out_invoice','Expenses Account'),('cost_center','Cost Center')],'Type',required=True),  
+        'account_id': fields.many2one('account.account', 'Account',ondelete='cascade'),     
+        'company_id' : fields.many2one('res.company','Company',required=True,),
+        'analitic_account_id':fields.many2one('account.analytic.account','Account'),
         }
+    _defaults={
+              'type':'in_invoice',
+              }
 account_fiscal_default_account()
 
 
@@ -202,11 +205,11 @@ class account_invoice(osv.osv):
 
             
             if move_id :
-                if total_debit_amount > total_credit_amt:
-                    debit1 = total_debit_amount - total_credit_amt
+                if total_debit_amt > total_credit_amt:
+                    debit1 = total_debit_amt - total_credit_amt
                     credit1 = 0  
                 else:
-                    credit1 = total_credit_amt - total_debit_amount
+                    credit1 = total_credit_amt - total_debit_amt
                     debit1 = 0
                 move_line = {
                     'period_id': period_id,
@@ -219,7 +222,7 @@ class account_invoice(osv.osv):
                     'company_id' :company_id,
                  
                     }
-                
+                prop = self.pool.get('ir.property').get(cr, uid, 'property_account_expense_categ', 'product.category', context=context)
                 rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
                 pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
                 if not rec_pro_id:
@@ -502,6 +505,8 @@ class account_invoice(osv.osv):
                 fiscal_type  = 'ss'
             elif user_obj.company_id.technology_company:
                 fiscal_type  = 'T'
+            else:
+                  fiscal_type = False   
             fiscal_id =  acc_fiscal_posi.search(cr,uid, [('type','=',fiscal_type),('company_id','=',user_obj.company_id.id)])
             if fiscal_id:
                       fiscal_position = fiscal_id[0]

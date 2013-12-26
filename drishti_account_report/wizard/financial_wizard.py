@@ -76,9 +76,9 @@ class accounting_report(osv.osv_memory):
 
     _defaults = {
             'filter_cmp': 'filter_no',
-            'target_move': 'posted',
+            'target_move': 'all',
             'account_report_id': _get_account_report,
-            'level': '7',
+            'level': '3',
             'child_cost_center' : True,
     }
     

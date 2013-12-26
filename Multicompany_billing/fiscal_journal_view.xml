@@ -144,9 +144,9 @@
 			<field name="model">account.fiscal.default.account</field>
 			<field name="arch" type="xml">
 				<tree string="Default Account">
-					<field name="type" />
+					<field name="type"/>
 					<field name="account_id" />
-					<field name="company_id" />
+					<field name="company_id"/>
 					
 				</tree>
 			</field>
@@ -157,8 +157,9 @@
 			<field name="arch" type="xml">
 				<form string="Default Account">
 					<field name="type" />
-					<field name="account_id" />
 					<field name="company_id" />
+					<field name="account_id" attrs="{'invisible':[('type','=','cost_center')],'required':[('type','!=','cost_center')]}"/>
+					<field name="analitic_account_id" attrs="{'invisible':[('type','in',['in_invoice','out_invoice'])],'required':[('type','=','cost_center')]}"/>
 				</form>
 			</field>
 		</record>

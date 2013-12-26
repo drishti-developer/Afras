@@ -68,7 +68,13 @@ class acc_financial_report(report_sxw.rml_parse, common_report_header):
             elif report.type == 'account_type' and report.account_type_ids:
                 account_ids = account_obj.search(self.cr, self.uid, [('user_type','in', [x.id for x in report.account_type_ids])])
             if account_ids:
+                
+#                 print "account_ids",account_ids
+#                 print "data",data['form']['chart_account_id']
+                chart_account = account_obj.browse(self.cr, self.uid, data['form']['chart_account_id'], context=data['form']['used_context'])
                 for account in account_obj.browse(self.cr, self.uid, account_ids, context=data['form']['used_context']):
+                   if account.company_id.id ==  chart_account.company_id.id:
+                    
                     #if there are accounts to display, we add them to the lines with a level equals to their level in
                     #the COA + 1 (to avoid having them with a too low level that would conflicts with the level of data
                     #financial reports for Assets, liabilities...)
@@ -92,7 +98,7 @@ class acc_financial_report(report_sxw.rml_parse, common_report_header):
                         vals['balance_cmp'] = account_obj.browse(self.cr, self.uid, account.id, context=data['form']['comparison_context']).balance * report.sign or 0.0
                         if not currency_obj.is_zero(self.cr, self.uid, account.company_id.currency_id, vals['balance_cmp']):
                             flag = True
-                    if flag:
+                    if True:
                         if int(data['form']['level']) >= account.level: 
                             lines.append(vals)
         return lines
