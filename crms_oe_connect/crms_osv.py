@@ -217,7 +217,7 @@ RENTAL_PAYMENT_LIST = [
             ('balance_due_amount','BalanceDue'),
             ('admin_expenses','AdminExpenses'),
             ('damage_charges','DamageCharges'),
-            ('traffic_violation_charges','TrafficViolationCharges')
+            ('traffic_violation_charges','TrafficViolationCharges'),
             ('other_charges','OtherCharges'),
             ('extra_hour_charges','ExtraHourCharges'),
             ('extra_km_charges','ExtraKMCharges'),

@@ -45,15 +45,9 @@
                                 
                                 on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
                                 string="Payment Method"/>
-<<<<<<< HEAD
-               <field name="adjust_journal_id" />
-=======
-<<<<<<< HEAD
-               <field name="adjust_journal_id" />
-=======
+
+
                <field name="adjust_journal_id" domain="[('company_id.is_shared_company','=', True),('type','in',['bank', 'cash'])]"/>
->>>>>>> ba589d890dc3c9f43ead1128f9adc80621d1183d
->>>>>>> e2e0d2e4da18ffbfa39021d4da81a9021427668a
                
 				</field>                 
 			</field>
