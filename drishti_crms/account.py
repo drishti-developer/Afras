@@ -1063,6 +1063,16 @@ class account_voucher(osv.osv):
                 ctx.update({'company_id': voucher.adjust_journal_id.company_id.id, 'account_period_prefer_normal': True})
 #                 voucher_currency_id = currency_id or self.pool.get('res.company').browse(cr, uid, voucher.adjust_journal_id.company_id.id, context=ctx).currency_id.id
                 pids = period_pool.find(cr, uid, date, context=ctx)
+<<<<<<< HEAD
+              
+                acc = self.pool.get('ir.property').get(cr, uid, 'property_account_receivable', 'res.partner', context={'force_company': voucher.adjust_journal_id.company_id.id})
+              
+=======
+<<<<<<< HEAD
+              
+                acc = self.pool.get('ir.property').get(cr, uid, 'property_account_receivable', 'res.partner', context={'force_company': voucher.adjust_journal_id.company_id.id})
+              
+=======
                 property_obj = self.pool.get('ir.property')
                 company_id = voucher.adjust_journal_id.company_id.id
                 partner_id = voucher.company_id.partner_id.id
@@ -1078,13 +1088,23 @@ class account_voucher(osv.osv):
                 pay_acc_id = pay_line_data and pay_line_data[0].get('value_reference',False) and int(pay_line_data[0]['value_reference'].split(',')[1]) or False
                 rece_acc = property_obj.get(cr, uid, 'property_account_receivable', 'res.partner', context={'force_company': voucher.adjust_journal_id.company_id.id})
                 pay_acc = property_obj.get(cr, uid, 'property_account_payable', 'res.partner', context={'force_company': voucher.adjust_journal_id.company_id.id})
+>>>>>>> ba589d890dc3c9f43ead1128f9adc80621d1183d
+>>>>>>> e2e0d2e4da18ffbfa39021d4da81a9021427668a
                
                 
                 move_line1 = {
                     'journal_id': voucher.adjust_journal_id.id,
                     'period_id': pids and pids[0] or False,
                     'name': line.name or '/',
+<<<<<<< HEAD
+                    'account_id': acc and acc.id or  False,
+=======
+<<<<<<< HEAD
+                    'account_id': acc and acc.id or  False,
+=======
                     
+>>>>>>> ba589d890dc3c9f43ead1128f9adc80621d1183d
+>>>>>>> e2e0d2e4da18ffbfa39021d4da81a9021427668a
                     'move_id': move_id,
                     'partner_id': voucher.company_id.partner_id.id,
                     'currency_id': line.move_line_id and (company_currency <> line.move_line_id.currency_id.id and line.move_line_id.currency_id.id) or False,
@@ -1099,7 +1119,15 @@ class account_voucher(osv.osv):
                     'company_id': voucher.adjust_journal_id.company_id.id,
                    # 'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
             } 
+<<<<<<< HEAD
+            print period_pool.browse(cr, uid,pids[0]).company_id.name,acc.company_id.name,voucher.adjust_journal_id.company_id.name
+=======
+<<<<<<< HEAD
+            print period_pool.browse(cr, uid,pids[0]).company_id.name,acc.company_id.name,voucher.adjust_journal_id.company_id.name
+=======
             #print period_pool.browse(cr, uid,pids[0]).company_id.name,acc.company_id.name,voucher.adjust_journal_id.company_id.name
+>>>>>>> ba589d890dc3c9f43ead1128f9adc80621d1183d
+>>>>>>> e2e0d2e4da18ffbfa39021d4da81a9021427668a
             if amount < 0:
                 amount = -amount
                 if line.type == 'dr':
