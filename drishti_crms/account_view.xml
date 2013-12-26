@@ -45,7 +45,15 @@
                                 
                                 on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
                                 string="Payment Method"/>
+<<<<<<< HEAD
+               <field name="adjust_journal_id" />
+=======
+<<<<<<< HEAD
+               <field name="adjust_journal_id" />
+=======
                <field name="adjust_journal_id" domain="[('company_id.is_shared_company','=', True),('type','in',['bank', 'cash'])]"/>
+>>>>>>> ba589d890dc3c9f43ead1128f9adc80621d1183d
+>>>>>>> e2e0d2e4da18ffbfa39021d4da81a9021427668a
                
 				</field>                 
 			</field>
@@ -280,31 +288,31 @@
 <!-- 			<xpath expr="/form/header/button[@name='proforma_voucher']" position="after"> -->
 <!-- 					<button name="cancel_voucher" string="Cancel Voucher11" type="object" states="posted" /> -->
 <!-- 				</xpath> -->
-			<notebook position="inside">
-			   <page string="Rent">
+<!-- 			<notebook position="inside"> -->
+<!-- 			   <page string="Rent"> -->
 <!-- 			        <button name="purchase_receipt" string="Generate Receipt" type="object" states="posted" /> -->
-			        <group>
-			        <group>
-			        <field name="from_date"/>
+<!-- 			        <group> -->
+<!-- 			        <group> -->
+<!-- 			        <field name="from_date"/> -->
 			        
-			        <field name="entry_type"/>
-			        </group>
-			        <group>
-			        <field name="no_months"/>
-			        <field name="car_id" attrs="{ 'invisible':[('entry_type', '!=', 'car')],'required':[('entry_type', '=', 'car')]}"/>
-					<field name="branch_id" attrs="{ 'invisible':[('entry_type', '!=', 'branch')],'required':[('entry_type', '=', 'branch')]}"/>
-					<field name="area_id" attrs="{ 'invisible':[('entry_type', '!=', 'area')],'required':[('entry_type', '=', 'area')]}"/>
-					<field name="city_id" attrs="{ 'invisible':[('entry_type', '!=', 'city')],'required':[('entry_type', '=', 'city')]}"/>
-					<field name="region_id" attrs="{ 'invisible':[('entry_type', '!=', 'region')],'required':[('entry_type', '=', 'region')]}"/>
-					<field name="segment" attrs="{ 'invisible':[('entry_type', '!=', 'segment')],'required':[('entry_type', '=', 'segment')]}"/>
+<!-- 			        <field name="entry_type"/> -->
+<!-- 			        </group> -->
+<!-- 			        <group> -->
+<!-- 			        <field name="no_months"/> -->
+<!-- 			        <field name="car_id" attrs="{ 'invisible':[('entry_type', '!=', 'car')],'required':[('entry_type', '=', 'car')]}"/> -->
+<!-- 					<field name="branch_id" attrs="{ 'invisible':[('entry_type', '!=', 'branch')],'required':[('entry_type', '=', 'branch')]}"/> -->
+<!-- 					<field name="area_id" attrs="{ 'invisible':[('entry_type', '!=', 'area')],'required':[('entry_type', '=', 'area')]}"/> -->
+<!-- 					<field name="city_id" attrs="{ 'invisible':[('entry_type', '!=', 'city')],'required':[('entry_type', '=', 'city')]}"/> -->
+<!-- 					<field name="region_id" attrs="{ 'invisible':[('entry_type', '!=', 'region')],'required':[('entry_type', '=', 'region')]}"/> -->
+<!-- 					<field name="segment" attrs="{ 'invisible':[('entry_type', '!=', 'segment')],'required':[('entry_type', '=', 'segment')]}"/> -->
 <!-- 					<field name="country_id" attrs="{ 'invisible':[('entry_type', '!=', 'nlco')]}"/>			 -->
                     
-                    <field name="rent_jounral_id"/>
-                    </group>
-                    </group>
-			   </page>
+<!--                     <field name="rent_jounral_id"/> -->
+<!--                     </group> -->
+<!--                     </group> -->
+<!-- 			   </page> -->
 			   
-			</notebook>	
+<!-- 			</notebook>	 -->
 			<field name="account_analytic_id" position="after">
 				<field name="vehicle_id" invisible="1"/>
 				<field name="to_date" />
@@ -321,7 +329,7 @@
 			
 			<xpath expr="//field[@name='line_ids']"
 					position="attributes">
-				    <attribute name="context">{'journal_id':journal_id, 'type':type, 'partner_id':partner_id, 'default_account_analytic_id':cost_analytic_id, }</attribute> 
+				    <attribute name="context">{'journal_id':journal_id, 'type':type, 'partner_id':partner_id, }</attribute> 
 			   </xpath>	
 			   <xpath expr="/form/sheet/group/field[@name='journal_id']" position="replace">
                     <field name="journal_id" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id','=',company_id)]"/>

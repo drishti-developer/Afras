@@ -115,6 +115,14 @@ class account_asset_depreciation_line(osv.osv):
                       fleet_obj = fleet_analytic_account_obj.browse(cr ,uid,fleet_analytic[0] )
                       cost_analytic_id = fleet_obj.branch_id and fleet_obj.branch_id.project_id and fleet_obj.branch_id.project_id.id    
             else:
+                asset_cost_center_obj = self.pool.get('account.asset.cost.center')
+                analytic_account = asset_cost_center_obj.search(cr, uid, [('from_date','<=',depreciation_date),('to_date', '=', False),('asset_id','=',line.asset_id.id)]) or asset_cost_center_obj.search(cr, uid, [('from_date','<=',depreciation_date),('to_date', '!=', False),('to_date','>=',depreciation_date),('asset_id','=',line.asset_id.id)])
+                cost_analytic_id = False
+                if analytic_account:
+                      analytic_obj = asset_cost_center_obj.browse(cr ,uid,analytic_account[0] )
+                      cost_analytic_id = analytic_obj.analytic_id.id
+                else:
+                      cost_analytic_id = line.cost_analytic_id and line.cost_analytic_id.id or False
                 cost_analytic_id = line.cost_analytic_id and line.cost_analytic_id.id or False
             move_vals = {
                 'name': asset_name,

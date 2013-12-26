@@ -590,30 +590,4 @@ class res_partner(osv.osv):
 
 res_partner()
 
-class crms_payment(osv.osv):
-    _name = 'crms.payment'
-    
-    _columns = {
-       'name':fields.char('Name',size=64),
-       'crms_id':fields.integer('Crms Payment Id'),
-       'partner_id':fields.many2one('res.partner','Customer Name'),
-       'vehicle_id':fields.many2one('fleet.vehicle','Vehicle'),
-       'car_type_id':fields.many2one('fleet.type','Car Type'),
-       'model_id':fields.many2one('fleet.vehicle.model','Vehicle Model'),
-       'crms_booking_id':fields.integer('Crms Booking Id'),
-       'rental_from_date':fields.datetime('Rental From Date'),
-       'rental_to_date':fields.datetime('Rental To Date'),
-       'no_of_days':fields.integer('No Of Days'),
-       'pickup_branch_id':fields.many2one('sale.shop','Pickup Branch'),
-       'drop_branch_id':fields.many2one('sale.shop','Drop Branch'),
-       'booking_branch_id':fields.many2one('sale.shop','Booking Branch'),
-       'amount_paid':fields.float('Amount Paid by Customer'),
-       'amount_receive_date':fields.datetime('Amount Receive Date'),
-       'rental_amount':fields.float('Rental Amount'),
-       'holding_amount':fields.float('Holding Amount'),
-       'advance_amount':fields.float('Advanced Amount'),
-       'balance_due_amount':fields.float('Balance Due Amount'),
-       'payment_type':fields.selection([('Cash','Cash'),('Card','Card')],'Payment Type'),
-   }
-    
-crms_payment()
+

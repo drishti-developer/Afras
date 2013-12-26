@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<record id="crms_payment_form" model="ir.ui.view">
+            <field name="name">crms.payment.form</field>
+            <field name="model">crms.payment</field>
+            <field name="arch" type="xml">
+                <form string="CRMS Payment Detail" version="7.0">
+                	<group col="4" colspan="2">
+                		<field name="partner_id"  />
+                		<field name="crms_id" />
+                	</group>
+                	<group col="6" colspan="2">
+                    	<field name="vehicle_id"  />
+                    	<field name="model_id"  />
+                    	<field name="car_type_id"  />
+                    </group>
+                    <group col="4" colspan="2">
+                    	<field name="crms_booking_id" />
+                    	<field name="rental_from_date"  />
+                    	<field name="rental_to_date"  />
+                    	<field name="no_of_days"  />
+                    </group>
+                    <group col="6" colspan="2">                    
+                    	<field name="pickup_branch_id"  />
+                    	<field name="drop_branch_id"  />
+                    	<field name="booking_branch_id"  />
+                    </group>
+                    <group col="4" colspan="2">
+                    	<field name="amount_paid"  />
+                    	<field name="amount_receive_date"  />
+                    	<field name="rental_amount"  />
+                    	<field name="holding_amount"  />
+                    	<field name="advance_amount"  />
+                    	<field name="balance_due_amount"  />
+                    	<field name="payment_type"  />
+                    	
+                    </group>
+                    <group col="4" colspan="2">
+                    	<field name="property_cash_journal"  />
+                    	<field name="property_bank_journal"  />
+                    	<field name="property_sale_journal"  />
+                    	<field name="property_advance_account"  />
+                    	<field name="property_retail_account"  />
+                    	<field name="property_revenue_account"  />
+                    	
+                    	<button name="create_account_voucher_enries" type="object" string="Journal Entries Tesing"/>
+                    </group> 
+                </form>
+            </field>
+      </record>
+        
+      <record id="crms_payment_tree" model="ir.ui.view">
+            <field name="name">crms.payment.tree</field>
+            <field name="model">crms.payment</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="CRMS Payment Details" >
+                    <field name="partner_id" />
+                    <field name="vehicle_id"/>
+                </tree>
+            </field>
+      </record>
+
+      <record id="action_crms_payment" model="ir.actions.act_window">
+            <field name="name">CRMS Payment Detail</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crms.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+      </record> 
+      
+      <menuitem action="action_crms_payment" id="menu_crms_payment" parent='account.menu_finance_receivables' name = "CRMS Payment Details" sequence="1"  />
+      </data>
+      </openerp>
+      
