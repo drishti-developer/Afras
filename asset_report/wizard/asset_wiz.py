@@ -4,6 +4,11 @@ from openerp.tools.translate import _
 
 class account_asset_asset_wiz(osv.osv_memory):
     _name='account.asset.asset.wiz'
+    
+    def get_company_id(self,cr,uid,ids,context=None):
+        curr_company = self.pool.get('res.users').browse(cr, uid, uid).company_id.id
+        return curr_company
+
     _columns={
     'asset_id':fields.many2one('account.asset.asset','Asset'),
     'asset_cat_id':fields.many2one('account.asset.category','Asset category'),
@@ -16,6 +21,7 @@ class account_asset_asset_wiz(osv.osv_memory):
     _defaults = {
         'start_date': fields.date.context_today,
         'status':'act',
+        'company_id':get_company_id,
                  }
     
     def print_report(self,cr,uid,ids,context=None):
