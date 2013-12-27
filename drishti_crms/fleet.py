@@ -136,15 +136,18 @@ class fleet_analytic_account(osv.osv):
     
     def create(self, cr, uid, data, context=None):
         lst=[]
-        print'=====analytic====',
+        print'=====analytic====',data['branch_id']
         analytic_fleet_id=super(fleet_analytic_account, self).create(cr, uid, data, context=context)
         lst.append((0,0,{'analytic_id':data['analytic_id'],'from_date':data['date_from'],'to_date':data['date_to']})),
         fleet_vehicle_obj=self.pool.get('fleet.vehicle')
         account_asset_obj=self.pool.get('account.asset.asset')
         account_cost_center_obj=self.pool.get('account.asset.cost.center')
+        analyt_id=self.browse(cr,uid,analytic_fleet_id)
+        
+        print'====branch_id====',analyt_id.branch_id.project_id.id,
         asset_ids=account_asset_obj.search(cr,uid,([('vehicle_id','=',data['vehicle_id'])]))
         if asset_ids:
-              account_costcenter_line_id = account_cost_center_obj.create(cr,uid,{'analytic_id':data['analytic_id'],'from_date':data['date_from'],'to_date':data['date_to'],'asset_id':asset_ids[0],'fleet_analytic_id':analytic_fleet_id},context=context)
+              account_costcenter_line_id = account_cost_center_obj.create(cr,uid,{'analytic_id':analyt_id.branch_id.project_id.id,'from_date':data['date_from'],'to_date':data['date_to'],'asset_id':asset_ids[0],'fleet_analytic_id':analytic_fleet_id},context=context)
         return analytic_fleet_id
     
 

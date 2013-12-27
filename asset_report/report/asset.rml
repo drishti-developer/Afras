@@ -2,7 +2,7 @@
 <document filename="Purchase Order.pdf">
   <template title="Purchase Order" author="OpenERP S.A.(sales@openerp.com)" allowSplitting="20">
     <pageTemplate id="first">
-      <frame id="first" x1="18.0" y1="42.0" width="535" height="758"/>
+      <frame id="first" x1="18.0" y1="42.0" width="540" height="758"/>
     </pageTemplate>
   </template>
   <stylesheet>
@@ -176,7 +176,7 @@
   </blockTable>
    
   <pto_header>
-    <blockTable colWidths="50.0,60.0,60.0,60.0,80.0,60.0,60.0,60.0" repeatRows="1" style="Table_Header_Pur_ord_Line">
+    <blockTable colWidths="50.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0" repeatRows="1" style="Table_Header_Pur_ord_Line">
       <tr>
         <td>
           <para style="terp_tblheader_General"><b>Sr.No</b></para>
@@ -199,6 +199,9 @@
         <td>
           <para style="terp_tblheader_General"><b>Status</b></para>
         </td>
+         <td>
+          <para style="terp_tblheader_General"><b>Cost Center</b></para>
+        </td>
         <td>
           <para style="terp_tblheader_General"><b>Last Period</b></para>
         </td>
@@ -212,7 +215,7 @@
       <font color="white"> </font>
     </para>
     
-    <blockTable colWidths="50.0,60.0,60.0,60.0,80.0,60.0,60.0,60.0" repeatRows="1" style="Table_Header_Pur_ord_Line">
+    <blockTable colWidths="50.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0" repeatRows="1" style="Table_Header_Pur_ord_Line">
      <tr>
         <td>
           <para style="terp_tblheader_General"><b>Sr.No</b></para>
@@ -236,6 +239,9 @@
           <para style="terp_tblheader_General"><b>Status</b></para>
         </td>
         <td>
+          <para style="terp_tblheader_General"><b>Cost Center</b></para>
+        </td>
+        <td>
           <para style="terp_tblheader_General"><b>Last Period</b></para>
         </td>
       </tr>
@@ -243,7 +249,7 @@
 
    <section>
       <para style="terp_default_1">[[repeatIn(get_category(data),'line')]]</para>
-   <blockTable colWidths="50.0,60.0,60.0,60.0,80.0,60.0,60.0,60.0" style="Table_Order_Pur_line_Content">
+   <blockTable colWidths="50.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0" style="Table_Order_Pur_line_Content">
       <tr>
         <td>
            <para style="P11" leftIndent="15" bulletIndent="0">
@@ -269,6 +275,9 @@
         <td>
          <para style="terp_default_9">[[ line['is_status'] ]]</para>
         </td>
+         <td>
+         <para style="terp_default_9">[[ line['analytic_id'] ]]</para>
+        </td>
         <td>
          <para style="terp_default_Right_9">[[  formatLang(line['last_period'],date=True)  ]]</para>
         </td>
@@ -276,7 +285,7 @@
     </blockTable>
    </section>   
    <section>  
-<blockTable colWidths="50.0,60.0,60.0,60.0,80.0,60.0,60.0,60.0" style="Table_All_Total_Detail">
+<blockTable colWidths="50.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0" style="Table_All_Total_Detail">
       <tr>
         <td>
             <para style="terp_default_Right_9"></para>

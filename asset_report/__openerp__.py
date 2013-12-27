@@ -1,5 +1,5 @@
 {
-    'name': 'Afras',
+    'name': 'Afras Asset Report',
     'version': '1.0',
     'category': 'Account',
     'description': """

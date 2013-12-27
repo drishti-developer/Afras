@@ -4,6 +4,5 @@
     <record id="group_all_companies_user" model="res.groups">
         <field name="name">All Company User</field>
     </record>
- 
 </data>
 </openerp>

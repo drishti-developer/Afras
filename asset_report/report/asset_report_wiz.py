@@ -85,7 +85,10 @@ class account_asset_asset_report(report_sxw.rml_parse):
                         'remaining_value' :0,
                         'purchase_value':line.purchase_value,
                         'purchase_date':line.purchase_date,
-                        'last_period':date[0]
+                        'last_period':date[0],
+                        'analytic_id':line.analytic_id.name,
+                        
+                        
                         }
                 if depr_line_id:
                      depr_line_obj = self.pool.get('account.asset.depreciation.line').browse(self.cr, self.uid, depr_line_id[0])
