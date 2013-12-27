@@ -181,9 +181,7 @@
 						<button name="return_action_to_open" type="object"
 							context="{'xml_id':'fleet_vehicle_odometer_act'}" string="Odometer Logs"
 							help="show the odometer logs for this vehicle" />
-						<button name="create_cost_center" type="object"
-							 string="Create cost center"
-							help="Create cost center" />
+						
 					</div>
 					<notebook>
 						<page string="Properties">

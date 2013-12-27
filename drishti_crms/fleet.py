@@ -14,21 +14,6 @@ import openerp.addons.decimal_precision as dp
 
 class fleet_vehicle(osv.osv):
     _inherit = "fleet.vehicle"
-    
-    def create_cost_center(self,cr,uid,ids,context=None):
-        account_cost_center_obj=self.pool.get('account.asset.cost.center')
-        account_asset_obj=self.pool.get('account.asset.asset')
-        fleet_vehicle_obj=self.pool.get('fleet.vehicle')
-        fleet_ids=fleet_vehicle_obj.search(cr,uid,[])
-        for x in fleet_vehicle_obj.browse(cr,uid,fleet_ids):
-            for i in x.analytic_account_ids:
-                asset_ids=account_asset_obj.search(cr,uid,([('vehicle_id','=',x.id)]))
-                if asset_ids:
-                    if isinstance(asset_ids,(list,tuple)):
-                        asset_ids=asset_ids[0]
-                    account_cost_center_obj.create(cr,uid,{'analytic_id':i.branch_id.project_id.id,'from_date':i.date_from,'to_date':i.date_to,'asset_id':asset_ids,'fleet_analytic_id':i.id},context=context)
-        return True
-    
     _columns = {
     'product_id' : fields.many2one('product.product','Product'),
     'model_year' : fields.integer('Model Year'),
@@ -43,8 +28,6 @@ class fleet_vehicle(osv.osv):
     'country_id': fields.many2one('res.country',  'Country'),
     'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', ),
                    }
-    
-    
     _defaults = {
      'car_value' : 1,
      }
