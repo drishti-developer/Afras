@@ -4,16 +4,24 @@ from openerp.tools.translate import _
 
 class account_asset_asset_wiz(osv.osv_memory):
     _name='account.asset.asset.wiz'
+    
+    def get_company_id(self,cr,uid,ids,context=None):
+        curr_company = self.pool.get('res.users').browse(cr, uid, uid).company_id.id
+        return curr_company
+
     _columns={
     'asset_id':fields.many2one('account.asset.asset','Asset'),
     'asset_cat_id':fields.many2one('account.asset.category','Asset category'),
     'status':fields.selection([('act','Active'),('inact','Inactive'),('rs','Ready to sell'),('sld','Sold')],'Status'),
     'asset_location':fields.many2one('stock.location','Asset Location'),
+    'cost_center_id':fields.many2one('account.analytic.account','Cost Center'),
     'start_date':fields.date('As on Date',required=True),  
+    'company_id':fields.many2one('res.company','Company'),
               }
     _defaults = {
         'start_date': fields.date.context_today,
         'status':'act',
+        'company_id':get_company_id,
                  }
     
     def print_report(self,cr,uid,ids,context=None):
@@ -21,6 +29,8 @@ class account_asset_asset_wiz(osv.osv_memory):
         domain=[]
         obj=self.browse(cr,uid,ids[0])
         asset_obj=self.pool.get('account.asset.asset')
+        if obj.cost_center_id:
+            domain.append(('analytic_id','=',obj.cost_center_id.id))
         if obj.asset_cat_id:
             domain.append(('category_id','=',obj.asset_cat_id.id))
         if obj.status:
@@ -35,7 +45,7 @@ class account_asset_asset_wiz(osv.osv_memory):
                 'type':'ir.actions.report.xml',
                 'report_name':'account_asset_asset_report',
                 'datas':data,
-                }
+                  }
         else:
             raise osv.except_osv(('Warning !'),('No record exists for the options selected by the user'))
             return True

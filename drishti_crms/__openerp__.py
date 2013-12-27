@@ -50,7 +50,6 @@
                'account_multi_invoice_view.xml',
                'account_distribution_plan_view.xml',
                'crms_payment_view.xml',
-               
             ],
     'demo': [],
     'test': [  

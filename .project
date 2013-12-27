@@ -3,6 +3,7 @@
 	<name>addons_afras</name>
 	<comment></comment>
 	<projects>
+		<project>addons</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

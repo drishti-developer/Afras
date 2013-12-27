@@ -11,8 +11,10 @@
                     <field name="asset_id"/>  
                     <field name="asset_cat_id"/>
                     <field name="status"/>
+                    <field name="cost_center_id" domain="[('company_id','=',company_id),('entry_type','!=','car')]"/>
                     <field name="asset_location"/>
                     <field name="start_date"/>
+                    <field name="company_id" invisible="1"/>
                     </group>
                     <footer>
                  <button name="print_report" string="Print" type="object" colspan="1" icon="gtk-print"/>
