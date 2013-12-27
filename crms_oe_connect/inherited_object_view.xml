@@ -132,7 +132,7 @@
 				<field name="car_value" position="after">
 					<field name="assigned_for" required="1"/>
 				</field>
-				<field name="power" position="after">
+				<field name="assigned_for" position="after">
 					<field name="current_branch_id"/>
 				</field>
 			</field>

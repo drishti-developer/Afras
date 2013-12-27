@@ -15,6 +15,20 @@ import openerp.addons.decimal_precision as dp
 class fleet_vehicle(osv.osv):
     _inherit = "fleet.vehicle"
     
+    def create_cost_center(self,cr,uid,ids,context=None):
+        account_cost_center_obj=self.pool.get('account.asset.cost.center')
+        account_asset_obj=self.pool.get('account.asset.asset')
+        fleet_vehicle_obj=self.pool.get('fleet.vehicle')
+        fleet_ids=fleet_vehicle_obj.search(cr,uid,[])
+        for x in fleet_vehicle_obj.browse(cr,uid,fleet_ids):
+            for i in x.analytic_account_ids:
+                asset_ids=account_asset_obj.search(cr,uid,([('vehicle_id','=',x.id)]))
+                if asset_ids:
+                    if isinstance(asset_ids,(list,tuple)):
+                        asset_ids=asset_ids[0]
+                    account_cost_center_obj.create(cr,uid,{'analytic_id':i.branch_id.project_id.id,'from_date':i.date_from,'to_date':i.date_to,'asset_id':asset_ids,'fleet_analytic_id':i.id},context=context)
+        return True
+    
     _columns = {
     'product_id' : fields.many2one('product.product','Product'),
     'model_year' : fields.integer('Model Year'),
@@ -28,7 +42,8 @@ class fleet_vehicle(osv.osv):
     'region_id': fields.many2one('res.country.state',  'State'),
     'country_id': fields.many2one('res.country',  'Country'),
     'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', ),
-    }
+                   }
+    
     
     _defaults = {
      'car_value' : 1,
@@ -121,8 +136,10 @@ class fleet_analytic_account(osv.osv):
     
     def create(self, cr, uid, data, context=None):
         lst=[]
+        print'=====analytic====',
         analytic_fleet_id=super(fleet_analytic_account, self).create(cr, uid, data, context=context)
         lst.append((0,0,{'analytic_id':data['analytic_id'],'from_date':data['date_from'],'to_date':data['date_to']})),
+        fleet_vehicle_obj=self.pool.get('fleet.vehicle')
         account_asset_obj=self.pool.get('account.asset.asset')
         account_cost_center_obj=self.pool.get('account.asset.cost.center')
         asset_ids=account_asset_obj.search(cr,uid,([('vehicle_id','=',data['vehicle_id'])]))
