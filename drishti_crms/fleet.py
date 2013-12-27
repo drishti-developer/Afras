@@ -84,6 +84,16 @@ class fleet_vehicle(osv.osv):
     
 fleet_vehicle()
 
+class fleet_vehicle_insurance(osv.osv):
+    _name='fleet.vehicle.insurance'
+    _columns={
+              'car_insurance_no':fields.char('Name',size=64,required=True),
+              'insurance_start_date': fields.date('Insurance Start Date'),
+              'insurance_end_date': fields.date('Insurance End Date'),
+              'vehicle_ids':fields.many2many('fleet.vehicle','fleet_insu_table','fleet_id','vehicles_id','Vehicle')
+              }
+fleet_vehicle_insurance()
+
 class fleet_analytic_account(osv.osv):
     
     _name = "fleet.analytic.account"
