@@ -22,13 +22,21 @@
 			     <field name="purchase_date" position="after">
 			     <group expand="0" string="Group By...">
                         <filter string="Asset Category"  domain="[]" context="{'group_by':'category_id'}"/>
+<<<<<<< HEAD
                         
+=======
+
+>>>>>>> 0b3719abf23c380e1c91955daf8434b047df8f7f
                     </group>
 			     
 			     </field>
 			     
 				</field>
 			</record>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0b3719abf23c380e1c91955daf8434b047df8f7f
 			
 			<record model="ir.ui.view" id="view_account_asset_ineherit">
 			<field name="name">account.asset.asset.inherit</field>
@@ -40,6 +48,13 @@
 			     </field>
 				</field>
 			</record>
+<<<<<<< HEAD
+=======
+
+			
+				
+						
+>>>>>>> 0b3719abf23c380e1c91955daf8434b047df8f7f
      <record model="ir.ui.view" id="view_account_asset_asset_vehicle_form">
 			<field name="name">account.asset.asset.vehicle.form1</field>
 			<field name="model">account.asset.asset</field>

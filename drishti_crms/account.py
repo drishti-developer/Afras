@@ -572,44 +572,42 @@ class account_voucher(osv.osv):
     _inherit = "account.voucher"
     
     _columns = {
-                'from_date': fields.date('From Date'),
-                'no_months': fields.integer('No of Months'),
-                'analytic_id': fields.many2one('account.analytic.account','Analytic Account'),
-                'rent_jounral_id': fields.property(
-                    'account.journal',
-                    type='many2one',
-                    relation='account.journal',
-                    string="Rent Expenses Journal",
-                    view_load=True,
-                    store=True,
-                    domain="[('type', 'in', ['purchase','general'])]",
-                    
-                    ),
-                 'adjust_journal_id': fields.many2one('account.journal','Shared Service journal'),
-                 'exp_account_id' : fields.many2one('account.account','Expenses Account'),
-                 'entry_type': fields.selection([('car', 'Car'), ('branch', 'Branch'),
-                                                 ('area', 'Area'), ('city', 'City'),
-                                                 ('region', 'Region'), ('segment', 'Segment'),('company','Company'),
-                                                 ], 'Cost Center Type',),  
-                'car_id' : fields.many2one('fleet.vehicle','Car'),      
-                'branch_id': fields.many2one('sale.shop',  'Branch'), 
-                'area_id': fields.many2one('res.city.area',  'Area'),
-                'city_id': fields.many2one('res.state.city',  'City'), 
-                'region_id': fields.many2one('res.country.state',  'State'),
-                'segment': fields.selection([('retail','Retail'),('corporate','Corporate')],'Segment'),
-                'country_id': fields.many2one('res.country',  'Country'),  
-                'cost_analytic_id' : fields.many2one('account.analytic.account','Cost Center'),  
-                'advance_payment': fields.boolean('Advance Payment'), 
-                'account_expense_id' : fields.one2many('account.expense.line', 'voucher_id', 'Expense Line'),
-                'vehicle_id': fields.many2one('fleet.vehicle','Vehicle'),
-                
-
-                
-                  
-                }
+    'from_date': fields.date('From Date'),
+    'no_months': fields.integer('No of Months'),
+    'analytic_id': fields.many2one('account.analytic.account','Analytic Account'),
+    'rent_jounral_id': fields.property(
+        'account.journal',
+        type='many2one',
+        relation='account.journal',
+        string="Rent Expenses Journal",
+        view_load=True,
+        store=True,
+        domain="[('type', 'in', ['purchase','general'])]",
+        
+        ),
+     'adjust_journal_id': fields.many2one('account.journal','Shared Service journal'),
+     'exp_account_id' : fields.many2one('account.account','Expenses Account'),
+     'entry_type': fields.selection([('car', 'Car'), ('branch', 'Branch'),
+                                     ('area', 'Area'), ('city', 'City'),
+                                     ('region', 'Region'), ('segment', 'Segment'),('company','Company'),
+                                     ], 'Cost Center Type',),  
+    'car_id' : fields.many2one('fleet.vehicle','Car'),      
+    'branch_id': fields.many2one('sale.shop',  'Branch'), 
+    'area_id': fields.many2one('res.city.area',  'Area'),
+    'city_id': fields.many2one('res.state.city',  'City'), 
+    'region_id': fields.many2one('res.country.state',  'State'),
+    'segment': fields.selection([('retail','Retail'),('corporate','Corporate')],'Segment'),
+    'country_id': fields.many2one('res.country',  'Country'),  
+    'cost_analytic_id' : fields.many2one('account.analytic.account','Cost Center'),  
+    'advance_payment': fields.boolean('Advance Payment'), 
+    'account_expense_id' : fields.one2many('account.expense.line', 'voucher_id', 'Expense Line'),
+    'vehicle_id': fields.many2one('fleet.vehicle','Vehicle'),
+    'crms_payment_id': fields.many2one('crms.payment','Payment ID'),            
+    }
+    
     _defaults = {
-                 'entry_type' : 'branch',
-                }
+     'entry_type' : 'branch',
+    }
     
     
     def account_move_get1(self, cr, uid, voucher_id, context=None):
@@ -690,6 +688,7 @@ class account_voucher(osv.osv):
             'date': voucher.date,
             'ref': ref,
             'period_id': voucher.period_id.id,
+            'crms_payment_id':voucher.crms_payment_id and voucher.crms_payment_id.id or False, 
         }
         return move
     
@@ -1342,8 +1341,9 @@ class account_voucher_line(osv.osv):
 class account_move(osv.osv):
     _inherit = "account.move"
     _columns = {
-                'cost_analytic_id' : fields.many2one('account.analytic.account','Cost Center',),
-                }
+    'cost_analytic_id' : fields.many2one('account.analytic.account','Cost Center',),
+    'crms_payment_id': fields.many2one('crms.payment','Payment ID'),
+    }
        
 
     
@@ -1362,15 +1362,18 @@ class account_move_line(osv.osv):
         return result 
     
     _columns = {
-                'vehicle_id' : fields.many2one('fleet.vehicle','Vehicle'),
-                'from_date' : fields.date('From Date'),
-                'to_date' : fields.date('To Date'),
-                'cost_analytic_id': fields.related('move_id','cost_analytic_id', string='Cost Center', type='many2one' ,relation='account.analytic.account',
-                                store = {
-                             'account.move' : (_get_move_lines, ['cost_analytic_id',], 20)
-                                }),
-                 
-                }
+    'vehicle_id' : fields.many2one('fleet.vehicle','Vehicle'),
+    'from_date' : fields.date('From Date'),
+    'to_date' : fields.date('To Date'),
+    'cost_analytic_id': fields.related('move_id','cost_analytic_id', string='Cost Center', type='many2one' ,relation='account.analytic.account',
+        store = {
+'        account.move' : (_get_move_lines, ['cost_analytic_id',], 20)
+    }),
+    'crms_payment_id': fields.related('move_id','crms_payment_id', string='CRMS Payment ID', type='many2one' ,relation='crms.payment',
+        store = {
+         'account.move' : (_get_move_lines, ['crms_payment_id',], 20)
+    }),             
+    }
     
     def _query_get(self, cr, uid, obj='l', context=None):
         fiscalyear_obj = self.pool.get('account.fiscalyear')
