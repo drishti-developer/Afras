@@ -76,8 +76,9 @@
 	        <field name="model">account.asset.asset</field>
 	        <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
 	        <field name="arch" type="xml">
-	        <field name="category_id" position="after">
-	        <field name="sub_category_id" domain="[('parent_id','=',category_id)]"/>
+		    <field name="category_id" position="after">
+		        <field name="category_rel_id"/>
+	        	<field name="sub_category_id" domain="[('parent_id','=',category_id)]"/>
 	        </field>
              <notebook>
             	<page string="Cost Center">

@@ -27,19 +27,21 @@ class account_asset_cost_center(osv.osv):
              }
 account_asset_cost_center()
     
-class account_asset_asset(osv.osv):
-    _inherit = 'account.asset.asset'
-    _columns={
-        'cost_center_ids':fields.one2many('account.asset.cost.center','asset_id','Cost Center'),
-        'sub_category_id':fields.many2one('account.asset.sub.category','Sub Category')
-}
-    
 class account_asset_category(osv.osv):
     _inherit = 'account.asset.category'
     _columns={
        'category_id':fields.many2one('account.asset.sub.category','Category Type'),
-       
        }
+account_asset_category()    
     
-    
+class account_asset_asset(osv.osv):
+    _inherit = 'account.asset.asset'
+    _columns={
+        'cost_center_ids':fields.one2many('account.asset.cost.center','asset_id','Cost Center'),
+        'sub_category_id':fields.many2one('account.asset.sub.category','Sub Category'),
+        'category_rel_id': fields.related('category_id','category_id',type='many2one',relation='account.asset.sub.category',string='Category Type'),
+}
+account_asset_asset()
+
+
     
