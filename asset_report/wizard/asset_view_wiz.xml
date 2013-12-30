@@ -12,7 +12,6 @@
                     <field name="asset_cat_id"/>
                     <field name="status"/>
                     <field name="cost_center_id" domain="[('company_id','=',company_id),('entry_type','!=','car')]"/>
-                    <field name="asset_location"/>
                     <field name="start_date"/>
                     <field name="company_id" invisible="1"/>
                     </group>

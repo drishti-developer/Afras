@@ -73,7 +73,6 @@ class account_asset_asset_report(report_sxw.rml_parse):
                     status='Ready to sell'
                 if data['status'] == 'sld':
                     status='Sold'
-                print "depr_line_id",depr_line_id
                 self.cr.execute('select max(depreciation_date) from account_asset_depreciation_line where asset_id=%s', [line.id])
                 date=self.cr.fetchall()[0]
                 dic1 = {
@@ -104,25 +103,26 @@ class account_asset_asset_report(report_sxw.rml_parse):
             dic={}
             lst=[]
             state=''
-            start_date=data['start_date']
-            status=data['status'],
-            if data['asset_cat_id'] == False:
-                data['asset_cat_id']=''
+            asset_cat_id=data['asset_cat_id']
+            if data.get('start_date'):
+                dic.update({'start_date':data['start_date']})
+            if data.get('asset_cat_id'):
+                dic.update({'asset_cat_id':data['asset_cat_id'][1]})
             else:
-                data['asset_cat_id']=data['asset_cat_id']
-            if data['status'] == 'act':
+                dic.update({'asset_cat_id':''})
+            if data.get('status') == 'act':
                     state='Active'
-            if data['status'] == 'inact':
+                    dic.update({'status':state})
+            if data.get('status') == 'inact':
                     state='Inactive'
-            if data['status'] == 'rs':
+                    dic.update({'status':state})
+            if data.get('status') == 'rs':
                     state='Ready to sell'
-            if data['status'] == 'sld':
+                    dic.update({'status':state})
+            if data.get('status') == 'sld':
                     state='Sold'
-            dic={
-                 'start_date':data['start_date'],
-                 'asset_cat_id':data['asset_cat_id'][1],
-                 'status':state,
-                 }
+                    dic.update({'status':state})
+                 
             return  dic
             
             

@@ -107,11 +107,51 @@
            </field>
         </record>
             
-            
+
+<record model="ir.ui.view" id="account_asset_cost_center_tree_view">
+             <field name="name">Account Asset Cost Center</field>
+             <field name="model">account.asset.cost.center</field>
+             <field name="type">tree</field>
+             <field name="arch" type="xml">
+                 <tree string="Account Asset Cost Center">
+                     <field name="analytic_id"/>
+                     <field name="from_date"/>
+                     <field name="to_date"/>
+                     <field name="fleet_analytic_id"/>
+                 </tree>
+             </field>
+         </record>
+
+
+ <record model="ir.ui.view" id="account_asset_cost_center_form_view">
+            <field name="name">Account Asset Cost Center</field>
+             <field name="model">account.asset.cost.center</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                 <form string="Account Asset Cost Center">
+                 <group col="4" colspan="2">
+                     <field name="analytic_id"/>
+                     <field name="from_date"/>
+                     <field name="to_date"/>
+                     <field name="fleet_analytic_id"/>
+                     </group>
+                 </form>
+             </field>
+         </record>
+
+
+       <record model="ir.actions.act_window" id="action_account_asset_cost_center_view">
+             <field name="name">Account Asset Cost Center</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="res_model">account.asset.cost.center</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="account_asset_cost_center_tree_view"/>
+         </record>      
 	            
 		<menuitem id="asset_sub_category_menu_id" name="Asset Sub Category" parent="account_asset.menu_finance_config_assets"  action="action_asset_sub_category_view"/>
 		<menuitem id="asset_sub_category_hierarchi_id" name="Asset Category Hierarchy" parent="account_asset.menu_finance_config_assets" action="action_account_asset_asset_hierarchy_tree"/>
-		
+		<menuitem id="account_asset_cost_center" name="Account Asset Cost Center" parent="account_asset.menu_finance_assets" action="action_account_asset_cost_center_view"/>
 		
 		
 </data>

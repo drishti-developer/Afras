@@ -24,7 +24,7 @@
 	<data noupdate="1">
 
 
-		<!-- Types -->
+
 		<record model="account.account.type" id="afras_account_type_asset_view">
 			<field name="name">Asset View</field>
 			<field name="code">view</field>
