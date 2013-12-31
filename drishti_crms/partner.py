@@ -75,7 +75,6 @@ class res_city_area(osv.osv):
     'analytic_ids': fields.one2many('account.analytic.account', 'area_id', 'Analytic Accounts'),
     'car_ids': fields.one2many('fleet.analytic.account', 'area_id', 'Car'),
     }
-    
 res_city_area()
       
 class sale_shop(osv.osv):
@@ -104,7 +103,6 @@ class sale_shop(osv.osv):
      }
     
     def create(self, cr, uid, values, context=None):
-        
         ana_acc_id = self.pool.get('account.analytic.account').create(cr,uid,{
         'name' : values.get('name',False),
         'entry_type' : 'branch',

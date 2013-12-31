@@ -276,11 +276,11 @@
        </field>
     </record>
 
-		<record model='ir.ui.view' id='voucher_form_view_inherit_vehicle'>
-			<field name='name'>account.voucher.form.inherit.vehicle</field>
-			<field name='model'>account.voucher</field>
-			<field name='inherit_id' ref='account_voucher.view_voucher_form'/>
-			<field name='arch' type='xml'>
+<!--		<record model='ir.ui.view' id='voucher_form_view_inherit_vehicle'>-->
+<!--			<field name='name'>account.voucher.form.inherit.vehicle</field>-->
+<!--			<field name='model'>account.voucher</field>-->
+<!--			<field name='inherit_id' ref='account_voucher.view_voucher_form'/>-->
+<!--			<field name='arch' type='xml'>-->
 <!-- 			<xpath expr="/form/header/button[@name='proforma_voucher']" position="after"> -->
 <!-- 					<button name="cancel_voucher" string="Cancel Voucher11" type="object" states="posted" /> -->
 <!-- 				</xpath> -->
@@ -309,29 +309,29 @@
 <!-- 			   </page> -->
 			   
 <!-- 			</notebook>	 -->
-			<field name="account_analytic_id" position="after">
-				<field name="vehicle_id" invisible="1"/>
-				<field name="to_date" />
-				<field name="from_date" />
-					
-			</field>
-			<field name="account_id" position="attributes">
-				<attribute name="invisible">False</attribute>
-			</field>
-            <field name="company_id" position="before">
-                 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
-                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
-               </field>    
-			
-			<xpath expr="//field[@name='line_ids']"
-					position="attributes">
-				    <attribute name="context">{'journal_id':journal_id, 'type':type, 'partner_id':partner_id, }</attribute> 
-			   </xpath>	
-			   <xpath expr="/form/sheet/group/field[@name='journal_id']" position="replace">
-                    <field name="journal_id" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id','=',company_id)]"/>
-			   </xpath>
-			</field>
-		</record>
+<!--			<field name="account_analytic_id" position="after">-->
+<!--				<field name="vehicle_id" invisible="1"/>-->
+<!--				<field name="to_date" />-->
+<!--				<field name="from_date" />-->
+<!--					-->
+<!--			</field>-->
+<!--			<field name="account_id" position="attributes">-->
+<!--				<attribute name="invisible">False</attribute>-->
+<!--			</field>-->
+<!--            <field name="company_id" position="before">-->
+<!--                 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>-->
+<!--                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>-->
+<!--               </field>    -->
+<!--			-->
+<!--			<xpath expr="//field[@name='line_ids']"-->
+<!--					position="attributes">-->
+<!--				    <attribute name="context">{'journal_id':journal_id, 'type':type, 'partner_id':partner_id, }</attribute> -->
+<!--			   </xpath>	-->
+<!--			   <xpath expr="/form/sheet/group/field[@name='journal_id']" position="replace">-->
+<!--                    <field name="journal_id" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id','=',company_id)]"/>-->
+<!--			   </xpath>-->
+<!--			</field>-->
+<!--		</record>-->
 		
 		<record model="ir.ui.view" id="view_vendor_payment_cost_center_form">
             <field name="name">account.voucher.payment.cost.form</field>

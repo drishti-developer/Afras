@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+        <record model="ir.ui.view" id="account_voucher.view_voucher_form">
+            <field name="name">account.voucher.form</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <form string="Accounting Voucher" version="7.0">
+                  <header>
+                      <button name="proforma_voucher" string="Post" states="draft" class="oe_highlight"/>
+                      <button name="cancel_voucher" string="Cancel Voucher" type="object" states="posted" confirm="Are you sure you want to unreconcile this record?"/>
+                      <button name="cancel_voucher" string="Cancel Voucher" states="draft,proforma" />
+                      <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft"/>
+                      <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors='{"proforma":"blue"}'/>
+                  </header>
+                  <sheet string="Accounting Voucher">
+                    	<group col="4" colspan="4">
+                    	
+	                    	<field name="partner_id" required="1" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)"/>
+	                        <field name="date" on_change="onchange_date(date, currency_id, payment_rate_currency_id, amount, company_id)"/>
+							<field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+							<field name="type" required="1"/>
+							<field name="journal_id" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)" invisible="context.get('journal_id',False)" domain="[('company_id','=',company_id)]"/>
+	                        <field name="account_id" string="Account(Debit/Credit)" widget="selection" invisible="False"/>
+	                        <field name="name" colspan="2"/>
+	                    	<field name="reference"/>
+			                <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
+			                <field name="currency_id" groups="base.group_multi_currency"/>
+			                <field name="payment_rate_currency_id" invisible="1"/>
+			                <field name="adjust_journal_id" invisible="1"/>
+	                        <field name="number"/>
+	                        <field name="company_id" readonly="1"/>
+	                        
+			                
+	                        
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Voucher Entry">
+                            <field name="line_ids" on_change="onchange_price(line_ids, tax_id, partner_id)" context="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id, }">
+                                <tree string="Voucher Items" editable="bottom">
+                                    <field name="account_id"/>
+                                    <field name="name"/>
+                                    <field name="amount" sum="Total Amount"/>
+                                    <field name="type"/>
+                                    <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+                                    <field name="to_date" />
+									<field name="from_date" />
+                                </tree>
+                            </field>
+                            <group>
+                                <field name="narration" nolabel="1" placeholder="Internal Notes"/>
+                                <group class="oe_subtotal_footer oe_right" attrs="{'invisible':[('type','in',['payment', 'receipt', False])]}">
+                                    <field name="tax_id" on_change="onchange_price(line_ids, tax_id, partner_id)" widget="selection" nolabel="1"/>
+                                    <field name="tax_amount" nolabel="1"/>
+                                    <div class="oe_subtotal_footer_separator">
+                                        <label for="amount"/>
+                                        <button type="object" icon="terp-stock_format-scientific"   name="compute_tax" class="oe_link oe_edit_only" string="(Update)" attrs="{'invisible': [('state','!=','draft')]}"/>
+                                    </div>
+                                    <field name="amount" class="oe_subtotal_footer_separator" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Journal Items" attrs="{'invisible': [('state','!=','posted')]}">
+                            <group col="4">
+                                <field name="period_id"/>
+                                <field name="audit"/>
+                            </group>
+                            <field name="move_ids" readonly="1">
+                               <tree string="Journal Items">
+                                   <field name="move_id"/>
+                                   <field name="ref"/>
+                                   <field name="date"/>
+                                   <field name="statement_id"/>
+                                   <field name="partner_id"/>
+                                   <field name="account_id"/>
+                                   <field name="name"/>
+                                   <field name="debit"/>
+                                   <field name="credit"/>
+                                   <field name="state"/>
+                                   <field name="reconcile_id"/>
+                               </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                  </sheet>
+                  <div class="oe_chatter">
+                      <field name="message_follower_ids" widget="mail_followers"/>
+                      <field name="message_ids" widget="mail_thread"/>
+                  </div>
+                </form>
+            </field>
+        </record>
+</data>
+</openerp>		

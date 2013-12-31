@@ -9,7 +9,6 @@
     'website': 'http://www.drishtitech.com',
     'depends': ['base','account','account_asset','drishti_crms'],
     'data': [
-             'security/ir.model.access.csv',
              'afras_account_view.xml',
              'wizard/asset_view_wiz.xml',
              'report/asset_report_view.xml',

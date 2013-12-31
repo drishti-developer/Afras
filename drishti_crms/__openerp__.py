@@ -39,8 +39,11 @@
                 'account_voucher','sale','sale_stock','crm'
                 ],
     'data': [
+               'security/company_security.xml',
+               'security/ir.model.access.csv',
                'account_asset_view.xml',  
                'account_view.xml',
+               'account_voucher_change_view.xml',
                'advance_payment_view.xml',
                'analytic_account_view.xml',
                'fleet_view.xml',
@@ -50,6 +53,7 @@
                'account_multi_invoice_view.xml',
                'account_distribution_plan_view.xml',
                'crms_payment_view.xml',
+               
             ],
     'demo': [],
     'test': [  
