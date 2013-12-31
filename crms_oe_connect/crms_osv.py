@@ -20,17 +20,17 @@
 
 from openerp.osv.orm import Model
 from openerp.osv.osv import except_osv
-from openerp.osv import fields, osv, orm
+from openerp.osv import osv
 from openerp.tools.translate import _
 import datetime
 import urllib
-from xml.dom.minidom import parse, parseString
+from xml.dom.minidom import parseString
 
 STANDARD_LIST_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><ResponseGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><ERPResponse><ResponseData DataCollectionDate="%(collectiondate)s" ResponseService="%(responsename)s"><ResponseCode>1</ResponseCode><ResponseMessage>SUCCESS</ResponseMessage>%(responsedata)s</ResponseData></ERPResponse></ResponseGroup>"""
 
 VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner','crms.payment']
 
-CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle',]
+CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle']
 
 CURRENCY_LIST = [
 			('id','ERPCurrencyID'),
@@ -221,9 +221,26 @@ RENTAL_PAYMENT_LIST = [
             ('other_charges','OtherCharges'),
             ('extra_hour_charges','ExtraHourCharges'),
             ('extra_km_charges','ExtraKMCharges'),
-            ('additional_day_charges','AdditionalDayCharges'),
+            ('additional_driver_charges','AdditionalDriverCharges'),
             ('payment_type','PaymentMode'),
+            ('state','RentalStatus'),
+            ('per_day_amount','RatePerDay'),
+            ('discount','Discounts'),
+            ('rental_extension','RentalExtension'),
             ]
+
+INTERMEDIATE_PAYMENT_LIST = [
+			('date','Date'),
+			('crms_payment_id','ERPRentalPaymentID'),
+			('amount','AmountPaid'),
+			('payment_type','PaymentMode'),
+			]
+
+DISCOUNT_LIST = [
+			('date','Date'),
+			('crms_payment_id','ERPRentalPaymentID'),
+			('discount','Discount'),
+			]
 
 def getDataArray(responseDOM, tag, level_1, level_2=False):
     
@@ -446,6 +463,12 @@ def CreateRequest(self, cr, uid, data):
         elif self._name == 'fleet.vehicle':#Car
             response_type = 'Car'
             field_list = CAR_LIST
+#         elif self._name == 'crms.payment.intermediatepayment.history':#Amount Paid History
+#             response_type = 'IntermediatePayment'
+#             field_list = INTERMEDIATE_PAYMENT_LIST
+#         elif self._name == 'crms.payment.discount.history':#Amount Paid History
+#             response_type = 'RentalDiscount'
+#             field_list = DISCOUNT_LIST
              
         response_data = ''
         response_name = response_type+"Response"
@@ -457,25 +480,25 @@ def CreateRequest(self, cr, uid, data):
         responseDOM = parseString(data)
         responsearray = getDataArray(responseDOM, 'RequestData', response_type+'List', response_type)       
         for response in responsearray:
-            response_data += "<%s>"%(response_name)
-            crms_id = response['CRMS'+response_type+'ID']
-            response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id, 'CRMS'+response_type+'ID')
-            search_id = self.search(cr,uid,[('crms_id','=',crms_id)])
+            response_data += "<%s>"%(response_name)            
+            crms_id = response.get('CRMS'+response_type+'ID',False)            
+            response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id, 'CRMS'+response_type+'ID') if crms_id else ''            
+            search_id = self.search(cr,uid,[('crms_id','=',crms_id)]) if crms_id else []
             record_value = {}
             
             for field in field_list:
-            	if field[0] not in ['id','current_branch_id']:#skip fields
-	            	if field[0] == 'analytic_account_ids' and len(search_id) > 0:
-	            		search_branch(self,cr,uid,search_id[0],response.get(field[1]))
-	                else :
-	                	if isinstance(field[1],tuple):
-	                		ext_field = field[1]
-	                		if ext_field[0] not in ['crms_id']:#skip fields
-		                		search_value_id = self.pool.get(ext_field[3]).search(cr,uid,[(ext_field[0],'=',response.get(ext_field[1]))])
-	                			record_value[field[0]] = search_value_id and search_value_id[0] or ext_field[2]
-	                	else:
-	                		record_value[field[0]] = response.get(field[1],False)
-	                	
+                if field[0] not in ['id','current_branch_id']:#skip fields
+                    if field[0] == 'analytic_account_ids' and len(search_id) > 0 and response.get(field[1],False):
+                        search_branch(self,cr,uid,search_id[0],response.get(field[1]))
+                    else :
+                        if isinstance(field[1],tuple):
+                            ext_field = field[1]
+                            if ext_field[0] not in ['crms_id'] and response.get(ext_field[1],False):#skip fields
+                                search_value_id = self.pool.get(ext_field[3]).search(cr,uid,[(ext_field[0],'=',response.get(ext_field[1]))])
+                                record_value[field[0]] = search_value_id and search_value_id[0] or ext_field[2]
+                        elif response.get(field[1],False):
+                            record_value[field[0]] = response.get(field[1],False)
+                
             try :
             	msg = 'SUCCESS'
             	record_id = 0

@@ -6,6 +6,10 @@
             <field name="model">crms.payment</field>
             <field name="arch" type="xml">
                 <form string="CRMS Payment Detail" version="7.0">
+                	<header>
+                    	<button name="create_account_voucher_entries" type="object" string="Journal Entries Tesing"/>
+                    	<field name="state" widget="statusbar" statusbar_visible="Active, Payment Processing, Closed" statusbar_colors='{"Payment Processing ":"red","Active":"blue", "Closed":"black"}'/>
+                	</header>
                 	<sheet string="CRMS Payment">
 	                	<group col="4" colspan="2">
 	                		<field name="partner_id"/>
@@ -32,29 +36,61 @@
 	                    	<field name="holding_amount"/>
 	                    	<field name="advance_amount"/>
 	                    	<field name="balance_due_amount"/>
-	                    	<field name="admin_expenses"/>
 	                    	<field name="payment_type"/>
-	                    	<field name="damage_charges"/>
-	                    	<field name="traffic_violation_charges"/>
-	                    	<field name="other_charges"/>
-	                    	<field name="extra_hour_charges"/>
-	                    	<field name="extra_km_charges"/>
-	                    	<field name="additional_day_charges"/>
 	                    	<field name="remaining_amount"/>
 	                    	<field name="per_day_amount"/>
-	                    	<field name="status"/>
-	                    	<newline/>
-	                    	<field name="property_cash_journal"  />
-	                    	<field name="property_bank_journal"  />
-	                    	<field name="property_sale_journal"  />
-	                    	<field name="property_advance_account"  />
-	                    	<field name="property_retail_account"  />
-	                    	<field name="property_revenue_account"  />
-	                    	<button name="create_account_voucher_enries" type="object" string="Journal Entries Tesing"/>
+	                    	<field name="discount"/>
+	                    	<field name="last_expense_date"/>
 	                    </group>
 	                    <notebook>
-	                        <page string="Line">
+	                        <page string="Journal Entries">
 	                        	<field name="line_ids" readonly="True"/>
+	                        </page>
+	                        <page string="Accounting">
+	                        	<group col="4" colspan="2">
+	                        		<field name="property_cash_journal"/>
+			                    	<field name="property_bank_journal"/>
+			                    	<field name="property_sale_journal"/>
+			                    	<field name="property_advance_account"/>
+			                    	<field name="property_retail_account"/>
+			                    	<field name="property_revenue_account"/>
+			                    	<field name="property_discount_account"/>
+	                        	</group>
+	                        </page>
+	                        <page string="Extra Charges">
+	                        	<group col="4" colspan="2">
+		                        	<field name="admin_expenses"/>	                        
+			                    	<field name="damage_charges"/>
+			                    	<field name="traffic_violation_charges"/>
+			                    	<field name="other_charges"/>
+			                    	<field name="extra_hour_charges"/>
+			                    	<field name="extra_km_charges"/>
+			                    	<field name="additional_driver_charges"/>
+			                    </group>
+	                        </page>
+	                        <page string="Payment History">
+	                        	<field name="amount_history_ids" nolabel="1" readonly="True">
+	                        		<tree>
+	                        			<field name="date"/>
+	                        			<field name="amount"/>
+	                        			<field name="payment_type"/>
+	                        			<field name="voucher_id"/>
+	                        		</tree>
+	                        		<form string="Payment History">
+	                        			<field name="date"/>
+	                        			<field name="amount"/>
+	                        			<field name="payment_type"/>
+	                        			<field name="voucher_id"/>
+	                        		</form>
+	                        	</field>
+	                        </page>
+	                        <page string="Discount History">
+	                        	<field name="discount_history_ids" readonly="True">
+	                        		<tree editable="bottom">
+	                        			<field name="date"/>
+	                        			<field name="discount"/>
+	                        		</tree>
+	                        	</field>
 	                        </page>
 	                    </notebook>
                     </sheet> 
@@ -67,9 +103,14 @@
             <field name="model">crms.payment</field>
             <field name="priority">4</field>
             <field name="arch" type="xml">
-                <tree string="CRMS Payment Details" >
+                <tree colors="blue:state == 'Active';red:state == 'Payment Processing';gray:state == 'Closed'" string="CRMS Payment Details" >
                     <field name="partner_id" />
                     <field name="vehicle_id"/>
+                    <field name="rental_from_date"/>
+                    <field name="pickup_branch_id"/>
+                    <field name="payment_type"/>
+                    <field name="crms_id"/>
+                    <field name="state"/>
                 </tree>
             </field>
       </record>
@@ -83,6 +124,18 @@
       </record> 
       
       <menuitem action="action_crms_payment" id="menu_crms_payments" parent='account.menu_finance_receivables' name = "CRMS Payment Details" sequence="1"/>
+      
+      <record model="ir.cron" id="crms_payment_voucher_cron">
+            <field name="name">CRMS Payment Voucher Entries</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">crms.payment</field>
+            <field name="active">False</field>
+            <field name="function" eval="'cron_create_payment_voucher_entries'"/>
+            <field name="args" eval="'()'" />
+        </record>
     
     </data>
 </openerp>
