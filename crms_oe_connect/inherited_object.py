@@ -589,7 +589,6 @@ class res_partner(osv.osv):
 
     
     def onchange_site_url(self,cr,uid,ids,website,context=None):
-        res={}
         if website:
             import re
             regex = re.compile(
@@ -601,16 +600,15 @@ class res_partner(osv.osv):
                             r'(?:/?|[/?]\S+)$', re.IGNORECASE)
             if re.match(regex,website)==None:
                return { 'warning':{'title':'warning','message':'Website address is invalid please enter the valid website address'},'value' :{'website': ''}}
-        return res
+        return {'value':{}}
     
     def onchange_validate_email(self,cr,uid,ids,email,context=None):
-        res={}
         if email:
             if len(email) > 0:
                     import re
                     if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) == None:
                         return { 'warning':{'title':'warning','message':'Email address is not correct please enter the valid email address'},'value' :{'email': ''}}
-        return res
+        return {'value':{}}
     
     
     def onchange_birthdate(self, cr, uid, ids, dob,cardexpiry_date, context=None):
@@ -626,14 +624,13 @@ class res_partner(osv.osv):
         return {'value':{}}
     
     def onchange_loyaltycard_spouser(self,cr,uid,ids,loyaltycard_id,spouser_id,context=None):
-        res={}
         if loyaltycard_id:
             if loyaltycard_id.isdigit()==False:
                 return { 'warning':{'title':'warning','message':'Loyalty Card Number is Invalid Please Enter the valid Loyalty Card Number'},'value' :{'loyaltycard_id': ''}}
         if spouser_id:
             if spouser_id.isdigit()==False:
                 return { 'warning':{'title':'warning','message':'Sponsor id is Invalid Please Enter the valid Sponsor id'},'value' :{'spouser_id': ''}}
-        return res
+        return {'value':{}}
     
     def onchange_phone_fax_mobile(self,cr,uid,ids,phone,mobile,fax,context=None):
         if phone:
