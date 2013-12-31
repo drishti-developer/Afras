@@ -20,6 +20,12 @@
 				</field>
 			</field>
 		</record>
+	
+	
+		
+		
+		
+		
 		<record id="view_partner_type_tree" model="ir.ui.view">
 			<field name="name">res.partner.type.tree</field>
 			<field name="model">res.partner</field>
@@ -31,6 +37,7 @@
 				</field>
 			</field>
 		</record>
+		
 
 		<record id="view_res_partner_filter_type" model="ir.ui.view">
 			<field name="name">res.partner.type.select</field>
@@ -182,9 +189,8 @@
 										 <field name="name" />
 										 <field name="code" />
 										 <field name="parent_id" domain="[('city_id','=', parent.city_id)]" />
-									     <field name="entry_type" />
-										 <field name="company_id" />	
-										
+									     <field name="entry_type"/>
+										 <field name="company_id"/>	
 									</tree>
 								</field>
 							</page>

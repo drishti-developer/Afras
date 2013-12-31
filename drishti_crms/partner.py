@@ -23,7 +23,6 @@ class res_partner(osv.osv):
             city = city_obj.name
             return {'value':{'city':city,'state_id': state_id, 'country_id':country_id}}
         return {}
-
 res_partner()
     
 class res_country(osv.osv):

@@ -157,14 +157,24 @@
 					<field name="street2"/>
 				</field>
 				<field name="mobile" position="replace">
-					<field name="mobile"/>
+					<field name="mobile" on_change="onchange_phone_fax_mobile(phone,mobile,fax)"/>
 				</field>
 				<field name="phone" position="replace">
-					<field name="phone"/>
+					<field name="phone" on_change="onchange_phone_fax_mobile(phone,mobile,fax)"/>
+				</field>
+				<field name="mobile" position="replace">
+				<field name="mobile" on_change="onchange_phone_fax_mobile(phone,mobile,fax)"/>
 				</field>
 				<field name="email" position="replace">
-					<field name="email"/>
+					<field name="email" on_change="onchange_validate_email(email)"/>
 				</field>
+				 <field name="website" widget="url" placeholder="e.g. www.openerp.com" position="replace">
+				       <field name="website" widget="url" placeholder="e.g. www.openerp.com" on_change="onchange_site_url(website)"/>
+				 </field>
+				 <field name="fax" position="replace">
+				 <field name="fax" on_change="onchange_phone_fax_mobile(phone,mobile,fax)"/>
+				 </field>
+				
 				<xpath expr="/form/sheet/notebook/page[@string='Contacts']" position="before">
 					<page string="Details">
 						<group col="4" colspan="2">
@@ -173,18 +183,51 @@
 	                     	<field name="employment_type"/>
 	                     	<field name="employee_code"/>
 	                     	<field name="customer_title"/>
-	                     	<field name="dob"/>
+	                     	<field name="dob" on_change="onchange_birthdate(dob,cardexpiry_date)"/>
 	                     	<field name="nationality"/>
 	                     	<field name="preferred_lang"/>
-	                     	<field name="loyaltycard_id"/>
-	                     	<field name="cardexpiry_date"/>
+	                     	<field name="loyaltycard_id" on_change="onchange(loyaltycard_id,spouser_id)"/>
+	                     	<field name="cardexpiry_date" on_change="onchange_birthdate(dob,cardexpiry_date)"/>
 	                     	<field name="spouser_name"/>
-	                     	<field name="spouser_id"/>
+	                     	<field name="spouser_id" on_channge="onchange(loyaltycard_id,spouser_id)"/>
 	                     </group>
 					</page>
                 </xpath>
 			</field>
 		</record>
+		
+		<!-- Project Task -->
+		
+	<record id="project_task_view11" model="ir.ui.view">
+			<field name="name">Res Partner Form</field>
+			<field name="model">res.partner</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="project.view_task_partner_info_form" />
+			<field name="arch" type="xml">
+				<field name="date_deadline" position="replace">
+						<field name="date_deadline" required="1" on_change="onchange_date_deadline(date_deadline)"/>
+				</field>
+			</field>
+		</record>	
+		
+		
+		<!-- res.partner.bank -->
+		
+		<record id="view_partner_bank_form_inherit" model="ir.ui.view">
+			<field name="name">res.partner.bank</field>
+			<field name="model">res.partner.bank</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="base.view_partner_bank_form" />
+			<field name="arch" type="xml">
+				<field name="acc_number" position="replace">
+						<field name="acc_number" placeholder="Account Number" required="1" on_change="onchange_account_number(acc_number)"/>
+				</field>
+			</field>
+		</record>	
+		
+		
+		
+		
 		
 	</data>
 </openerp>
