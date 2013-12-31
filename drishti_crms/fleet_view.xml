@@ -318,7 +318,7 @@
          </record>
           
 	            
-		<menuitem id="fleet_vehicle_insurance_menu_id" name="Fleet Vehicle" parent="fleet.fleet_configuration"  action="action_fleet_vehicle_insurance"/>
+		<menuitem id="fleet_vehicle_insurance_menu_id" name="Vehicle Insurance" parent="fleet.fleet_configuration"  action="action_fleet_vehicle_insurance"/>
 		
 	
 	

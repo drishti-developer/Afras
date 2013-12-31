@@ -12,7 +12,7 @@
 						attrs="{ 'invisible':[('customer', '=', False)]}" />
 				</field>
 				<field name="city" position="replace">
-				<field name="city" placeholder="City" on_change="onchange_city(city_id)" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}" />
+				<field name="city" placeholder="City" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}" />
 <!-- 				<field name="city" invisible="True"/> -->
 				</field>
 				<field name="state_id" position="replace">
