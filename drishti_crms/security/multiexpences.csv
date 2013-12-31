@@ -1,0 +1,2 @@
+name,model_id/id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+menu_expences_line,drishti_crms.menu_action_multi_invoice,group_multiexpense,1,1,1,1
