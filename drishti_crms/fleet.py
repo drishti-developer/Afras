@@ -66,8 +66,6 @@ class fleet_vehicle(osv.osv):
                    raise osv.except_osv(_('To Date'),_("Vehcle can not be assign to two branch on the same date") )
                else:
                    date_to = branchDict['date_to']
-                       
-               
            if fleet_branch_ids:
                date_from = fleet_analytic_account_obj.read(cr, uid, fleet_branch_ids[0],['date_from','date_to'])
                

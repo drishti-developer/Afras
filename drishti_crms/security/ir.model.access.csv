@@ -740,28 +740,16 @@ hr.employee user,hr.model_hr_employee,group_all_companies_user,1,0,0,0
 hr.employee user,hr.model_hr_employee,group_all_companies_user,1,0,0,0
 Account Expense Line,drishti_crms.model_account_expense_line,group_all_companies_user,1,0,0,0
 Supplier Account Invoice,Multicompany_billing.model_supplier_account_invoice,group_all_companies_user,1,0,0,0
-Account Fiscal Journal,Multicompany_billing.model_account_fiscal_journal,group_all_companies_user,1,0,0,0
 Fleet Analytical Account,drishti_crms.model_fleet_analytic_account,group_all_companies_user,1,0,0,0
 Journal,account.model_account_journal,group_all_companies_user,1,0,0,0
 account expences line,drishti_crms.model_account_expense_line,group_all_companies_user,1,0,0,0
 fleet analytic account,drishti_crms.model_fleet_analytic_account,group_all_companies_user,1,0,0,0
-account fiscal journal,Multicompany_billing.model_account_fiscal_journal,group_all_companies_user,1,0,0,0
 Supplier account invoice,Multicompany_billing.model_supplier_account_invoice,group_all_companies_user,1,0,0,0
 Area,crms_oe_connect.model_res_city_area,group_all_companies_user,1,0,0,0
 Currency,account.model_res_currency,group_all_companies_user,1,0,0,0
 Journal Items,account.model_account_move_line,group_all_companies_user,1,0,0,0
 Partner,account.model_res_partner,group_all_companies_user,1,0,0,0
 Companies,account.model_res_company,group_all_companies_user,1,0,0,0
-account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,group_all_companies_user,1,0,0,0
+account.fiscal.default.account,model_account_fiscal_default_account,group_all_companies_user,1,0,0,0
 account.asset.sub.category,asset_report.model_account_asset_sub_category,group_all_companies_user,1,0,0,0
 Cost Center,asset_report.model_account_asset_cost_center,group_all_companies_user,1,0,0,0
-account.afras.cost.distribution,model_account_afras_cost_distribution,,1,1,1,1
-account.afras.cost.distribution.lines,model_account_afras_cost_distribution_lines,,1,1,1,1
-account.multi.invoice,model_account_multi_invoice,,1,1,1,1
-account.multi.invoice.line,model_account_multi_invoice_line,,1,1,1,1
-fleet.analytic.account,model_fleet_analytic_account,,1,1,1,1
-fleet.type,model_fleet_type,,1,1,1,1
-fleet.vehicle.cost.distribution,model_fleet_vehicle_cost_distribution,,1,1,1,1
-res.state.city,model_res_state_city,,1,1,1,1
-res.city.area,model_res_city_area,,1,1,1,1
-account.expense.line,model_account_expense_line,,1,1,1,1

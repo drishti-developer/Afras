@@ -71,6 +71,7 @@
 		</record>
 		
 		<!--Menu to execute the above action in order to open the form view of pnl model-->
+		
 		<menuitem 
 			id='menu_action_view_revenue_report_form' 
 			action='action_view_revenue_report_form' 

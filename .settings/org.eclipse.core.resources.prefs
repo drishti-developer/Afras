@@ -1,10 +1,13 @@
-#Fri Dec 27 15:30:25 IST 2013
+#Tue Dec 31 11:46:52 IST 2013
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
 >>>>>>>=397f82cbbbe4ae27728c9ae490e5f923df2115a9
 eclipse.preferences.version=1
 encoding//Multicompany_billing/__openerp__.py=utf-8
 encoding//Multicompany_billing/partner.py=utf-8
+encoding//afras_H2G_date_conv/__init__.py=utf-8
+encoding//afras_H2G_date_conv/__openerp__.py=utf-8
+encoding//afras_H2G_date_conv/wizard/__init__.py=utf-8
 encoding//afras_account/__openerp__.py=utf-8
 encoding//afras_coding_convention/__openerp__.py=utf-8
 encoding//crms_oe_connect/__openerp__.py=utf-8
