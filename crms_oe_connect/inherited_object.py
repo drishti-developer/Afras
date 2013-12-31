@@ -577,13 +577,107 @@ class res_partner(osv.osv):
         'arabic_name':fields.char(string="Customer Name in Arabic",required=True,size=124),
         'dob':fields.date(string='Date of Birth'),
         'working_number':fields.char(string="Working Number",size=124),
-        'loyaltycard_id':fields.integer(string="Loyalty Card Number"),
+        'loyaltycard_id':fields.char(string="Loyalty Card Number"),
         'cardexpiry_date':fields.date(string='ID Card Expiry date'),
         'spouser_name':fields.char(string="Sponsor Name of the customer",size=64),
-        'spouser_id':fields.integer(string="Sponsor ID of the customer"),
+        'spouser_id':fields.char(string="Sponsor ID of the customer"),
         'nationality': fields.char(string="Nationality",size=64),
         'preferred_lang': fields.char(string="Preferred Language",size=128),
         'company_name': fields.char(string="Company Name",size=128),
         }
+    _sql_constraints = [('id_number_unique', 'unique(id_number)', 'Id Number Already Exist')]
+
+    
+    def onchange_site_url(self,cr,uid,ids,website,context=None):
+        res={}
+        if website:
+            import re
+            regex = re.compile(
+                            r'^(?:www)?\.' # http:// or https://
+                            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+                            r'localhost|' #localhost...
+                            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+                            r'(?::\d+)?' # optional port
+                            r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+            if re.match(regex,website)==None:
+               return { 'warning':{'title':'warning','message':'Website address is invalid please enter the valid website address'},'value' :{'website': ''}}
+        return res
+    
+    def onchange_validate_email(self,cr,uid,ids,email,context=None):
+        res={}
+        if email:
+            if len(email) > 0:
+                    import re
+                    if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) == None:
+                        return { 'warning':{'title':'warning','message':'Email address is not correct please enter the valid email address'},'value' :{'email': ''}}
+        return res
+    
+    
+    def onchange_birthdate(self, cr, uid, ids, dob,cardexpiry_date, context=None):
+        res={}
+        import datetime
+        today_date=str(datetime.date.today())
+        if dob:
+            if dob >= today_date:
+                 return { 'warning':{'title':'warning','message':'Date of Birth  can not be not greater then today date'},'value' :{'dob': ''}}
+        if cardexpiry_date:
+            if cardexpiry_date <=today_date:
+                 return { 'warning':{'title':'warning','message':'Card Expiration Date can not be less then today date'},'value' :{'cardexpiry_date': ''}}
+        return {'value':res}
+    
+    def onchange(self,cr,uid,ids,loyaltycard_id,spouser_id,context=None):
+        res={}
+        if loyaltycard_id:
+            if loyaltycard_id.isdigit()==False:
+                return { 'warning':{'title':'warning','message':'Loyalty Card Number is Invalid Please Enter the valid Loyalty Card Number'},'value' :{'loyaltycard_id': ''}}
+        if spouser_id:
+            if spouser_id.isdigit()==False:
+                return { 'warning':{'title':'warning','message':'Sponsor id is Invalid Please Enter the valid Sponsor id'},'value' :{'spouser_id': ''}}
+        return res
+    def onchange_phone_fax_mobile(self,cr,uid,ids,phone,mobile,fax,context=None):
+        res={}
+        if phone:
+            if phone.isdigit()==False:
+                return { 'warning':{'title':'warning','message':'Phone Number should be digit'},'value' :{'phone': ''}}
+        if mobile:
+            if mobile.isdigit()==False:
+                return { 'warning':{'title':'warning','message':'Mobile Number should be digit'},'value' :{'mobile': ''}}
+        if fax:
+            if fax.isdigit()==False:
+                return { 'warning':{'title':'warning','message':'Fax Number should be digit'},'value' :{'fax': ''}}
+    
+        return res  
 
 res_partner()
+
+class project_task(osv.osv):
+    _inherit='project.task'
+    
+    def onchange_date_deadline(self, cr, uid, ids,date_deadline, context=None):
+        res={}
+        import datetime
+        today_date=str(datetime.date.today())
+        if date_deadline:
+            if date_deadline <= today_date:
+                 return { 'warning':{'title':'warning','message':'Date Deadline Should be greater then Today date '},'value' :{'date_deadline': ''}}
+        return res
+    
+class res_partner_bank(osv.osv):
+    _inherit='res.partner.bank'
+    
+    _columns={
+            'acc_number': fields.char('Account Number', size=64, required=True),
+             }
+    def onchange_account_number(self,cr,uid,ids,acc_number,context=None):
+        res={}
+        if acc_number:
+            if acc_number.isdigit()==False:
+                res={
+                     'acc_number':' '
+                     }
+                return { 'warning':{'title':'warning','message':'Account Number is Invalid Please Enter the valid Account Number'},'value' :{'acc_number': ''}}
+        return res 
+    
+    
+    
+    _

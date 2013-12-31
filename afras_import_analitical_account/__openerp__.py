@@ -1,4 +1,3 @@
- 
 {
     'name':'Afras Analitical Account',
     'version':'1.0',

@@ -1,0 +1,3 @@
+id,name,model_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_vehicle_insurance_all,fleet.vehicle.insurance,model_fleet_vehicle_insurance,1,1,1,1
+access_fleet_vehicle_registration_all,fleet.vehicle.registration,model_fleet_vehicle_registration,1,1,1,1
