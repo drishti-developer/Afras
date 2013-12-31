@@ -21,6 +21,10 @@ fleet.vehicle.cost.distribution,drishti_crms.model_fleet_vehicle_cost_distributi
 res.state.city,drishti_crms.model_res_state_city,,1,1,1,1
 res.city.area,drishti_crms.model_res_city_area,,1,1,1,1
 account.expense.line,drishti_crms.model_account_expense_line,,1,1,1,1
+crms.payment,drishti_crms.model_crms_payment,,1,1,1,1
+crms.payment.intermediatepayment.history,drishti_crms.model_crms_payment_intermediatepayment_history,,1,1,1,1
+crms.payment.discount.history,drishti_crms_crms_payment_discount_history,,1,1,1,1
+
 
 
 
