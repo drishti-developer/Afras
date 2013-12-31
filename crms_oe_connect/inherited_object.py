@@ -679,9 +679,6 @@ class res_partner_bank(osv.osv):
         
         if acc_number:
             if acc_number.isdigit()==False:
-                res={
-                     'acc_number':' '
-                     }
                 return { 'warning':{'title':'warning','message':'Account Number is Invalid Please Enter the valid Account Number'},'value' :{'acc_number': ''}}
         return {'value':{}} 
     

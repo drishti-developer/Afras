@@ -2,6 +2,7 @@ from openerp.report import report_sxw
 from openerp.tools.translate import _
 import time
 from datetime import datetime
+import textwrap
 
 class account_asset_asset_report(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context=None):
