@@ -6,14 +6,29 @@ from openerp import netsvc
 
 class crms_payment(osv.osv):
     _name = 'crms.payment'
+    _rec_name = 'crms_id'
+    
+    def _get_intermediate_payment_id(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = {}
+        
+        for record in ids:
+            value_id = False
+            cr.execute('select crms_id from crms_payment_intermediatepayment_history where booking_id=%s order by id DESC',(record,))
+            intermediate_id = cr.fetchone()
+            if intermediate_id:
+                value_id = intermediate_id
+                    
+            res[record.id] = value_id
+        return res
+    
     _columns = {
     'name':fields.char('Name',size=64),
-    'crms_id':fields.integer('CRMS Payment Id', required=True, readonly=True),
+    'crms_id':fields.integer('CRMS Booking ID', required=True, readonly=True),
     'partner_id':fields.many2one('res.partner','Customer Name', required=True),
     'vehicle_id':fields.many2one('fleet.vehicle','Vehicle', required=True),
     'car_type_id':fields.many2one('fleet.type','Car Type'),
     'model_id':fields.many2one('fleet.vehicle.model','Vehicle Model'),
-    'crms_booking_id':fields.integer('Crms Booking Id'),
+    'crms_payment_id':fields.integer('CRMS Payment ID'),
     'rental_from_date':fields.datetime('Rental From', required=True),
     'rental_to_date':fields.datetime('Rental To', required=True),
     'no_of_days':fields.integer('No Of Days'),
@@ -50,14 +65,23 @@ class crms_payment(osv.osv):
     'property_revenue_account': fields.property('account.account', type='many2one', relation='account.account', string="Revenue Account", view_load=True, help=" Revenue Account",),
     'property_account_payable': fields.property('account.account', type='many2one', relation='account.account', string="Account Payable", view_load=True, domain="[('type', '=', 'payable')]", help="This account will be used instead of the default one as the payable account for the current Customer", required=True),
     'property_discount_account': fields.property('account.account', type='many2one', relation='account.account', string="Discount Account", view_load=True, help=" Discount Account",),
+    'property_extra_hours_account': fields.property('account.account', type='many2one', relation='account.account', string="Extra Hours Account", view_load=True, help="Extra Hours Account",),
+    'property_extra_kms_account': fields.property('account.account', type='many2one', relation='account.account', string="Extra KMs Account", view_load=True, help="Extra KMs Account",),
+    'property_other_charges_account': fields.property('account.account', type='many2one', relation='account.account', string="Other Charges Account", view_load=True, help="Other Charges Account",),
+    'property_car_damages_account': fields.property('account.account', type='many2one', relation='account.account', string="Car Damages Account", view_load=True, help=" Car Damages Account",),
+    'property_admin_charges_account': fields.property('account.account', type='many2one', relation='account.account', string="Admin Expense Account", view_load=True, help="Admin Expense Account",),
+    'property_traffic_violation_charges_account': fields.property('account.account', type='many2one', relation='account.account', string="Traffic Violation Account", view_load=True, help="Traffic Violation Account",),
+    'property_driver_charges_account': fields.property('account.account', type='many2one', relation='account.account', string="Extra Driver Charges Account", view_load=True, help=" Extra Driver Charges Account",),
     'last_expense_date':fields.datetime(string="Last Expense Date"),
     'line_ids': fields.one2many('account.move.line','crms_payment_id',string="Lines"),
-    'amount_history_ids': fields.one2many('crms.payment.intermediatepayment.history','crms_payment_id',string="Amount Paid History"),
-    'discount_history_ids': fields.one2many('crms.payment.discount.history','crms_payment_id',string="Discount History"),
+    'amount_history_ids': fields.one2many('crms.payment.intermediatepayment.history','booking_id',string="Amount Paid History"),
+    'discount_history_ids': fields.one2many('crms.payment.discount.history','booking_id',string="Discount History"),
+    'payment_id':fields.function(_get_intermediate_payment_id, type="many2one", relation="crms.payment.intermediatepayment.history", string='Latest Payment ID'),
+    'total_amount_paid':fields.float('Total Amount Paid'),
     }
     
     _sql_constraints = [
-        ('crms_payment_id_uniq', 'unique(crms_payment_id)', 'CRMS Payment Id should already exist!'),
+        ('crms_booking_id_uniq', 'unique(crms_id)', 'CRMS Booking Id already exist!'),
     ]
     
     _defaults = {
@@ -71,29 +95,235 @@ class crms_payment(osv.osv):
             
         data['last_expense_date'] = data.get('rental_from_date')    
         data['remaining_amount'] = data.get('amount_paid',0.0)
-        data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type')})]   
+        data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id')})]
+        data['total_amount_paid'] = data.get('amount_paid')   
         
         return super(crms_payment, self).create(cr, uid, data, context=context)
     
-    def write(self, cr, uid, ids, vals, context=None):
+    def write(self, cr, uid, ids, vals, context={}):
         
         date = datetime.datetime.today()
         crms_payment_brw = self.browse(cr, uid, ids[0])
         
         #Check whether is a new discount is applied or not.
         if vals.get('discount',False):
-            discount_id, remaining_amount = self.pool.get('crms.payment.discount.history').create(cr, uid, {'date':date, 'crms_payment_id':ids[0], 'discount':vals.get('discount')},context)
+            discount_id, remaining_amount = self.pool.get('crms.payment.discount.history').create(cr, uid, {'date':vals.get('discount_date'), 'booking_id':ids[0], 'discount':vals.get('discount')},context)
             vals['remaining_amount'] = remaining_amount
         
         #Check whether contract is extended by Customer or not.
-        if vals.get('rental_extension',False) and vals.get('rental_extension') == 'Yes' and vals.get('amount_paid') and vals.get('amount_paid',0.0) > 0.0:
-            vals['remaining_amount'] = crms_payment_brw.remaining_amount + float(vals.get('amount_paid'))
-            self.pool.get('crms.payment.intermediatepayment.history').create(cr, uid, {'date':vals.get('amount_receive_date'), 'amount':vals.get('amount_paid'), 'payment_type':vals.get('payment_type'), 'crms_payment_id':ids[0],})
+        if crms_payment_brw.state == 'Active' and vals.get('rental_extension',False) and vals.get('rental_extension') == 'Yes' and vals.get('amount_paid') and vals.get('amount_paid',0.0) > 0.0 and vals.get('crms_payment_id',False):
+            intermediate_pool = self.pool.get('crms.payment.intermediatepayment.history')
+            intermediate_ids = intermediate_pool.search(cr, uid, [('crms_id','=',vals.get('crms_payment_id'))])
+            if not intermediate_ids:
+                vals['remaining_amount'] = crms_payment_brw.remaining_amount + float(vals.get('amount_paid'))
+                vals['total_amount_paid'] = crms_payment_brw.total_amount_paid + float(vals.get('amount_paid'))
+                intermediate_pool.create(cr, uid, {'date':vals.get('amount_receive_date'), 'amount':vals.get('amount_paid'), 'payment_type':vals.get('payment_type'), 'booking_id':ids[0],'crms_id':vals.get('crms_payment_id')})
+            else:
+                vals.pop('amount_paid')
+                vals.pop('payment_type')
+                vals.pop('amount_receive_date')
+                
+        if vals.get('state') and (vals.get('state') == 'Closed' or vals.get('state') == 'Payment Processing') and crms_payment_brw.state in ['Active']:
             
-        if vals.get('state') and vals.get('state') == 'Closed':
-            pass
+            self.create_account_voucher_entries(cr, uid, ids, context)
+            crms_payment_brw = self.browse(cr, uid, ids[0])
+            
+            if vals.get('rental_to_date',False):
+                rental_to_date = vals.get('rental_to_date')
+            else:
+                rental_to_date = crms_payment_brw.rental_to_date
+            
+            rental_to_date = rental_to_date[:10]
+            ctx = context.copy()
+            ctx.update(company_id=crms_payment_brw.pickup_branch_id.company_id.id,account_period_prefer_normal=True)
+            period_ids = self.pool.get('account.period').find(cr, uid, rental_to_date, context=ctx)
+                
+            remaining_amount = crms_payment_brw.remaining_amount
+            create_voucher = False
+            paid_amount = 0.0
+            account_id = False
+            
+            if vals.get('amount_returned',False):
+                 
+                journal_id = crms_payment_brw.property_cash_journal.id
+                account_id = crms_payment_brw.property_cash_journal.default_credit_account_id.id
+                lines = [(0,0,{'account_id': crms_payment_brw.property_advance_account.id, 'amount': float(vals['amount_returned']), 'type': 'dr',}),
+                        (0,0,{'account_id': account_id, 'amount': float(vals['amount_returned']), 'type': 'cr',})]
+                remaining_amount = remaining_amount - vals.get('amount_returned')
+                create_voucher = True
+                
+            elif vals.get('amount_paid',False):
+                
+                vals['total_amount_paid'] = crms_payment_brw.total_amount_paid + float(vals.get('amount_paid'))
+                paid_amount = float(vals.get('amount_paid'))
+                if remaining_amount < 0:
+                    create_voucher = True
+                    if vals['payment_type'] == 'Cash':
+                        journal_id = crms_payment_brw.property_cash_journal.id
+                        account_id = crms_payment_brw.property_cash_journal.default_credit_account_id.id
+                    else:
+                        journal_id = crms_payment_brw.property_bank_journal.id
+                        account_id = crms_payment_brw.property_bank_journal.default_credit_account_id.id
+                        
+                    if paid_amount > (remaining_amount*-1):
+                        lines = [(0,0,{'account_id': account_id, 'amount': remaining_amount*-1, 'type': 'dr',}),
+                        (0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': remaining_amount, 'type': 'cr',})]
+                        paid_amount += remaining_amount
+                        remaining_amount = 0
+                    else:
+                        lines = [(0,0,{'account_id': account_id, 'amount': float(vals['amount_paid']), 'type': 'dr',}),
+                        (0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': float(vals['amount_paid']), 'type': 'cr',})]
+                        remaining_amount += paid_amount
+                        paid_amount = 0
+                    
+            if create_voucher : 
+                
+                voucher_id = self.pool.get('account.voucher').create(cr, uid, {
+                'partner_id': crms_payment_brw.partner_id.id,
+                'journal_id': journal_id,
+                'type' : 'receipt',
+                'cost_analytic_id' : crms_payment_brw.pickup_branch_id.project_id.id,
+                'company_id' : crms_payment_brw.pickup_branch_id.company_id.id,
+                'account_id' : account_id,
+                'date': rental_to_date,
+                'period_id': period_ids and period_ids[0] or False,
+                'amount':False,
+                'crms_payment_id':crms_payment_brw.id,
+                'line_ids': lines
+                })
+             
+                netsvc.LocalService("workflow").trg_validate(uid, 'account.voucher', voucher_id, 'proforma_voucher', cr)
+                
+            if float(vals.get('admin_expenses',0.0)) > 0:
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('admin_expenses')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_admin_charges_account.id, rental_to_date, account_id)
+            
+            if float(vals.get('extra_hours_charges',0.0)) > 0:
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('extra_hours_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_extra_hours_account.id, rental_to_date, account_id)
+                
+            if float(vals.get('extra_km_charges',0.0)) > 0:
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('extra_km_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_extra_kms_account.id, rental_to_date, account_id)
+                
+            if float(vals.get('other_charges',0.0)) > 0:
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('other_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_other_charges_account.id, rental_to_date, account_id)
+                
+            if float(vals.get('damage_charges',0.0)) > 0:
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('damage_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_car_damages_account.id, rental_to_date, account_id)
+                
+            if float(vals.get('traffic_violation_charges',0.0)) > 0:
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('traffic_violation_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_traffic_violation_charges_account.id, rental_to_date, account_id)
+            
+            if float(vals.get('additional_driver_charges',0.0)) > 0:
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('addititonal_driver_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_driver_charges_account.id, rental_to_date, account_id)
         
         return super(crms_payment, self).write(cr, uid, ids, vals, context=context)
+    
+    def create_closed_entries(self, cr, uid, crms_payment_brw, other_amount, remaining_amount, paid_amount, period_ids, other_amount_account_id, rental_to_date, other_account_id):
+        
+        # Credit Move Line        
+        lines = [(0,0,{
+        'journal_id': crms_payment_brw.property_sale_journal.id,
+        'date' : rental_to_date,
+        'partner_id':crms_payment_brw.partner_id.id,
+        'period_id': period_ids and period_ids[0] or False,
+        'analytic_account_id':crms_payment_brw.vehicle_id.analytic_id.id,
+        'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
+        'company_id':crms_payment_brw.property_sale_journal.company_id.id,
+        'name': 'Extra Charges',
+        'credit': other_amount,
+        'account_id': other_amount_account_id,
+        })]
+        
+        # Debit Move Line
+        move_line_2 = {
+        'journal_id': crms_payment_brw.property_sale_journal.id,
+        'date' : rental_to_date,
+        'partner_id':crms_payment_brw.partner_id.id,
+        'period_id': period_ids and period_ids[0] or False,
+        'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
+        'company_id':crms_payment_brw.property_sale_journal.company_id.id,
+        'name': 'Car rent',
+        }
+        
+        if remaining_amount > 0:
+            if remaining_amount > other_amount:
+                move_line_2['debit'] = other_amount
+                move_line_2['account_id'] = crms_payment_brw.property_advance_account.id
+                lines.append((0,0,move_line_2))
+                remaining_amount = remaining_amount - other_amount
+                
+            elif paid_amount > 0 and (paid_amount+remaining_amount) > other_amount:
+                move_line_3 = move_line_2.copy()
+                move_line_2['debit'] = remaining_amount
+                move_line_2['account_id'] = crms_payment_brw.property_advance_account.id
+                lines.append((0,0,move_line_2))
+                move_line_3['debit'] = other_amount - remaining_amount
+                move_line_3['account_id'] = other_account_id
+                lines.append((0,0,move_line_3))
+                paid_amount = paid_amount + remaining_amount - other_amount
+                remaining_amount = 0
+                
+            elif paid_amount > 0 :
+                move_line_3 = move_line_2.copy()
+                move_line_4 = move_line_2.copy()
+                move_line_2['debit'] = remaining_amount
+                move_line_2['account_id'] = crms_payment_brw.property_advance_account.id
+                lines.append((0,0,move_line_2))
+                move_line_3['debit'] = paid_amount
+                move_line_3['account_id'] = other_account_id
+                lines.append((0,0,move_line_3))
+                move_line_4['debit'] = other_amount - remaining_amount - paid_amount
+                move_line_4['account_id'] = crms_payment_brw.property_retail_account.id                
+                lines.append((0,0,move_line_4))
+                remaining_amount = -(other_amount - remaining_amount - paid_amount)
+                paid_amount = 0
+                
+            else:
+                move_line_3 = move_line_2.copy()
+                move_line_2['debit'] = remaining_amount
+                move_line_2['account_id'] = crms_payment_brw.property_advance_account.id
+                lines.append((0,0,move_line_2))
+                move_line_3['debit'] = other_amount - remaining_amount
+                move_line_3['account_id'] = crms_payment_brw.property_retail_account.id
+                lines.append((0,0,move_line_3))
+                remaining_amount = -(other_amount - remaining_amount)
+            
+        else:
+            if paid_amount > 0 and paid_amount > other_amount:
+                move_line_2['debit'] = other_amount
+                move_line_2['account_id'] = other_account_id
+                lines.append((0,0,move_line_2))
+                paid_amount = paid_amount - other_amount
+                
+            elif paid_amount > 0 :
+                move_line_3 = move_line_2.copy()
+                move_line_2['debit'] = paid_amount
+                move_line_2['account_id'] = other_account_id
+                lines.append((0,0,move_line_2))
+                move_line_3['debit'] = other_amount - paid_amount
+                move_line_3['account_id'] = crms_payment_brw.property_retail_account.id
+                lines.append((0,0,move_line_3))
+                paid_amount = 0
+                remaining_amount = other_amount - paid_amount
+                
+            else:
+                move_line_2['debit'] = other_amount
+                move_line_2['account_id'] = crms_payment_brw.property_retail_account.id
+                lines.append((0,0,move_line_2))
+                paid_amount = 0
+                remaining_amount = -(other_amount - paid_amount)
+        
+        self.pool.get('account.move').create(cr,uid, {
+                'journal_id': crms_payment_brw.property_sale_journal.id,
+                'date' : rental_to_date,
+                'period_id': period_ids and period_ids[0] or False,
+                'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
+                'company_id':crms_payment_brw.property_sale_journal.company_id.id,
+                'period_id':period_ids and period_ids[0] or False,
+                'crms_payment_id':crms_payment_brw.id,
+                'line_id': lines,
+                })
+        
+        return remaining_amount,paid_amount
     
     # CRMS Payment
     def create_account_voucher_entries(self, cr, uid, ids, context=None):
@@ -109,7 +339,8 @@ class crms_payment(osv.osv):
             per_day_amt = crms_payment_brw.per_day_amount
             discount_amt = crms_payment_brw.per_day_amount * (crms_payment_brw.discount/100) if crms_payment_brw.discount else 0.0
             per_day_amt_disc = per_day_amt - discount_amt
-            today_date = datetime.date.today() - relativedelta(days=1)
+            #today_date = datetime.datetime.today() - relativedelta(days=1)
+            today_date = datetime.datetime.today()
             expense_date = crms_payment_brw.last_expense_date
             rental_from = crms_payment_brw.rental_from_date
             
@@ -209,10 +440,11 @@ class crms_payment_intermediatepayment_history(osv.osv):
     _rec_name = "amount"
     _columns ={
     'date':fields.date(string="Date", required=True),
-    'crms_payment_id':fields.many2one('crms.payment',"CRMS Payment ID", required=True),
+    'booking_id':fields.many2one('crms.payment',"CRMS Booking ID", required=True),
     'amount':fields.float(string="Amount", required=True),
     'payment_type':fields.selection([('Cash','Cash'),('Card','Card'),('Span','Span')],'Payment Type', required=True),
-    'voucher_id':fields.many2one('account.voucher',string="Journal Voucher")
+    'voucher_id':fields.many2one('account.voucher',string="Journal Voucher"),
+    'crms_id':fields.integer('CRMS Payment ID', required=True, readonly=True),
     }
     
     def create(self, cr, uid, data, context=None):
@@ -220,7 +452,7 @@ class crms_payment_intermediatepayment_history(osv.osv):
         if context is None:
             context = {}
         payment_obj = self.pool.get('crms.payment')
-        crms_payment_brw = payment_obj.browse(cr, uid, int(data['crms_payment_id']))
+        crms_payment_brw = payment_obj.browse(cr, uid, int(data['booking_id']))
          
         ctx = context.copy()
         ctx.update(company_id=crms_payment_brw.pickup_branch_id.company_id.id,account_period_prefer_normal=True)
@@ -252,7 +484,7 @@ class crms_payment_intermediatepayment_history(osv.osv):
         'date': data['date'],
         'period_id': period_ids and period_ids[0] or False,
         'amount':float(data['amount']),
-        'crms_payment_id':data['crms_payment_id'],
+        'crms_payment_id':data['booking_id'],
         'line_ids': lines
         })
          
@@ -269,7 +501,7 @@ class crms_payment_discount_history(osv.osv):
     _rec_name = "discount"
     _columns ={
     'date':fields.date(string="Date", required=True),
-    'crms_payment_id':fields.many2one('crms.payment',"CRMS Payment ID", required=True),
+    'booking_id':fields.many2one('crms.payment',"CRMS Booking ID", required=True),
     'discount':fields.float(string="Discount(%)", required=True),
     }
     
@@ -282,7 +514,7 @@ class crms_payment_discount_history(osv.osv):
         period_pool = self.pool.get('account.period')
         move_pool = self.pool.get('account.move')
             
-        crms_payment_brw = payment_pool.browse(cr ,uid, data['crms_payment_id'])
+        crms_payment_brw = payment_pool.browse(cr ,uid, data['booking_id'])
         discount = float(data['discount']) - (crms_payment_brw.discount or 0.0)
         remaining_amount =crms_payment_brw.remaining_amount
         discount_amt = crms_payment_brw.per_day_amount * (discount/100) 

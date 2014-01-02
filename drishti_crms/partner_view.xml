@@ -18,6 +18,21 @@
 				<field name="state_id" position="replace">
 				<field name="state_id" class="oe_no_button" placeholder="Region" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
 				</field>
+				
+			</field>
+		</record>
+		
+		
+	<record id="view_partner_property_form_inherit" model="ir.ui.view">
+			<field name="name">res.partner.type.form1</field>
+			<field name="model">res.partner</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="account.view_partner_property_form" />
+			<field name="arch" type="xml">
+				<field name="last_reconciliation_date" position="attributes">
+				<attribute name="readonly">True</attribute>
+				</field>
+				
 			</field>
 		</record>
 	

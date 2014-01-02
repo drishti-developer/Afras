@@ -28,7 +28,7 @@ from xml.dom.minidom import parseString
 
 STANDARD_LIST_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><ResponseGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><ERPResponse><ResponseData DataCollectionDate="%(collectiondate)s" ResponseService="%(responsename)s"><ResponseCode>1</ResponseCode><ResponseMessage>SUCCESS</ResponseMessage>%(responsedata)s</ResponseData></ERPResponse></ResponseGroup>"""
 
-VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner','crms.payment']
+VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner',]
 
 CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle']
 
@@ -193,13 +193,13 @@ CUSTOMER_LIST  = [
             ]
 
 RENTAL_PAYMENT_LIST = [
-			('id','ERPRentalPaymentID'),
-            ('crms_id','CRMSRentalPaymentID'),
+			('id','ERPBookingID'),
+            ('crms_id','CRMSBookingID'),
             ('partner_id',('id','ERPCustomerID',0,'res.partner')),
             ('vehicle_id',('id','ERPCarID',0,'fleet.vehicle')),
             ('car_type_id',('id','ERPCarTypeID',0,'fleet.type')),
             ('model_id',('id','ERPModelID',0,'fleet.vehicle.model')),
-            ('crms_booking_id','CRMSBookingID'),
+            ('crms_payment_id','CRMSRentalPaymentID'),
             ('rental_from_date','RentalFromDate'),
             ('rental_to_date','RentalToDate'),
             ('no_of_days','NoOfDays'),
@@ -219,13 +219,14 @@ RENTAL_PAYMENT_LIST = [
             ('damage_charges','DamageCharges'),
             ('traffic_violation_charges','TrafficViolationCharges'),
             ('other_charges','OtherCharges'),
-            ('extra_hour_charges','ExtraHourCharges'),
+            ('extra_hour_charges','AdditionalHourCharges'),
             ('extra_km_charges','ExtraKMCharges'),
             ('additional_driver_charges','AdditionalDriverCharges'),
             ('payment_type','PaymentMode'),
             ('state','RentalStatus'),
             ('per_day_amount','RatePerDay'),
             ('discount','Discounts'),
+            ('discount_date','DiscountDate'),
             ('rental_extension','RentalExtension'),
             ]
 
@@ -480,12 +481,16 @@ def CreateRequest(self, cr, uid, data):
         responseDOM = parseString(data)
         responsearray = getDataArray(responseDOM, 'RequestData', response_type+'List', response_type)       
         for response in responsearray:
-            response_data += "<%s>"%(response_name)            
-            crms_id = response.get('CRMS'+response_type+'ID',False)            
-            response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id, 'CRMS'+response_type+'ID') if crms_id else ''            
-            search_id = self.search(cr,uid,[('crms_id','=',crms_id)]) if crms_id else []
-            record_value = {}
+            response_data += "<%s>"%(response_name)
+            if response_type == 'RentalPayment':
+                crms_id = response.get('CRMSBookingID',False)
+            else:
+                crms_id = response.get('CRMS'+response_type+'ID',False)
             
+            search_id = self.search(cr,uid,[('crms_id','=',crms_id)]) if crms_id else []
+                
+            record_value = {}
+            payment_id = False
             for field in field_list:
                 if field[0] not in ['id','current_branch_id']:#skip fields
                     if field[0] == 'analytic_account_ids' and len(search_id) > 0 and response.get(field[1],False):
@@ -498,20 +503,37 @@ def CreateRequest(self, cr, uid, data):
                                 record_value[field[0]] = search_value_id and search_value_id[0] or ext_field[2]
                         elif response.get(field[1],False):
                             record_value[field[0]] = response.get(field[1],False)
+                            if field[1] == 'CRMSRentalPaymentID':
+                                payment_id = response.get(field[1])
                 
             try :
-            	msg = 'SUCCESS'
-            	record_id = 0
+                msg = 'SUCCESS'
+                record_id = 0
                 if len(search_id) == 0 and record_value:
                     record_id = self.create(cr,uid,record_value,{'mail_create_nosubscribe':True,'crms_create':True})
                 elif len(search_id) > 0 and record_value:
                     self.write(cr,uid,search_id,record_value)
                     record_id = search_id[0]
                 else:
-                	msg = 'FAILURE - CRMSID NOT FOUND'
+                    msg = 'FAILURE - CRMSID NOT FOUND'
                     
-                response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                if response_type == 'RentalPayment':
+                    if payment_id:
+                        cr.execute('select id from crms_payment_intermediatepayment_history where crms_id=%s',(payment_id,))
+                        record_id = cr.fetchone()
+                        response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id and record_id[0] or 0, 'ERP'+response_type+'ID')
+                        response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', payment_id, 'CRMS'+response_type+'ID')
+                        
+                    else:
+                        response_data += "<%s>%s</%s>"%('CRMSBookingID', crms_id or 0, 'CRMSBookingID')
+                        response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
+                        
+                else:    
+                    response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id or 0, 'CRMS'+response_type+'ID')
+                    response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                    
                 response_data += "<RecordStatus>%s</RecordStatus>"%(msg)
+                    
             except Exception ,e:
                 response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
                 response_data += "<RecordStatus>%s</RecordStatus>"%(e)
