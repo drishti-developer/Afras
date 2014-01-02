@@ -367,6 +367,18 @@ class account_invoice_line(osv.osv):
                 'to_date' : fields.date('To Date'),
                 }
     
+    def onchange_fromdate_todate(self, cr, uid, ids,from_date,to_date, context=None):
+        
+        if from_date:
+            if to_date:
+                if from_date >= to_date:
+                    return { 'warning':{'title':'warning','message':'From Date is not greater then the to date'},'value' :{'from_date': '','to_date':''}}
+        if to_date:
+            if from_date:
+                if today_date <= from_date:
+                    return { 'warning':{'title':'warning','message':'To Date is not less then the From date'},'value' :{'from_date': '','to_date':''}}
+        return {'value':{}}
+    
     def _default_account_id(self, cr, uid, context=None):
         # XXX this gets the default account for the user's company,
         # it should get the default account for the invoice's company

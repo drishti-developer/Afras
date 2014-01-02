@@ -5,7 +5,7 @@ from datetime import datetime
 import textwrap
 
 class account_asset_asset_report(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context=None):
+    def __init__(self, cr, uid, name, context):
         super(account_asset_asset_report, self).__init__(cr, uid, name, context=context)
         self.localcontext.update( {
                               'get_category':self.get_category,
