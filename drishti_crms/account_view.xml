@@ -64,14 +64,8 @@
 					<field name="vehicle_id" domain="[('product_id', '=', product_id)]"
 						attrs="{'invisible':[('asset_category_id', '=', False)],}"/>
 				   		
-<<<<<<< HEAD
-				    <field name="from_date" on_change="onchange_fromdate_todate(from_date,to_date)"/>
-					<field name="to_date" on_change="onchange_fromdate_todate(from_date,to_date)"/>		
-=======
-				    
 					<field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
                     <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>		
->>>>>>> 49f90bcb69542c8d623b78c54522764c02eeb0b1
 				</xpath>
 				<field name="invoice_line" position="attributes">
 				<attribute name="context">{'partner_id': partner_id, 'price_type': context.get('price_type') or False, 'type': type,'journal_id': journal_id}</attribute>
@@ -114,13 +108,8 @@
 					position="before">
 					<field name="vehicle_id" invisible="1"
 						on_change="onchange_vehicle(vehicle_id,parent.date_invoice)" />
-<<<<<<< HEAD
-				    <field name="from_date" on_change="onchange_fromdate_todate(from_date,to_date)"/>
-					<field name="to_date" on_change="onchange_fromdate_todate(from_date,to_date)"/>		
-=======
 				    <field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
                     <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_to_date(from_date,to_date)"/>		
->>>>>>> 49f90bcb69542c8d623b78c54522764c02eeb0b1
 				</xpath>
 				<field name="account_id" position="attributes">
 			        <attribute name="context">{'journal_id1':journal_id, }</attribute>
@@ -160,13 +149,8 @@
 					expr="//field[@name='line_cr_ids']/tree/field[@name='account_analytic_id']"
 					position="after">
 					<field name="vehicle_id" on_change="onchange_vehicle(vehicle_id,parent.date)" invisible="1" />
-<<<<<<< HEAD
-					<field name="from_date" on_change="onchange_fromdate_todate(from_date,to_date)"/>
-					<field name="to_date" on_change="onchange_fromdate_todate(from_date,to_date)"/>
-=======
 					<field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
                     <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_to_date(from_date,to_date)"/>		
->>>>>>> 49f90bcb69542c8d623b78c54522764c02eeb0b1
 				</xpath>
 				<field name="account_id" position="attributes">
 				<attribute name="invisible">False</attribute>
@@ -206,13 +190,8 @@
 					expr="//field[@name='line_dr_ids']/tree/field[@name='account_analytic_id']"
 					position="after">
 					<field name="vehicle_id" on_change="onchange_vehicle(vehicle_id,parent.date)" invisible="1"/>
-<<<<<<< HEAD
-					<field name="from_date"/>
-					<field name="to_date" />
-=======
 					<field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
                     <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_to_date(from_date,to_date)"/>		
->>>>>>> 49f90bcb69542c8d623b78c54522764c02eeb0b1
 				</xpath>
 				
 				<field name="account_id" position="replace">
