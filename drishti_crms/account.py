@@ -101,6 +101,35 @@ class account_invoice(osv.osv):
                 'cost_analytic_id' : fields.many2one('account.analytic.account','Cost Center',),
                 'vehicle_id': fields.many2one('fleet.vehicle','Vehicle'),
                 }
+    
+    def invoice_pay_customer(self, cr, uid, ids, context=None):
+        if not ids: return []
+        dummy, view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account_voucher', 'view_vendor_receipt_dialog_form')
+
+        inv = self.browse(cr, uid, ids[0], context=context)
+        return {
+            'name':_("Pay Invoice"),
+            'view_mode': 'form',
+            'view_id': view_id,
+            'view_type': 'form',
+            'res_model': 'account.voucher',
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'new',
+            'domain': '[]',
+            'context': {
+                'payment_expected_currency': inv.currency_id.id,
+                'default_partner_id': self.pool.get('res.partner')._find_accounting_partner(inv.partner_id).id,
+                'default_amount': inv.type in ('out_refund', 'in_refund') and -inv.residual or inv.residual,
+                'default_reference': inv.name,
+                'close_after_process': True,
+                'default_cost_analytic_id': inv.cost_analytic_id and inv.cost_analytic_id.id or False,
+                'invoice_type': inv.type,
+                'invoice_id': inv.id,
+                'default_type': inv.type in ('out_invoice','out_refund') and 'receipt' or 'payment',
+                'type': inv.type in ('out_invoice','out_refund') and 'receipt' or 'payment'
+            }
+        }
 
     def line_get_convert(self, cr, uid, x, part, date, context=None):
         
@@ -345,7 +374,7 @@ class account_invoice(osv.osv):
             
             ctx.update(invoice=inv)
             
-            
+            print "move",move
             move_id = move_obj.create(cr, uid, move, context=ctx)
             new_move_name = move_obj.browse(cr, uid, move_id, context=ctx).name
             # make the invoice point to that move
@@ -761,6 +790,7 @@ class account_voucher(osv.osv):
             'ref': ref,
             'period_id': voucher.period_id.id,
             'crms_payment_id':voucher.crms_payment_id and voucher.crms_payment_id.id or False, 
+            'cost_analytic_id': voucher.cost_analytic_id and voucher.cost_analytic_id.id or False
         }
         return move
     
