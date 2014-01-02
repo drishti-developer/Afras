@@ -102,6 +102,8 @@ class account_invoice(osv.osv):
                 'vehicle_id': fields.many2one('fleet.vehicle','Vehicle'),
                 }
     
+    
+    
     def invoice_pay_customer(self, cr, uid, ids, context=None):
         if not ids: return []
         dummy, view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account_voucher', 'view_vendor_receipt_dialog_form')
@@ -396,6 +398,15 @@ class account_invoice_line(osv.osv):
                 'to_date' : fields.date('To Date'),
                 }
     
+    def onchange_to_date(self,cr,uid,ids,from_date=False,to_date=False,context=None):  
+        if from_date and to_date and from_date > to_date:
+            return { 'warning':{'title':'warning','message':'To Date Should be greater then From Date Please enter correct date'},'value' :{'to_date':False}}
+        return True    
+#    
+    def onchange_date(self,cr,uid,ids,from_date=False,to_date=False,context=None):
+        if from_date and to_date and from_date > to_date:
+            return { 'warning':{'title':'warning','message':'From Date Should be less then To Date Please enter correct date'},'value' :{'from_date':False,}}
+        return True
     def _default_account_id(self, cr, uid, context=None):
         # XXX this gets the default account for the user's company,
         # it should get the default account for the invoice's company
@@ -1422,6 +1433,16 @@ class account_voucher_line(osv.osv):
                  'from_date' : fields.date('From Date'),
                 'to_date' : fields.date('To Date'),
                 }
+    
+    def onchange_to_date(self,cr,uid,ids,from_date=False,to_date=False,context=None):  
+        if from_date and to_date and from_date > to_date:
+            return { 'warning':{'title':'warning','message':'To Date Should be greater then or equal to From Date Please enter correct date'},'value' :{'to_date':False}}
+        return True    
+#    
+    def onchange_date(self,cr,uid,ids,from_date=False,to_date=False,context=None):
+        if from_date and to_date and from_date > to_date:
+            return { 'warning':{'title':'warning','message':'From Date Should be less then or equal To Date Please enter correct date'},'value' :{'from_date':False,}}
+        return True
     
     def onchange_vehicle(self, cr, uid, ids, vehicle_id,date,context=None):
         """
