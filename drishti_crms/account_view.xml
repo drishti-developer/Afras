@@ -64,6 +64,7 @@
 					<field name="vehicle_id" domain="[('product_id', '=', product_id)]"
 						attrs="{'invisible':[('asset_category_id', '=', False)],}"/>
 				   		
+				    
 					<field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
                     <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>		
 				</xpath>
