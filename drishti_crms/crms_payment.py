@@ -86,7 +86,7 @@ class crms_payment(osv.osv):
     
     _defaults = {
     'state':'Active',
-    }
+                 }
     
     def create(self, cr, uid, data, context=None):
         

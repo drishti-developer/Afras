@@ -15,14 +15,14 @@ class res_partner(osv.osv):
     'account_analytic_id':fields.many2one('account.analytic.account','Analytic Account'),
     }
     
-    def onchange_city(self, cr, uid, ids, city_id, context=None):
-        if city_id:
-            city_obj = self.pool.get('res.state.city').browse(cr, uid, city_id, context)
-            state_id = city_obj.state_id.id
-            country_id = city_obj.country_id.id
-            city = city_obj.name
-            return {'value':{'city':city,'state_id': state_id, 'country_id':country_id}}
-        return {}
+#     def onchange_city(self, cr, uid, ids, city_id, context=None):
+#         if city_id:
+#             city_obj = self.pool.get('res.state.city').browse(cr, uid, city_id, context)
+#             state_id = city_obj.state_id.id
+#             country_id = city_obj.country_id.id
+#             city = city_obj.name
+#             return {'value':{'city':city,'state_id': state_id, 'country_id':country_id}}
+#         return {}
 res_partner()
     
 class res_country(osv.osv):

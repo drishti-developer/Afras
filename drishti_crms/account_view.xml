@@ -45,10 +45,9 @@
                                 
                                 on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
                                 string="Payment Method"/>
-               <field name="adjust_journal_id" />
-               <field name="adjust_journal_id" />
+               
 
-
+               <field name="cost_analytic_id" />
                <field name="adjust_journal_id" domain="[('company_id.is_shared_company','=', True),('type','in',['bank', 'cash'])]"/>
                
 				</field>                 
@@ -65,8 +64,9 @@
 					<field name="vehicle_id" domain="[('product_id', '=', product_id)]"
 						attrs="{'invisible':[('asset_category_id', '=', False)],}"/>
 				   		
-				    <field name="from_date" />
-					<field name="to_date" />		
+				    
+					<field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
+                    <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>		
 				</xpath>
 				<field name="invoice_line" position="attributes">
 				<attribute name="context">{'partner_id': partner_id, 'price_type': context.get('price_type') or False, 'type': type,'journal_id': journal_id}</attribute>
@@ -109,8 +109,8 @@
 					position="before">
 					<field name="vehicle_id" invisible="1"
 						on_change="onchange_vehicle(vehicle_id,parent.date_invoice)" />
-				    <field name="from_date"/>
-					<field name="to_date"/>		
+				    <field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
+                    <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_to_date(from_date,to_date)"/>		
 				</xpath>
 				<field name="account_id" position="attributes">
 			        <attribute name="context">{'journal_id1':journal_id, }</attribute>
@@ -150,8 +150,8 @@
 					expr="//field[@name='line_cr_ids']/tree/field[@name='account_analytic_id']"
 					position="after">
 					<field name="vehicle_id" on_change="onchange_vehicle(vehicle_id,parent.date)" invisible="1" />
-					<field name="from_date" />
-					<field name="to_date" />
+					<field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
+                    <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_to_date(from_date,to_date)"/>		
 				</xpath>
 				<field name="account_id" position="attributes">
 				<attribute name="invisible">False</attribute>
@@ -191,8 +191,8 @@
 					expr="//field[@name='line_dr_ids']/tree/field[@name='account_analytic_id']"
 					position="after">
 					<field name="vehicle_id" on_change="onchange_vehicle(vehicle_id,parent.date)" invisible="1"/>
-					<field name="from_date" />
-					<field name="to_date" />
+					<field name="from_date" attrs="{'required':[('to_date','!=',False)]}" on_change="onchange_date(from_date,to_date)"/>
+                    <field name="to_date" attrs="{'required':[('from_date','!=',False)]}" on_change="onchange_to_date(from_date,to_date)"/>		
 				</xpath>
 				
 				<field name="account_id" position="replace">

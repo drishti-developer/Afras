@@ -589,7 +589,6 @@ class res_partner(osv.osv):
 
     
     def onchange_site_url(self,cr,uid,ids,website,context=None):
-        res={}
         if website:
             import re
             regex = re.compile(
@@ -601,41 +600,39 @@ class res_partner(osv.osv):
                             r'(?:/?|[/?]\S+)$', re.IGNORECASE)
             if re.match(regex,website)==None:
                return { 'warning':{'title':'warning','message':'Website address is invalid please enter the valid website address'},'value' :{'website': ''}}
-        return res
+        return {'value':{}}
     
     def onchange_validate_email(self,cr,uid,ids,email,context=None):
-        res={}
         if email:
             if len(email) > 0:
                     import re
                     if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) == None:
                         return { 'warning':{'title':'warning','message':'Email address is not correct please enter the valid email address'},'value' :{'email': ''}}
-        return res
+        return {'value':{}}
     
     
     def onchange_birthdate(self, cr, uid, ids, dob,cardexpiry_date, context=None):
-        res={}
-        import datetime
+        
         today_date=str(datetime.date.today())
         if dob:
             if dob >= today_date:
-                 return { 'warning':{'title':'warning','message':'Date of Birth  can not be not greater then today date'},'value' :{'dob': ''}}
+                return { 'warning':{'title':'warning','message':'Date of Birth  can not be not greater then today date'},'value' :{'dob': ''}}
         if cardexpiry_date:
             if cardexpiry_date <=today_date:
-                 return { 'warning':{'title':'warning','message':'Card Expiration Date can not be less then today date'},'value' :{'cardexpiry_date': ''}}
-        return {'value':res}
+                return { 'warning':{'title':'warning','message':'Card Expiration Date can not be less then today date'},'value' :{'cardexpiry_date': ''}}
+            
+        return {'value':{}}
     
-    def onchange(self,cr,uid,ids,loyaltycard_id,spouser_id,context=None):
-        res={}
+    def onchange_loyaltycard_spouser(self,cr,uid,ids,loyaltycard_id,spouser_id,context=None):
         if loyaltycard_id:
             if loyaltycard_id.isdigit()==False:
                 return { 'warning':{'title':'warning','message':'Loyalty Card Number is Invalid Please Enter the valid Loyalty Card Number'},'value' :{'loyaltycard_id': ''}}
         if spouser_id:
             if spouser_id.isdigit()==False:
                 return { 'warning':{'title':'warning','message':'Sponsor id is Invalid Please Enter the valid Sponsor id'},'value' :{'spouser_id': ''}}
-        return res
+        return {'value':{}}
+    
     def onchange_phone_fax_mobile(self,cr,uid,ids,phone,mobile,fax,context=None):
-        res={}
         if phone:
             if phone.isdigit()==False:
                 return { 'warning':{'title':'warning','message':'Phone Number should be digit'},'value' :{'phone': ''}}
@@ -646,7 +643,16 @@ class res_partner(osv.osv):
             if fax.isdigit()==False:
                 return { 'warning':{'title':'warning','message':'Fax Number should be digit'},'value' :{'fax': ''}}
     
-        return res  
+        return {'value':{}}  
+    
+    def onchange_idnumber_employeecode(self,cr,uid,ids,id_number,employee_code,context=None):
+        if id_number:
+            if id_number.isdigit()==False:
+                return { 'warning':{'title':'warning','message':'Id number must be digit'},'value' :{'id_number': ''}}
+        if employee_code:
+            if employee_code.isdigit()==False:
+                return { 'warning':{'title':'warning','message':'Employee  code must be digit'},'value' :{'employee_code': ''}}
+        return {'value':{}}  
 
 res_partner()
 
@@ -654,14 +660,15 @@ class project_task(osv.osv):
     _inherit='project.task'
     
     def onchange_date_deadline(self, cr, uid, ids,date_deadline, context=None):
-        res={}
-        import datetime
+        
         today_date=str(datetime.date.today())
         if date_deadline:
             if date_deadline <= today_date:
                  return { 'warning':{'title':'warning','message':'Date Deadline Should be greater then Today date '},'value' :{'date_deadline': ''}}
-        return res
+        return {'value':{}}
     
+project_task()   
+ 
 class res_partner_bank(osv.osv):
     _inherit='res.partner.bank'
     
@@ -669,15 +676,10 @@ class res_partner_bank(osv.osv):
             'acc_number': fields.char('Account Number', size=64, required=True),
              }
     def onchange_account_number(self,cr,uid,ids,acc_number,context=None):
-        res={}
+        
         if acc_number:
             if acc_number.isdigit()==False:
-                res={
-                     'acc_number':' '
-                     }
                 return { 'warning':{'title':'warning','message':'Account Number is Invalid Please Enter the valid Account Number'},'value' :{'acc_number': ''}}
-        return res 
+        return {'value':{}} 
     
-    
-    
-    _
+res_partner_bank()    

@@ -152,7 +152,7 @@
 	            
 		<menuitem id="asset_sub_category_menu_id" name="Asset Sub Category" parent="account_asset.menu_finance_config_assets"  action="action_asset_sub_category_view"/>
 		<menuitem id="asset_sub_category_hierarchi_id" name="Asset Category Hierarchy" parent="account_asset.menu_finance_config_assets" action="action_account_asset_asset_hierarchy_tree"/>
-		<menuitem id="account_asset_cost_center" name="Account Asset Cost Center" parent="account_asset.menu_finance_assets" action="action_account_asset_cost_center_view"/>
+	<!-- 	<menuitem id="account_asset_cost_center" name="Account Asset Cost Center" parent="account_asset.menu_finance_assets" action="action_account_asset_cost_center_view"/>   -->
 		
 		
 </data>
