@@ -108,7 +108,9 @@ class crms_payment(osv.osv):
         #Check whether is a new discount is applied or not.
         if vals.get('discount',False):
             discount_id, remaining_amount = self.pool.get('crms.payment.discount.history').create(cr, uid, {'date':vals.get('discount_date'), 'booking_id':ids[0], 'discount':vals.get('discount')},context)
-            vals['remaining_amount'] = remaining_amount
+            #vals['remaining_amount'] = remaining_amount
+            if remaining_amount:
+                cr.execute('update crms_payment set remaining_amount=%s where id=%s',(remaining_amount,id[0]))
         
         #Check whether contract is extended by Customer or not.
         if crms_payment_brw.state == 'Active' and vals.get('rental_extension',False) and vals.get('rental_extension') == 'Yes' and vals.get('amount_paid') and vals.get('amount_paid',0.0) > 0.0 and vals.get('crms_payment_id',False):
@@ -155,16 +157,17 @@ class crms_payment(osv.osv):
             elif vals.get('amount_paid',False):
                 
                 vals['total_amount_paid'] = crms_payment_brw.total_amount_paid + float(vals.get('amount_paid'))
+                if vals['payment_type'] == 'Cash':
+                    journal_id = crms_payment_brw.property_cash_journal.id
+                    account_id = crms_payment_brw.property_cash_journal.default_credit_account_id.id
+                else:
+                    journal_id = crms_payment_brw.property_bank_journal.id
+                    account_id = crms_payment_brw.property_bank_journal.default_credit_account_id.id
+                    
                 paid_amount = float(vals.get('amount_paid'))
                 if remaining_amount < 0:
                     create_voucher = True
-                    if vals['payment_type'] == 'Cash':
-                        journal_id = crms_payment_brw.property_cash_journal.id
-                        account_id = crms_payment_brw.property_cash_journal.default_credit_account_id.id
-                    else:
-                        journal_id = crms_payment_brw.property_bank_journal.id
-                        account_id = crms_payment_brw.property_bank_journal.default_credit_account_id.id
-                        
+                    
                     if paid_amount > (remaining_amount*-1):
                         lines = [(0,0,{'account_id': account_id, 'amount': remaining_amount*-1, 'type': 'dr',}),
                         (0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': remaining_amount, 'type': 'cr',})]
@@ -213,7 +216,7 @@ class crms_payment(osv.osv):
                 remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('traffic_violation_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_traffic_violation_charges_account.id, rental_to_date, account_id)
             
             if float(vals.get('additional_driver_charges',0.0)) > 0:
-                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('addititonal_driver_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_driver_charges_account.id, rental_to_date, account_id)
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, crms_payment_brw, float(vals.get('additional_driver_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_driver_charges_account.id, rental_to_date, account_id)
         
         return super(crms_payment, self).write(cr, uid, ids, vals, context=context)
     
@@ -241,7 +244,7 @@ class crms_payment(osv.osv):
         'period_id': period_ids and period_ids[0] or False,
         'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
         'company_id':crms_payment_brw.property_sale_journal.company_id.id,
-        'name': 'Car rent',
+        'name': 'Extra Charges',
         }
         
         if remaining_amount > 0:
@@ -344,6 +347,10 @@ class crms_payment(osv.osv):
             expense_date = crms_payment_brw.last_expense_date
             rental_from = crms_payment_brw.rental_from_date
             
+            rental_to_date = datetime.datetime.strptime(crms_payment_brw.rental_to_date[:10],'%Y-%m-%d')
+            if rental_to_date < today_date:
+                today_date = rental_to_date
+            
             if expense_date:
                 expense_date = datetime.datetime.strptime(expense_date[:10],'%Y-%m-%d')
             elif rental_from:
@@ -419,7 +426,7 @@ class crms_payment(osv.osv):
                 remaining_amount -= per_day_amt_disc
                 expense_date = expense_date + relativedelta(days=1)
                 
-            self.write(cr, uid, [crms_payment_brw.id], {'last_expense_date':today_date,'remaining_amount':remaining_amount}, context)
+            self.write(cr, uid, [crms_payment_brw.id], {'last_expense_date':expense_date,'remaining_amount':remaining_amount}, context)
             
         return True
     
