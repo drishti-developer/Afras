@@ -93,8 +93,7 @@ class crms_payment(osv.osv):
         if context is None:
             context = {}
             
-        data['last_expense_date'] = data.get('rental_from_date')    
-        data['remaining_amount'] = data.get('amount_paid',0.0)
+        data['last_expense_date'] = data.get('rental_from_date')
         data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id')})]
         data['total_amount_paid'] = data.get('amount_paid')   
         
@@ -518,6 +517,7 @@ class crms_payment_intermediatepayment_history(osv.osv):
             context = {}
         payment_obj = self.pool.get('crms.payment')
         crms_payment_brw = payment_obj.browse(cr, uid, int(data['booking_id']))
+        remaining_amount = crms_payment_brw.remaining_amount
          
         ctx = context.copy()
         ctx.update(company_id=crms_payment_brw.pickup_branch_id.company_id.id,account_period_prefer_normal=True)
@@ -531,11 +531,12 @@ class crms_payment_intermediatepayment_history(osv.osv):
             account_id = crms_payment_brw.property_bank_journal.default_credit_account_id.id
         
         if crms_payment_brw.remaining_amount and crms_payment_brw.remaining_amount < 0:
-            if crms_payment_brw.remaining_amount < 0:
-                lines = [(0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': crms_payment_brw.remaining_amount, 'type': 'cr',}),
+            if crms_payment_brw.remaining_amount*-1 < float(data['amount']):                
+                lines = [(0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': crms_payment_brw.remaining_amount*-1, 'type': 'cr',}),
                 (0,0,{'account_id': crms_payment_brw.property_advance_account.id, 'amount': float(data['amount'])+crms_payment_brw.remaining_amount, 'type': 'cr',})]
+                
             else:
-                lines = [(0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': float(data['amount'])+crms_payment_brw.remaining_amount, 'type': 'cr',})]
+                lines = [(0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': float(data['amount']), 'type': 'cr',})]
         else:
             lines = [(0,0,{'account_id': crms_payment_brw.property_advance_account.id, 'amount': float(data['amount']), 'type': 'cr',})]
             
@@ -555,6 +556,9 @@ class crms_payment_intermediatepayment_history(osv.osv):
          
         netsvc.LocalService("workflow").trg_validate(uid, 'account.voucher', voucher_id, 'proforma_voucher', cr)
         data['voucher_id'] = voucher_id
+        
+        remaining_amount = remaining_amount + float(data['amount'])
+        cr.execute('update crms_payment set remaining_amount=%s where id=%s',(remaining_amount,data['booking_id']))
          
         return super(crms_payment_intermediatepayment_history, self).create(cr, uid, data, context=context)
     
