@@ -40,12 +40,12 @@ class revenue_report(osv.osv):
         acc_11000_id = account_obj.search(cr,uid,[('code','=',str(4111000))])
         
         account_ids = [
-                       {'name':'Cash receivable','debit_account':acc_12002_id and acc_12002_id[0] or False,'credit_account':acc_21001_id and acc_21001_id[0] or False,},
-                       {'name':'Cash Payed','debit_account':acc_21001_id and acc_21001_id[0] or False,'credit_account':acc_12002_id and acc_12002_id[0] or False},
-                       {'name':'Non-Cash receivable','debit_account':acc_11001_id and acc_11001_id[0] or False,'credit_account':acc_21001_id and acc_21001_id[0] or False},
-                       {'name':'Non-Cash Payed','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11001_id and acc_11001_id[0] or False,},
-                       {'name':'Arrears of closed contracts','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11000_id and acc_11000_id[0] or False,},
-                       {'name':'Arrears of open contracts','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11000_id and acc_11000_id[0] or False,},
+                       {'name':'Cash Receivable','debit_account':acc_12002_id and acc_12002_id[0] or False,'credit_account':acc_21001_id and acc_21001_id[0] or False,},
+                       {'name':'Cash Paid','debit_account':acc_21001_id and acc_21001_id[0] or False,'credit_account':acc_12002_id and acc_12002_id[0] or False},
+                       {'name':'Non-Cash Receivable','debit_account':acc_11001_id and acc_11001_id[0] or False,'credit_account':acc_21001_id and acc_21001_id[0] or False},
+                       {'name':'Non-Cash Paid','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11001_id and acc_11001_id[0] or False,},
+                       {'name':'Arrears of Closed Contracts','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11000_id and acc_11000_id[0] or False,},
+                       {'name':'Arrears of Open Contracts','debit_account':acc_21001_id and acc_21001_id[0],'credit_account':acc_11000_id and acc_11000_id[0] or False,},
                        {'name':'Customer Deposits','debit_account':acc_12002_id and acc_12002_id[0] or False,'credit_account':acc_51001_id and acc_51001_id[0] or False}
                        ]
         
@@ -85,7 +85,6 @@ class revenue_report(osv.osv):
                 'journal_id': journal_id,
                 'analytic_account_id': self_brw.branch.id,
                 'date': self_brw.date,
-                
             }
             
             move_id = move_obj.create(cr, uid, {
