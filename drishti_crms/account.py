@@ -1492,10 +1492,7 @@ class account_move_line(osv.osv):
         store = {
 '        account.move' : (_get_move_lines, ['cost_analytic_id',], 20)
     }),
-    'crms_payment_id': fields.related('move_id','crms_payment_id', string='CRMS Payment ID', type='many2one' ,relation='crms.payment',
-        store = {
-         'account.move' : (_get_move_lines, ['crms_payment_id',], 20)
-    }),             
+    'crms_payment_id': fields.related('move_id','crms_payment_id', string='CRMS Payment ID', type='many2one' ,relation='crms.payment',store = True),             
     }
     
     def _query_get(self, cr, uid, obj='l', context=None):
