@@ -611,6 +611,7 @@ class advance_expense_line(osv.osv):
 class account_voucher(osv.osv):
     
     def _make_journal_search(self, cr, uid, ttype,com_id, context=None):
+        ttype='cash'
         journal_pool = self.pool.get('account.journal')
         return journal_pool.search(cr, uid, [('type', '=', ttype),('company_id','=',com_id)], limit=1)
     
