@@ -172,14 +172,14 @@ class fleet_vehicle_model(osv.osv):
     _inherit ="fleet.vehicle.model"
 
     _columns = {
-                'fleet_type_id' : fields.many2one('fleet.type','Car Type', required=True),
+                'fleet_type_id' : fields.many2one('fleet.type','Car Type'),
                 'variant' : fields.char('Variant',size=128),
                 'engine_capacity' : fields.char('Engine Capacity',size=128),
-                'transmission' : fields.char('Transmission',size=128,required=True),
-                'no_of_seats' :  fields.integer('Number of Seats',required=True),
-                'no_of_doors' : fields.integer('Number of Doors',required=True),
-                'no_of_luggages' : fields.integer('Number of Luggages',required=True),
-                'fuel':fields.char(string="Fuel",required=True,size=256)
+                'transmission' : fields.char('Transmission',size=128),
+                'no_of_seats' :  fields.integer('Number of Seats'),
+                'no_of_doors' : fields.integer('Number of Doors'),
+                'no_of_luggages' : fields.integer('Number of Luggages'),
+                'fuel':fields.char(string="Fuel",size=256)
                 }
     
     
