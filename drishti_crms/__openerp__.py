@@ -36,7 +36,8 @@
     'depends': [
                 'base', 'purchase','stock',
                 'fleet','account','account_asset',
-                'account_voucher','sale','sale_stock','crm'
+                'account_voucher','sale','sale_stock','crm',
+                'auth_ldap'
                 ],
     'data': [
                'security/company_security.xml',
@@ -53,6 +54,7 @@
                'account_multi_invoice_view.xml',
                'account_distribution_plan_view.xml',
                 'crms_payment_view.xml',
+                'user_ldap_view.xml',
                
             ],
     'demo': [],
