@@ -10,6 +10,7 @@
 			<field name="arch" type="xml">
 				<field name="company_id" position="after">
 					<field name="currency_name" required="1"/>
+					<field name="crms_id" />
 				</field>
 			</field>
 		</record>
@@ -28,7 +29,20 @@
 				</field>
 				<field name="currency_id" position="replace">
 					<field name="currency_id" required="1"/>
+					<field name="crms_id" />
 				</field>
+			</field>
+		</record>
+		
+		<record id="view_country_state_form_inht" model="ir.ui.view">
+			<field name="name">res.country.state.form.inht</field>
+			<field name="model">res.country.state</field>
+			<field eval="8" name="priority" />
+			<field name="inherit_id" ref="base.view_country_state_form" />
+			<field name="arch" type="xml">
+				<field name="code" position="after">
+					<field name="crms_id" />
+				</field>		
 			</field>
 		</record>
 		
@@ -38,8 +52,11 @@
 			<field eval="1" name="priority" />
 			<field name="inherit_id" ref="drishti_crms.view_res_state_city_form" />
 			<field name="arch" type="xml">
-				<field name="country_id" position="after">
+				<field name="state_id" position="after">
 					<field name="arabic_name" required="1"/>
+				</field>
+				<field name="country_id" position="after">
+					<field name="crms_id" />
 				</field>
 			</field>
 		</record>
@@ -50,23 +67,45 @@
 			<field eval="1" name="priority" />
 			<field name="inherit_id" ref="drishti_crms.view_res_city_area_form" />
 			<field name="arch" type="xml">
-				<field name="state_id" position="after">
+				<field name="name" position="after">
 					<field name="arabic_name" required="1"/>
+				</field>
+				<field name="state_id" position="after">
+					<field name="crms_id" />
 				</field>
 			</field>
 		</record>
 		
-		<record id="view_sale_shop_form_inherit123" model="ir.ui.view">
-			<field name="name">sale.shop.inherit.form</field>
+		<record id="view_sale_shop_form_inht" model="ir.ui.view">
+			<field name="name">sale.shop.form.inht</field>
 			<field name="model">sale.shop</field>
-			<field name="inherit_id" ref="sale.view_shop_form" />
+			<field name="inherit_id" ref="drishti_crms.view_sale_shop_form_inherit123" />
 			<field name="arch" type="xml">
 			    <xpath expr="//group[@name='shop']" position="before">
                      <label for="arabic_name" class="oe_edit_only"/>
                      <h2><field name="arabic_name" required="1"/></h2>
                 </xpath>
+                <field name="email" position="replace">
+					<field name="email" required="1"/>
+				</field>
+				<field name="phone" position="replace">
+					<field name="phone" required="1"/>
+				</field>
+				<field name="zip" position="replace">
+					<field name="zip" required="1"/>
+				</field>
+				<field name="street" position="replace">
+					<field name="street" required="1"/>
+				</field>
+				<field name="street2" position="replace">
+					<field name="street2" required="1"/>
+				</field>
+				<field name="partner_id" position="replace">
+					<field name="partner_id" required="1"/>
+				</field>
                 <field name="payment_default_id" position="after">
                      <field name="location_type" required="1"/>
+                     <field name="crms_id" />
                 </field>
                 
 			</field>
@@ -81,6 +120,7 @@
                 	<group col="4" colspan="2">
                 		<field name="arabic_name" required="1"/>
 						<field name="routine_service_mileage" required="1"/>
+						<field name="crms_id" />
                 	</group>
 				</field>
             </field>
@@ -96,7 +136,10 @@
 					<label for="arabic_name" class="oe_edit_only"/>
 					<h1>
 						<field name="arabic_name" required="1"/>
-					</h1>					
+					</h1>
+					<field name="no_of_luggages" position="after">
+						<field name="crms_id" />
+					</field>					
 				</field>
 			</field>
 		</record>
@@ -134,6 +177,7 @@
 				</field>
 				<field name="assigned_for" position="after">
 					<field name="current_branch_id"/>
+					<field name="crms_id"/>
 				</field>
 			</field>
 		</record>
@@ -196,7 +240,7 @@
 			</field>
 		</record>
 		
-		<!-- Project Task -->
+	<!-- Project Task -->
 		
 	<record id="project_task_view11" model="ir.ui.view">
 			<field name="name">Res Partner Form</field>
@@ -224,10 +268,6 @@
 				</field>
 			</field>
 		</record>	
-		
-		
-		
-		
 		
 	</data>
 </openerp>

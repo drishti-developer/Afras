@@ -364,6 +364,13 @@ class crms_instance(osv.osv):
 #                                                           'arabic_name':response_dict.get('ManufacturerNameInAra'),
 #                                                           'routine_service_mileage':response_dict.get('RoutineServiceMileage'),
 #                                                           })
+#             else:
+#                 manufacturer_obj.create(cr, uid, {
+#                                                    'crms_id':response_dict.get('CRMSManufacturerID'),
+#                                                    'arabic_name':response_dict.get('ManufacturerNameInAra'),
+#                                                    'routine_service_mileage':response_dict.get('RoutineServiceMileage'),
+#                                                    'name':response_dict.get('ManufacturerNameInEng'),
+#                                                    })
             
         return True
     
@@ -405,6 +412,24 @@ class crms_instance(osv.osv):
                         cr.execute("update fleet_type set crms_id=%s where id=%s",(int(response_dict.get('CRMSCarTypeID')), response_dict.get('ERPCarTypeID')))
                 if write :
                     self.write(cr, uid, ids, {'last_cartype_exported_date':datetime.datetime.today()}) #Updating the Date
+                    
+        #Extra Code for Fetching Data from CRMS and writing values in ERP.
+#         response_array = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request('', 'CarTypeListRequest', 'CarTypeList', 'CarType')
+#           
+#         for response_dict in response_array:
+#             type_id = cartype_obj.search(cr, uid, [('name','ilike',response_dict.get('ManufacturerNameInEng'))])
+#             if type_id :
+#                 cartype_obj.write(cr, uid, type_id[0], {
+#                                                           'crms_id':response_dict.get('CRMSCarTypeID'),
+#                                                           'name':response_dict.get('CarTypeNameInEng'),
+#                                                           'arabic_name':response_dict.get('CarTypeNameInAra'),
+#                                                           })
+#             else:
+#                 cartype_obj.create(cr, uid, {
+#                                               'crms_id':response_dict.get('CRMSCarTypeID'),
+#                                               'name':response_dict.get('CarTypeNameInEng'),
+#                                               'arabic_name':response_dict.get('CarTypeNameInAra'),
+#                                               })
             
         return True
     
@@ -468,8 +493,9 @@ class crms_instance(osv.osv):
 #         for response_dict in response_array:
 #             manu_id = manufacturer_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSManufacturerID'))])
 #             type_id = cartype_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSCarTypeID'))])
-#             model_id = model_obj.search(cr, uid, ['|',('crms_id','=',response_dict.get('CRMSModelID')),('name','like',response_dict.get('ModelNameInEng'))])
-#             vals = {
+#             model_id = model_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSModelID'))])
+#             if manu_id and type_id:
+#                 vals = {
 #                   'crms_id': response_dict.get('CRMSModelID'),
 #                   'modelname': response_dict.get('ModelNameInEng'),
 #                   'arabic_name': response_dict.get('ModelNameInAra'),
@@ -483,10 +509,11 @@ class crms_instance(osv.osv):
 #                   'transmission': response_dict.get('Transmission','Not-Defined'),
 #                   'fuel': response_dict.get('Fuel','Petrol'),
 #                   }
-#             if not model_id:
-#                 model_obj.create(cr, uid, vals)
-#             else:
-#                 model_obj.write(cr, uid, model_id[0], vals)
+#             
+#                 if not model_id:
+#                     model_obj.create(cr, uid, vals)
+#                 else:
+#                     model_obj.write(cr, uid, model_id[0], vals)
             
         return True
     
@@ -557,12 +584,12 @@ class crms_instance(osv.osv):
          
         model_obj = self.pool.get('fleet.vehicle.model')
         shop_obj = self.pool.get('sale.shop')
-        fleet_analytic_obj = self.pool.get('fleet.analytic.account')
+        #fleet_analytic_obj = self.pool.get('fleet.analytic.account')
         
         context.update({'crms_create':True})
         
         for response_dict in response_array:
-            vehicle_id = car_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSCarID'))])
+            vehicle_id = car_obj.search(cr, uid, [('vin_sn','=',response_dict.get('VIN'))])
             model_id = model_obj.search(cr,uid,[('crms_id','=',response_dict.get('CRMSModelID'))])
             branch_id = shop_obj.search(cr,uid,[('crms_id','=',response_dict.get('CRMSBranchID'))])
             
@@ -574,30 +601,31 @@ class crms_instance(osv.osv):
 #                 segment = 'retail'
 #                 field_name = 'branch_id'
 #                 value = branch_id[0]
-            
-            vals = {
-             'acquisition_date':response_dict.get('AcquisitionDate'),
-             'engine_number':response_dict.get('EngineNumber',False),
-             'vin_sn':response_dict.get('VIN'),
-             'license_plate':response_dict.get('LicenseInEng'),
-             'license_plate_arabic':response_dict.get('LicenseInAra'),
-             'odometer':response_dict.get('Odometer') if response_dict.get('Odometer',0) > 0 else False,
-             'color':response_dict.get('ColorInEng'),
-             'color_arabic':response_dict.get('ColorInAra') or response_dict.get('ColorInEng'),
-             'assigned_for':response_dict.get('AssignedFor'),
-             'barcode':response_dict.get('Barcode'),
-             'model_id':model_id[0],
-             'crms_id':response_dict.get('CRMSCarID'),
-             'model_year':response_dict.get('ModelYear'),
-             'company_id':1,
-             }
-            
-            if not vehicle_id :
-                vals['analytic_account_ids'] =[(0,0,{'branch_id':branch_id[0],'date_from':datetime.date.today(),'segment':'retail'})] if branch_id else False
-                car_id = car_obj.create(cr, uid, vals, context)
-            else:
-                crms_osv.search_branch(cr, uid, vehicle_id[0], branch_id)                
-                car_obj.write(cr,uid, vehicle_id[0],vals)
+
+            if model_id and branch_id:
+                vals = {
+                 'acquisition_date':response_dict.get('AcquisitionDate'),
+                 'engine_number':response_dict.get('EngineNumber',False),
+                 'vin_sn':response_dict.get('VIN'),
+                 'license_plate':response_dict.get('LicenseInEng'),
+                 'license_plate_arabic':response_dict.get('LicenseInAra'),
+                 'odometer':response_dict.get('Odometer') if response_dict.get('Odometer',0) > 0 else False,
+                 'color':response_dict.get('ColorInEng'),
+                 'color_arabic':response_dict.get('ColorInAra') or response_dict.get('ColorInEng'),
+                 'assigned_for':response_dict.get('AssignedFor'),
+                 'barcode':response_dict.get('Barcode'),
+                 'model_id':model_id[0],
+                 'crms_id':response_dict.get('CRMSCarID'),
+                 'model_year':response_dict.get('ModelYear'),
+                 'company_id':1,
+                 }
+                
+                if not vehicle_id :
+                    vals['analytic_account_ids'] =[(0,0,{'branch_id':branch_id[0],'date_from':datetime.date.today(),'segment':'retail'})] if branch_id else False
+                    car_obj.create(cr, uid, vals, context)
+                else:
+                    crms_osv.search_branch(self, cr, uid, vehicle_id[0], branch_id)                
+                    car_obj.write(cr,uid, vehicle_id[0],vals)
                                 
 #                 if segment=='retail':
 #                     crms_osv.search_branch(cr, uid, vehicle_id[0], branch_id)

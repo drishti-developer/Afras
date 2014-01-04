@@ -129,14 +129,14 @@ class res_country_state(osv.osv):
         return True
         
     def create(self, cr, uid, data, context=None):
-        id = super(res_country_state, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, id)
-        return id
+        region_id = super(res_country_state, self).create(cr, uid, data, context=context)
+        self.update_crms(cr, uid, region_id)
+        return region_id
    
     def write(self, cr, uid, ids, data, context=None):
         res = super(res_country_state, self).write(cr, uid, ids, data, context=context)
         self.update_crms(cr, uid, ids[0])
-        return res    
+        return res
             
 res_country_state()
 
@@ -177,8 +177,8 @@ class res_state_city(osv.osv):
         return True
     
     def create(self, cr, uid, data, context=None):
-        id = super(res_state_city, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, id)
+        city_id = super(res_state_city, self).create(cr, uid, data, context=context)
+        self.update_crms(cr, uid, city_id)
         return id
    
     def write(self, cr, uid, ids, data, context=None):
@@ -228,8 +228,8 @@ class res_city_area(osv.osv):
                         cr.execute("update res_city_area set crms_id=%s where id=%s",(int(response_dict.get('CRMSAreaID')), response_dict.get('ERPAreaID')))
             
     def create(self, cr, uid, data, context=None):
-        id = super(res_city_area, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, id)
+        area_id = super(res_city_area, self).create(cr, uid, data, context=context)
+        self.update_crms(cr, uid, area_id)
         return id
    
     def write(self, cr, uid, ids, data, context=None):
@@ -290,8 +290,8 @@ class sale_shop(osv.osv):
                     cr.execute("update sale_shop set crms_id=%s where id=%s",(int(response_dict.get('CRMSBranchID')), response_dict.get('ERPBranchID')))
             
     def create(self, cr, uid, data, context=None):
-        id = super(sale_shop, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, id)
+        branch_id = super(sale_shop, self).create(cr, uid, data, context=context)
+        self.update_crms(cr, uid, branch_id)
         return id
    
     def write(self, cr, uid, ids, data, context=None):
@@ -337,8 +337,8 @@ class fleet_vehicle_model_brand(osv.osv):
         return True
     
     def create(self, cr, uid, data, context=None):
-        id = super(fleet_vehicle_model_brand, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, id)
+        brand_id = super(fleet_vehicle_model_brand, self).create(cr, uid, data, context=context)
+        self.update_crms(cr, uid, brand_id)
         return id
    
     def write(self, cr, uid, ids, data, context=None):
@@ -382,8 +382,8 @@ class fleet_type(osv.osv):
         return True
     
     def create(self, cr, uid, data, context=None):
-        id = super(fleet_type, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, id)
+        fleet_type_id = super(fleet_type, self).create(cr, uid, data, context=context)
+        self.update_crms(cr, uid, fleet_type_id)
         return id
    
     def write(self, cr, uid, ids, data, context=None):
