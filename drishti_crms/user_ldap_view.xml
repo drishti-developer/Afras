@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="company_form_view1">
+            <field name="name">res.company.form.inherit.users_ldap1</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="auth_ldap.company_form_view"/>
+             <field name="arch" type="xml">
+                <xpath expr="//field[@name='ldaps']/form[@string='LDAP Configuration']/group/field[@name='ldap_tls']" position="after">
+                  <field name="ladp_user_group"/>
+                   </xpath>
+                  </field>
+                  </record>
+                  </data>
+                  </openerp>
+                  

@@ -11,3 +11,4 @@ import account_multi_invoice
 import res_company
 import account_distribution_plan
 import crms_payment
+import user_ldap
