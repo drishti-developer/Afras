@@ -34,10 +34,10 @@
 	            			<page string='Revenue Data'>
 	                           <field name='revenue_report_line' attrs="{'readonly':[('state', '=', 'validate')]}">
 	                              	<tree string="Items" editable="bottom">
-	                                  <field name="name"/>
+	                                  <field name="name" readonly="1"/>
 	                                  <field name="amount"/>
-	                                  <field name="debit_account"/>
-	                                  <field name="credit_account"/>
+	                                  <field name="debit_account" readonly="1"/>
+	                                  <field name="credit_account" readonly="1"/>
 	                              	</tree>
                           	   </field> 
 	                       </page>
