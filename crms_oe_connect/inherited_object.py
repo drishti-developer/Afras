@@ -1,4 +1,4 @@
-from openerp.osv import fields, osv, orm
+from openerp.osv import fields, osv
 import datetime
 from openerp.tools.translate import _
 from crms_osv import Call
@@ -179,7 +179,7 @@ class res_state_city(osv.osv):
     def create(self, cr, uid, data, context=None):
         city_id = super(res_state_city, self).create(cr, uid, data, context=context)
         self.update_crms(cr, uid, city_id)
-        return id
+        return city_id
    
     def write(self, cr, uid, ids, data, context=None):
         res = super(res_state_city, self).write(cr, uid, ids, data, context=context)
@@ -230,7 +230,7 @@ class res_city_area(osv.osv):
     def create(self, cr, uid, data, context=None):
         area_id = super(res_city_area, self).create(cr, uid, data, context=context)
         self.update_crms(cr, uid, area_id)
-        return id
+        return area_id
    
     def write(self, cr, uid, ids, data, context=None):
         res = super(res_city_area, self).write(cr, uid, ids, data, context=context)
@@ -292,7 +292,7 @@ class sale_shop(osv.osv):
     def create(self, cr, uid, data, context=None):
         branch_id = super(sale_shop, self).create(cr, uid, data, context=context)
         self.update_crms(cr, uid, branch_id)
-        return id
+        return branch_id
    
     def write(self, cr, uid, ids, data, context=None):
         res = super(sale_shop, self).write(cr, uid, ids, data, context=context)
@@ -336,14 +336,16 @@ class fleet_vehicle_model_brand(osv.osv):
     
         return True
     
-    def create(self, cr, uid, data, context=None):
+    def create(self, cr, uid, data, context={}):
         brand_id = super(fleet_vehicle_model_brand, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, brand_id)
-        return id
+        if not context.get('crms_create',False):
+            self.update_crms(cr, uid, brand_id)
+        return brand_id
    
-    def write(self, cr, uid, ids, data, context=None):
+    def write(self, cr, uid, ids, data, context={}):
         res = super(fleet_vehicle_model_brand, self).write(cr, uid, ids, data, context=context)
-        self.update_crms(cr, uid, ids[0])
+        if not context.get('crms_create',False):
+            self.update_crms(cr, uid, ids[0])
         return res
     
 fleet_vehicle_model_brand()
@@ -381,14 +383,16 @@ class fleet_type(osv.osv):
         
         return True
     
-    def create(self, cr, uid, data, context=None):
+    def create(self, cr, uid, data, context={}):
         fleet_type_id = super(fleet_type, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, fleet_type_id)
-        return id
+        if not context.get('crms_create',False):
+            self.update_crms(cr, uid, fleet_type_id)
+        return fleet_type_id
    
-    def write(self, cr, uid, ids, data, context=None):
+    def write(self, cr, uid, ids, data, context={}):
         res = super(fleet_type, self).write(cr, uid, ids, data, context=context)
-        self.update_crms(cr, uid, ids[0])
+        if not context.get('crms_create',False):
+            self.update_crms(cr, uid, ids[0])
         return res
     
 fleet_type()
@@ -439,14 +443,16 @@ class fleet_vehicle_model(osv.osv):
         
         return True
     
-    def create(self, cr, uid, data, context=None):
-        id = super(fleet_vehicle_model, self).create(cr, uid, data, context=context)
-        self.update_crms(cr, uid, id)
-        return id
+    def create(self, cr, uid, data, context={}):
+        model_id = super(fleet_vehicle_model, self).create(cr, uid, data, context=context)
+        if not context.get('crms_create',False):
+            self.update_crms(cr, uid, model_id)
+        return model_id
    
-    def write(self, cr, uid, ids, data, context=None):
+    def write(self, cr, uid, ids, data, context={}):
         res = super(fleet_vehicle_model, self).write(cr, uid, ids, data, context=context)
-        self.update_crms(cr, uid, ids[0])
+        if not context.get('crms_create',False):
+            self.update_crms(cr, uid, ids[0])
         return res
     
 fleet_vehicle_model()
@@ -599,7 +605,7 @@ class res_partner(osv.osv):
                             r'(?::\d+)?' # optional port
                             r'(?:/?|[/?]\S+)$', re.IGNORECASE)
             if re.match(regex,website)==None:
-               return { 'warning':{'title':'warning','message':'Website address is invalid please enter the valid website address'},'value' :{'website': ''}}
+                return { 'warning':{'title':'warning','message':'Website address is invalid please enter the valid website address'},'value' :{'website': ''}}
         return {'value':{}}
     
     def onchange_validate_email(self,cr,uid,ids,email,context=None):
@@ -664,7 +670,7 @@ class project_task(osv.osv):
         today_date=str(datetime.date.today())
         if date_deadline:
             if date_deadline <= today_date:
-                 return { 'warning':{'title':'warning','message':'Date Deadline Should be greater then Today date '},'value' :{'date_deadline': ''}}
+                return { 'warning':{'title':'warning','message':'Date Deadline Should be greater then Today date '},'value' :{'date_deadline': ''}}
         return {'value':{}}
     
 project_task()   

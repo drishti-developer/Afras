@@ -355,7 +355,8 @@ class crms_instance(osv.osv):
             
         #Extra Code for Fetching Data from CRMS and writing values in ERP.
 #         response_array = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request('', 'ManufacturerListRequest', 'ManufacturerList', 'Manufacturer')
-#          
+#         context = context or {}
+#         context.update({'crms_create':True})          
 #         for response_dict in response_array:
 #             manu_id = manufacturer_obj.search(cr, uid, [('name','ilike',response_dict.get('ManufacturerNameInEng'))])
 #             if manu_id :
@@ -363,14 +364,14 @@ class crms_instance(osv.osv):
 #                                                           'crms_id':response_dict.get('CRMSManufacturerID'),
 #                                                           'arabic_name':response_dict.get('ManufacturerNameInAra'),
 #                                                           'routine_service_mileage':response_dict.get('RoutineServiceMileage'),
-#                                                           })
+#                                                           },context)
 #             else:
 #                 manufacturer_obj.create(cr, uid, {
 #                                                    'crms_id':response_dict.get('CRMSManufacturerID'),
 #                                                    'arabic_name':response_dict.get('ManufacturerNameInAra'),
 #                                                    'routine_service_mileage':response_dict.get('RoutineServiceMileage'),
 #                                                    'name':response_dict.get('ManufacturerNameInEng'),
-#                                                    })
+#                                                    },context)
             
         return True
     
@@ -415,7 +416,8 @@ class crms_instance(osv.osv):
                     
         #Extra Code for Fetching Data from CRMS and writing values in ERP.
 #         response_array = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request('', 'CarTypeListRequest', 'CarTypeList', 'CarType')
-#           
+#         context = context or {}
+#         context.update({'crms_create':True})           
 #         for response_dict in response_array:
 #             type_id = cartype_obj.search(cr, uid, [('name','ilike',response_dict.get('ManufacturerNameInEng'))])
 #             if type_id :
@@ -423,13 +425,13 @@ class crms_instance(osv.osv):
 #                                                           'crms_id':response_dict.get('CRMSCarTypeID'),
 #                                                           'name':response_dict.get('CarTypeNameInEng'),
 #                                                           'arabic_name':response_dict.get('CarTypeNameInAra'),
-#                                                           })
+#                                                           },context)
 #             else:
 #                 cartype_obj.create(cr, uid, {
 #                                               'crms_id':response_dict.get('CRMSCarTypeID'),
 #                                               'name':response_dict.get('CarTypeNameInEng'),
 #                                               'arabic_name':response_dict.get('CarTypeNameInAra'),
-#                                               })
+#                                               },context)
             
         return True
     
@@ -489,7 +491,9 @@ class crms_instance(osv.osv):
         #Extra Code for importing Model from CRMS
 #         response_array = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request('', 'ModelListRequest', 'ModelList', 'Model')
 #         cartype_obj = self.pool.get('fleet.type')
-#         manufacturer_obj = self.pool.get('fleet.vehicle.model.brand') 
+#         manufacturer_obj = self.pool.get('fleet.vehicle.model.brand')
+#         context = context or {}
+#         context.update({'crms_create':True})
 #         for response_dict in response_array:
 #             manu_id = manufacturer_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSManufacturerID'))])
 #             type_id = cartype_obj.search(cr, uid, [('crms_id','=',response_dict.get('CRMSCarTypeID'))])
@@ -511,9 +515,9 @@ class crms_instance(osv.osv):
 #                   }
 #             
 #                 if not model_id:
-#                     model_obj.create(cr, uid, vals)
+#                     model_obj.create(cr, uid, vals, context)
 #                 else:
-#                     model_obj.write(cr, uid, model_id[0], vals)
+#                     model_obj.write(cr, uid, model_id[0], vals, context)
             
         return True
     

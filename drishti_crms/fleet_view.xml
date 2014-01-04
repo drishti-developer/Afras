@@ -20,17 +20,17 @@
 			<field eval="1" name="priority" />
 			<field name="inherit_id" ref="fleet.fleet_vehicle_model_form" />
 			<field name="arch" type="xml">
-				<xpath expr="/form/sheet/notebook/page[@string='Vendors']" position="after">
+				<xpath expr="/form/sheet/notebook/page[@string='Vendors']" position="before">
 					<page string="Details">
 						<group col="4" colspan="2">
-							<field name="fleet_type_id"/>
-							<field name="variant"/>
-							<field name="engine_capacity"/>
-							<field name="transmission"/>
-							<field name="no_of_seats"/>
-							<field name="no_of_doors"/>
-							<field name="no_of_luggages"/>
-							<field name="fuel"/>
+							<field name="fleet_type_id" required="1"/>
+							<field name="variant" required="1"/>
+							<field name="engine_capacity" required="1"/>
+							<field name="transmission" required="1"/>
+							<field name="no_of_seats" required="1"/>
+							<field name="no_of_doors" required="1"/>
+							<field name="no_of_luggages" required="1"/>
+							<field name="fuel" required="1"/>
 						</group>						
 					</page>
 				</xpath>
