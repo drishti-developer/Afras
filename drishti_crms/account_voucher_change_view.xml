@@ -21,7 +21,7 @@
 							<field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
 							<field name="type" required="1"/>
 							<field name="journal_id" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)" invisible="context.get('journal_id',False)" domain="[('company_id','=',company_id)]"/>
-	                        <field name="account_id" string="Account(Debit/Credit)" widget="selection" invisible="False"/>
+	                        <field name="account_id" string="Account(Debit/Credit)"  invisible="False" domain="[('company_id', '=', company_id)]"/>
 	                        <field name="name" colspan="2"/>
 	                    	<field name="reference"/>
 			                <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
