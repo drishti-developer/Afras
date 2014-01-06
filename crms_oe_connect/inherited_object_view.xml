@@ -136,10 +136,10 @@
 					<label for="arabic_name" class="oe_edit_only"/>
 					<h1>
 						<field name="arabic_name" required="1"/>
-					</h1>
-					<field name="no_of_luggages" position="after">
-						<field name="crms_id" />
-					</field>					
+					</h1>					
+				</field>
+				<field name="no_of_luggages" position="after">
+					<field name="crms_id" />
 				</field>
 			</field>
 		</record>

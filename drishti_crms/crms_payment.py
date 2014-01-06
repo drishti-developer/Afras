@@ -78,6 +78,7 @@ class crms_payment(osv.osv):
     'discount_history_ids': fields.one2many('crms.payment.discount.history','booking_id',string="Discount History"),
     'payment_id':fields.function(_get_intermediate_payment_id, type="many2one", relation="crms.payment.intermediatepayment.history", string='Latest Payment ID'),
     'total_amount_paid':fields.float('Total Amount Paid'),
+    'revenue_days':fields.integer('Revenue Days'),
     }
     
     _sql_constraints = [
@@ -415,7 +416,13 @@ class crms_payment(osv.osv):
             else:
                 expense_date = today_date
                 
-            while expense_date <= today_date:
+            if context.get('no_of_day',False):
+                remaining_days = int(context.get('no_of_day')) - (crms_payment_brw.revenue_days or 0)
+            else:
+                remaining_days = (today_date - expense_date).days + 1
+                
+            #while remaining_days >= today_date:
+            while remaining_days > 0:
                 
                 ctx = context.copy()
                 ctx.update(company_id=crms_payment_brw.pickup_branch_id.company_id.id,account_period_prefer_normal=True)
@@ -481,7 +488,8 @@ class crms_payment(osv.osv):
                 })
                 
                 remaining_amount -= per_day_amt_disc
-                expense_date = expense_date + relativedelta(days=1)
+                remaining_days = remaining_days - 1
+                #expense_date = expense_date + relativedelta(days=1)
                 
             self.write(cr, uid, [crms_payment_brw.id], {'last_expense_date':expense_date,'remaining_amount':remaining_amount}, context)
             

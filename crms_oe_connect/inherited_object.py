@@ -40,7 +40,7 @@ class res_currency(osv.osv):
         return currency_id
     
     def write(self, cr, uid, ids, data, context=None):
-        res = super(res_currency, self).create(cr, uid, ids, data, context=context)
+        res = super(res_currency, self).write(cr, uid, ids, data, context=context)
         self.update_crms(cr, uid, ids[0])
         return res
             
@@ -50,7 +50,10 @@ class Country(osv.osv):
     _inherit = "res.country"
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
-        'arabic_name':fields.char(string="Arabic Name",size=256)
+        'arabic_name':fields.char(string="Arabic Name",size=256),
+        'code': fields.char('Country Code', size=3,
+            help='The ISO country code in three chars.\n'
+            'You can use this field for quick search.'),
     }
     
     def update_crms(self,cr,uid,record_id):
