@@ -33,7 +33,8 @@ class CompanyLDAP(osv.osv):
             company_id = self.pool.get('res.users').browse(cr,uid,conf['user']).company_id.id
             values['company_id'] = company_id
         
-        print "map_ldap_attributes",values
+        
+        
         return values
     
     def get_ldap_dicts(self, cr, ids=None):
@@ -89,12 +90,11 @@ class CompanyLDAP(osv.osv):
             
         try:
             results = self.query(conf, filter)
-            import pprint
-            pprint.pprint(results)
+            
             if results and len(results) == 1:
                 dn = results[0][0]
                 conn = self.connect(conf)
-                print "here",dn,password,results
+                
                 conn.simple_bind_s(dn, password)
                 conn.unbind()
                 entry = results[0]

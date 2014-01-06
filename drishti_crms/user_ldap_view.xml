@@ -44,6 +44,7 @@
                         <field name="ldap_filter"/>
                         <field name="create_user"/>
                         <field name="user"/>
+                        <field name="company"/>
                         <newline/>
                         <field name="sequence"/>
                         <field name="ldap_tls"/>
