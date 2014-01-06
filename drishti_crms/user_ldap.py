@@ -30,7 +30,7 @@ class CompanyLDAP(osv.osv):
         
         
         if conf['user']:
-            company_id = self.pool.get('res.user').browse(cr,uid,conf['user']).company_id.id
+            company_id = self.pool.get('res.users').browse(cr,uid,conf['user']).company_id.id
             values['company_id'] = company_id
         
         print "map_ldap_attributes",values
