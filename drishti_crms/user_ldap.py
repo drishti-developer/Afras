@@ -9,6 +9,33 @@ class CompanyLDAP(osv.osv):
     _columns ={
                 'ladp_user_group' :fields.char('LDAP User Group'),
                }
+    
+    def map_ldap_attributes(self, cr, uid, conf, login, ldap_entry):
+        
+        """
+        Compose values for a new resource of model res_users,
+        based upon the retrieved ldap entry and the LDAP settings.
+        
+        :param dict conf: LDAP configuration
+        :param login: the new user's login
+        :param tuple ldap_entry: single LDAP result (dn, attrs)
+        :return: parameters for a new resource of model res_users
+        :rtype: dict
+        """
+        
+        values = { 'name': ldap_entry[1]['cn'][0],
+                   'login': login,
+                   'company_id': conf['company']
+                   }
+        
+        
+        if conf['user']:
+            company_id = self.pool.get('res.user').browse(cr,uid,conf['user']).company_id.id
+            values['company_id'] = company_id
+        
+        print "map_ldap_attributes",values
+        return values
+    
     def get_ldap_dicts(self, cr, ids=None):
         """ 
         Retrieve res_company_ldap resources from the database in dictionary
