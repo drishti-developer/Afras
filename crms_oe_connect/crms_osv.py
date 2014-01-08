@@ -357,10 +357,10 @@ def search_branch(self,cr,uid,car_id,branch_id):
 	if current_branch_id:# TODO: Need to put more logic on creating/updating a branch.
 		if current_branch_id != int(branch_id):
 			acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today,'segment':'retail'})
-			acc_obj.write(cr,uid,fleet_account_id,{'date_to':date_today})
+			acc_obj.write(cr,uid,[fleet_account_id],{'date_to':date_today})
 		
 	else :
-		acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today})
+		acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today,'segment':'retail'})
 	return True    
 
 def extend(class_to_extend):

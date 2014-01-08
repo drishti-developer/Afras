@@ -495,7 +495,7 @@ class fleet_vehicle(osv.osv):
         'license_plate':fields.char(string="Name",size=10),
         'license_plate_arabic':fields.char(string="License Plate Arabic Name",size=10),
         'vin_sn':fields.char(string="Chassis Number",size=20,help="Unique Number written on the vehicle motor (VIN/SN number)"),
-        'color':fields.char(string="Color Arabic Name",size=10),
+        'color':fields.char(string="Color",size=10),
         'color_arabic':fields.char(string="Color Arabic Name",size=10),
         'assigned_for': fields.selection([('Corporate','Corporate'),('Retail','Retail'),('Awaiting for Barcode','Awaiting for Barcode')],string="Assigned For"),
         'current_branch_id':fields.function(_vehicle_branch_get_fnc, type="many2one", relation="sale.shop", string='Branch'),

@@ -149,13 +149,11 @@ class fleet_analytic_account(osv.osv):
             res.update({'to_date':to_date})
             
         account_cost_center_obj=self.pool.get('account.asset.cost.center')
-        account_asset_obj=self.pool.get('account.asset.asset')
-        obj=self.browse(cr,uid,ids[0])
-        asset_ids=account_asset_obj.search(cr,uid,([('vehicle_id','=',obj.vehicle_id.id)]))
-        asset_line_ids=account_asset_obj.browse(cr,uid,asset_ids[0])
-        cost_center_ids=account_cost_center_obj.search(cr,uid,[('fleet_analytic_id','=',ids)])
+        
+        cost_center_ids=account_cost_center_obj.search(cr,uid,[('fleet_analytic_id','=',ids[0])])
         if cost_center_ids:
-            account_update=account_cost_center_obj.write(cr,uid,cost_center_ids,res,context=context)
+            account_cost_center_obj.write(cr,uid,cost_center_ids,res,context=context)
+            
         return super(fleet_analytic_account, self).write(cr, uid, ids, vals, context=context)
     
 fleet_analytic_account()      
