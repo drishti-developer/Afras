@@ -272,7 +272,7 @@ class crms_instance(osv.osv):
             branch_str = "<BranchList>\n"# Currency List String
             for branch_brw in branch_obj.browse(cr,uid,branch_ids):
                     
-                if branch_brw.arabic_name and branch_brw.location_type and branch_brw.email and branch_brw.phone and branch_brw.zip and branch_brw.street and branch_brw.street2 and branch_brw.partner_id and branch_brw.area_id and branch_brw.area_id.crms_id :
+                if branch_brw.arabic_name and branch_brw.location_type and branch_brw.email and branch_brw.phone and branch_brw.zip and branch_brw.street and branch_brw.street2 and branch_brw.partner_id and branch_brw.area_id and branch_brw.area_id.crms_id and branch_brw.code:
                     crms_str = False
                     if branch_brw.crms_id:
                         crms_str = "\n<CRMSBranchID>%s</CRMSBranchID>"%(branch_brw.crms_id)
@@ -281,6 +281,7 @@ class crms_instance(osv.osv):
 <ERPBranchID>%s</ERPBranchID>%s
 <BranchNameInEng>%s</BranchNameInEng>
 <BranchNameInAra>%s</BranchNameInAra>
+<BranchCode>%s</BranchCode>
 <Location>%s</Location>
 <Email>%s</Email>
 <Phone>%s</Phone>
@@ -296,7 +297,7 @@ class crms_instance(osv.osv):
 <CRMSRegionID>%s</CRMSRegionID>
 <ERPCountryID>%s</ERPCountryID>
 <CRMSCountryID>%s</CRMSCountryID>
-</Branch>\n"""%(branch_brw.id, (crms_str or ''), branch_brw.name, branch_brw.arabic_name, branch_brw.location_type, branch_brw.email,\
+</Branch>\n"""%(branch_brw.id, (crms_str or ''), branch_brw.name, branch_brw.arabic_name, branch_brw.code, branch_brw.location_type, branch_brw.email,\
                 branch_brw.phone , branch_brw.zip, branch_brw.street, branch_brw.street2, branch_brw.partner_id.name, \
                 branch_brw.area_id.id, branch_brw.area_id.crms_id, branch_brw.city_id.id, branch_brw.city_id.crms_id, branch_brw.state_id.id, branch_brw.state_id.crms_id, branch_brw.country_id.id, branch_brw.country_id.crms_id)
 
@@ -528,7 +529,7 @@ class crms_instance(osv.osv):
         car_obj = self.pool.get('fleet.vehicle')#instance
         
         # Create Car in CRMS
-        car_ids = car_obj.search(cr,uid,['|',('crms_id','=',False),('crms_id','<=',0)]) # Searching Value Accordingly
+        car_ids = car_obj.search(cr,uid,['|',('crms_id','=',False),('crms_id','<=',0),('company_id','=',1)]) # Searching Value Accordingly
         if car_ids :
             car_str = "<CarList>\n"# List String
             allow = False
@@ -541,7 +542,7 @@ class crms_instance(osv.osv):
                     allow = True
                     extra_str = ''
                     if vehicle_brw.acquisition_date:
-                        extra_str += "\n<AcquisitionDate>%s</ AquisitionDate>"%(vehicle_brw.acquisition_date)
+                        extra_str += "\n<AcquisitionDate>%s</AcquisitionDate>"%(vehicle_brw.acquisition_date)
                     if  vehicle_brw.engine_number:
                         extra_str += "\n<EngineNumber>%s</EngineNumber>"%(vehicle_brw.engine_number)
                     if vehicle_brw.car_value:
@@ -628,8 +629,8 @@ class crms_instance(osv.osv):
                     vals['analytic_account_ids'] =[(0,0,{'branch_id':branch_id[0],'date_from':datetime.date.today(),'segment':'retail'})] if branch_id else False
                     car_obj.create(cr, uid, vals, context)
                 else:
-                    crms_osv.search_branch(self, cr, uid, vehicle_id[0], branch_id)                
-                    car_obj.write(cr,uid, vehicle_id[0],vals)
+                    crms_osv.search_branch(self, cr, uid, vehicle_id[0], branch_id[0])                
+                    car_obj.write(cr,uid, [vehicle_id[0]],vals)
                                 
 #                 if segment=='retail':
 #                     crms_osv.search_branch(cr, uid, vehicle_id[0], branch_id)

@@ -28,7 +28,7 @@ res_partner()
 class res_country(osv.osv):
     _inherit = "res.country"    
     _columns = {
-    'calling_code': fields.char('Calling Code',size=128,required=True),
+    'calling_code': fields.char('Calling Code',size=10,required=True),
     'analytic_id' : fields.many2one('account.analytic.account','Analytic Account'),
     'analytic_ids': fields.one2many('account.analytic.account', 'country_id', 'Analytic Accounts'),
     'car_ids': fields.one2many('fleet.analytic.account', 'country_id', 'Car'),
@@ -39,7 +39,7 @@ res_country()
 class CountryState(osv.osv):
     _inherit = "res.country.state"
     _columns = {
-    'name' : fields.char('Region Name',required=True),
+    'name' : fields.char('Region Name',required=True, size=20),
     'code': fields.char('Region Code', size=3,help='The Region code in max. three chars.', required=True),
     'analytic_id' : fields.many2one('account.analytic.account','Analytic Account',),    
     'analytic_ids': fields.one2many('account.analytic.account', 'region_id', 'Analytic Accounts'),
@@ -51,7 +51,7 @@ CountryState()
 class res_state_city(osv.osv): 
     _name = "res.state.city"    
     _columns = {
-    'name' : fields.char('City Name',required=True),
+    'name' : fields.char('City Name',required=True,size=30),
     'code': fields.char('City Code', size=3,help='The City code in max. three chars.', required=True),
     'state_id' : fields.many2one('res.country.state','Region',required=True),
     'country_id': fields.related('state_id', 'country_id', type='many2one', relation='res.country', string='Country', readonly=True),
@@ -65,7 +65,7 @@ res_state_city()
 class res_city_area(osv.osv): 
     _name = "res.city.area"    
     _columns = {
-    'name' : fields.char('Area Name',required=True),
+    'name' : fields.char('Area Name',required=True,size=30),
     'code': fields.char('Area Code', size=3,res_companyhelp='The Area code in max. three chars.', required=True),
     'city_id' : fields.many2one('res.state.city', 'City', required=True),
     'state_id' : fields.related('city_id','state_id',type='many2one',relation='res.country.state',string='Region',readonly=True),
@@ -79,14 +79,14 @@ res_city_area()
 class sale_shop(osv.osv):
     _inherit = "sale.shop"    
     _columns = {
-    'code': fields.char('Branch Code', required=True, size=128),
+    'code': fields.char('Branch Code', required=True, size=30),
     'partner_id': fields.many2one('res.partner', 'Contact Person'),
-    'street': fields.char('Address Line1', size=128),
-    'street2': fields.char('Address Line2', size=128),
-    'zip': fields.char('Zip Code', size=24),
-    'email': fields.char('Email', size=240),
-    'phone': fields.char('Phone', size=64),
-    'name' : fields.char('Branch Name',required=True),
+    'street': fields.char('Address Line1', size=100),
+    'street2': fields.char('Address Line2', size=50),
+    'zip': fields.char('Zip Code', size=8),
+    'email': fields.char('Email', size=50),
+    'phone': fields.char('Phone', size=20),
+    'name' : fields.char('Branch Name',required=True, size=30),
     'area_id' : fields.many2one('res.city.area', 'Area', required=True),
     'city_id' : fields.related('area_id','city_id',type='many2one',relation='res.state.city',string='City',readonly=True),
     'state_id' : fields.related('city_id','state_id',type='many2one',relation='res.country.state',string='Region',readonly=True),

@@ -87,6 +87,7 @@ class crms_payment(osv.osv):
     
     _defaults = {
     'state':'Active',
+    'revenue_days':0,
                  }
     
     def create(self, cr, uid, data, context=None):
@@ -132,6 +133,7 @@ class crms_payment(osv.osv):
                 
         if vals.get('state') and (vals.get('state') == 'Closed' or vals.get('state') == 'Payment Processing') and crms_payment_brw.state in ['Active']:
             
+            context['no_of_days']
             self.create_account_voucher_entries(cr, uid, ids, context)
             crms_payment_brw = self.browse(cr, uid, ids[0])
             
@@ -404,6 +406,7 @@ class crms_payment(osv.osv):
             today_date = datetime.datetime.today()
             expense_date = crms_payment_brw.last_expense_date
             rental_from = crms_payment_brw.rental_from_date
+            revenue_days = crms_payment_brw.revenue_days or 0
             
             rental_to_date = datetime.datetime.strptime(crms_payment_brw.rental_to_date[:10],'%Y-%m-%d')
             if rental_to_date < today_date:
@@ -416,8 +419,8 @@ class crms_payment(osv.osv):
             else:
                 expense_date = today_date
                 
-            if context.get('no_of_day',False):
-                remaining_days = int(context.get('no_of_day')) - (crms_payment_brw.revenue_days or 0)
+            if context.get('no_of_days',False):
+                remaining_days = int(context.get('no_of_days')) - revenue_days
             else:
                 remaining_days = (today_date - expense_date).days + 1
                 
@@ -489,9 +492,10 @@ class crms_payment(osv.osv):
                 
                 remaining_amount -= per_day_amt_disc
                 remaining_days = remaining_days - 1
+                revenue_days += 1
                 #expense_date = expense_date + relativedelta(days=1)
                 
-            self.write(cr, uid, [crms_payment_brw.id], {'last_expense_date':expense_date,'remaining_amount':remaining_amount}, context)
+            self.write(cr, uid, [crms_payment_brw.id], {'last_expense_date':expense_date,'remaining_amount':remaining_amount,'revenue_days':revenue_days}, context)
             
         return True
     

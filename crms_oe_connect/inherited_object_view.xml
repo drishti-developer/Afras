@@ -10,7 +10,7 @@
 			<field name="arch" type="xml">
 				<field name="company_id" position="after">
 					<field name="currency_name" required="1"/>
-					<field name="crms_id" />
+					<field name="crms_id" readonly="1"/>
 				</field>
 			</field>
 		</record>
@@ -29,7 +29,7 @@
 				</field>
 				<field name="currency_id" position="replace">
 					<field name="currency_id" required="1"/>
-					<field name="crms_id" />
+					<field name="crms_id" readonly="1"/>
 				</field>
 			</field>
 		</record>
@@ -41,7 +41,7 @@
 			<field name="inherit_id" ref="base.view_country_state_form" />
 			<field name="arch" type="xml">
 				<field name="code" position="after">
-					<field name="crms_id" />
+					<field name="crms_id" readonly="1"/>
 				</field>		
 			</field>
 		</record>
@@ -56,7 +56,7 @@
 					<field name="arabic_name" required="1"/>
 				</field>
 				<field name="country_id" position="after">
-					<field name="crms_id" />
+					<field name="crms_id" readonly="1"/>
 				</field>
 			</field>
 		</record>
@@ -71,7 +71,7 @@
 					<field name="arabic_name" required="1"/>
 				</field>
 				<field name="state_id" position="after">
-					<field name="crms_id" />
+					<field name="crms_id" readonly="1"/>
 				</field>
 			</field>
 		</record>
@@ -105,7 +105,7 @@
 				</field>
                 <field name="payment_default_id" position="after">
                      <field name="location_type" required="1"/>
-                     <field name="crms_id" />
+                     <field name="crms_id" readonly="1"/>
                 </field>
                 
 			</field>
@@ -120,7 +120,7 @@
                 	<group col="4" colspan="2">
                 		<field name="arabic_name" required="1"/>
 						<field name="routine_service_mileage" required="1"/>
-						<field name="crms_id" />
+						<field name="crms_id" readonly="1"/>
                 	</group>
 				</field>
             </field>
@@ -130,7 +130,7 @@
 			<field name="name">fleet.vehicle.model.form.inht1</field>
 			<field name="model">fleet.vehicle.model</field>
 			<field eval="1" name="priority" />
-			<field name="inherit_id" ref="fleet.fleet_vehicle_model_form" />
+			<field name="inherit_id" ref="drishti_crms.fleet_vehicle_model_form_inht" />
 			<field name="arch" type="xml">
 				<field name="modelname" position="after">
 					<label for="arabic_name" class="oe_edit_only"/>
@@ -139,7 +139,7 @@
 					</h1>					
 				</field>
 				<field name="no_of_luggages" position="after">
-					<field name="crms_id" />
+					<field name="crms_id" readonly="1"/>
 				</field>
 			</field>
 		</record>
@@ -177,7 +177,10 @@
 				</field>
 				<field name="assigned_for" position="after">
 					<field name="current_branch_id"/>
-					<field name="crms_id"/>
+					<field name="crms_id" readonly="1"/>
+				</field>
+				<field name="location" position="replace">
+					<field name="location" required="1"/>
 				</field>
 			</field>
 		</record>

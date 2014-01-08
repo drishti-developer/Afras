@@ -17,9 +17,9 @@ class fleet_vehicle(osv.osv):
     _columns = {
     'product_id' : fields.many2one('product.product','Product'),
     'model_year' : fields.integer('Model Year'),
-    'barcode' : fields.char('Vehicle Barcode',size=128),
+    'barcode' : fields.char('Vehicle Barcode',size=10),
     'choose_car' : fields.char('Choose Car(Native/Foreign)',size=128),
-    'engine_number' : fields.char('Engine Number',size=128),
+    'engine_number' : fields.char('Engine Number',size=30),
     'analytic_account_ids': fields.one2many('fleet.analytic.account', 'vehicle_id', 'Vehicle'),
     'branch_id': fields.many2one('sale.shop',  'Branch'),
     'area_id': fields.many2one('res.city.area',  'Area'),
@@ -163,7 +163,7 @@ fleet_analytic_account()
 class fleet_type(osv.osv):
     _name = "fleet.type"    
     _columns = {
-    'name' : fields.char('Car Type',size=128,required=True),
+    'name' : fields.char('Car Type',size=50,required=True),
     }
     
 fleet_type()
@@ -172,15 +172,15 @@ class fleet_vehicle_model(osv.osv):
     _inherit ="fleet.vehicle.model"
 
     _columns = {
-                'fleet_type_id' : fields.many2one('fleet.type','Car Type'),
-                'variant' : fields.char('Variant',size=128),
-                'engine_capacity' : fields.char('Engine Capacity',size=128),
-                'transmission' : fields.char('Transmission',size=128),
-                'no_of_seats' :  fields.integer('Number of Seats'),
-                'no_of_doors' : fields.integer('Number of Doors'),
-                'no_of_luggages' : fields.integer('Number of Luggages'),
-                'fuel':fields.char(string="Fuel",size=256)
-                }
+    'fleet_type_id' : fields.many2one('fleet.type','Car Type'),
+    'variant' : fields.char('Variant',size=5),
+    'engine_capacity' : fields.char('Engine Capacity',size=5),
+    'transmission' : fields.char('Transmission',size=10),
+    'no_of_seats' :  fields.integer('Number of Seats'),
+    'no_of_doors' : fields.integer('Number of Doors'),
+    'no_of_luggages' : fields.integer('Number of Luggages'),
+    'fuel':fields.char(string="Fuel",size=50)
+    }
     
     
     def create(self, cr, uid, values, context=None):

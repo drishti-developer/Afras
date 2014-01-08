@@ -49,8 +49,9 @@ res_currency()
 class Country(osv.osv):
     _inherit = "res.country"
     _columns = {
+        'name':fields.char(string="Name",size=30),
         'crms_id':fields.integer(string="CRMS ID"),
-        'arabic_name':fields.char(string="Arabic Name",size=256),
+        'arabic_name':fields.char(string="Arabic Name",size=75),
         'code': fields.char('Country Code', size=3,
             help='The ISO country code in three chars.\n'
             'You can use this field for quick search.'),
@@ -147,7 +148,7 @@ class res_state_city(osv.osv):
     _inherit = "res.state.city"
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
-        'arabic_name':fields.char(string="Arabic Name",size=256)
+        'arabic_name':fields.char(string="Arabic Name",size=30)
     }
     
     def update_crms(self,cr,uid,record_id):
@@ -195,7 +196,7 @@ class res_city_area(osv.osv):
     _inherit = "res.city.area"
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
-        'arabic_name':fields.char(string="Arabic Name",size=256)
+        'arabic_name':fields.char(string="Arabic Name",size=30)
     }
     
     def update_crms(self,cr,uid,record_id):
@@ -246,7 +247,7 @@ class sale_shop(osv.osv):
     _inherit = "sale.shop"
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
-        'arabic_name':fields.char(string="Arabic Name",size=256),
+        'arabic_name':fields.char(string="Arabic Name",size=30),
         'location_type': fields.selection([('Branch', 'Branch'), ('Workshop', 'Workshop'),('Agency', 'Agency')], 'Location Type',),
         'project_id': fields.many2one('account.analytic.account', 'Analytic Account',),
     }
@@ -257,7 +258,7 @@ class sale_shop(osv.osv):
         if crms_instance_id:
             self_brw = crms_obj.browse(cr,uid,crms_instance_id[0])
             branch_brw = self.browse(cr, uid, record_id)
-            if branch_brw.arabic_name and branch_brw.location_type and branch_brw.email and branch_brw.phone and branch_brw.zip and branch_brw.street and branch_brw.street2 and branch_brw.partner_id and branch_brw.area_id and branch_brw.area_id.crms_id :
+            if branch_brw.arabic_name and branch_brw.location_type and branch_brw.email and branch_brw.phone and branch_brw.zip and branch_brw.street and branch_brw.street2 and branch_brw.partner_id and branch_brw.area_id and branch_brw.area_id.crms_id and branch_brw.code:
                 crms_str = False
                 if branch_brw.crms_id and branch_brw.crms_id > 0:
                     crms_str = "\n<CRMSBranchID>%s</CRMSBranchID>"%(branch_brw.crms_id)
@@ -267,6 +268,7 @@ class sale_shop(osv.osv):
 <ERPBranchID>%s</ERPBranchID>%s
 <BranchNameInEng>%s</BranchNameInEng>
 <BranchNameInAra>%s</BranchNameInAra>
+<BranchCode>%s</BranchCode>
 <Location>%s</Location>
 <Email>%s</Email>
 <Phone>%s</Phone>
@@ -282,7 +284,7 @@ class sale_shop(osv.osv):
 <CRMSRegionID>%s</CRMSRegionID>
 <ERPCountryID>%s</ERPCountryID>
 <CRMSCountryID>%s</CRMSCountryID>
-</Branch>\n"""%(branch_brw.id, (crms_str or ''), branch_brw.name, branch_brw.arabic_name, branch_brw.location_type, branch_brw.email,\
+</Branch>\n"""%(branch_brw.id, (crms_str or ''), branch_brw.name, branch_brw.arabic_name, branch_brw.code, branch_brw.location_type, branch_brw.email,\
             branch_brw.phone , branch_brw.zip, branch_brw.street, branch_brw.street2, branch_brw.partner_id.name, \
             branch_brw.area_id.id, branch_brw.area_id.crms_id, branch_brw.city_id.id, branch_brw.city_id.crms_id, branch_brw.state_id.id, branch_brw.state_id.crms_id, branch_brw.country_id.id, branch_brw.country_id.crms_id)
 
@@ -308,8 +310,9 @@ class fleet_vehicle_model_brand(osv.osv):
     _inherit = "fleet.vehicle.model.brand"
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
-        'arabic_name':fields.char(string="Arabic Name",size=256),
-        'routine_service_mileage':fields.char(string="Routine Service Mileage",size=256)
+        'name':fields.char(string="Name",size=50),
+        'arabic_name':fields.char(string="Arabic Name",size=100),
+        'routine_service_mileage':fields.char(string="Routine Service Mileage",size=10)
     }
     
     def update_crms(self,cr,uid,record_id):
@@ -357,7 +360,7 @@ class fleet_type(osv.osv):
     _inherit = "fleet.type"
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
-        'arabic_name':fields.char(string="Arabic Name",size=256),
+        'arabic_name':fields.char(string="Arabic Name",size=75),
     }
     
     def update_crms(self,cr,uid,record_id):
@@ -404,7 +407,8 @@ class fleet_vehicle_model(osv.osv):
     _inherit = "fleet.vehicle.model"
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
-        'arabic_name':fields.char(string="Arabic Name",required=True,size=256),
+        'modelname':fields.char(string="Model Name",required=True,size=50),
+        'arabic_name':fields.char(string="Arabic Name",size=100),
     }
     
     def update_crms(self,cr,uid,record_id):
@@ -488,13 +492,15 @@ class fleet_vehicle(osv.osv):
     
     _columns = {
         'crms_id':fields.integer(string="CRMS ID"),
-        'license_plate_arabic':fields.char(string="License Plate Arabic Name",size=256),
-        'color_arabic':fields.char(string="Color Arabic Name",size=256),
+        'license_plate':fields.char(string="Name",size=10),
+        'license_plate_arabic':fields.char(string="License Plate Arabic Name",size=10),
+        'vin_sn':fields.char(string="Chassis Number",size=20,help="Unique Number written on the vehicle motor (VIN/SN number)"),
+        'color':fields.char(string="Color Arabic Name",size=10),
+        'color_arabic':fields.char(string="Color Arabic Name",size=10),
         'assigned_for': fields.selection([('Corporate','Corporate'),('Retail','Retail'),('Awaiting for Barcode','Awaiting for Barcode')],string="Assigned For"),
-        'licence_plate_arabic':fields.char("Licence Plate Arabic Name",size=256),
-        'color_arabic':fields.char(string="Color Arabic Name",size=256),
         'current_branch_id':fields.function(_vehicle_branch_get_fnc, type="many2one", relation="sale.shop", string='Branch'),
         'mvpi_expiry_date':fields.date(string='MVPIExpiryDate'),
+        'location':fields.selection([('Branch', 'Branch'), ('Agency', 'Agency'), ('Workshop', 'Workshop'), ('Warehouse', 'Warehouse'),], 'Location'),
     }
     
     def create(self, cr, uid, data, context=None):
@@ -512,10 +518,10 @@ class fleet_vehicle(osv.osv):
                 self_brw = reference_obj.browse(cr,uid,reference_ids[0])
                 date_today = datetime.date.today()
                              
-                if vehicle_brw.assigned_for and vehicle_brw.license_plate and vehicle_brw.license_plate_arabic and vehicle_brw.vin_sn and vehicle_brw.color and vehicle_brw.color_arabic and vehicle_brw.company_id and vehicle_brw.model_year and vehicle_brw.model_id and vehicle_brw.model_id.crms_id and vehicle_brw.current_branch_id and vehicle_brw.current_branch_id.crms_id:
+                if vehicle_brw.assigned_for and vehicle_brw.license_plate and vehicle_brw.license_plate_arabic and vehicle_brw.vin_sn and vehicle_brw.color and vehicle_brw.color_arabic and vehicle_brw.company_id and vehicle_brw.model_year and vehicle_brw.model_id and vehicle_brw.model_id.crms_id and vehicle_brw.current_branch_id and vehicle_brw.current_branch_id.crms_id and vehicle_brw.company_id.id == 1:
                     extra_str = ''
                     if vehicle_brw.acquisition_date:
-                        extra_str += "\n<AcquisitionDate>%s</ AquisitionDate>"%(vehicle_brw.acquisition_date)
+                        extra_str += "\n<AcquisitionDate>%s</AquisitionDate>"%(vehicle_brw.acquisition_date)
                     if  vehicle_brw.engine_number:
                         extra_str += "\n<EngineNumber>%s</EngineNumber>"%(vehicle_brw.engine_number)
                     if vehicle_brw.car_value:
