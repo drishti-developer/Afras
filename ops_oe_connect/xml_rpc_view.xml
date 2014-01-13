@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+							<!--  PRODUCT  -->
+							
+     <record id="product_normal_form_view12" model="ir.ui.view">
+            <field name="name">product.normal.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+            <xpath expr="/form[@string='Product']/sheet/div[@class='oe_right oe_button_box']" position="inside">
+	             <button name="CreateRecord" string="Confirm" type="object" class="oe_highlight" />
+	        </xpath>
+	         <xpath expr="/form/sheet/div[@class='oe_title']/label[@class='oe_edit_only']" position="before">
+	         		<label for="name_arabic" class="oe_edit_only"/>
+                            <h2><field name="name_arabic" required="1"/></h2>
+                    
+			</xpath>
+			<field name="list_price" position="after">
+			<field name="ops_code" readonly="1"/>
+			</field>
+			   	 					        
+	        </field>
+     </record>
+     							<!--  PRODUCT CATEGORY -->
+     
+     <record id="product_category_form_view12" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view" />
+            <field name="arch" type="xml">
+	            <xpath expr="/form/sheet/div[@class='oe_title']" position="after">
+		             <div class="oe_right oe_button_box">
+		             	<button name="CreateRecord" string="Confirm" type="object" class="oe_highlight" />
+	                 </div>
+		        </xpath>
+			 <xpath expr="/form/sheet/group" position="before">
+			 
+			 	<group col="4" colspan="2">
+				 	<field name="name_arabic" />
+				 	<field name="ops_code"  readonly="1"/>
+			 	</group>
+				</xpath>	
+				        
+<!--		    	 <xpath expr="/form/sheet" position="inside">-->
+<!--                       <group string="Description">-->
+<!--                       <group col="4" colspan="2">-->
+<!--                           <field name="desc1"/>-->
+<!--                           <field name="desc2"/>-->
+<!--                       </group>-->
+<!--                           <field name="desc3"/>-->
+<!--                       </group>-->
+<!--				 </xpath>-->
+				 
+				 
+				        
+            </field>
+     </record>
+								<!-- PARTNER    -->
+								
+								
+     <record id="view_partner_form12" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form[@string='Partners']/sheet/div[@class='oe_right oe_button_box']" position="inside">
+	             	<button name="CreateRecord" string="Confirm" type="object" class="oe_highlight"/>
+	        	</xpath>
+	        	
+				<xpath expr="/form/sheet/notebook/page[@string='History']" position="before">
+					<page string="OPS Details">
+						<group col="4" colspan="2">
+						<field name="ops_code" readonly="1"/>
+	                     	<field name="phone_ext"/>
+	                    <field name="crno"/>
+	                    <field name="fax_ext"/>
+	                  
+	                     </group>
+					</page>
+                </xpath>
+			
+				
+           </field>
+    </record>
+    
+    <record id="purchase_order_form12" model="ir.ui.view">
+            <field name="name">purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/header/button[@name='print_quotation']" position="after">
+	             <button name="CreateRecord" string="Confirm1" type="object" class="oe_highlight"/>
+	        	</xpath>
+     		</field>
+     </record>
+						<!--    COMPANY -->
+     
+     <record id="inherit_view_company_form" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+	            <xpath expr="/form/sheet/group" position="replace">
+	             <group col="4" colspan="2">
+                        <field name="parent_id"/>
+                        <field name="sector_code"/>
+                    </group>
+	            </xpath>
+	            
+            </field>
+	</record>
+						<!--	PRODUCT UOM		-->
+
+		 <record id="inherit_product_uom_form_view" model="ir.ui.view">
+		            <field name="name">product.uom.form</field>
+		            <field name="model">product.uom</field>
+		            <field name="inherit_id" ref="product.product_uom_form_view"></field>
+		            <field name="arch" type="xml">
+			            <xpath expr="/form[@string='Units of Measure']/group" position="before">
+			            <group>
+			            <div class="oe_title">
+	                        <h1>
+	                            <label string="Entity Code"/>
+	                            <field name="entity_code" class="oe_inline" readonly="1"/>
+	                        </h1>
+	                    </div>
+	                    </group>
+					</xpath>
+		     
+		     </field>
+		     </record>
+		     
+					<!--		  purchase.requisition   -->
+					
+					
+         <record model="ir.ui.view" id="inherit_view_purchase_requisition_form">
+		        <field name="name">purchase.requisition.form</field>
+		        <field name="model">purchase.requisition</field>
+		        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"></field>
+		        <field name="arch" type="xml">
+					<group>
+					<group col="4" colspan="2">
+			        	<field name="analytic_id"/>
+			        	<field name="ops_requestno"/>
+			        	<field name="rmrnumber"/>
+			        	<field name="location_serial_number"/>
+			        	<field name="project_code"/>
+			        	<field name="is_budget"/>
+			        	</group>
+			        </group>
+		        </field>
+		</record>
+		        
+                
+</data>
+</openerp>
