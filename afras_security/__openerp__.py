@@ -7,9 +7,11 @@
  """,
     'author': 'OpenERP SA',
     'website': 'http://www.drishtitech.com',
-    'depends': ['base','Multicompany_billing','drishti_account_report','crms_oe_connect','import_afras_data','asset_report','afras_fleet','import_afras_data'],
+    'depends': ['base','account','Multicompany_billing','afras_revenue_report','drishti_account_report','crms_oe_connect'],
     'data': [
-             'security/ir.model.access.csv',
+             'security/company_security1.xml',
+              'security/ir.model.access.csv',
+            'security/ir.ui.menu.csv',
     ],
     'installable': True,
     'auto_install': False,

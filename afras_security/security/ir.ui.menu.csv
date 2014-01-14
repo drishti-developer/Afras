@@ -1,0 +1,491 @@
+id,name,groups_id/id
+base.menu_reporting_dashboard,Dashboards,
+base.menu_management,Modules,
+base.menu_country_partner,Countries,"base.group_no_one,group_readonly"
+product.menu_products_category,Products by Category,"base.group_no_one,group_readonly"
+base.menu_sale_config_sales,Sales,"base.group_sale_manager,group_readonly"
+account.menu_action_account_invoice_report_all,Invoices Analysis,
+account.menu_action_account_period_close_tree,Close a Period,
+account.menu_action_bank_tree,Setup your Bank Accounts,
+stock.menu_product_by_category_stock_form,Products by Category,
+stock.menu_product_category_config_stock,Product Categories,
+purchase.menu_purchase_rfq,Quotations,
+drishti_crms.menu_action_res_company_form1,Companies,
+hr.menu_hr_main,Human Resources,
+crms_oe_connect.menu_crms_instance_parent,CRMS,
+crms_oe_connect.menu_crms_instance,CRMS Instance,
+hr_recruitment.menu_hr_recruitment_report_all,Recruitment Analysis,
+crm.menu_crm_lead_stage_act,Stages,"base.group_no_one,group_readonly"
+base.menu_config,Configuration,
+base.menu_email,Email,
+base.menu_sales,Sales,
+base.menu_partner_form,Customers,
+base.menu_localisation,Localization,"base.group_no_one,group_readonly"
+product.menu_products,Products,
+product.menu_product_pricelist_action2,Pricelists,"product.group_sale_pricelist,group_readonly"
+account.menu_finance_accounting,Financial Accounting,
+account.next_id_22,Partners,
+account.menu_action_account_moves_all,Journal Items,"account.group_account_user,group_readonly"
+account.menu_action_subscription_form,Define Recurring Entries,
+account.account_template_accounts,Accounts,
+account.menu_action_account_chart_template_form,Chart of Accounts Templates,
+account.menu_account_print_sale_purchase_journal,Sale/Purchase Journals,
+fleet.menu_fleet_reporting_costs,Costs Analysis,"fleet.group_fleet_manager,group_readonly"
+base.next_id_64,Sales,"base.group_sale_manager,group_readonly"
+base.menu_sale_config,Sales,
+resource.menu_view_resource_calendar_leaves_search,Resource Leaves,
+project.menu_project_management,Project,
+project.menu_tasks_config,GTD,
+base.menu_project_config_project,Stages,"base.group_no_one,group_readonly"
+project.menu_projects,Projects,
+stock.menu_stock_warehouse_mgmt,Receive/Deliver By Orders,
+stock.menu_stock_products_menu,Products,
+stock.menu_product_packaging_stock_action,Packaging,"product.group_stock_packaging,group_readonly"
+stock.menu_action_production_lot_form,Serial Number,"stock.group_production_lot,group_readonly"
+stock.menu_action_warehouse_form,Warehouses,"stock.group_locations,group_readonly"
+stock.menu_action_picking_tree4,Incoming Shipments,
+stock.menu_action_incoterm_open,Incoterms,
+stock.menu_action_pdct_in,Incoming  Products,
+stock.menu_action_stock_journal_form,Stock Journals,
+purchase.menu_procurement_management,Purchase,
+purchase.menu_product_category_config_purchase,Product Categories,
+purchase.menu_action_stock_move_report_po,Receptions Analysis,
+hr.menu_view_employee_category_form,Employee Tags,"base.group_no_one,group_readonly"
+base.menu_crm_case_job_req_main,Recruitment,"base.group_hr_user,group_readonly"
+base_action_rule.menu_base_action_rule_form,Automated Actions,
+base_calendar.menu_crm_meeting_type,Meeting Types,"base.group_no_one,group_readonly"
+hr_expense.menu_hr_expense_report_all,Expenses Analysis,
+base.next_id_10,Survey,"base.group_survey_user,group_readonly"
+survey.menu_survey_form,Surveys,"base.group_tool_manager,group_readonly"
+survey.menu_print_survey_form,Print Surveys,"base.group_tool_manager,group_readonly"
+hr_recruitment.menu_hr_recruitment_stage,Stages,"base.group_no_one,group_readonly"
+hr_recruitment.menu_crm_case_categ0_act_job,Applications,
+base.menu_crm_config_opportunity,Opportunities,"base.group_sale_manager,group_readonly"
+crm.menu_action_resource_calendar_form,Working Time,
+crm.menu_crm_lead_categ,Sales Tags,"base.group_no_one,group_readonly"
+crm.menu_report_crm_leads_tree,Leads Analysis,"base.group_sale_manager,group_readonly"
+drishti_crms.menu_crms_payments,CRMS Payment Details,
+base.next_id_6,Actions,
+base.menu_action_ui_view,Views,
+base.menu_view_base_language_install,Load a Translation,
+base.menu_res_company_global,Companies,
+base.menu_partner_title_partner,Titles,"base.group_no_one,group_readonly"
+base.menu_country_state_partner,Region,"base.group_no_one,group_readonly"
+board.menu_board_create,Create Board,"base.group_no_one,group_readonly"
+product.menu_product_category_action_form,Product Categories,"base.group_no_one,group_readonly"
+product.menu_product_pricelist_action,Pricelist Versions,
+account.menu_finance_receivables,Customers,"base.group_sale_salesman,group_readonly"
+account.menu_action_account_entries_report_all,Entries Analysis,"account.group_account_manager,group_readonly"
+account.menu_action_account_treasury_report_all,Treasury Analysis,"account.group_account_manager,group_readonly"
+account.account_template_taxes,Taxes,
+fleet.fleet_vehicles,Vehicles,"fleet.group_fleet_user,group_readonly"
+fleet.menu_fleet_reporting_indicative_costs,Indicative Costs Analysis,"fleet.group_fleet_manager,group_readonly"
+project.menu_task_types_view,Task Stages,
+stock.menu_stock_products_moves,Receive/Deliver Products,
+stock.menu_action_picking_tree6,Internal Moves,"stock.group_locations,group_readonly"
+stock.menu_action_pdct_out,Deliver Products,
+stock.menu_report_stock_line_date,Last Product Inventories,
+purchase.menu_purchase_pricelist_version_action,Pricelist Versions,"product.group_purchase_pricelist,group_readonly"
+hr.menu_hr_job,Job Positions,
+hr_payroll.menu_hr_payroll_structure_view,Salary Structures,
+hr_payroll.menu_hr_payroll_structure_tree,Salary Structures Hierarchy,
+survey.menu_surveys,Surveys,"base.group_survey_user,base.group_tool_user,base.group_tool_manager,group_readonly"
+crm.menu_crm_leads,Leads,
+drishti_crms.menu_action_multi_invoice,Multi-Expense Entry,
+base.menu_translation_export,Import / Export,"base.group_no_one,group_readonly"
+base.menu_action_rule,Record Rules,
+base.menu_action_ui_view_custom,Customized Views,
+base.menu_partner_title_contact,Contact Titles,"base.group_no_one,group_readonly"
+product.menu_product_ul_form_action,Packaging,"product.group_stock_packaging,group_readonly"
+account.menu_finance_payables,Suppliers,"account.group_account_manager,group_readonly"
+account.menu_tax_report,Taxes,"account.group_account_user,account.group_account_manager,group_readonly"
+account.menu_generate_subscription,Generate Entries,
+account_voucher.menu_action_sale_receipt_report_all,Sales Receipts Analysis,
+fleet.fleet_configuration,Configuration,"fleet.group_fleet_manager,group_readonly"
+stock.menu_traceability,Traceability,
+stock.menu_action_picking_tree,Delivery Orders,
+stock.menu_action_move_form2,Stock Moves,"stock.group_locations,group_readonly"
+stock.menu_action_stock_move_report,Moves Analysis,
+purchase.menu_action_purchase_order_report_all,Purchase Analysis,
+purchase.menu_purchase_config,Purchases,
+drishti_crms.menu_city,City,"base.group_no_one,group_readonly"
+hr.menu_open_view_employee_list_my,Employees,
+hr.menu_open_view_attendance_reason_config,Leaves,
+survey.menu_survey_type_form1,Survey Requests,"base.group_tool_manager,group_readonly"
+crm.menu_crm_opportunities,Opportunities,
+base.menu_users,Users,
+base.menu_translation_app,Application Terms,"base.group_no_one,group_readonly"
+base.menu_partner_category_form,Partner Tags,"base.group_no_one,group_readonly"
+product.menu_product_price_type,Price Types,"base.group_no_one,group_readonly"
+account.menu_finance_bank_and_cash,Bank and Cash,"account.group_account_user,account.group_account_manager,group_readonly"
+account.menu_action_analytic_entries_report,Analytic Entries Analysis,"analytic.group_analytic_accounting,group_readonly"
+account.next_id_40,Analytic,"analytic.group_analytic_accounting,group_readonly"
+sale.menu_sale_quotations,Quotations,
+stock.menu_stock_inventory_control,Inventory Control,
+stock.menu_action_stock_inventory_report,Inventory Analysis,
+procurement.menu_stock_sched,Schedulers,"stock.group_stock_manager,group_readonly"
+purchase.menu_procurement_management_inventory,Incoming Products,
+drishti_crms.menu_area,Area,"base.group_no_one,group_readonly"
+hr_contract.hr_menu_contract,Contracts,"base.group_hr_manager,group_readonly"
+crm.menu_crm_case_channel,Channels,"base.group_no_one,group_readonly"
+crm.menu_crm_case_resource_type_act,Campaigns,"base.group_no_one,group_readonly"
+crm.menu_crm_case_phone,Phone Calls,"base.group_sale_salesman,group_readonly"
+base.menu_ir_filters,User-defined Filters,
+board.menu_board_my_dash,My Dashboard,
+account.menu_finance_entries,Journal Entries,"account.group_account_user,account.group_account_manager,group_readonly"
+account.next_id_23,Periods,
+account.menu_action_move_journal_line_form,Journal Entries,"account.group_account_user,group_readonly"
+account.menu_action_model_form,Models,
+account.account_def_analytic_journal,Analytic Journals,"analytic.group_analytic_accounting,group_readonly"
+sale.menu_sale_order,Sales Orders,"base.group_sale_salesman,base.group_sale_manager,group_readonly"
+base.menu_invoiced,Invoicing,
+resource.menu_resource_config,Resource,
+project.menu_action_view_task,Tasks,
+stock.menu_action_location_form,Locations,"stock.group_locations,group_readonly"
+stock.menu_stock_config_settings,Warehouse,
+procurement.menu_stock_procurement,Automatic Procurements,
+purchase.menu_purchase_uom_categ_form_action,Unit of Measure Categories,
+base.menu_branch,Branch,"base.group_no_one,group_readonly"
+hr.menu_hr_department_tree,Departments,
+base_calendar.menu_crm_meeting_avail_alarm,Alarms,"base.group_no_one,group_readonly"
+hr_holidays.menu_hr_available_holidays_report_tree,Leaves Analysis,
+crms_oe_connect.menu_crms,CRMS,
+import_afras_data.import_fleet_wiz,Import Vehichle,
+hr_recruitment.menu_hr_recruitment_degree,Degrees,"base.group_no_one,group_readonly"
+crm.menu_report_crm_opportunities_tree,Opportunities Analysis,
+drishti_crms.menu_partner_form_id,Client,
+account.menu_finance_charts,Charts,"account.group_account_user,group_readonly"
+account_voucher.menu_encode_entries_by_voucher,Journal Vouchers,"base.group_no_one,group_readonly"
+stock.menu_stock_product,Products,
+stock.menu_action_tracking_form,Packs,"product.group_stock_packaging,group_readonly"
+purchase.menu_procurement_management_invoice,Invoice Control,
+purchase.menu_purchase_form_action,Purchase Orders,
+hr.menu_hr_reporting_timesheet,Reports,
+hr_contract.hr_menu_contract_type,Contract Types,"base.group_no_one,group_readonly"
+drishti_crms.menu_advance_payment,Advance Payment,"base.group_erp_manager,base.group_no_one,group_readonly"
+afras_import_account.import_Account_wiz,Import Account,
+afras_import_analitical_account.import_analitic_account_wiz,Import Analitic Account,
+afras_revenue_report.menu_action_view_revenue_report_form,Revenue Report,"afras_revenue_report.group_afras_revenue_report_user,group_readonly"
+base.menu_lunch_reporting,Reporting,
+base.menu_translation,Translations,
+account.menu_bank_statement_tree,Bank Statements,
+purchase.menu_procurement_management_product,Products,
+base.menu_action_res_partner_bank_form,Bank Accounts,"base.group_no_one,group_readonly"
+base.menu_product,Products,
+purchase.menu_action_picking_tree4,Incoming Shipments,
+account_asset.menu_finance_assets,Assets,
+drishti_crms.menu_action_account_afras_cost_distribution_view_form,Distribution Plans,
+base.next_id_2,User Interface,
+base.menu_ir_sequence_actions,Actions,
+base.menu_ir_action_report_xml,Reports,
+base.menu_ir_action_window,Window Actions,
+base.menu_ir_action_wizard,Wizards,
+base.menu_server_action,Server Actions,
+base.menu_ir_actions_todo_form,Configuration Wizards,
+base.menu_action_attachment,Attachments,
+base.ir_config_menu,System Parameters,
+base.menu_ir_cron_act,Scheduled Actions,
+base.next_id_9,Database Structure,"base.group_no_one,group_readonly"
+base.ir_model_model_menu,Models,
+base.ir_model_model_fields,Fields,
+base.ir_model_data_menu,External Identifiers,"base.group_no_one,group_readonly"
+base.ir_model_constraint_menu,Model Constraints,"base.group_no_one,group_readonly"
+base.ir_model_relation_menu,ManyToMany Relations,"base.group_no_one,group_readonly"
+base.menu_ir_access_act,Access Controls List,
+base.menu_ir_sequence_form,Sequences,
+base.menu_ir_sequence_type,Sequence Codes,"base.group_no_one,group_readonly"
+base.menu_action_translation,Translated Terms,
+base.menu_values_form_action,Action Bindings,
+base.menu_values_form_defaults,User-defined Defaults,
+base.menu_workflow_root,Workflows,"base.group_no_one,group_readonly"
+base.menu_workflow,Workflows,
+base.menu_workflow_activity,Activities,
+base.menu_workflow_transition,Transitions,
+base.menu_workflow_instance,Instances,
+base.menu_workflow_workitem,Workitems,
+base.module_mi,Apps,
+base.menu_view_base_import_language,Import Translation,
+base.menu_wizard_lang_export,Export Translation,
+base.menu_wizard_update_translations,Synchronize Terms,
+base.menu_action_res_company_form,Companies,
+base.menu_action_inventory_form,Default Company per Object,
+base.menu_res_request_link_act,Request Reference Types,
+base.menu_action_res_groups,Groups,"base.group_no_one,group_readonly"
+base.menu_action_res_users,Users,
+base.menu_ir_property_form_all,Configuration Parameters,
+process.menu_process,Enterprise Process,
+process.menu_process_form,Processes,
+process.menu_process_node_form,Process Nodes,
+process.menu_process_transition_form,Process Transitions,
+decimal_precision.menu_decimal_precision_form,Decimal Accuracy,
+mail.menu_message_subtype,Subtypes,
+mail.menu_mail_message,Messages,
+mail.menu_mail_mail,Emails,
+mail.mail_feeds_main,Messaging,"base.group_user,group_readonly"
+mail.mail_feeds,Messaging,"base.group_user,group_readonly"
+mail.mail_my_stuff,Organizer,
+mail.mail_inboxfeeds,Inbox,
+__export__.ir_ui_menu_113,Whole Company,
+account.periodical_processing_journal_entries_validation,Draft Entries,
+account.periodical_processing_reconciliation,Reconciliation,
+account.periodical_processing_invoicing,Invoicing,
+account.menu_finance_reporting_budgets,Budgets,"account.group_account_user,group_readonly"
+account.menu_finance_legal_statement,Legal Reports,
+account.menu_finance_management_belgian_reports,Belgian Reports,
+account.menu_analytic,Accounts,"analytic.group_analytic_accounting,group_readonly"
+account.menu_multi_currency,Multi-Currencies,"base.group_multi_currency,group_readonly"
+account.final_accounting_reports,Accounting Reports,
+account.menu_journals_report,Journals,"account.group_account_user,account.group_account_manager,group_readonly"
+account.menu_action_account_fiscalyear,Fiscal Years,
+account.menu_action_account_period,Periods,
+account.menu_action_account_form,Accounts,
+account.menu_unrealized_gains_losses,Unrealized Gain or Loss,"account.group_account_user,group_readonly"
+account.menu_action_account_journal_form,Journals,
+account.menu_action_tax_form,Taxes,
+account.menu_manual_reconcile,Manual Reconciliation,
+account.menu_action_payment_term_form,Payment Terms,
+account.account_template_folder,Templates,"account.group_account_manager,group_readonly"
+account.menu_action_account_template_form,Account Templates,
+account.journal_cash_move_lines,Cash Registers,
+account.menu_account_financial_reports_tree,Account Reports,
+account.menu_account_report_tree_hierarchy,Account Reports Hierarchy,
+account.menu_action_account_tree2,Chart of Accounts,
+account.menu_account_vat_declaration,Taxes Report,
+account.menu_account_print_journal,Journals,
+account.menu_account_general_journal,General Journals,
+account.menu_account_central_journal,Centralizing Journal,
+account.menu_wizard_fy_close,Generate Opening Entries,
+account.menu_validate_account_moves,Post Journal Entries,
+account.menu_general_ledger,General Ledger,"account.group_account_user,account.group_account_manager,group_readonly"
+account.menu_account_partner_balance_report,Partner Balance,
+account.menu_general_Balance_report,Trial Balance,
+account.menu_aged_trial_balance,Aged Partner Balance,
+account.menu_account_partner_ledger,Partner Ledger,"account.group_account_user,account.group_account_manager,group_readonly"
+account.menu_automatic_reconcile,Automatic Reconciliation,
+account.menu_account_report_bs,Balance Sheet,
+account.menu_account_report_pl,Profit And Loss,
+account.menu_action_invoice_tree1,Customer Invoices,
+account.menu_action_invoice_tree2,Supplier Invoices,"account.group_account_manager,group_readonly"
+account.menu_action_invoice_tree3,Customer Refunds,
+account.menu_action_invoice_tree4,Supplier Refunds,"account.group_account_manager,group_readonly"
+account.account_analytic_def_account,Analytic Accounts,"analytic.group_analytic_accounting,group_readonly"
+account.account_analytic_journal_entries,Analytic Journal Items,"analytic.group_analytic_accounting,group_readonly"
+account.account_analytic_journal_print,Analytic Journal,"analytic.group_analytic_accounting,group_readonly"
+account.menu_action_analytic_account_tree2,Chart of Analytic Accounts,"analytic.group_analytic_accounting,group_readonly"
+__export__.ir_ui_menu_235,Company News,
+__export__.ir_ui_menu_236,Company Jobs,
+portal.portal_messages,Messaging,"portal.group_portal,group_readonly"
+portal.portal_inbox,Inbox,"portal.group_portal,group_readonly"
+portal.portal_company_news,News,
+account_voucher.menu_action_sale_receipt,Sales Receipts,
+account_voucher.menu_action_purchase_receipt,Purchase Receipts,
+fleet.fleet_vehicle_model_menu,Vehicle Model,"base.group_no_one,group_readonly"
+fleet.fleet_vehicle_model_brand_menu,Model brand of Vehicle,"base.group_no_one,group_readonly"
+fleet.fleet_vehicle_state_menu,Vehicle Status,"fleet.group_fleet_manager,group_readonly"
+fleet.fleet_vehicle_menu,Vehicles,"fleet.group_fleet_user,group_readonly"
+fleet.fleet_vehicle_log_contract_menu,Vehicles Contracts,"fleet.group_fleet_user,group_readonly"
+fleet.fleet_vehicle_odometer_menu,Vehicles Odometer,"fleet.group_fleet_user,group_readonly"
+fleet.fleet_vehicle_log_fuel_menu,Vehicles Fuel Logs,"fleet.group_fleet_user,group_readonly"
+fleet.fleet_vehicle_log_services_menu,Vehicles Services Logs,"fleet.group_fleet_user,group_readonly"
+fleet.fleet_vehicle_service_types_menu,Service Types,"base.group_no_one,group_readonly"
+fleet.fleet_vehicle_costs_menu,Vehicle Costs,"fleet.group_fleet_manager,group_readonly"
+sale.menu_invoicing_sales_order_lines,Order Lines to Invoice,"sale.group_invoice_so_lines,group_readonly"
+sale.menu_report_product_all,Sales Analysis,
+portal_sale.portal_quotations,Quotations,
+project.menu_project_category_act,Tags,"base.group_no_one,group_readonly"
+project.menu_project_task_user_tree,Tasks Analysis,
+project.menu_action_view_task_history_cumulative,Cumulative Flow,
+base.menu_project_config,Project,
+portal_project.portal_services_projects,Projects,
+procurement.menu_stock_order_points,Reordering Rules,
+purchase.menu_product_pricelist_action2_purchase,Pricelists,"product.group_purchase_pricelist,group_readonly"
+purchase.menu_purchase_uom_form_action,Units of Measure,
+purchase.menu_purchase_partner_cat,Address Book,
+purchase.menu_partner_categories_in_form,Partner Categories,"base.group_no_one,group_readonly"
+purchase.menu_product_by_category_purchase_form,Products by Category,
+purchase.menu_procurement_partner_contact_form,Products,
+base.next_id_73,Purchase,"purchase.group_purchase_manager,group_readonly"
+account_asset.menu_asset_depreciation_confirmation_wizard,Compute Assets,
+account_asset.menu_action_account_asset_asset_form,Assets,
+account_asset.menu_action_account_asset_asset_list_normal,Asset Categories,
+account_asset.menu_action_asset_asset_report,Assets Analysis,
+base.menu_base_action_rule_admin,Automated Actions,
+base_calendar.mail_menu_calendar,Calendar,
+hr_holidays.menu_open_ask_holidays_new,Leave Requests,
+hr_holidays.menu_request_approve_holidays,Leave Requests to Approve,"base.group_hr_user,group_readonly"
+hr_holidays.menu_open_allocation_holidays,Allocation Requests,
+hr_holidays.menu_request_approve_allocation,Allocation Requests to Approve,"base.group_hr_manager,group_readonly"
+hr_holidays.menu_open_view_holiday_status,Leaves Types,
+hr_holidays.menu_account_central_journal,Leaves by Department,
+hr_payroll.menu_hr_payroll_reporting,Payroll,"base.group_hr_manager,group_readonly"
+hr_payroll.menu_department_tree,Employee Payslips,"base.group_hr_user,group_readonly"
+hr_payroll.menu_hr_payslip_run,Payslips Batches,
+hr_expense.menu_hr_product,Expense Categories,
+hr_expense.menu_expense_all,Expenses,
+survey.menu_survey_page_form1,Survey Pages,"base.group_no_one,group_readonly"
+survey.menu_print_survey_statistics,Surveys Statistics,"base.group_tool_manager,group_readonly"
+survey.menu_print_survey_answer,Surveys Answers,"base.group_tool_manager,group_readonly"
+survey.menu_browse_survey_response,Browse Answers,"base.group_tool_manager,group_readonly"
+hr_recruitment.menu_hr_recruitment_source,Sources of Applicants,"base.group_no_one,group_readonly"
+crm.menu_crm_payment_mode_act,Payment Modes,"base.group_no_one,group_readonly"
+base.menu_import_crm,Import & Synchronize,
+crm.menu_crm_case_phonecall-act,Categories,"base.group_no_one,group_readonly"
+crm.menu_crm_case_phone_inbound,Logged Calls,
+crm.menu_crm_case_phone_outbound,Scheduled Calls,
+crm.menu_board_statistics_dash,CRM,"base.group_sale_manager,group_readonly"
+asset_report.menu_asset_report_id,Asset Report,
+asset_report.asset_sub_category_menu_id,Asset Sub Category,
+asset_report.asset_sub_category_hierarchi_id,Asset Category Hierarchy,
+drishti_crms.fleet_vehicle_insurance_menu_id,Vehicle Insurance,
+afras_fleet.fleet_vehicle_insurance_menu_id,Fleet Vehicle,
+drishti_crms.ldap_parameter_menu_id,LDAP Parameters,
+base.menu_action_res_bank_form,Banks,"base.group_no_one,group_readonly"
+mail.mail_tomefeeds,To: me,
+purchase.menu_action_picking_tree_in_move,Incoming  Products,
+hr_payroll.menu_hr_salary_rule_category,Salary Rule Categories,"base.group_no_one,group_readonly"
+mail.mail_group_root,My Groups,
+account.menu_account_pp_statements,Statements,
+account.menu_action_tax_code_list,Tax codes,"base.group_no_one,group_readonly"
+account.menu_action_tax_code_tree,Chart of Taxes,"account.group_account_user,account.group_account_manager,group_readonly"
+account_voucher.menu_action_vendor_payment,Supplier Payments,"account.group_account_manager,group_readonly"
+account_voucher.menu_action_vendor_receipt,Customer Payments,
+hr_payroll.menu_hr_salary_rule_category_tree_view,Salary Rule Categories Hierarchy,"base.group_no_one,group_readonly"
+hr_payroll.menu_action_hr_salary_rule_form,Salary Rules,
+account.menu_finance_periodical_processing,Periodic Processing,"account.group_account_user,account.group_account_manager,group_readonly"
+account.menu_action_account_tax_template_form,Tax Templates,
+purchase.menu_procurement_management_pending_invoice,On Draft Invoices,
+mail.mail_starfeeds,To-do,
+fetchmail.menu_action_fetchmail_server_tree,Incoming Mail Servers,"base.group_no_one,group_readonly"
+account.menu_finance_reports,Reporting,"account.group_account_user,account.group_account_manager,group_readonly"
+account.menu_action_account_tax_code_template_form,Tax Code Templates,
+account.menu_account_config,Accounting,
+hr_payroll.menu_action_hr_contribution_register_form,Contribution Registers,
+base.menu_mail_servers,Outgoing Mail Servers,"base.group_no_one,group_readonly"
+base.menu_action_res_partner_bank_typeform,Bank Account Types,"base.group_no_one,group_readonly"
+account.menu_finance_configuration,Configuration,"account.group_account_manager,group_readonly"
+account.menu_journals,Journals,"account.group_account_manager,group_readonly"
+account.menu_finance_recurrent_entries,Recurring Entries,
+account.account_account_menu,Accounts,
+portal.portal_menu,Portal,"portal.group_portal,portal.group_anonymous,group_readonly"
+sale.menu_dashboard_sales,Sales,"base.group_sale_salesman,group_readonly"
+stock.menu_stock_configuration,Configuration,"stock.group_stock_manager,group_readonly"
+stock.next_id_61,Warehouse,"stock.group_stock_manager,group_readonly"
+base.menu_procurement_management_supplier_name,Suppliers,"account.group_account_manager,group_readonly"
+hr.menu_human_resources_configuration,Human Resources,
+base_calendar.menu_events,Events,
+hr_expense.next_id_49,Expenses,
+crm.menu_crm_case_section_act,Sales Teams,"base.group_sale_manager,group_readonly"
+crm.menu_crm_segmentation-act,Contacts Segmentation,"base.group_no_one,group_readonly"
+crm.menu_report_crm_phonecalls_tree,Phone Calls Analysis,"base.group_sale_salesman,group_readonly"
+drishti_crms.menu_crm_case_section_act_id,Teams,"base.group_sale_manager,group_readonly"
+base.menu_action_res_company_tree,Company's Structure,"base.group_multi_company,group_readonly"
+mail.mail_archivesfeeds,Archives,
+account.menu_wizard_account_open_closed_fiscalyear,Cancel Closing Entries,
+drishti_crms.fleet_vehicle_cost_distribution_menu,Vehicle Daily Book,"base.group_no_one,group_readonly"
+base.menu_ir_actions_todo,Configuration Wizards,"base.group_no_one,group_readonly"
+base.menu_module_updates,Updates,
+base.menu_base_partner,Sales,"base.group_sale_salesman,base.group_sale_manager,group_readonly"
+base.menu_action_currency_form,Currencies,"base.group_multi_currency,base.group_no_one,group_readonly"
+email_template.menu_email_templates,Templates,
+account.menu_action_account_type_form,Account Types,"base.group_no_one,group_readonly"
+account.next_id_27,Taxes,
+account.menu_action_account_fiscal_position_form_template,Fiscal Position Templates,
+account.menu_wizard_fy_close_state,Close a Fiscal Year,
+account.menu_action_account_fiscal_position_form,Fiscal Positions,
+portal.portal_mail_starfeeds,To-do,"base.group_no_one,group_readonly"
+portal.portal_orders,Billing,
+portal.portal_jobs,Jobs,
+portal_sale.portal_sales_orders,Sales Orders,
+stock.menu_action_location_tree,Location Structure,"stock.group_locations,group_readonly"
+procurement.menu_stock_proc_schedulers,Run Schedulers,"stock.group_stock_manager,group_readonly"
+purchase.menu_purchase_unit_measure_purchase,Units of Measure,"product.group_uom,group_readonly"
+purchase.menu_board_purchase,Purchases,"purchase.group_purchase_user,group_readonly"
+sale_stock.menu_action_picking_list_to_invoice,Deliveries to Invoice,"sale_stock.group_invoice_deli_orders,group_readonly"
+hr_holidays.menu_open_ask_holidays,Leaves,
+import_afras_data.menu_data_import_wizard,Import data,
+base.next_id_5,Sequences & Identifiers,"base.group_no_one,group_readonly"
+Multicompany_billing.menu_action_account_fiscal_position_form11,Default Account,
+base.menu_ir_cron,Scheduler,"base.group_no_one,group_readonly"
+base.menu_ir_property,Parameters,
+base.menu_security,Security,
+product.menu_product_uom_categ_form_action,Unit of Measure Categories,"base.group_no_one,group_readonly"
+account.menu_account_end_year_treatments,End of Period,
+base.menu_project_report,Project,"project.group_project_manager,group_readonly"
+stock.menu_board_warehouse,Warehouse,"stock.group_stock_user,group_readonly"
+account_asset.menu_finance_config_assets,Assets,
+base.next_id_4,Low Level Objects,
+base.menu_base_config,Configuration,"base.group_sale_manager,base.group_partner_manager,group_readonly"
+base.menu_module_tree,Installed Modules,
+mail.menu_email_followers,Followers,"base.group_no_one,group_readonly"
+product.next_id_16,Units of Measure,"product.group_uom,group_readonly"
+product.menu_product_uom_form_action,Units of Measure,"product.group_uom,group_readonly"
+account.menu_account_reports,Financial Reports,
+account.menu_email_templates,Email Templates,"base.group_no_one,group_readonly"
+portal.portal_mail_archivesfeeds,Archives,"portal.group_portal,group_readonly"
+portal.portal_after_sales,After Sale Services,
+portal_sale.portal_invoices,Invoices,
+stock.menu_stock_uom_categ_form_action,Unit of Measure Categories,"product.group_uom,group_readonly"
+stock.menu_action_inventory_form,Physical Inventories,
+purchase.menu_product_in_config_purchase,Products,"base.group_no_one,group_readonly"
+hr_contract.next_id_56,Contract,"base.group_no_one,group_readonly"
+hr_payroll.menu_hr_root_payroll,Payroll,
+mail.menu_email_notifications,Notifications,"base.group_no_one,group_readonly"
+account.menu_finance_reporting,Accounting,
+account.menu_finance_periodical_processing_billing,Billing,
+project.menu_project_dashboard,Project,
+stock.menu_stock_unit_measure_stock,Units of Measure,"product.group_uom,group_readonly"
+stock.menu_stock_uom_form_action,Units of Measure,"product.group_uom,group_readonly"
+sale_stock.menu_action_shop_form,Shop,"stock.group_locations,group_readonly"
+base.menu_config_address_book,Address Book,"base.group_partner_manager,group_readonly"
+base.menu_view_base_module_update,Update Modules List,"base.group_no_one,group_readonly"
+account.menu_analytic_accounting,Analytic Accounting,"analytic.group_analytic_accounting,group_readonly"
+portal.portal_projects,Projects,
+base.menu_main_pm,Project,"project.group_project_user,project.group_project_manager,group_readonly"
+stock.menu_warehouse_config,Warehouse Management,"base.group_no_one,group_readonly"
+hr.menu_hr_reporting,Human Resources,
+hr_holidays.menu_open_company_allocation,Leaves Summary,
+hr_recruitment.menu_hr_recruitment_recruitment,Recruitment,
+portal_crm.portal_company_contact,Contact,
+account.menu_board_account,Accounting,"account.group_account_user,account.group_account_manager,group_readonly"
+stock.menu_product_in_config_stock,Products,"base.group_no_one,group_readonly"
+hr_payroll.payroll_configure,Payroll,"base.group_hr_manager,group_readonly"
+crm.menu_crm_config_phonecall,Phone Calls,"base.group_sale_salesman,group_readonly"
+base.menu_administration_shortcut,Custom Shortcuts,
+base.menu_view_base_module_upgrade,Apply Scheduled Upgrades,"base.group_no_one,group_readonly"
+base.menu_custom_multicompany,Multi-Companies,
+mail.mail_alias_menu,Aliases,"base.group_no_one,group_readonly"
+account.menu_finance,Accounting,"account.group_account_invoice,account.group_account_user,account.group_account_manager,group_readonly"
+fleet.menu_fleet_dashboard,Fleet,"fleet.group_fleet_user,group_readonly"
+fleet.menu_fleet_reporting,Fleet,"fleet.group_fleet_manager,group_readonly"
+procurement.menu_stock_procurement_action,Procurement Exceptions,"stock.group_stock_manager,group_readonly"
+purchase.menu_purchase_config_pricelist,Pricelists,"product.group_purchase_pricelist,group_readonly"
+hr.menu_hr_dashboard,Human Resources,
+hr.menu_hr_configuration,Configuration,"base.group_hr_manager,group_readonly"
+base.menu_calendar_configuration,Calendar,"base.group_no_one,group_readonly"
+account.menu_configuration_misc,Miscellaneous,
+base.menu_definitions,Configuration,"project.group_project_manager,group_readonly"
+base.menu_purchase_root,Purchases,"purchase.group_purchase_user,purchase.group_purchase_manager,group_readonly"
+purchase.menu_product_pricelist_action2_purchase_type,Price Types,
+survey.menu_reporting,Reporting,
+product.prod_config_main,Products,
+product.menu_product_pricelist_main,Pricelists,"product.group_sale_pricelist,group_readonly"
+stock.menu_stock_root,Warehouse,"stock.group_stock_user,stock.group_stock_manager,group_readonly"
+purchase.menu_purchase_line_order_draft,On Purchase Order Lines,
+base.menu_crm_config_lead,Leads & Opportunities,"base.group_sale_manager,group_readonly"
+purchase.menu_action_picking_tree4_picking_to_invoice,On Incoming Shipments,
+hr.menu_hr_root,Human Resources,"base.group_user,base.group_hr_user,base.group_hr_manager,group_readonly"
+base.menu_reporting_config,Configuration,
+base_setup.menu_general_configuration,General Settings,
+mail.mail_allgroups,Join a group,
+account.menu_finance_generic_reporting,Generic Reporting,
+account.menu_account_customer,Customers,
+account.menu_account_supplier,Suppliers,"account.group_account_manager,group_readonly"
+account.menu_account_report,Financial Report,
+purchase.menu_purchase_config_purchase,Configuration,"purchase.group_purchase_manager,group_readonly"
+account_asset.menu_action_account_asset_asset_tree,Asset Hierarchy,
+base.menu_custom,Technical,"base.group_no_one,group_readonly"
+fleet.menu_root,Fleet,"fleet.group_fleet_user,group_readonly"
+base.menu_tools,Tools,"base.group_tool_user,group_readonly"
+base.menu_reporting,Reporting,
+portal.portal_company,About Us,
+base.menu_administration,Settings,"base.group_erp_manager,base.group_system,group_readonly"
