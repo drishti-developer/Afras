@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-<record id="crms_payment_form" model="ir.ui.view">
+		<record id="crms_payment_form" model="ir.ui.view">
             <field name="name">crms.payment.form</field>
             <field name="model">crms.payment</field>
             <field name="arch" type="xml">
                 <form string="Booking Detail" version="7.0">
                 	<header>
-                    	<button name="create_account_voucher_entries" type="object" string="Journal Entries Tesing"/>
-                    	<field name="state" widget="statusbar" statusbar_visible="Active, Payment Processing, Closed" statusbar_colors='{"Payment Processing ":"red","Active":"blue", "Closed":"black"}'/>
+                    	<!-- <button name="create_account_voucher_entries" type="object" string="Journal Entries Tesing"/> -->
+                    	<field name="state" widget="statusbar" statusbar_visible="Active, Awaiting for outgoing check, Payment Processing, Replaced, Changed, Closed" statusbar_colors='{"Payment Processing ":"red","Active":"blue", "Closed":"black"}'/>
                 	</header>
                 	<sheet string="Booking Detail">
 	                	<group col="4" colspan="2" string="Booking Details">
@@ -63,6 +63,35 @@
 	                        		</form>
 	                        	</field>
 	                        </page>
+	                        <page string="Daily Revenue">
+                            	<field name="daily_revenue_ids" nolabel="1" readonly="True">
+                                    <tree>
+                                        <field name="open_balance"/>
+                                        <field name="date"/>
+                                        <field name="revenue"/>
+                                        <field name="discount"/>
+                                        <field name="discount_amt"/>
+                                    </tree>
+                                    <form string="Daily Revenue">
+                                        <field name="open_balance"/>
+                                        <field name="booking_id"/>
+                                        <field name="date"/>
+                                        <field name="revenue"/>
+                                        <field name="discount"/>
+                                        <field name="discount_amt"/>
+                                        <field name="amount_paid"/>
+                                        <field name="change_discount"/>
+                                        <field name="admin_expences"/>
+                                        <field name="traffic_violation_charges"/>
+                                        <field name="extra_hours_charges"/>
+                                        <field name="additional_driver_charges"/>
+                                        <field name="damage_charges"/>
+                                        <field name="other_charges"/>
+                                        <field name="extra_km_charges"/>
+                                        <field name="amount_return"/>
+                                    </form>
+                                </field>
+                       		</page>
 	                        <page string="Accounts">
 	                        	<group col="6" colspan="2">
 	                        		<field name="property_cash_journal"/>
@@ -110,7 +139,7 @@
                     </sheet> 
                 </form>
             </field>
-      </record>
+        </record>
         
       <record id="crms_payment_tree" model="ir.ui.view">
             <field name="name">crms.payment.tree</field>
@@ -138,7 +167,7 @@
       
       <menuitem action="action_crms_payment" id="menu_crms_payments" parent='account.menu_finance_receivables' name = "CRMS Payment Details" sequence="1"/>
       
-      <record model="ir.cron" id="crms_payment_voucher_cron">
+      <!-- <record model="ir.cron" id="crms_payment_voucher_cron">
             <field name="name">CRMS Payment Voucher Entries</field>
             <field name="interval_number">1</field>
             <field name="interval_type">weeks</field>
@@ -148,7 +177,7 @@
             <field name="active">False</field>
             <field name="function" eval="'cron_create_payment_voucher_entries'"/>
             <field name="args" eval="'()'" />
-        </record>
+        </record> -->
     
     </data>
 </openerp>
