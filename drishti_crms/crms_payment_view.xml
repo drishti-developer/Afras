@@ -80,15 +80,15 @@
                                         <field name="discount"/>
                                         <field name="discount_amt"/>
                                         <field name="amount_paid"/>
-                                        <field name="change_discount"/>
-                                        <field name="admin_expences"/>
+                                        <field name="changed_discount"/>
+                                        <field name="admin_expenses"/>
                                         <field name="traffic_violation_charges"/>
                                         <field name="extra_hours_charges"/>
                                         <field name="additional_driver_charges"/>
                                         <field name="damage_charges"/>
                                         <field name="other_charges"/>
                                         <field name="extra_km_charges"/>
-                                        <field name="amount_return"/>
+                                        <field name="amount_returned"/>
                                     </form>
                                 </field>
                        		</page>

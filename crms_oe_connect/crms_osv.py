@@ -254,7 +254,7 @@ DAILY_REVENUE_LIST = [
 			('open_balance','OpenBalance'),
 			('revenue','Revenue'),
 			('discount','Discount'),
-			('discount_amount','DiscountAmount'),
+			('discount_amt','DiscountAmount'),
 			('changed_discount','ChangedDiscount'),
 			('amount_paid','AmountPaid'),
             ('amount_returned','AmountReturned'),
@@ -262,7 +262,7 @@ DAILY_REVENUE_LIST = [
             ('damage_charges','DamageCharges'),
             ('traffic_violation_charges','TrafficViolationCharges'),
             ('other_charges','OtherCharges'),
-            ('extra_hour_charges','AdditionalHourCharges'),
+            ('extra_hours_charges','AdditionalHourCharges'),
             ('extra_km_charges','ExtraKMCharges'),
             ('additional_driver_charges','AdditionalDriverCharges'),
 			]
