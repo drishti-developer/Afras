@@ -25,12 +25,15 @@ from openerp.tools.translate import _
 import datetime
 import urllib
 from xml.dom.minidom import parseString
+import logging
+
+_logger = logging.getLogger('CRMSLOG')
 
 STANDARD_LIST_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><ResponseGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><ERPResponse><ResponseData DataCollectionDate="%(collectiondate)s" ResponseService="%(responsename)s"><ResponseCode>1</ResponseCode><ResponseMessage>SUCCESS</ResponseMessage>%(responsedata)s</ResponseData></ERPResponse></ResponseGroup>"""
 
 VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner',]
 
-CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle']
+CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle', 'crms.daily.revenue']
 
 CURRENCY_LIST = [
 			('id','ERPCurrencyID'),
@@ -245,6 +248,25 @@ DISCOUNT_LIST = [
 			('discount','Discount'),
 			]
 
+DAILY_REVENUE_LIST = [
+			('booking_id','ERPBookingID'),
+			('date','Date'),
+			('open_balance','OpenBalance'),
+			('revenue','Revenue'),
+			('discount','Discount'),
+			('discount_amt','DiscountAmount'),
+			('changed_discount','ChangedDiscount'),
+			('amount_paid','AmountPaid'),
+            ('amount_returned','AmountReturned'),
+            ('admin_expenses','AdminExpenses'),
+            ('damage_charges','DamageCharges'),
+            ('traffic_violation_charges','TrafficViolationCharges'),
+            ('other_charges','OtherCharges'),
+            ('extra_hours_charges','AdditionalHourCharges'),
+            ('extra_km_charges','ExtraKMCharges'),
+            ('additional_driver_charges','AdditionalDriverCharges'),
+			]
+
 def getDataArray(responseDOM, tag, level_1, level_2=False):
     
     responsearray = []
@@ -323,45 +345,46 @@ def generateXML(response_name, browse_record, browse_list):
     response_data = "<%s>"%(response_name)
         
     for browse_value in browse_list:
-    	if browse_value[0] != 'analytic_account_ids':
-	        if isinstance(browse_value[1],tuple):
-	        	new_browse_record = getattr(browse_record, browse_value[0])
-	        	new_browse_value = browse_value[1]
-	        	response_data += "<%s>%s</%s>"%(new_browse_value[1], getattr(new_browse_record, new_browse_value[0]), new_browse_value[1])
-	        else:
-	            response_data += "<%s>%s</%s>"%(browse_value[1], getattr(browse_record, browse_value[0]), browse_value[1])
+        if browse_value[0] != 'analytic_account_ids':
+            if isinstance(browse_value[1],tuple):
+                new_browse_record = getattr(browse_record, browse_value[0])
+                new_browse_value = browse_value[1]
+                response_data += "<%s>%s</%s>"%(new_browse_value[1], getattr(new_browse_record, new_browse_value[0]), new_browse_value[1])
+            else:
+                response_data += "<%s>%s</%s>"%(browse_value[1], getattr(browse_record, browse_value[0]), browse_value[1])
     response_data +="</%s>"%(response_name)
     return response_data
 
 def search_branch(self,cr,uid,car_id,branch_id):
-	acc_obj = self.pool.get('fleet.analytic.account')
-	car_brw = self.pool.get('fleet.vehicle').browse(cr,uid,car_id)
-	date_today = datetime.date.today()
-	current_branch_date = False
-	current_branch_id = False
-	fleet_account_id = False
-	
-	#cr.execute('select id from fleet_analytic_account where date_from = (select max(date_from) from fleet_analytic_account where vehicle_id=%s) and vehicle_id=%s limit 1',(car_id,car_id))
-	#branch_id = cr.fetchone()
-	for ana_acc_id in car_brw.analytic_account_ids:
-		if not current_branch_date:
-			current_branch_date = ana_acc_id.date_from
-			current_branch_id = ana_acc_id.branch_id.id
-			fleet_account_id = ana_acc_id.id
-			
-		elif current_branch_date < ana_acc_id.date_from:
-			current_branch_date = ana_acc_id.date_from
-			current_branch_id = ana_acc_id.branch_id.id
-			fleet_account_id = ana_acc_id.id
-			
-	if current_branch_id:# TODO: Need to put more logic on creating/updating a branch.
-		if current_branch_id != int(branch_id):
-			acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today,'segment':'retail'})
-			acc_obj.write(cr,uid,[fleet_account_id],{'date_to':date_today})
-		
-	else :
-		acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today,'segment':'retail'})
-	return True    
+    acc_obj = self.pool.get('fleet.analytic.account')
+    car_brw = self.pool.get('fleet.vehicle').browse(cr,uid,car_id)
+    date_today = datetime.date.today()
+    current_branch_date = False
+    current_branch_id = False
+    fleet_account_id = False
+
+    #cr.execute('select id from fleet_analytic_account where date_from = (select max(date_from) from fleet_analytic_account where vehicle_id=%s) and vehicle_id=%s limit 1',(car_id,car_id))
+    #branch_id = cr.fetchone()
+    for ana_acc_id in car_brw.analytic_account_ids:
+        if not current_branch_date:
+            current_branch_date = ana_acc_id.date_from
+            current_branch_id = ana_acc_id.branch_id.id
+            fleet_account_id = ana_acc_id.id
+
+        elif current_branch_date < ana_acc_id.date_from:
+            current_branch_date = ana_acc_id.date_from
+            current_branch_id = ana_acc_id.branch_id.id
+            fleet_account_id = ana_acc_id.id
+
+    if current_branch_id:# TODO: Need to put more logic on creating/updating a branch.
+        if current_branch_id != int(branch_id):
+            acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today,'segment':'retail'})
+            acc_obj.write(cr,uid,[fleet_account_id],{'date_to':date_today})
+
+    else :
+        acc_obj.create(cr,uid,{'vehicle_id':car_id,'branch_id':branch_id,'date_from':date_today,'segment':'retail'})
+    
+    return True    
 
 def extend(class_to_extend):
     """
@@ -383,44 +406,44 @@ def extend(class_to_extend):
     return decorator
 
 # Extra ORM Methods
-# Send Response to CRMS for its particular Request.    
+
+# 1.LIST REQUEST (Send Response to CRMS for its particular Request).    
 @extend(Model)
 def ListRequest(self, cr, uid, date_from=False, date_to=False):
     
     return_response = "Invalid Request"
     if self._name in VIEW_CLASS_LIST:
-    	domain = ['|',('crms_id','!=',False),('crms_id','>',0)]    	
-    	browse_list = []
-    	response_name = False
-    	
-    	if self._name == 'res.currency' :
+        domain = ['|',('crms_id','!=',False),('crms_id','>',0)]
+        browse_list = []
+        response_name = False
+        if self._name == 'res.currency':
             response_name = "Currency"
             browse_list = CURRENCY_LIST
-    	elif self._name == 'res.country' :
+        elif self._name == 'res.country' :
             response_name = "Country"
             browse_list = COUNTRY_LIST
-    	elif self._name == 'res.country.state' :
+        elif self._name == 'res.country.state' :
             response_name = "Region"
             browse_list = REGION_LIST
-    	elif self._name == 'res.state.city' :
+        elif self._name == 'res.state.city' :
             response_name = "City"
             browse_list = CITY_LIST
-    	elif self._name == 'res.city.area' :
+        elif self._name == 'res.city.area' :
             response_name = "Area"
             browse_list = AREA_LIST
-    	elif self._name == 'sale.shop' :
+        elif self._name == 'sale.shop' :
             response_name = "Branch"
             browse_list = BRANCH_LIST
-    	elif self._name == 'fleet.vehicle.model.brand' :
+        elif self._name == 'fleet.vehicle.model.brand' :
             response_name = "Manufacturer"
             browse_list = MANUFACTURER_LIST
-    	elif self._name == 'fleet.type' :
+        elif self._name == 'fleet.type' :
             response_name = "CarType"
             browse_list = CARTYPE_LIST
-    	elif self._name == 'fleet.vehicle.model' :
+        elif self._name == 'fleet.vehicle.model' :
             response_name = "Model"
             browse_list = MODEL_LIST
-    	elif self._name == 'fleet.vehicle' :
+        elif self._name == 'fleet.vehicle' :
             browse_list = CAR_LIST
             response_name = "Car"
         elif self._name == 'res.partner' :
@@ -430,11 +453,13 @@ def ListRequest(self, cr, uid, date_from=False, date_to=False):
         elif self._name == 'crms.payment' :
             browse_list = RENTAL_PAYMENT_LIST
             response_name = "RentalPayment"
-    	
-    	if date_from : domain.append(('write_date','>=',date_from))
-    	if date_to : domain.append(('write_date','<=',date_to))
-    	
-    	search_ids = self.search(cr, uid, domain)
+
+        if date_from : domain.append(('write_date','>=',date_from))
+        if date_to : domain.append(('write_date','<=',date_to))
+        
+        _logger.error('List Request from CRMS for %s from:%s to:%s', response_name, str(date_from), str(date_to))
+
+        search_ids = self.search(cr, uid, domain)
         
         response_service = response_name+"ListResponse"
         response_data = ''
@@ -447,10 +472,12 @@ def ListRequest(self, cr, uid, date_from=False, date_to=False):
 #            print response_data
             
         return_response = STANDARD_LIST_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':response_data}
-#     	responseDOM = parseString(return_response) #Parsing the Response
+        _logger.error('List Request Response for %s:- %s', response_name, return_response)
+#         responseDOM = parseString(return_response) #Parsing the Response
 #         print "Response from CRMS:\n",responseDOM.toprettyxml()
     return return_response
 
+# 2.CREATE REQUEST (Create/Update record in OpenERP w.r.t. it's model)
 @extend(Model)
 def CreateRequest(self, cr, uid, data):
     
@@ -466,13 +493,10 @@ def CreateRequest(self, cr, uid, data):
         elif self._name == 'fleet.vehicle':#Car
             response_type = 'Car'
             field_list = CAR_LIST
-#         elif self._name == 'crms.payment.intermediatepayment.history':#Amount Paid History
-#             response_type = 'IntermediatePayment'
-#             field_list = INTERMEDIATE_PAYMENT_LIST
-#         elif self._name == 'crms.payment.discount.history':#Amount Paid History
-#             response_type = 'RentalDiscount'
-#             field_list = DISCOUNT_LIST
-             
+        elif self._name == 'crms.daily.revenue':#Daily Revenue
+            response_type = 'DailyRevenue'
+            field_list = DAILY_REVENUE_LIST
+                         
         response_data = ''
         response_name = response_type+"Response"
         response_service = response_type+"CreateResponse"
@@ -480,69 +504,83 @@ def CreateRequest(self, cr, uid, data):
         data = data.strip()
         data = " ".join(data.split())
         data = data.encode('utf-8')
-        responseDOM = parseString(data)
-        responsearray = getDataArray(responseDOM, 'RequestData', response_type+'List', response_type)       
-        for response in responsearray:
-            response_data += "<%s>"%(response_name)
-            if response_type == 'RentalPayment':
-                crms_id = response.get('CRMSBookingID',False)
-            else:
-                crms_id = response.get('CRMS'+response_type+'ID',False)
-            
-            search_id = self.search(cr,uid,[('crms_id','=',crms_id)]) if crms_id else []
-                
-            record_value = {}
-            payment_id = False
-            for field in field_list:
-                if field[0] not in ['id','current_branch_id']:#skip fields
-                    if field[0] == 'analytic_account_ids' and len(search_id) > 0 and response.get(field[1],False):
-                        search_branch(self,cr,uid,search_id[0],response.get(field[1]))
-                    else :
-                        if isinstance(field[1],tuple):
-                            ext_field = field[1]
-                            if ext_field[0] not in ['crms_id'] and response.get(ext_field[1],False):#skip fields
-                                search_value_id = self.pool.get(ext_field[3]).search(cr,uid,[(ext_field[0],'=',response.get(ext_field[1]))])
-                                record_value[field[0]] = search_value_id and search_value_id[0] or ext_field[2]
-                        elif response.get(field[1],False):
-                            record_value[field[0]] = response.get(field[1],False)
-                            if field[1] == 'CRMSRentalPaymentID':
-                                payment_id = response.get(field[1])
-                
-            try :
-                msg = 'SUCCESS'
-                record_id = 0
-                if len(search_id) == 0 and record_value:
-                    record_id = self.create(cr,uid,record_value,{'mail_create_nosubscribe':True,'crms_create':True})
-                elif len(search_id) > 0 and record_value:
-                    self.write(cr,uid,search_id,record_value)
-                    record_id = search_id[0]
-                else:
-                    msg = 'FAILURE - CRMSID NOT FOUND'
+        _logger.info('Create Request from CRMS for %s :- %s', response_name, data)
+        try :
+            responseDOM = parseString(data)
+            responsearray = getDataArray(responseDOM, 'RequestData', response_type+'List', response_type)       
+            for response in responsearray:
+                response_data += "<%s>"%(response_name)
+                if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
+
+                elif response_type != 'DailyRevenue': crms_id = response.get('CRMS'+response_type+'ID',False)
+
+                if response_type == 'DailyRevenue' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('date','=',response.get('Date'))])
+
+                elif crms_id : search_id = self.search(cr,uid,[('crms_id','=',int(crms_id))])
+
+                else : search_id = []
+
+                record_value = {}
+                payment_id = False
+                for field in field_list:
+                    if field[0] not in ['id','current_branch_id']:#skip fields
+                        if field[0] == 'analytic_account_ids' and len(search_id) > 0 and response.get(field[1],False):
+                            search_branch(self,cr,uid,search_id[0],response.get(field[1]))
+                        else :
+                            if isinstance(field[1],tuple):
+                                ext_field = field[1]
+                                if ext_field[0] not in ['crms_id'] and response.get(ext_field[1],False):#skip fields
+                                    search_value_id = self.pool.get(ext_field[3]).search(cr,uid,[(ext_field[0],'=',response.get(ext_field[1]))])
+                                    record_value[field[0]] = search_value_id and search_value_id[0] or ext_field[2]
+                            elif response.get(field[1],False) :
+                                record_value[field[0]] = response.get(field[1],False)
+                                if field[1] == 'CRMSRentalPaymentID' :  payment_id = response.get(field[1])
+
+                try :
+                    msg = 'SUCCESS'
+                    record_id = 0
+                    #creating record.
+                    if len(search_id) == 0 and record_value : record_id = self.create(cr,uid,record_value,{'mail_create_nosubscribe':True,'crms_create':True})
                     
-                if response_type == 'RentalPayment':
-                    if payment_id:
-                        cr.execute('select id from crms_payment_intermediatepayment_history where crms_id=%s',(payment_id,))
-                        record_id = cr.fetchone()
-                        response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id and record_id[0] or 0, 'ERP'+response_type+'ID')
-                        response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', payment_id, 'CRMS'+response_type+'ID')
-                        
-                    else:
-                        response_data += "<%s>%s</%s>"%('CRMSBookingID', crms_id or 0, 'CRMSBookingID')
-                        response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
-                        
-                else:    
-                    response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id or 0, 'CRMS'+response_type+'ID')
-                    response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                    #updating record.
+                    elif len(search_id) > 0 and record_value:
+                        self.write(cr,uid,search_id,record_value)
+                        record_id = search_id[0]
                     
-                response_data += "<RecordStatus>%s</RecordStatus>"%(msg)
+                    #if search condition is not matching with the either of the condition then FAILURE msg will be send.
+                    else:msg = 'FAILURE'
+    
+                    if response_type == 'RentalPayment' :
+                        if payment_id :
+                            response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
+                            cr.execute('select id from crms_payment_intermediatepayment_history where crms_id=%s',(payment_id,))
+                            record_id = cr.fetchone()
+                            response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id and record_id[0] or 0, 'ERP'+response_type+'ID')
+                            response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', payment_id, 'CRMS'+response_type+'ID')
+                        else :
+                            response_data += "<%s>%s</%s>"%('CRMSBookingID', crms_id or 0, 'CRMSBookingID')
+                            response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
+                            
+                    elif response_type == 'DailyRevenue' : response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
                     
-            except Exception ,e:
-                response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
-                response_data += "<RecordStatus>%s</RecordStatus>"%(e)
-                
-            response_data += "</%s>"%(response_name)
-        
-        return_response = STANDARD_LIST_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':response_data}     
-#         responseDOM = parseString(return_response) #Parsing the Response
-#         print "Response from ERP:\n",responseDOM.toprettyxml()
+                    else :    
+                        response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id or 0, 'CRMS'+response_type+'ID')
+                        response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                    
+                    response_data += "<RecordStatus>%s</RecordStatus>"%(msg)
+                    
+                except Exception ,e:
+                    response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
+                    response_data += "<RecordStatus>%s</RecordStatus>"%(e)
+
+                response_data += "</%s>"%(response_name)
+
+            return_response = STANDARD_LIST_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':response_data}
+            _logger.info('Return Response for %s :- %s', response_name, return_response)
+# 	        responseDOM = parseString(return_response) #Parsing the Response
+# 	        print "Response from ERP:\n",responseDOM.toprettyxml()
+        except Exception ,e:
+            _logger.error('Error Occured while processing the %s request:- %s', response_type, e)
+            return_response = "Invalid Request"
+
     return return_response

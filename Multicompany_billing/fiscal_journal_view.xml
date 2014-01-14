@@ -83,7 +83,7 @@
                                 domain="[('customer', '=', True)]"/>
                </xpath>
                <xpath expr="/form/sheet/group/group/field[@name='fiscal_position']" position="replace">
-            	     <field name="fiscal_position"  domain="[('company_id', '=', company_id)]" attrs="{'required':[('fiscal_type','!=',False)]}"  on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
+            	     <field name="fiscal_position"  domain="[('company_id', '=', company_id),('type', '=',fiscal_type )]" attrs="{'required':[('fiscal_type','!=',False)]}"  on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
                </xpath>
                  <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
 				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
@@ -129,7 +129,7 @@
                                                    
             
                <xpath expr="/form/sheet/group/group/field[@name='fiscal_position']" position="replace">
-            	     <field name="fiscal_position"  domain="[('company_id', '=', company_id)]" attrs="{'required':[('fiscal_type','!=',False)]}" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
+            	     <field name="fiscal_position"  domain="[('company_id', '=', company_id),('type', '=',fiscal_type )]" attrs="{'required':[('fiscal_type','!=',False)]}" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)"/>
                </xpath>
                  <xpath expr="/form/sheet/group/group/field[@name='journal_id']" position="replace">
 				   <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id,fiscal_position,fiscal_type,partner_id, context)" options='{"no_open":True}' invisible="context.get('journal_id',False)" domain="[('company_id', '=', company_id)]"/>
