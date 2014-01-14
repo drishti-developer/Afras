@@ -508,7 +508,7 @@ class account_invoice(osv.osv):
             else:
                   fiscal_type = False   
             fiscal_id =  acc_fiscal_posi.search(cr,uid, [('type','=',fiscal_type),('company_id','=',user_obj.company_id.id)])
-            if fiscal_id:
+            if fiscal_type and fiscal_id:
                       fiscal_position = fiscal_id[0]
                    
         result = {'value': {
