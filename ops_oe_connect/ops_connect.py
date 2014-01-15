@@ -432,7 +432,7 @@ class res_country(osv.osv):
               'ops_id':fields.integer('OPS Country ID',readonly=True),
               
               } 
-    def ViewRecord(self,cr,uid):
+    def ListRecord(self,cr,uid):
         res=[]
         dict={}
         country_obj=self.pool.get('res.country')
@@ -474,7 +474,7 @@ class res_country_state(osv.osv):
                'ops_id':fields.integer('OPS Region ID',readonly=True),
                
                }
-    def ViewRecord(self,cr,uid):
+    def ListRecord(self,cr,uid):
         res=[]
         dict={}
         region_obj=self.pool.get('res.country.state')
@@ -501,13 +501,22 @@ class res_country_state(osv.osv):
                     self.pool.get('res.country.state').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
         return True
     
+city_dict={
+            'CITYNAME':'name',
+              'CITYNAMEARABIC':'arabic_name',
+              'CITYCODE':'code',
+              'CITYOPSID':'ops_id',
+              'COUNTRYERPID':'country_id',
+              'REGIONERPID':'state_id',
+           
+           }
 class res_state_city(osv.osv):
     _inherit='res.state.city'
     _columns={
               'ops_id':fields.integer('OPS City ID',readonly=True),
               }
     
-    def ViewRecord(self,cr,uid):
+    def ListRecord(self,cr,uid):
         res=[]
         dict={}
         region_obj=self.pool.get('res.state.city')
@@ -536,16 +545,7 @@ class res_state_city(osv.osv):
             if vals.get('ERPID',False) and vals.get('OPSID',False):
                     self.pool.get('res.state.city').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
         return True
-    def CreateRecord(self, cr, uid, vals, context=None):
-        dic = {  }
-        
-        if vals.get('COUNTRYERPID',False) and vals.get('REGIONERPID',False) and vals.get('CITYNAME',False):
-            city_id=self.search(cr,uid,[('name','=',vals['CITYNAME']),('country_id','=',vals['COUNTRYERPID']),('region_id','=',vals['REGIONERPID'])])
-            if vals.get('CITYNAMEARABIC',False) and vals.get('CITYCODE',False) and not city_id:
-                self.create(cr,uid,ids,vals)
-            
-            
-        return True
+    
             
             
             
