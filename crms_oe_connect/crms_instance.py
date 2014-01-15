@@ -1,8 +1,6 @@
-from openerp.osv import fields, osv, orm
-from openerp.tools.translate import _
+from openerp.osv import fields, osv
 import datetime
-import urllib
-from xml.dom.minidom import parse, parseString
+#from xml.dom.minidom import parse, parseString
 from crms_osv import Call
 import crms_osv
 
@@ -697,7 +695,7 @@ class crms_instance(osv.osv):
             if partner_id:
                 partner_obj.write(cr,uid,partner_id[0],vals)
             else:
-                new_partner_id = partner_obj.create(cr,uid,vals)
+                partner_obj.create(cr,uid,vals)
                
         
         self.write(cr, uid, ids, {'last_customer_exported_date':datetime.datetime.today()}) #Updating the Date
