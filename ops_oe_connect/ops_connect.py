@@ -61,12 +61,72 @@ SUPPLIER_LIST = {
            
             }
 
+PURCHASE_ORDER_DIC={
+           'PURCHASEORDERNO':'ops_order_id',  #ops_id
+           'PURCHASEDATE':'date_order',
+           'PURCHASEMETHOD':'invoice_method',
+           'VENDORNO':'partner_id',
+           
+           'PROJECTCODE':'PROJECTCODE',
+           'PURCHASETYPE':'purchase_type',
+           'LOCATIONSERIALCOUNTER':'location_serialcounter',
+           
+           'QUOTATIONNUMBER':'partner_ref',
+           'RECORDSTATUS':'state',
+           
 
+
+           'PAYMENTSTATUS':'',
+           'TOTALAMOUNT':'po_amount',
+           'DISCOUNTACT':'discount_type',
+           'SERVICEACT':'service_type',
+           'DEDUCTIONACT':'deduction_type',
+           'DISCOUNTAMOUNT':'discount_amt',
+           'DEDUCTIONAMOUNT':'deduction_amt',
+           'SERVICEAMOUNT':'service_amt',
+           'NETAMOUNT':'amount_total',
+           'EXPENSETYPE':'revenue_type',
+           'REIMBURSESTATUS':'reimurses_status',
+           'REIMBURSECOMMAMOUNT':'reimurses_com_amt',
+           'REIMBURSABLEAMOUNT':'reimurses_total_amt',
+          
+           'INVOICENUMBER':'origin',
+           'INSTALLMENTS':'',
+           'SQLREFERENCENO':'',
+           'VENDORSTATUS':'',
+           'REPORTCOUNT':'',
+           'VENDORUPDATEDDATE':'',
+           'ISMANUALPURCHASE':'',
+            'DESC3':'',
+           'DESC2':'',
+           'DESC1':'',
+           'PRricelist_id':'pricelist_id',
+           'product_id':'product_id',
+           'order_line':'order_line'
+   }
+
+           
+PURCHASE_ORDER_LINE_DICT = {
+                            'PURCHASEORDERNO': '' ,
+                            'PURCHASEDETAILID': '',
+                            'QUOTATIONNUMBER': '' ,
+                            'RECORDSTATUS': '',
+                            'REQUESTNO' : '',
+                            'REQUESTDETAILID' : '',
+                            'ITEMPRICE' : '',
+                             'ITEMTOTAL' : '',
+                             'UNITDISCOUNT' : '',
+                             'VENDORSTATUS' :'',
+                             'ADDITIONAL_CHARGE' : '',
+                             'QUANTITY' : '',
+                             'QDETNO' : '',
+                            }   
+        
 class product_category(osv.osv):
     _inherit = "product.category"
     _columns={
                 'ops_code':fields.integer('OPS Code'),
-                'name_arabic':fields.char('Arbic Name',size=64),       
+                'name_arabic':fields.char('Arabic Name',size=64),       
              }
     
     def CreateRecord(self, cr, uid, vals, context=None):
@@ -74,14 +134,16 @@ class product_category(osv.osv):
         
         for key,value in vals.iteritems():
             dic[PRODUCT_CATEGORY_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
-           
-        category_id = self.search(cr, uid, [('ops_code','=',dic['ops_code'])])
         
-        if category_id:
-            self.write(cr,uid,category_id[0],dic)
+        if dic.get('ops_code',False):   
+            category_id = self.search(cr, uid, [('ops_code','=',dic['ops_code'])])
+            if category_id:
+                self.write(cr,uid,category_id[0],dic)
+            else:
+                category_id = [self.create(cr,uid,dic)]
+            return category_id[0]
         else:
-            category_id = [self.create(cr,uid,dic)]
-        return category_id[0]
+            return False
 
 product_category()
 
@@ -109,18 +171,17 @@ class product_product(osv.osv):
         
         for key,value in vals.iteritems():
             dic[PRODUCT_LIST.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
-        
-        category_id = categ_obj.search(cr, uid, [('ops_code','=',dic['categ_id'])])
-        if category_id:
-            dic['categ_id'] = category_id[0]
-            product_id = self.search(cr, uid,[('ops_code','=',dic['ops_code'])] )
-            if product_id:
-                self.write(cr,uid,product_id[0],dic)
-            else:
-                product_id = [self.create(cr,uid,dic)]
-            return product_id  
-         
-        return False
+        if dic.get('ops_code',False) and dic.get('categ_id',False):
+            category_id = categ_obj.search(cr, uid, [('ops_code','=',dic['categ_id'])])
+            if category_id:
+                dic['categ_id'] = category_id[0]
+                product_id = self.search(cr, uid,[('ops_code','=',dic['ops_code'])] )
+                product_id = self.write(cr,uid,product_id[0],dic) and product_id[0] \
+                                 if product_id else self.create(cr,uid,dic)
+                return product_id
+            return False  
+        else:    
+            return False
     
 product_product()
 
@@ -158,10 +219,15 @@ class res_partner(osv.osv):
         if dic.get('ops_code',False):
             partner_id = partner_obj.search(cr, uid, [('ops_code','=',dic['ops_code'])])
             
+            
             #Assuming country is created in OpenERP and same name is available in OPS. OPS Should use either name(English) or code of the country
+            # Country OPS ID
             # Please confirm whether Region will pass as Arabic or English or both
-            # Need to confirm from OPS whether we need to create Region in OpenERP or not if state not available 
+            # Region OPS ID
+            # Need to confirm from OPS whether we need to create Region in OpenERP or not if state not available
+            #  
             # If we need to create then we must need state code also because code is a required field
+            
             if dic.get('country_id',False):
                 name_domain = [('name','=',dic['country_id'])]
                 code_domain = [('code','=',dic['country_id'])]
@@ -285,12 +351,67 @@ class purchase_requisition(osv.osv):
     
     _columns={
               'analytic_id':fields.many2one('account.analytic.account','Cost Center'),
-              'ops_id':fields.integer('Request No'),
+              'ops_id':fields.integer('OPS Request No'),
               'rmrnumber':fields.char('Revenue ref Number',size=64),
               
               'location_serial_counter':fields.char('Location Serial Counter'),
               'project_code':fields.char('Project Code'),
               'is_budget':fields.boolean('Is Budget')
               }
-
+    
+    def CreateRecord(self, cr, uid, vals, context=None):
+        dic = { 'exclusive' : 'exclusive',
+               }
+        
+        analytic_obj=self.pool.get('account.analytic.account')
+        for key,value in vals.iteritems():
+            dic[MATERIAL_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
+        dic['name'] = dic['ops_id']
+        if dic['project_code'] :
+            if dic['location_serial_counter'] :
+                ref = str(dic['project_code']) + '0'*(3-len(str(dic['location_serial_counter']))) + str(dic['location_serial_counter'])
+            else:
+                ref =  str(dic['project_code'])
+            # Assuming Project already available in analytic account otherwise we will not create and pass as False    
+            dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
+                      
+        requisition_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
+        requisition_id = self.write(cr,uid,requisition_id[0],dic) and requisition_id[0] \
+                                 if requisition_id else self.create(cr,uid,dic)
+        
+        return requisition_id  
+         
+    
 purchase_requisition()
+
+class purchase_requisition_line(osv.osv):
+    _inherit = "purchase.requisition.line"
+    
+    _columns={
+              'description' : fields.char('Description',size=64),
+              'ops_id':fields.integer('OPS Request Detail ID'),
+              }
+    
+    
+    def CreateRecord(self, cr, uid, vals, context=None):
+        dic = {  }
+        requisition_obj=self.pool.get('purchase.requisition')
+        product_obj=self.pool.get('product.product')
+        
+        for key,value in vals.iteritems():
+            dic[MATERIAL_LINE_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
+        requisition_id = requisition_obj.search(cr, uid, [('ops_id','=',dic['requisition_id'])])
+        product_id = product_obj.search(cr, uid, [('ops_code','=',dic['product_id'])])
+        if requisition_id and product_id:
+            dic['requisition_id'] = requisition_id[0]
+            dic['product_id'] = product_id[0]
+            requisition_line_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
+            requisition_line_id = self.write(cr,uid,requisition_line_id[0],dic) and requisition_line_id[0] \
+                                 if requisition_line_id else self.create(cr,uid,dic)
+            return requisition_line_id                     
+        else:
+            return False
+        
+        
+
+    

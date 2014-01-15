@@ -139,16 +139,18 @@
 		        <field name="model">purchase.requisition</field>
 		        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"></field>
 		        <field name="arch" type="xml">
-					<group>
+					<xpath expr="/form/sheet/notebook/page[@string='Products']" position="after">
+					<page string="OPS Details">
 					<group col="4" colspan="2">
 			        	<field name="analytic_id"/>
-			        	<field name="ops_requestno"/>
+			        	<field name="ops_id"/>
 			        	<field name="rmrnumber"/>
-			        	<field name="location_serial_number"/>
+			        	<field name="location_serial_counter"/>
 			        	<field name="project_code"/>
 			        	<field name="is_budget"/>
 			        	</group>
-			        </group>
+			        </page>
+			        </xpath>
 		        </field>
 		</record>
 		        
