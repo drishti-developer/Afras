@@ -68,7 +68,8 @@ supplier_data = {
 'ACCOUNTNO':'108009491260017',
 'BRANCH':'324',
 'IBAN':'108009491260017',
-}SA3630400
+} 
+SA3630400
 
 
 #partner_id = sock.execute(dbname, uid, pwd, model, 'CreateRecord', supplier_data)            

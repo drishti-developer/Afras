@@ -412,6 +412,144 @@ class purchase_requisition_line(osv.osv):
         else:
             return False
         
-        
 
+#COUNTRY_LIST_DIC = {
+#            'ERPID':'id',
+#            'NAME':'name',
+#            'NAMEARABIC':'arabic_name',
+#            'CODE':'code',
+#            'CALLINGCODE':'calling_code',
+#            'CURRENCYCODE':'currency_id',
+#            }
+
+COUNTRY_DIC={
+            'ERPID':'1',
+            'OPSID':'5',
+            }
+class res_country(osv.osv):
+    _inherit='res.country'
+    _columns={
+              'ops_id':fields.integer('OPS Country ID',readonly=True),
+              
+              } 
+    def ViewRecord(self,cr,uid):
+        res=[]
+        dict={}
+        country_obj=self.pool.get('res.country')
+        country_ids=country_obj.search(cr,uid,[])
+        for val in country_obj.browse(cr,uid,country_ids):
+            #dict={}
+            #for key,value in COUNTRY_LIST_DIC.iteritems():
+                #print val
+                #print "key valu=================",key,getattr(val,value)
+                #if isinstance(value, (object,record)):
+                 #   value=value.id
+                #dict.update({key:getattr(val,value)})
+                #dic[COUNTRY_LIST_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
+            
+            dict={
+                  'ERPID':val.id,
+                  'NAME':val.name,
+                  'NAMEARABIC':(val.arabic_name.encode('utf-8')),
+                  'CODE':val.code,
+                  'CALLINGCODE':val.calling_code,
+                  'CURRENCYCODE':val.currency_id.id,
+                  }
+            res.append(dict)
+        return res
     
+    def UpdateRecord(self,cr,uid,vals):
+        if isinstance(vals,(list,tuple)):
+            for dict in vals:
+                if dict.get('ERPID',False) and dict.get('OPSID',False):
+                    self.pool.get('res.country').write(cr,uid,[dict['ERPID']],{'ops_id':dict['OPSID']})
+        else:
+            if vals.get('ERPID',False) and vals.get('OPSID',False):
+                    self.pool.get('res.country').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
+        return True
+
+class res_country_state(osv.osv):
+    _inherit='res.country.state'
+    _columns={
+               'ops_id':fields.integer('OPS Region ID',readonly=True),
+               
+               }
+    def ViewRecord(self,cr,uid):
+        res=[]
+        dict={}
+        region_obj=self.pool.get('res.country.state')
+        for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
+#assuming country ops code is updated in ERP
+            if val.country_id.ops_id >0:
+                dict={
+                      'ERPID':val.id,
+                      'REGIONNAME':val.name,
+                      'REGIONCODE':val.code,
+                      'COUNTRYOPSID':val.country_id.ops_id,
+                      'COUNTRYERPID':val.country_id.id,
+                      }
+                res.append(dict)
+        return res
+    
+    def UpdateRecord(self,cr,uid,vals):
+        if isinstance(vals,(list,tuple)):
+            for dict in vals:
+                if dict.get('ERPID',False) and dict.get('OPSID',False):
+                    self.pool.get('res.country.state').write(cr,uid,[dict['ERPID']],{'ops_id':dict['OPSID']})
+        else:
+            if vals.get('ERPID',False) and vals.get('OPSID',False):
+                    self.pool.get('res.country.state').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
+        return True
+    
+class res_state_city(osv.osv):
+    _inherit='res.state.city'
+    _columns={
+              'ops_id':fields.integer('OPS City ID',readonly=True),
+              }
+    
+    def ViewRecord(self,cr,uid):
+        res=[]
+        dict={}
+        region_obj=self.pool.get('res.state.city')
+        for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
+#assuming country ops code and region ops code is updated in ERP
+            if val.country_id.ops_id >0 and val.state_id.ops_id > 0:
+                dict={
+                      'ERPID':val.id,
+                      'CITYNAME':val.name,
+                      'CITYNAMEARABIC':val.arabic_name,
+                      'CITYCODE':val.code,
+                      'COUNTRYOPSID':val.country_id.ops_id,
+                      'COUNTRYERPID':val.country_id.id,
+                      'REGIONOPSID':val.state_id.ops_id,
+                      'REGIONERPID':val.state_id.id,
+                      }
+                res.append(dict)
+        return res
+    
+    def UpdateRecord(self,cr,uid,vals):
+        if isinstance(vals,(list,tuple)):
+            for dict in vals:
+                if dict.get('ERPID',False) and dict.get('OPSID',False):
+                    self.pool.get('res.state.city').write(cr,uid,[dict['ERPID']],{'ops_id':dict['OPSID']})
+        else:
+            if vals.get('ERPID',False) and vals.get('OPSID',False):
+                    self.pool.get('res.state.city').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
+        return True
+    def CreateRecord(self, cr, uid, vals, context=None):
+        dic = {  }
+        
+        if vals.get('COUNTRYERPID',False) and vals.get('REGIONERPID',False) and vals.get('CITYNAME',False):
+            city_id=self.search(cr,uid,[('name','=',vals['CITYNAME']),('country_id','=',vals['COUNTRYERPID']),('region_id','=',vals['REGIONERPID'])])
+            if vals.get('CITYNAMEARABIC',False) and vals.get('CITYCODE',False) and not city_id:
+                self.create(cr,uid,ids,vals)
+            
+            
+        return True
+            
+            
+            
+            
+            
+            
+        return True
