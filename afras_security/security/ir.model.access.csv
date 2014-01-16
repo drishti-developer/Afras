@@ -561,7 +561,7 @@ group_all_companies_user_new_559,account.asset.category,account_asset.model_acco
 group_all_companies_user_new_560,account.asset.asset,account_asset.model_account_asset_asset,group_readonly,1,0,0,0
 group_all_companies_user_new_561,account.asset.history,account_asset.model_account_asset_history,group_readonly,1,0,0,0
 group_all_companies_user_new_562,account.asset.depreciation.line,account_asset.model_account_asset_depreciation_line,group_readonly,1,0,0,0
-group_all_companies_user_new_563,account.asset.depreciation.line,account_asset.model_account_asset_depreciation_line,group_readonly,1,0,0,0
+group_all_companies_user_new_563,account.asset.depreciation.line,account_asset.model_account_asset_depreciation_line,group_user_access,1,1,1,1
 group_all_companies_user_new_564,asset.asset.report,account_asset.model_asset_asset_report,group_readonly,1,0,0,0
 group_all_companies_user_new_565,asset.asset.report,account_asset.model_asset_asset_report,group_readonly,1,0,0,0
 group_all_companies_user_new_566,hr.employee.category.user,hr.model_hr_employee_category,group_readonly,1,0,0,0
@@ -823,3 +823,4 @@ access_revenue_report_line_id,revenue.report.line,afras_revenue_report.model_rev
 ,account.fiscal.journal,Multicompany_billing.model_account_fiscal_journal,,1,1,1,1
 ,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,,1,1,1,1
 ,supplier.account.invoice,Multicompany_billing.model_supplier_account_invoice,,1,1,1,1
+group_all_companies_user_new_557,account.asset.asset,account_asset.model_account_asset_asset,group_user_access,1,1,1,1

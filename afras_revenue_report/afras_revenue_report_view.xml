@@ -77,7 +77,7 @@
 			action='action_view_revenue_report_form' 
 			name='Revenue Report' 
 			parent='account.menu_finance_receivables'
-			groups="group_afras_revenue_report_user"
+			groups="afras_security.group_afras_revenue_report_user"
         	sequence='6'/> 
 	</data>
 </openerp> 
