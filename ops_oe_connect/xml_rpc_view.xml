@@ -139,18 +139,62 @@
 		        <field name="model">purchase.requisition</field>
 		        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"></field>
 		        <field name="arch" type="xml">
-					<group>
+					<xpath expr="/form/sheet/notebook/page[@string='Products']" position="after">
+					<page string="OPS Details">
 					<group col="4" colspan="2">
 			        	<field name="analytic_id"/>
-			        	<field name="ops_requestno"/>
+			        	<field name="ops_id"/>
 			        	<field name="rmrnumber"/>
-			        	<field name="location_serial_number"/>
+			        	<field name="location_serial_counter"/>
 			        	<field name="project_code"/>
 			        	<field name="is_budget"/>
 			        	</group>
-			        </group>
+			        </page>
+			        </xpath>
 		        </field>
 		</record>
+		
+		
+		
+		<record id="view_country_form_inht12" model="ir.ui.view">
+			<field name="name">res.country.form.inht</field>
+			<field name="model">res.country</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="base.view_country_form" />
+			<field name="arch" type="xml">
+				
+				<field name="code" position="after">
+					<field name="ops_id" />
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_country_state_form_inht12" model="ir.ui.view">
+			<field name="name">res.country.state.form.inherit</field>
+			<field name="model">res.country.state</field>
+			<field eval="8" name="priority" />
+			<field name="inherit_id" ref="base.view_country_state_form" />
+			<field name="arch" type="xml">
+				<field name="country_id" position="before">
+					<field name="ops_id" readonly="1"/>
+				</field>		
+			</field>
+		</record>
+		
+		<record id="view_res_state_city_inht123" model="ir.ui.view">
+			<field name="name">res.state.city.form.inht</field>
+			<field name="model">res.state.city</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="drishti_crms.view_res_state_city_form" />
+			<field name="arch" type="xml">
+				<field name="country_id" position="after">
+					<field name="ops_id" readonly="1"/>
+				</field>
+			</field>
+		</record>
+		
+		
+		
 		        
                 
 </data>

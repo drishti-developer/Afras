@@ -7,8 +7,6 @@
     'website': 'http://www.drishtitech.com',
     'depends': ['base','account'],
     'data': [
-         'security/revenue_report_security.xml', 
-         'security/ir.model.access.csv',
          'afras_revenue_report_view.xml',
          'report_sequence.xml',
          ],

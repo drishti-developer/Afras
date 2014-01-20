@@ -1,4 +1,4 @@
-#Tue Dec 31 11:46:52 IST 2013
+#Wed Jan 15 12:10:59 IST 2014
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
 >>>>>>>=397f82cbbbe4ae27728c9ae490e5f923df2115a9
@@ -24,6 +24,7 @@ encoding//import_afras_data/wizard/import_data.py=utf-8
 encoding//import_attendance/__init__.py=utf-8
 encoding//import_attendance/__openerp__.py=utf-8
 encoding//import_attendance/wizard/__init__.py=utf-8
+encoding//ops_oe_connect/document/xml_rpc.py=utf-8
 encoding//smile_multi_company_billing/invoice.py=utf-8
 encoding//smile_multi_company_billing/partner.py=utf-8
 encoding//smile_multi_company_billing/res_company.py=utf-8

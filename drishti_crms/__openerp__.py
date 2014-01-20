@@ -40,8 +40,6 @@
                 'auth_ldap'
                 ],
     'data': [
-               'security/company_security.xml',
-               'security/ir.model.access.csv',
                'account_asset_view.xml',  
                'account_view.xml',
                'account_voucher_change_view.xml',
