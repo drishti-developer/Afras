@@ -105,7 +105,7 @@ class crms_payment(osv.osv):
         return super(crms_payment, self).create(cr, uid, data, context=context)
     
     def write(self, cr, uid, ids, vals, context={}):
-        
+        print vals,context
         #date = datetime.datetime.today()
         crms_payment_brw = self.browse(cr, uid, ids[0])
         
