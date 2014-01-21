@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <document filename="Asset Report.pdf">
-<template pageSize="(842.0,595.0)" title="Test" author="Martin Simon" allowSplitting="20">
+<template pageSize="(842.0,585.0)" title="Test" author="Martin Simon" allowSplitting="20">
     <pageTemplate id="first">
       <frame id="first" x1="57.0" y1="57.0" width="728.0" height="481.0"/>
-    </pageTemplate>
+     </pageTemplate>
   </template>
-  <stylesheet>
+ <stylesheet>
   <blockTableStyle id="Standard_Outline">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
@@ -41,7 +41,7 @@
       <lineStyle kind="LINEBELOW" colorName="#000000" start="8,-1" stop="8,-1"/>
     </blockTableStyle>
     <blockTableStyle id="Table_Order_Pur_line_Content">
-      <blockAlignment value="RIGHT"/>
+      <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
       <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,-1" stop="0,-1"/>
       <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="1,-1" stop="1,-1"/>
@@ -169,7 +169,8 @@
       </tr>
     </blockTable>
   </pto_header>
-   <blockTable colWidths="40.0,80.0,81.0,81.0,81.0,81.0,80.0,90.0,81.0" style="Table_Header_Pur_ord_Line">
+  
+  <blockTable colWidths="40.0,80.0,81.0,81.0,81.0,81.0,80.0,90.0,81.0" style="Table_Header_Pur_ord_Line">
       <tr>
         <td>
           <para style="terp_tblheader_General"><b>Sr.No</b></para>
@@ -200,6 +201,7 @@
         </td>
       </tr>
     </blockTable>
+  
    <section>
       <para style="terp_default_1">[[repeatIn(get_category(data),'line')]]</para>
    <blockTable colWidths="40.0,80.0,81.0,81.0,81.0,81.0,80.0,90.0,81.0" style="Table8">
@@ -236,7 +238,7 @@
         </td>
         </tr>
     </blockTable>
-   </section>   
+   </section>
    <section>  
 <blockTable colWidths="40.0,80.0,81.0,81.0,81.0,81.0,80.0,90.0,81.0" style="Table_All_Total_Detail">
       <tr>
@@ -269,14 +271,13 @@
         </td>
         </tr>
     </blockTable>
-   </section>     
-   <para style="terp_default_8">
-      <font color="white"> </font>
-    </para>
-   </pto>
+   </section>   
+   </pto> 
     <para style="P11" leftIndent="15" bulletIndent="0">
               <bullet><seqReset id='plan'/></bullet>
               <font color="white"> </font>
-          </para>
+          </para> 
+   
+  
   </story>
 </document>

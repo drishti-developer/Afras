@@ -11,6 +11,7 @@ class account_asset_asset_report(report_sxw.rml_parse):
                               'get_category':self.get_category,
                               'get_total':self.get_total,
                               'get_headtable':self.get_headtable,
+                              'time':time,
                                   })
     def get_total(self,data):
         dic={}
@@ -129,6 +130,6 @@ class account_asset_asset_report(report_sxw.rml_parse):
             
         
 
-report_sxw.report_sxw('report.account_asset_asset_report', 'account.asset.asset.wiz','asset_report/report/asset.rml', parser=account_asset_asset_report)
+report_sxw.report_sxw('report.account_asset_asset_report', 'account.asset.asset.wiz','asset_report/report/asset.rml',parser=account_asset_asset_report,header=False)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

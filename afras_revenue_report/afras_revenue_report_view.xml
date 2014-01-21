@@ -70,7 +70,7 @@
 			<field name='view_mode'>tree,form</field>
 		</record>
 		
-		<!--Menu to execute the above action in order to open the form view of pnl model-->
+		<!--Menu to execute the abgoove action in order to open the form view of pnl model-->
 		
 		<menuitem 
 			id='menu_action_view_revenue_report_form' 

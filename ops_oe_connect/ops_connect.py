@@ -1,5 +1,18 @@
 from openerp.osv import fields, osv
+import openerp.addons.decimal_precision as dp
+from openerp import pooler
+from openerp.tools.translate import _
+import datetime
+from openerp import netsvc
 
+
+
+class location_setting(osv.osv):
+    _name='location.setting'
+    _columns={
+              'name':fields.char('Location Name'),
+              'location_id':fields.many2one('stock.location','Location'),
+              }
 
 PRODUCT_CATEGORY_DIC = {
                 'CATEGORYCODE':'ops_code',
@@ -69,7 +82,7 @@ PURCHASE_ORDER_DIC={
            
            'PROJECTCODE':'PROJECTCODE',
            'PURCHASETYPE':'purchase_type',
-           'LOCATIONSERIALCOUNTER':'location_serialcounter',
+           'LOCATIONSERIALCOUNTER':'location_serial_counter',
            
            'QUOTATIONNUMBER':'partner_ref',
            'RECORDSTATUS':'state',
@@ -156,7 +169,7 @@ class product_product(osv.osv):
             'ops_code':fields.integer('OPS Code'),
             'name_arabic':fields.char('Arbic Name',size=64),
             
-}
+            }
                 
     def CreateRecord(self, cr, uid, vals, context=None):
         
@@ -395,17 +408,21 @@ class purchase_requisition_line(osv.osv):
     
     def CreateRecord(self, cr, uid, vals, context=None):
         dic = {  }
+        print "create=======",vals
         requisition_obj=self.pool.get('purchase.requisition')
         product_obj=self.pool.get('product.product')
         
         for key,value in vals.iteritems():
             dic[MATERIAL_LINE_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
         requisition_id = requisition_obj.search(cr, uid, [('ops_id','=',dic['requisition_id'])])
+        print 'requisition_id======',requisition_id
         product_id = product_obj.search(cr, uid, [('ops_code','=',dic['product_id'])])
+        print "product id",product_id
         if requisition_id and product_id:
             dic['requisition_id'] = requisition_id[0]
             dic['product_id'] = product_id[0]
             requisition_line_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
+            print 'requisition_line_id======',requisition_line_id
             requisition_line_id = self.write(cr,uid,requisition_line_id[0],dic) and requisition_line_id[0] \
                                  if requisition_line_id else self.create(cr,uid,dic)
             return requisition_line_id                     
@@ -545,11 +562,228 @@ class res_state_city(osv.osv):
             if vals.get('ERPID',False) and vals.get('OPSID',False):
                     self.pool.get('res.state.city').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
         return True
+
+
+class res_bank(osv.osv):
+    _inherit='res.bank'
+    _columns={
+              'ops_id':fields.char('Bank OPS ID'),
+              }
+    def ListRecord(self,cr,uid):
+        res=[]
+        dict={}
+        region_obj=self.pool.get('res.bank')
+        for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
+#assuming country ops code and region ops code is updated in ERP
+                dict={
+                      'ERPID':val.id,
+                      'BANKNAME':val.name,
+                      'BANKBIC':val.bic,
+                      }
+                res.append(dict)
+        return res
     
+    def UpdateRecord(self,cr,uid,vals):
+        if isinstance(vals,(list,tuple)):
+            for dict in vals:
+                if dict.get('ERPID',False) and dict.get('OPSID',False):
+                    self.pool.get('res.bank').write(cr,uid,[dict['ERPID']],{'ops_id':dict['OPSID']})
+        else:
+            if vals.get('ERPID',False) and vals.get('OPSID',False):
+                    self.pool.get('res.bank').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
+        return True
+    
+    
+    def CreateRecord(self,cr,uid,vals):
+        if vals.get('IDENTIFIERCODE',False) and vals.get('BANKNAME',False):
+            bank_id=self.search(cr,uid,[('name','=',vals['BANKNAME']),('bic','=',vals['IDENTIFIERCODE'])])
+            if not bank_id:
+                self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'bic':vals['IDENTIFIERCODE'],'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)})
+        return True
+
+PURCHASE_ORDER_DIC={
+           'PURCHASEORDERNO':'ops_order_id',  
+           'PURCHASEDATE':'date_order',
+           'PURCHASEMETHOD':'invoice_method',
+           'VENDORNO':'partner_id',
+           'PROJECTCODE':'project_code',
+           'PURCHASETYPE':'purchase_type',
+           'LOCATIONSERIALCOUNTER':'location_serial_counter',
+           
+           'QUOTATIONNUMBER':'partner_ref',
+          # 'RECORDSTATUS':'state',
+          # 'PAYMENTSTATUS':'',
+           'TOTALAMOUNT':'po_amount',
+           'DISCOUNTACT':'discount_type',
+           'SERVICEACT':'service_type',
+           'DEDUCTIONACT':'deduction_type',
+           'DISCOUNTAMOUNT':'discount_amt',
+           'DEDUCTIONAMOUNT':'deduction_amt',
+           'SERVICEAMOUNT':'service_amt',
+           'NETAMOUNT':'amount_total',
+           'EXPENSETYPE':'revenue_type',
+           'REIMBURSESTATUS':'reimurses_status',
+           'REIMBURSECOMMAMOUNT':'reimurses_com_amt',
+           'REIMBURSABLEAMOUNT':'reimurses_total_amt',
+          
+#           'INVOICENUMBER':'origin',
+#           'INSTALLMENTS':'',
+#           'SQLREFERENCENO':'',
+#           'VENDORSTATUS':'',
+#           'REPORTCOUNT':'',
+#           'VENDORUPDATEDDATE':'',
+#           'ISMANUALPURCHASE':'',
+#            'DESC3':'',
+#           'DESC2':'',
+#           'DESC1':'',
+#           'PRricelist_id':'pricelist_id',
+#           'product_id':'product_id',
+#           'order_line':'order_line'
+   }
+    
+class purchase_order(osv.osv):
+    _inherit='purchase.order'
+    
+    def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        cur_obj=self.pool.get('res.currency')
+        for order in self.browse(cr, uid, ids, context=context):
+            res[order.id] = {
+                'amount_untaxed': 0.0,
+                'amount_tax': 0.0,
+                'amount_total': 0.0,
+                'deduction_amt':0.0,
+                'service_amt':0.0,
+                'discount_amt':0.0,
+            }
+            val = val1 = 0.0
+            cur = order.pricelist_id.currency_id
+            for line in order.order_line:
+               val1 += line.price_subtotal
+               for c in self.pool.get('account.tax').compute_all(cr, uid, line.taxes_id, line.price_unit, line.product_qty, line.product_id, order.partner_id)['taxes']:
+                    val += c.get('amount', 0.0)
+            res[order.id]['amount_tax']=cur_obj.round(cr, uid, cur, val)
+            res[order.id]['amount_untaxed']=cur_obj.round(cr, uid, cur, val1)
+            res[order.id]['deduction_amt']=order.deduction_amt
+            res[order.id]['service_amt']=order.service_amt
+            res[order.id]['discount_amt']=order.discount_amt
+            res[order.id]['amount_total']=res[order.id]['amount_untaxed'] + res[order.id]['amount_tax'] + res[order.id]['deduction_amt'] + res[order.id]['service_amt'] -res[order.id]['discount_amt']
+        return res
+    def _get_order(self, cr, uid, ids, context=None):
+        result = {}
+        for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
+            result[line.order_id.id] = True
+        return result.keys()
+    
+    _columns={
+              'ops_order_id':fields.char('OPS ID'),
+              'purchse_type':fields.char('Purchase Type'),
+              'project_code':fields.char('Project Code'),
+              'purchase_type':fields.char('Purchase Type'),
+              'analytic_id':fields.many2one('account.analytic.account','Cost Center'),
+              'location_serial_counter':fields.integer('Location Serial Number'),
+              'po_amount':fields.float('PO Amount'),
+              'discount_type':fields.selection([('value','Value'),('percentage','Percentage')],'Discount Type'),
+              'discount_amt':fields.float('Discount'),
+              'service_type':fields.char('Service Type'),
+              'deduction_type':fields.selection([('value','Value'),('percentage','Percentage')],'Deduction Type'),
+              'deduction_amt':fields.float('Deduction'),
+              'service_amt':fields.float('Service Amount'),
+              'revenue_type':fields.char('Revenue Type'),
+              'reimurses_status':fields.char('Reimburse Status'),
+              'reimurses_com_amt':fields.integer('Reimburse Commission'),
+              'reimurses_total_amt':fields.float('Reimburse Total'),
+              'amount_untaxed': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), string='Untaxed Amount',
+            store={
+                'purchase.order.line': (_get_order, None, 10),
+            }, multi="sums", help="The amount without tax", track_visibility='always'),
+        'amount_tax': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), string='Taxes',
+            store={
+                'purchase.order.line': (_get_order, None, 10),
+            }, multi="sums", help="The tax amount"),
+        'amount_total': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), string='Total',
+            store={
+                'purchase.order.line': (_get_order, None, 10),
+            }, multi="sums",help="The total amount"),
+              
+              
+              }
+    _defaults={
+               #'location_id':1,
+              'pricelist_id': lambda self, cr, uid, context: context.get('partner_id', False) and self.pool.get('res.partner').browse(cr, uid, context['partner_id']).property_product_pricelist_purchase.id,
+               
+               }
+    def CreateRecord(self,cr,uid,vals):
+        dic={}
+        val1=vals['DetailData']
+        del vals['DetailData']
+        analytic_obj=self.pool.get('account.analytic.account')
+        for key,value in vals.iteritems():
+            dic[PURCHASE_ORDER_DIC.get(key)] =  value 
+        dic.update({'name':dic['ops_order_id'],'invoice_method':'picking'})
+        if dic['project_code'] :
+            if dic['location_serial_counter'] :
+                ref = str(dic['project_code']) + '0'*(3-len(str(dic['location_serial_counter']))) + str(dic['location_serial_counter'])
+            else:
+                ref =  str(dic['project_code'])
+            # Assuming Project already available in analytic account otherwise we will not create and pass as False    
+            dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
+            purchase_id=self.search(cr, uid, [('ops_order_id','=',dic['ops_order_id'])])
+            purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
+                                 if purchase_id else self.create(cr,uid,dic)
+        self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
+        validate=netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
+        return purchase_id
+    
+PURCHASE_ORDER_LINE_DIC = {
+                            'PURCHASEORDERNO': 'order_id' ,
+                            'PURCHASEDETAILID': 'ops_id',
+                            'QUOTATIONNUMBER': 'quotation_number' ,
+                            #'RECORDSTATUS': '',
+                            'REQUESTNO' : 'requisition_id',
+                            'REQUESTDETAILID' : 'requisition_line_id',
+                            'ITEMPRICE' : 'price_unit',
+                             'ITEMTOTAL' : 'price_subtotal',
+                             'UNITDISCOUNT' : 'unit_discount',
+                             'VENDORSTATUS' :'vendor_status',
+                             'ADDITIONAL_CHARGE' : 'additional_charge_per_qty',
+                             'QUANTITY' : 'product_qty',
+                             'QDETNO' : 'quotation_detail_number',
+                             
+                            }   
+class purchase_order_line(osv.osv):
+    _inherit='purchase.order.line'
+    
+    _columns={
+              'requisition_id':fields.many2one('purchase.requisition','Requisition'),
+              'requisition_line_id':fields.many2one('purchase.requisition.line','Requisition Line'),
+              'ops_id':fields.char('Line OPS ID'),
+              'additional_charge_per_qty':fields.float('Additional Charge'),
+              'quotation_detail_number':fields.char('Quotation Detail Number'),
+              'quotation_number':fields.char('Quotation Number'),
+              'vendor_status':fields.char('Vendor Status'),
+              
+              }
+    def CreateRecord(self,cr,uid,vals):
+        dic={}
+        purchase_obj=self.pool.get('purchase.order')
+        requisition_obj=self.pool.get('purchase.requisition')
+        requisition_line_obj=self.pool.get('purchase.requisition.line')
+        analytic_obj=self.pool.get('account.analytic.account')
+        for val in vals:
+            for key,value in val.iteritems():
+                dic[PURCHASE_ORDER_LINE_DIC.get(key)] =  value
+            requisition_id=requisition_obj.search(cr,uid,[('ops_id','=',dic['requisition_id'])])
+            requisition_line_id=requisition_line_obj.search(cr,uid,[('ops_id','=',dic['requisition_line_id'])])
+            order_id=purchase_obj.search(cr,uid,[('ops_order_id','=',dic['order_id'])])
+            print requisition_line_id,"11111111111"
+            line_obj=requisition_line_obj.browse(cr,uid,requisition_line_id[0])
+            if order_id:
+                dic.update({'order_id':order_id[0],'requisition_id':requisition_id[0],'requisition_line_id':requisition_line_id[0],'product_id':line_obj.product_id.id,'name':line_obj.product_id.name,
+                            'date_planned':str(datetime.datetime.today())})
+               
             
-            
-            
-            
-            
-            
+            purchase_line_id=self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
+            purchase_line_id = self.write(cr,uid,purchase_line_id[0],dic) and purchase_line_id[0] \
+                                     if purchase_line_id else self.create(cr,uid,dic)
         return True

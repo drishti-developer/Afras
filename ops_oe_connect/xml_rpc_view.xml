@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+    
+    
+    	<record id="location_config_order_form" model="ir.ui.view">
+            <field name="name">stock.location.form</field>
+            <field name="model">stock.location</field>
+            <field name="arch" type="xml">
+                <form string="Location Config" version="7.0">
+                	<group>
+                		<group>
+                			<field name='name'/>
+                			<field name='location_id'/>
+                		</group>
+                	</group>
+    			</form>
+    		</field>
+    	</record>
+    
+    	
+    	<record id="location_config_order_tree" model="ir.ui.view">
+            <field name="name">stock.location.form</field>
+            <field name="model">stock.location</field>
+            <field name="arch" type="xml">
+                <tree string="Location Config" version="7.0">
+                			<field name='name'/>
+                			<field name='location_id'/>
+    			</tree>
+    		</field>
+    	</record>
+		
+		
+		<record id="action_location_config" model="ir.actions.act_window">
+            <field name="name">Location Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.location</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="view_id" ref="product.product_pricelist_version_tree_view"/>-->
+        </record>    
+    
+    <menuitem
+            id="menu_purchase_partner_cat12121" name="Location"
+            parent="purchase.menu_purchase_config_purchase"/>
+    <menuitem
+            id="location_config_menu" name="Products"
+            parent="menu_purchase_partner_cat12121" sequence="30" groups="base.group_no_one"/>
+    
+    
 							<!--  PRODUCT  -->
 							
      <record id="product_normal_form_view12" model="ir.ui.view">
@@ -23,6 +70,9 @@
 	        </field>
      </record>
      							<!--  PRODUCT CATEGORY -->
+     							
+     							
+     							
      
      <record id="product_category_form_view12" model="ir.ui.view">
             <field name="name">product.category.form</field>
@@ -193,7 +243,47 @@
 			</field>
 		</record>
 		
+		<record id="view_res_bank_inht123" model="ir.ui.view">
+			<field name="name">res.bank.form.inht</field>
+			<field name="model">res.bank</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="base.view_res_bank_form" />
+			<field name="arch" type="xml">
+				<field name="bic" position="after">
+					<field name="ops_id" readonly="1"/>
+				</field>
+			</field>
+		</record>
 		
+	
+		<record id="view_po_inht123" model="ir.ui.view">
+			<field name="name">purchase.order.form.inht</field>
+			<field name="model">purchase.order</field>
+			<field eval="1" name="priority" />
+			<field name="inherit_id" ref="purchase.purchase_order_form" />
+			<field name="arch" type="xml">
+				<field name="partner_ref" position="after">
+					<field name="ops_order_id" readonly="1"/>
+					<field name="purchse_type" />
+					<field name="discount_type" />
+					<field name="deduction_type" />
+					<field name="service_type" />
+				</field>
+<!--				<field name="company_id" position="after">-->
+<!--					<field name='discount_amt' />-->
+<!--					<field name="deduction_amt" />-->
+<!--				</field>-->
+				<field name="amount_untaxed" position="after">
+					<field name="deduction_amt" />
+					<field name='service_amt' />
+					<field name='discount_amt' />
+				</field>
+			</field>
+		</record>
+		
+	
+	
+	
 		
 		        
                 
