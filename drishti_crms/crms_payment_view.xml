@@ -60,6 +60,7 @@
 	                        			<field name="amount"/>
 	                        			<field name="payment_type"/>
 	                        			<field name="voucher_id"/>
+	                        			<field name="crms_id"/>
 	                        		</form>
 	                        	</field>
 	                        </page>

@@ -1477,11 +1477,9 @@ class account_move_line(osv.osv):
     
     def _get_move_lines(self, cr, uid, ids, context=None):
         result = []
-        if ids != [47]:
-            
-            for move in self.pool.get('account.move').browse(cr, uid, ids, context=context):
-                for line in move.line_id:
-                    result.append(line.id)
+        for move in self.pool.get('account.move').browse(cr, uid, ids, context=context):
+            for line in move.line_id:
+                result.append(line.id)
                 
         return result 
     
@@ -1489,11 +1487,10 @@ class account_move_line(osv.osv):
     'vehicle_id' : fields.many2one('fleet.vehicle','Vehicle'),
     'from_date' : fields.date('From Date'),
     'to_date' : fields.date('To Date'),
-    'cost_analytic_id': fields.related('move_id','cost_analytic_id', string='Cost Center', type='many2one' ,relation='account.analytic.account',
-        store = {
-'        account.move' : (_get_move_lines, ['cost_analytic_id',], 20)
-    }),
-    'crms_payment_id': fields.related('move_id','crms_payment_id', string='CRMS Payment ID', type='many2one' ,relation='crms.payment',store = True),             
+    'cost_analytic_id': fields.related('move_id','cost_analytic_id', string='Cost Center', type='many2one' ,relation='account.analytic.account',store={
+            'account.move': (_get_move_lines, ['cost_analytic_id'],10)
+            }),
+    'crms_payment_id': fields.related('move_id','crms_payment_id', string='CRMS Payment ID', type='many2one' ,relation='crms.payment',store = True),
     }
     
     def _query_get(self, cr, uid, obj='l', context=None):

@@ -99,13 +99,12 @@ class crms_payment(osv.osv):
         data['last_expense_date'] = data.get('rental_from_date')
         data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id')})]
         data['total_amount_paid'] = data.get('amount_paid')   
-        if data.get('admin_expenses',False):
-            context['admin_expenses'] = data.get('admin_expenses')
+        if data.get('admin_expenses',False):context['admin_expenses'] = data.get('admin_expenses')
             
         return super(crms_payment, self).create(cr, uid, data, context=context)
     
     def write(self, cr, uid, ids, vals, context={}):
-        print vals,context
+        #print vals,context
         #date = datetime.datetime.today()
         crms_payment_brw = self.browse(cr, uid, ids[0])
         
@@ -124,7 +123,7 @@ class crms_payment(osv.osv):
             intermediate_pool = self.pool.get('crms.payment.intermediatepayment.history')
             intermediate_ids = intermediate_pool.search(cr, uid, [('crms_id','=',vals.get('crms_payment_id'))])
             if not intermediate_ids:
-                cr.execute('update crms_payment set remaining_amount=%s,total_amount_paid=%s where id=%s',(crms_payment_brw.remaining_amount + float(vals.get('amount_paid'), crms_payment_brw.total_amount_paid + float(vals.get('amount_paid')), ids[0])))
+                vals['total_amount_paid'] = crms_payment_brw.total_amount_paid + float(vals.get('amount_paid'))
                 intermediate_pool.create(cr, uid, {'date':vals.get('amount_receive_date'), 'amount':vals.get('amount_paid'), 'payment_type':vals.get('payment_type'), 'booking_id':ids[0],'crms_id':vals.get('crms_payment_id')})
                 if vals.get('admin_expenses',False):
                     context['admin_expenses'] = vals.get('admin_expenses')
@@ -537,7 +536,7 @@ class crms_payment_intermediatepayment_history(osv.osv):
         ctx.update(company_id=crms_payment_brw.pickup_branch_id.company_id.id,account_period_prefer_normal=True)
         period_ids = self.pool.get('account.period').find(cr, uid, data['date'], context=ctx)
          
-        if crms_payment_brw.payment_type == 'Cash':
+        if data.get('payment_type') == 'Cash':
             journal_id = crms_payment_brw.property_cash_journal.id
             account_id = crms_payment_brw.property_cash_journal.default_credit_account_id.id
         else:
