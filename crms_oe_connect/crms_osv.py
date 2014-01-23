@@ -33,7 +33,7 @@ STANDARD_LIST_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><ResponseGroup
 
 VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner',]
 
-CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle', 'crms.daily.revenue']
+CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle', 'crms.daily.revenue','crms.payment.car.history','crms.cash.branch']
 
 CURRENCY_LIST = [
 			('id','ERPCurrencyID'),
@@ -265,7 +265,27 @@ DAILY_REVENUE_LIST = [
             ('extra_hours_charges','AdditionalHourCharges'),
             ('extra_km_charges','ExtraKMCharges'),
             ('additional_driver_charges','AdditionalDriverCharges'),
+            ('vehicle_id','ERPCarID'),
 			]
+
+CAR_HISTORY = [
+            ('booking_id','ERPBookingID'),
+            ('car_id','ERPCarID'),
+            ('vehicle_model','ERPModelID'),
+            ('change_date','ChangeDate'),
+           ]
+
+CASH_BRANCH = [
+           ('date','Date'),
+           ('branch_opening_bal','BranchOpeningBalance'),
+           ('cash_received','CashReceived'),
+           ('cash_paid','CashPaid'),
+           ('branch_expenses_related_to_vehicle','BranchExpensesRelatedtoVehicle'),
+           ('total_branch_expenses','TotalBranchExpenses'),
+           ('cash_paid_head_office','CashPaidHeadOffice'),
+           ('closing_bal','ClosingBalance'),
+           ('branch_id','ERPBranchID'),
+           ]
 
 def getDataArray(responseDOM, tag, level_1, level_2=False):
     
@@ -496,6 +516,12 @@ def CreateRequest(self, cr, uid, data):
         elif self._name == 'crms.daily.revenue':#Daily Revenue
             response_type = 'DailyRevenue'
             field_list = DAILY_REVENUE_LIST
+        elif self._name == 'crms.payment.car.history':#CAR HISTORY
+            response_type = 'CarHistory'
+            field_list = CAR_HISTORY
+        elif self._name == 'crms.cash.branch':#CRMS CASH BRANCH
+            response_type = 'CashBranch'
+            field_list = CASH_BRANCH
                          
         response_data = ''
         response_name = response_type+"Response"
@@ -515,6 +541,10 @@ def CreateRequest(self, cr, uid, data):
                 elif response_type != 'DailyRevenue': crms_id = response.get('CRMS'+response_type+'ID',False)
 
                 if response_type == 'DailyRevenue' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('date','=',response.get('Date'))])
+                
+                elif response_type == 'CarHistory' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('car_id','=',response.get('ERPCarID')),('change_date','=',response.get('ChangeDate'))])
+                
+                elif response_type == 'CashBranch': search_id = self.search(cr,uid,[('branch_id','=',int(response.get('ERPBranchID'))),('date','=',response.get('Date'))])
 
                 elif crms_id : search_id = self.search(cr,uid,[('crms_id','=',int(crms_id))])
 
@@ -539,15 +569,15 @@ def CreateRequest(self, cr, uid, data):
                 try :
                     msg = 'SUCCESS'
                     record_id = 0
-                    #creating record.
+                    #Creating record.
                     if len(search_id) == 0 and record_value : record_id = self.create(cr,uid,record_value,{'mail_create_nosubscribe':True,'crms_create':True})
                     
-                    #updating record.
+                    #Updating record.
                     elif len(search_id) > 0 and record_value:
                         self.write(cr,uid,search_id,record_value)
                         record_id = search_id[0]
                     
-                    #if search condition is not matching with the either of the condition then FAILURE msg will be send.
+                    #If search condition is not matching with the either of the condition then FAILURE msg will be send.
                     else:msg = 'FAILURE'
     
                     if response_type == 'RentalPayment' :
@@ -562,6 +592,10 @@ def CreateRequest(self, cr, uid, data):
                             response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
                             
                     elif response_type == 'DailyRevenue' : response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                    
+                    elif response_type == 'CarHistory' : response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                   
+                    elif response_type == 'CashBranch' : response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
                     
                     else :    
                         response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id or 0, 'CRMS'+response_type+'ID')

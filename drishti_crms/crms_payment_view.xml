@@ -52,13 +52,15 @@
 	                        		<tree>
 	                        			<field name="date"/>
 	                        			<field name="amount"/>
+	                        			<field name="voucher_amount"/>
 	                        			<field name="payment_type"/>
-	                        			<field name="voucher_id"/>
+	                        			<field name="admin_expenses"/>
 	                        		</tree>
 	                        		<form string="Payment History">
 	                        			<field name="date"/>
 	                        			<field name="amount"/>
 	                        			<field name="payment_type"/>
+	                        			<field name="voucher_amount"/>
 	                        			<field name="voucher_id"/>
 	                        			<field name="crms_id"/>
 	                        		</form>
@@ -72,6 +74,7 @@
                                         <field name="revenue"/>
                                         <field name="discount"/>
                                         <field name="discount_amt"/>
+                                        <field name="vehicle_id"/>
                                     </tree>
                                     <form string="Daily Revenue">
                                         <field name="open_balance"/>
@@ -90,6 +93,7 @@
                                         <field name="other_charges"/>
                                         <field name="extra_km_charges"/>
                                         <field name="amount_returned"/>
+                                        <field name="vehicle_id"/>
                                     </form>
                                 </field>
                        		</page>
@@ -112,8 +116,7 @@
 	                        	</group>
 	                        </page>
 	                        <page string="Extra Charges">
-	                        	<group col="4" colspan="2">
-		                        	<field name="admin_expenses"/>	                        
+	                        	<group col="4" colspan="2">                        
 			                    	<field name="damage_charges"/>
 			                    	<field name="traffic_violation_charges"/>
 			                    	<field name="other_charges"/>
@@ -128,6 +131,21 @@
 	                        			<field name="date"/>
 	                        			<field name="discount"/>
 	                        		</tree>
+	                        	</field>
+	                        </page>
+	                        <page string="Car History">
+	                        	<field name="car_history_ids" nolabel="1" readonly="True">
+	                        		<tree>
+	                        		    <field name="booking_id" invisible="1"/>
+	                        			<field name="car_id"/>
+	                        			<field name="change_date"/>
+	                        		</tree>
+	                        		<form string="Car History">
+	                        			 <field name="booking_id" invisible="1"/>
+	                        			<field name="car_id"/>
+	                        			<field name="vehicle_model"/>
+	                        			<field name="change_date"/>
+	                        		</form>
 	                        	</field>
 	                        </page>
 	                        <page string="OpenERP Extra Fields">
@@ -179,6 +197,59 @@
             <field name="function" eval="'cron_create_payment_voucher_entries'"/>
             <field name="args" eval="'()'" />
         </record> -->
+        
+    <!--CRMS CAR CASH BRANCH  -->
+    
+    <record id="crms_cash_branch_tree" model="ir.ui.view">
+			<field name="name">crms.cash.branch.tree</field>
+			<field name="model">crms.cash.branch</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Cash Branch">
+					<field name="date"/>
+					<field name="branch_opening_bal"/>
+	               <field name="cash_received"/>
+	               <field name="cash_paid"/>
+	               <field name="branch_expenses_related_to_vehicle"/>
+	               <field name="total_branch_expenses"/>
+	               <field name="cash_paid_head_office"/>
+	               <field name="closing_bal"/>
+	               <field name="branch_id"/>	               
+				</tree>
+			</field>
+		</record>
+		
+		<record id="crms_cash_branch_form" model="ir.ui.view">
+			<field name="name">crms.cash.branch.form</field>
+			<field name="model">crms.cash.branch</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Cash Branch" version="7.0">
+			        <sheet>
+				        <group col="4" colspan="2">
+			            	<field name="date"/>
+						  	<field name="branch_opening_bal"/>
+		               		<field name="cash_received"/>
+		               		<field name="cash_paid"/>
+		               		<field name="branch_expenses_related_to_vehicle"/>
+		               		<field name="total_branch_expenses"/>
+		               		<field name="cash_paid_head_office"/>
+		               		<field name="closing_bal"/>
+		               		<field name="branch_id"/>
+		               	</group>
+			        </sheet>
+				</form>
+			</field>
+		</record>
+		<record id="action_crms_cash_branch" model="ir.actions.act_window">
+			<field name="name">CRMS Cash Branch</field>
+			<field name="res_model">crms.cash.branch</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="crms_cash_branch_tree"/>
+		</record>
+		
+		<menuitem id="sub_menu_crms_cash_branch2" action="action_crms_cash_branch" name="Cash Branch" parent="account.menu_finance_receivables" sequence=""/>
     
     </data>
 </openerp>

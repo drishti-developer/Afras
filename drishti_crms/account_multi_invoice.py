@@ -22,8 +22,7 @@
 import openerp.addons.decimal_precision as dp
 import openerp.exceptions
 from openerp import netsvc
-from openerp import pooler
-from openerp.osv import fields, osv, orm
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
 import datetime
 
@@ -50,7 +49,7 @@ class account_multi_invoice(osv.osv):
     def _get_journal(self, cr, uid, context=None):
         if context is None:
             context = {}
-        type_inv = 'purchase'
+        
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         company_id = context.get('company_id', user.company_id.id)
         res = self.pool.get('account.journal').search(cr, uid, [('company_id', '=', company_id),('type', '=', 'purchase')], limit=1)
@@ -98,7 +97,8 @@ class account_multi_invoice(osv.osv):
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, track_visibility='always'),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'company_id': fields.many2one('res.company', 'Company', required=True, change_default=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'invoice_ids':fields.one2many('account.invoice','multi_invoice_id','Invoices',readonly=True)
+        'invoice_ids':fields.one2many('account.invoice','multi_invoice_id','Invoices',readonly=True),
+        'residual_amount' : fields.float('Residual Amount'),
     }
     
     _defaults = {
@@ -117,7 +117,6 @@ class account_multi_invoice(osv.osv):
             context = {}
             
         vehicle_obj = self.pool.get('fleet.vehicle')
-        fleet_ana_obj = self.pool.get('fleet.analytic.account')
         analytic_account_obj = self.pool.get('account.analytic.account')
         account_invoice_obj = self.pool.get('account.invoice')
         wf_service = netsvc.LocalService('workflow')
@@ -196,7 +195,7 @@ class account_multi_invoice(osv.osv):
             })
             wf_service.trg_validate(uid, 'account.invoice', acc_invoice_id, 'invoice_open', cr)
         
-        self.write(cr, uid, ids, {'state':'invoiced'})
+        self.write(cr, uid, ids, {'state':'invoiced','residual_amount': self_brw.amount_total})
         return True
     
     def unlink(self, cr, uid, ids, context=None):
@@ -263,7 +262,6 @@ class account_multi_invoice(osv.osv):
         account_obj = self.pool.get('account.account')
         inv_line_obj = self.pool.get('account.invoice.line')
         if company_id and part_id:
-            acc_id = False
             partner_obj = self.pool.get('res.partner').browse(cr,uid,part_id)
             if partner_obj.property_account_payable:
                 if partner_obj.property_account_payable.company_id.id != company_id:
@@ -300,12 +298,12 @@ class account_multi_invoice(osv.osv):
                             continue
         if company_id :
             journal_type = 'purchase'
-            type = 'in_invoice'
+            inv_type = 'in_invoice'
             journal_ids = obj_journal.search(cr, uid, [('company_id','=',company_id), ('type', '=', journal_type)])
             if journal_ids:
                 val['journal_id'] = journal_ids[0]
             ir_values_obj = self.pool.get('ir.values')
-            res_journal_default = ir_values_obj.get(cr, uid, 'default', 'type=%s' % (type), ['account.invoice'])
+            res_journal_default = ir_values_obj.get(cr, uid, 'default', 'type=%s' % (inv_type), ['account.invoice'])
             for r in res_journal_default:
                 if r[1] == 'journal_id' and r[2] in journal_ids:
                     val['journal_id'] = r[2]
@@ -410,7 +408,6 @@ class account_multi_invoice_line(osv.osv):
             res_final['value']['price_unit'] = new_price
 
         if result['uos_id'] and result['uos_id'] != res.uom_id.id:
-            selected_uom = self.pool.get('product.uom').browse(cr, uid, result['uos_id'], context=context)
             new_price = self.pool.get('product.uom')._compute_price(cr, uid, res.uom_id.id, res_final['value']['price_unit'], result['uos_id'])
             res_final['value']['price_unit'] = new_price
             

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-     <record id="view_account_chart_inherit" model="ir.ui.view">
-            <field name="name">account.chart.form.inherit</field>
-            <field name="model">account.chart</field>
-            <field name="inherit_id" ref="account.view_account_chart"/>
-            <field name="arch" type="xml">
-                <field name="period_to" position="after">
-                      <group>
-                       <field name="child_cost_center"></field>
-                       </group>
-                        <field name="cost_analytic_ids"></field>
-                        </field>
-                        </field>
-                        </record>
+	     
+	     <record id="view_account_chart_inherit" model="ir.ui.view">
+	            <field name="name">account.chart.form.inherit</field>
+	            <field name="model">account.chart</field>
+	            <field name="inherit_id" ref="account.view_account_chart"/>
+	            <field name="arch" type="xml">
+	                <field name="period_to" position="after">
+	                      <group>
+	                          <field name="child_cost_center"/>
+	                      </group>
+	                      <field name="cost_analytic_ids" domain="[('entry_type','!=','car')]"/>
+	                </field>
+	            </field>
+	     </record>
+	     
     </data> 
-    </openerp>
+</openerp>

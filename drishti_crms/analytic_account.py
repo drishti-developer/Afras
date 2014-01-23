@@ -22,6 +22,15 @@ class account_analytic_line(osv.osv):
                  'split_entry' : 'draft'
                  }
     
+    def unlink(self, cr, uid, ids, context=None):
+        distribution_obj = self.pool.get('fleet.vehicle.cost.distribution')
+        for rec in ids:
+            rec_ids = distribution_obj.search(cr, uid, [('analytic_line_id', '=', rec)])
+            if rec_ids:
+                distribution_obj.unlink(cr, uid, rec_ids, context=context)
+                
+        return super(account_analytic_line, self).unlink(cr, uid, ids, context=context)
+    
     def split_analytic_line(self, cr, uid, ids, context=None):
         date = datetime.datetime.today()
         

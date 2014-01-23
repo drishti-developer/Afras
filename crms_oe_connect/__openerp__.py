@@ -50,6 +50,9 @@
     'installable': True,
     'application': True,
     'auto_install': False,
-    'css': [  ],
+    'css': [],
+    'js':[
+        #'static/src/js/dates.js',
+          ],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -94,7 +94,7 @@
                 <form string="Multiple Expense Entry" version="7.0">
                 <header>
                      <button name="confirm_entry" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice" type="object"/>
-                     <button name="%(action_pay_multi_invoice)d" type='action' string='Pay Invoice' states='invoiced' groups="account.group_account_invoice" class="oe_highlight" context="{'company_id':company_id,'amount_total':amount_total,'journal_id':journal_id}"/>
+                     <button name="%(action_pay_multi_invoice)d" type='action' string='Pay Invoice' states='invoiced' groups="account.group_account_invoice" class="oe_highlight" context="{'company_id':company_id,'amount_total':residual_amount,'journal_id':journal_id}"/>
                      <field name="state" widget="statusbar" statusbar_visible="draft,invoiced,paid"/>
                 </header>
                 <sheet string="Supplier Multi Invoice">
@@ -130,6 +130,7 @@
                             </field>
                             <group class="oe_subtotal_footer oe_right">
                                 <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="residual_amount" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
                             </group>
                             <div class="oe_clear">
                                 <label for="comment"/>

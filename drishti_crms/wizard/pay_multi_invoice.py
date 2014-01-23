@@ -94,7 +94,7 @@ class pay_multi_invoice(osv.osv_memory):
             voucher_ids = []
             multi_invoice = multi_invoice_pool.browse(cr,uid,active_id)
             
-            amount_percent = wizard.amount / multi_invoice.amount_total
+            amount_percent = wizard.amount / multi_invoice.residual_amount
             for invoice in multi_invoice.invoice_ids:
                 ctx = context.copy()
                 amount = invoice.residual * amount_percent
@@ -156,8 +156,10 @@ class pay_multi_invoice(osv.osv_memory):
                 voucher_ids.append(voucher_id)
                 voucher_pool.button_proforma_voucher(cr, uid, [voucher_id], ctx)
             
-            multi_invoice_pool.write(cr, uid, [active_id], {'state':'paid'})
-                
+            if multi_invoice.residual_amount <= wizard.amount:
+                multi_invoice_pool.write(cr, uid, [active_id], {'state':'paid','residual_amount' : 0})
+            else:
+                multi_invoice_pool.write(cr, uid, [active_id], {'residual_amount' : multi_invoice.residual_amount - wizard.amount})
         
         return True
 

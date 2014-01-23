@@ -80,6 +80,7 @@ class crms_payment(osv.osv):
     'total_amount_paid':fields.float('Total Amount Paid'),
     'revenue_days':fields.integer('Revenue Days'),
     'daily_revenue_ids': fields.one2many('crms.daily.revenue','booking_id',string="Amount Paid History"),
+    'car_history_ids':fields.one2many('crms.payment.car.history','booking_id','Car History')
     }
     
     _sql_constraints = [
@@ -89,12 +90,11 @@ class crms_payment(osv.osv):
     _defaults = {
     'state':'Active',
     'revenue_days':0,
-                 }
+     }
     
     def create(self, cr, uid, data, context=None):
         
-        if context is None:
-            context = {}
+        if context is None: context = {}
             
         data['last_expense_date'] = data.get('rental_from_date')
         data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id'),'voucher_amount':data.get('amount_paid')})]
@@ -104,15 +104,13 @@ class crms_payment(osv.osv):
         return super(crms_payment, self).create(cr, uid, data, context=context)
     
     def write(self, cr, uid, ids, vals, context={}):
-        #print vals,context
-        #date = datetime.datetime.today()
+        
         crms_payment_brw = self.browse(cr, uid, ids[0])
         intermediate_pool = self.pool.get('crms.payment.intermediatepayment.history')
         
         if crms_payment_brw.state == 'Closed' : return True
         
         period_pool = self.pool.get('account.period')
-        voucher_pool = self.pool.get('account.voucher')
         voucher_amount = False
         #Check whether is a new discount is applied or not.
         if vals.get('discount',False) and vals.get('discount_date',False):
@@ -138,10 +136,8 @@ class crms_payment(osv.osv):
             account_id = False
             
             if vals.get('payment_type',False) and vals.get('payment_type') == 'Cash':
-                journal_id = crms_payment_brw.property_cash_journal.id
                 account_id = crms_payment_brw.property_cash_journal.default_credit_account_id.id
             elif vals.get('payment_type',False) and vals.get('payment_type') in ['Span','Card']:
-                journal_id = crms_payment_brw.property_bank_journal.id
                 account_id = crms_payment_brw.property_bank_journal.default_credit_account_id.id
             else:
                 account_id = crms_payment_brw.property_retail_account.id
@@ -159,7 +155,6 @@ class crms_payment(osv.osv):
             elif vals.get('amount_paid',False):
                 
                 paid_amount = float(vals.get('amount_paid')) - float(vals.get('admin_expenses',0.0))
-                
                 
 #             if float(vals.get('admin_expenses',0.0)) > 0:
 #                 remaining_amount, paid_amount = self.create_closed_entries(cr, uid, 'Admin Expenses Charges',crms_payment_brw, float(vals.get('admin_expenses')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_admin_charges_account.id, rental_to_date, account_id)
@@ -195,7 +190,7 @@ class crms_payment(osv.osv):
                 vals['total_amount_paid'] = crms_payment_brw.total_amount_paid + float(vals.get('amount_paid'))
                 if not voucher_amount:
                     voucher_amount = float(vals.get('amount_paid',0.0))
-                if vals.get('admin_expenses',False) : context['admin_expenses'] = vals.get('admin_expenses')
+                
                 intermediate_pool.create(cr, uid, {'date':vals.get('amount_receive_date'), 'amount': vals.get('amount_paid'), 'payment_type':vals.get('payment_type'), 'booking_id':ids[0], 'crms_id':vals.get('crms_payment_id'),'admin_expenses':vals.get('admin_expenses',0.0),'voucher_amount':voucher_amount})
 #             else:
 #                 vals.pop('amount_paid')
@@ -628,6 +623,7 @@ class crms_daily_revenue(osv.osv):
     'damage_charges':fields.float('Car Damage Charges'),
     'other_charges':fields.float('Other Charges'),
     'extra_km_charges':fields.float('Extra Km Charges'),
+    'vehicle_id':fields.many2one('fleet.vehicle','Car',required=True),
     }
     
     def create(self, cr, uid, data, context=None):
@@ -636,6 +632,7 @@ class crms_daily_revenue(osv.osv):
         period_pool = self.pool.get('account.period')
         move_pool = self.pool.get('account.move')
         booking_id = int(data.get('booking_id'))
+        analytic_id = self.pool.get('fleet.vehicle').read(cr, uid, int(data.get('vehicle_id')), ['analytic_id'])['analytic_id'][0]
         crms_payment_brw = self.pool.get('crms.payment').browse(cr,uid,booking_id)
         expense_date = data['date']
         remaining_amount = crms_payment_brw.remaining_amount
@@ -651,7 +648,7 @@ class crms_daily_revenue(osv.osv):
         'date' : expense_date,
         'partner_id':crms_payment_brw.partner_id.id,
         'period_id': period_ids and period_ids[0] or False,
-        'analytic_account_id':crms_payment_brw.vehicle_id.analytic_id.id,
+        'analytic_account_id':analytic_id,
         'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
         'company_id':crms_payment_brw.property_sale_journal.company_id.id,
         'name': 'Car Rent Daily Revenue',
@@ -691,7 +688,7 @@ class crms_daily_revenue(osv.osv):
             move_line_disc = move_line_dict.copy()
             move_line_disc['debit'] = discount_amt
             move_line_disc['account_id'] = crms_payment_brw.property_discount_account.id
-            move_line_disc['analytic_account_id'] = crms_payment_brw.vehicle_id.analytic_id.id
+            move_line_disc['analytic_account_id'] = analytic_id
             move_lines.append((0,0,move_line_disc))
             
         move_pool.create(cr,uid, {
@@ -708,3 +705,31 @@ class crms_daily_revenue(osv.osv):
         return super(crms_daily_revenue, self).create(cr, uid, data, context=context)
    
 crms_daily_revenue()
+
+class cmrs_payment_car_history(osv.osv):
+    _name='crms.payment.car.history'
+    _columns={
+    'booking_id':fields.many2one('crms.payment','Booking Id'),
+    'car_id':fields.many2one('fleet.vehicle','Car'),
+    'vehicle_model':fields.many2one('fleet.vehicle.model','Model'),
+    'change_date':fields.date('Change Date'),
+    }
+    
+cmrs_payment_car_history()
+
+class crms_cash_branch(osv.osv):
+    _name='crms.cash.branch'
+    _columns={
+    'date':fields.date('Date'),
+    'branch_opening_bal':fields.float('Branch Opening Balance'),
+    'cash_received':fields.float('Cash Received'),
+    'cash_paid':fields.float('Cash paid'),
+    'branch_expenses_related_to_vehicle':fields.float('Branch expenses related to Vehicle'),
+    'total_branch_expenses':fields.float('Total Branch Expenses'),
+    'cash_paid_head_office':fields.float('Cash paid head office'),
+    'closing_bal':fields.float('Closing Balance'),
+    'branch_id':fields.many2one('sale.shop','Branch id'),
+    'crms_cash_branch_id':fields.integer('Crms Id')
+    }
+    
+crms_cash_branch()

@@ -674,7 +674,7 @@ class account_voucher(osv.osv):
     
     _defaults = {
      'entry_type' : 'branch',
-     'journal_id':_get_journal,
+     'journal_id':False,
      'type':'receipt'
     }
     
@@ -1614,53 +1614,54 @@ class account_move_line(osv.osv):
         analytic_line_obj = self.pool.get('account.analytic.line')
         period_obj = self.pool.get('account.period')
         
-         
         for line in self.browse(cr, uid, ids, context=context):
-           if line.analytic_account_id and line.analytic_account_id.use_distribution_plan:
-               
-               last_date = datetime.datetime.strptime((datetime.datetime.strptime(line.date, '%Y-%m-%d')).strftime('%Y-%m-01'), '%Y-%m-%d') - datetime.timedelta(days=1) 
-               ctx = {}
-               company_id = line.account_id.company_id.id
+            
+            if line.analytic_lines:
+                analytic_line_obj.unlink(cr,uid,[obj.id for obj in line.analytic_lines])
+            if line.analytic_account_id and line.analytic_account_id.use_distribution_plan:
+                last_date = datetime.datetime.strptime((datetime.datetime.strptime(line.date, '%Y-%m-%d')).strftime('%Y-%m-01'), '%Y-%m-%d') - datetime.timedelta(days=1) 
+                ctx = {}
+                company_id = line.account_id.company_id.id
         
-               ctx.update(company_id=company_id,account_period_prefer_normal=True)
-               period_ids = period_obj.find(cr, uid, last_date, context=ctx)
-               period_id = period_ids and period_ids[0] or False
-               dist_plan_id = self.pool.get('account.afras.cost.distribution').search(cr,uid, ['&',('related_analytic','=',line.analytic_account_id.id),\
+                ctx.update(company_id=company_id,account_period_prefer_normal=True)
+                period_ids = period_obj.find(cr, uid, last_date, context=ctx)
+                period_id = period_ids and period_ids[0] or False
+                dist_plan_id = self.pool.get('account.afras.cost.distribution').search(cr,uid, ['&',('related_analytic','=',line.analytic_account_id.id),\
                                                                                                 ('related_period','=',period_id)], context=context)
-               if not line.journal_id.analytic_journal_id:
-                   raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal.") % (line.journal_id.name,))
-               
-               toremove = analytic_line_obj.search(cr, uid, [('move_id','=',line.id)], context=context)
-               if toremove:
+                if not line.journal_id.analytic_journal_id:
+                    raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal.") % (line.journal_id.name,))
+                
+                toremove = analytic_line_obj.search(cr, uid, [('move_id','=',line.id)], context=context)
+                if toremove:
                     analytic_line_obj.unlink(cr, uid, toremove, context=context)
-               val = (line.credit or  0.0) - (line.debit or 0.0)
-               if dist_plan_id:
-                 dist_plan_obj = self.pool.get('account.afras.cost.distribution').browse(cr, uid, dist_plan_id)
-                 for line2 in dist_plan_obj.distribution_lines:
-                   amt=val * (line2.rate/100)
-                   al_vals={
-                       'name': line.name,
-                       'date': line.date,
-                       'account_id': line2.analytic_account_id.id,
-                       'unit_amount': line.quantity,
-                       'product_id': line.product_id and line.product_id.id or False,
-                       'product_uom_id': line.product_uom_id and line.product_uom_id.id or False,
-                       'amount': amt,
-                       'general_account_id': line.account_id.id,
-                       'move_id': line.id,
-                       'journal_id': line.journal_id.analytic_journal_id.id,
-                       'ref': line.ref,
-                       'percentage': line2.rate
-                   }
-                   analytic_line_obj.create(cr, uid, al_vals, context=context)
-                   print "Creating MULTIPLE Analytical Entry-------------------"
-           else:
+                val = (line.credit or  0.0) - (line.debit or 0.0)
+                if dist_plan_id:
+                    dist_plan_obj = self.pool.get('account.afras.cost.distribution').browse(cr, uid, dist_plan_id)
+                    for line2 in dist_plan_obj.distribution_lines:
+                        amt=val * (line2.rate/100)
+                        al_vals={
+                           'name': line.name,
+                           'date': line.date,
+                           'account_id': line2.analytic_account_id.id,
+                           'unit_amount': line.quantity,
+                           'product_id': line.product_id and line.product_id.id or False,
+                           'product_uom_id': line.product_uom_id and line.product_uom_id.id or False,
+                           'amount': amt,
+                           'general_account_id': line.account_id.id,
+                           'move_id': line.id,
+                           'journal_id': line.journal_id.analytic_journal_id.id,
+                           'ref': line.ref,
+                           'percentage': line2.rate
+                        }
+                        analytic_line_obj.create(cr, uid, al_vals, context=context)
+            
+            else:
                 if line.analytic_account_id:
                     if not line.journal_id.analytic_journal_id:
                         raise osv.except_osv(_('No Analytic Journal!'),_("You have to define an analytic journal on the '%s' journal!") % (line.journal_id.name, ))
                     vals_line = self._prepare_analytic_line(cr, uid, line, context=context)
                     analytic_line_obj.create(cr, uid, vals_line)
-                    print "Creating a Single Analytical Entry-------------------"
+                               
         return True 
       
         
