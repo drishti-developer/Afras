@@ -130,7 +130,7 @@
                             </field>
                             <group class="oe_subtotal_footer oe_right">
                                 <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="residual_amount" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                              <!--   <field name="residual_amount" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>  -->
                             </group>
                             <div class="oe_clear">
                                 <label for="comment"/>
