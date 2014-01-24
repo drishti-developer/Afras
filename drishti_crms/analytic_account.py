@@ -256,37 +256,26 @@ class account_analytic_account(osv.osv):
         return parent_path + elmt.name
     
     def name_get(self, cr, uid, ids, context=None):
-        res = []
-        if not ids:
-            return res
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-        for id in ids:
-            elmt = self.browse(cr, uid, id, context=context)
-            res.append((id, self._get_one_full_name(elmt)))
-        return res
 
-    def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=50000):
+        return super(osv.osv,self).name_get(cr, uid, ids, context=context)
+     
+    def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=None):
+        limit = 50000
         if not args:
             args=[]
         if context is None:
             context={}
-        if context.get('current_model') == 'project.project':
-            project_obj = self.pool.get("account.analytic.account")
-            project_ids = project_obj.search(cr, uid, args)
-            return self.name_get(cr, uid, project_ids, context=context)
         if name:
-            account_ids = self.search(cr, uid, [('code', '=', name)] + args, limit=50000, context=context)
+            account_ids = self.search(cr, uid, [('code', '=', name)] + args, limit=limit, context=context)
             if not account_ids:
                 dom = []
                 for name2 in name.split('/'):
                     name = name2.strip()
-                    account_ids = self.search(cr, uid, dom + [('name', 'ilike', name)] + args, limit=50000, context=context)
+                    account_ids = self.search(cr, uid, dom + [('name', 'ilike', name)] + args, limit=limit, context=context)
                     if not account_ids: break
                     dom = [('parent_id','in',account_ids)]
         else:
-            account_ids = self.search(cr, uid, args, limit=150000, context=context)
+            account_ids = self.search(cr, uid, args, limit=limit, context=context)
         return self.name_get(cr, uid, account_ids, context=context)
-  
     
     
