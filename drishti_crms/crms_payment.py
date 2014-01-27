@@ -729,7 +729,58 @@ class crms_cash_branch(osv.osv):
     'cash_paid_head_office':fields.float('Cash paid head office'),
     'closing_bal':fields.float('Closing Balance'),
     'branch_id':fields.many2one('sale.shop','Branch id'),
-    'crms_cash_branch_id':fields.integer('Crms Id')
+    'crms_cash_branch_id':fields.integer('Crms Id'),
+    'property_cash_branch_journal': fields.property('account.journal', type='many2one', relation='account.journal', string="Cash Journal Branch", view_load=True, help="Cash Journal",),
+    'property_cash_expense_account': fields.property('account.account', type='many2one', relation='account.account', string="Expense Cash Branch Account", view_load=True, help=" Advance Account",),
+    'property_cash_branch_account': fields.property('account.account', type='many2one', relation='account.account', string="Branch Cash Branch Account", view_load=True, help=" Advance Account",),
+    'property_cash_head_office_account': fields.property('account.account', type='many2one', relation='account.account', string="HeadOffice Cash Branch Account", view_load=True, help=" Advance Account",),
+    'line_ids': fields.one2many('account.move.line','crms_branch_id',string="Lines"),
     }
+    def create(self,cr,uid, data,context=None):
+        res=super(crms_cash_branch,self).create(cr,uid,data,context)
+        move_line_obj=self.pool.get('account.move.line')
+        period_pool = self.pool.get('account.period')
+        balance=0.0
+        obj=self.browse(cr,uid,res)
+        if obj.cash_paid_head_office > 0.0 or obj.total_branch_expenses > 0.0:
+            ctx = context.copy()
+            ctx.update(company_id=obj.branch_id.company_id.id,account_period_prefer_normal=True)
+            period_ids = period_pool.find(cr, uid, obj.date, context=ctx)
+            move_dic={
+                      'journal_id':obj.property_cash_branch_journal.id or False,
+                      'period_id':period_ids and period_ids[0] or False,
+                      'cost_analytic_id': obj.branch_id.project_id.id if obj.branch_id.project_id else False,
+                      'date':obj.date,
+                      }
+            move_id=self.pool.get('account.move').create(cr,uid,move_dic,context)
+            line_dic={
+                      'crms_branch_id':res,
+                      'move_id':move_id,
+                      'cost_analytic_id':obj.branch_id.project_id.id if obj.branch_id.project_id else False,
+                      'name':'',
+                      'account_id':False,
+                      'debit':0.0,
+                      'credit':0.0,
+                      }
+            
+            if obj.cash_paid_head_office > 0.0:
+                line_dic.update({'name':'Head Office','account_id':obj.property_cash_head_office_account.id,'debit':obj.cash_paid_head_office})
+                balance+=obj.cash_paid_head_office
+                move_line_obj.create(cr,uid,line_dic,context)
+            if obj.total_branch_expenses > 0.0:
+                line_dic.update({'name':'Expense','account_id':obj.property_cash_expense_account.id,'debit':obj.total_branch_expenses})
+                balance+=obj.total_branch_expenses
+                move_line_obj.create(cr,uid,line_dic,context)
+            if balance > 0.0:
+                line_dic.update({'name':'Branch','account_id':obj.property_cash_branch_account.id,'debit':0.0,'credit':balance})
+                move_line_obj.create(cr,uid,line_dic,context)
+        return res
     
 crms_cash_branch()
+
+class account_move_line(osv.osv):
+    _inherit='account.move.line'
+    _columns={
+              'crms_branch_id':fields.many2one('crms.cash.branch','Cash Branch Id'),
+              
+              }
