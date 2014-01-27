@@ -1,16 +1,12 @@
-from openerp.osv import fields, osv, orm
+from openerp.osv import fields, osv
 import time
-from openerp import SUPERUSER_ID
-from openerp import tools
 from openerp.tools.translate import _
 import datetime
-#from datetime import datetime
 from dateutil.relativedelta import relativedelta
-import calendar
 from openerp.tools import float_compare
 from openerp import netsvc
-import openerp.addons.decimal_precision as dp
-
+_ENTRY_TYPE = [('car', 'Car'), ('branch', 'Branch'),('area', 'Area'), ('city', 'City'),
+                ('region', 'Region'), ('segment','Segment'),('company', 'Company'),]
 def extend(class_to_extend):
     """
     Decorator to use to extend a existing class with a new method
@@ -42,7 +38,7 @@ def _get_by_id( self,obj, cr, uid, prop_name, ids, context=None):
 
         cid = [obj.pool.get('res.users').browse(cr,uid,uid).company_id.id]
         if cid:
-             domain =  [('company_id','in',cid)] + domain
+            domain =  [('company_id','in',cid)] + domain
         
         return prop.search(cr, uid, domain, context=context)
 
@@ -69,14 +65,14 @@ class account_account(osv.osv):
         
         journal = self.pool.get('account.journal')
         if 'journal_id1' in context:
-           if context['journal_id1']: 
-            journal_obj = journal.browse(cr,user,context['journal_id1'])
+            if context['journal_id1']: 
+                journal_obj = journal.browse(cr,user,context['journal_id1'])
             
             
-            if journal_obj.account_control_ids:
+                if journal_obj.account_control_ids:
                 
-                account_ids = [account_obj.id for account_obj in journal_obj.account_control_ids]
-                args += [('id', 'in', account_ids)]
+                    account_ids = [account_obj.id for account_obj in journal_obj.account_control_ids]
+                    args += [('id', 'in', account_ids)]
                 
         if name:
             ids = self.search(cr, user, [('code', '=like', name+"%")]+args, limit=limit)
@@ -225,9 +221,9 @@ class account_invoice(osv.osv):
             fleet_analytic = fleet_analytic_account_obj.search(cr, uid, [('date_from','<=',date_invoice),('date_to', '=', False),('vehicle_id','=',vehicle_id)]) or fleet_analytic_account_obj.search(cr, uid, [('date_from','<=',date_invoice),('date_to', '!=', False),('date_to','>=',date_invoice),('vehicle_id','=',vehicle_id)])
             
             if fleet_analytic:
-                  fleet_obj = fleet_analytic_account_obj.browse(cr ,uid,fleet_analytic[0] )
-                  cost_analytic_id = fleet_obj.branch_id and fleet_obj.branch_id.project_id and fleet_obj.branch_id.project_id.id    
-                  self.write(cr,uid, inv.id,{'cost_analytic_id' : cost_analytic_id, 'vehicle_id' : vehicle_id})  
+                fleet_obj = fleet_analytic_account_obj.browse(cr ,uid,fleet_analytic[0] )
+                cost_analytic_id = fleet_obj.branch_id and fleet_obj.branch_id.project_id and fleet_obj.branch_id.project_id.id    
+                self.write(cr,uid, inv.id,{'cost_analytic_id' : cost_analytic_id, 'vehicle_id' : vehicle_id})  
             
             
             if not inv.journal_id.sequence_id:
@@ -490,11 +486,11 @@ class account_invoice_line(osv.osv):
                     
                 }
                 if not line.asset_category_id.non_depreciation_period:
-                   vals['depreciation_start_date'] =line.invoice_id.date_invoice,
+                    vals['depreciation_start_date'] =line.invoice_id.date_invoice,
                 elif  line.asset_category_id.non_depreciation_period == 'months': 
                     vals['depreciation_start_date'] =   datetime.datetime.strptime(line.invoice_id.date_invoice, '%Y-%m-%d')+relativedelta(months=+line.asset_category_id.non_depreciation_value)
                 elif line.asset_category_id.non_depreciation_period == 'days':
-                      vals['depreciation_start_date'] =   datetime.datetime.strptime(line.invoice_id.date_invoice, '%Y-%m-%d')+relativedelta(days=+line.asset_category_id.non_depreciation_value)
+                    vals['depreciation_start_date'] =   datetime.datetime.strptime(line.invoice_id.date_invoice, '%Y-%m-%d')+relativedelta(days=+line.asset_category_id.non_depreciation_value)
                 changed_vals = asset_obj.onchange_category_id(cr, uid, [], vals['category_id'],vals['purchase_date'], context=context)
                 vals.update(changed_vals['value'])
                 asset_id = asset_obj.create(cr, uid, vals, context=context)
@@ -526,16 +522,14 @@ class advance_expense_line(osv.osv):
     
     
     def create_move(self, cr, uid, ids, context=None):
-        can_close = False
+        
         if context is None:
             context = {}
-        asset_obj = self.pool.get('account.asset.asset')
-        period_obj = self.pool.get('account.period')
         move_obj = self.pool.get('account.move')
         move_line_obj = self.pool.get('account.move.line')
         currency_obj = self.pool.get('res.currency')
         created_move_ids = []
-        asset_ids = []
+        
         if not ids:
             ids = self.search(cr,uid,[('date' ,'<=', datetime.datetime.today()),('move_check','=',False),('parent_state','=','posted')])
         for line in self.browse(cr, uid, ids, context=context):
@@ -544,15 +538,14 @@ class advance_expense_line(osv.osv):
             company_currency = line.voucher_id.company_id.currency_id.id
             journal  = line.voucher_id.rent_jounral_id
             if journal.currency:
-              current_currency = journal.currency and journal.currency.id or False
+                current_currency = journal.currency and journal.currency.id or False
             else:
-                  current_currency = journal.company_id.currency_id.id
+                current_currency = journal.company_id.currency_id.id
                   
             
             context.update({'date': date})
             amount = currency_obj.compute(cr, uid, current_currency, company_currency, line.amount, context=context)
             sign = 1 # (line.asset_id.category_id.journal_id.type == 'purchase' and 1) or -1
-            voucher_name = line.voucher_id.name or 'test'
             reference = line.voucher_id.number or 'Advance payment adjustment'
              
             journal_id = journal.id
@@ -654,10 +647,8 @@ class account_voucher(osv.osv):
         ),
      'adjust_journal_id': fields.many2one('account.journal','Shared Service journal'),
      'exp_account_id' : fields.many2one('account.account','Expenses Account'),
-     'entry_type': fields.selection([('car', 'Car'), ('branch', 'Branch'),
-                                     ('area', 'Area'), ('city', 'City'),
-                                     ('region', 'Region'), ('segment', 'Segment'),('company','Company'),
-                                     ], 'Cost Center Type',),  
+     
+     'entry_type': fields.selection(_ENTRY_TYPE, 'Cost Center Type',),  
     'car_id' : fields.many2one('fleet.vehicle','Car'),      
     'branch_id': fields.many2one('sale.shop',  'Branch'), 
     'area_id': fields.many2one('res.city.area',  'Area'),
@@ -831,9 +822,9 @@ class account_voucher(osv.osv):
             
             fleet_analytic = fleet_analytic_account_obj.search(cr, uid, [('date_from','<=',voucher.date),('date_to', '=', False),('vehicle_id','=',vehicle_id)]) or fleet_analytic_account_obj.search(cr, uid, [('date_from','<=',voucher.date),('date_to', '!=', False),('date_to','>=',voucher.date),('vehicle_id','=',vehicle_id)])
             if fleet_analytic:
-                  fleet_obj = fleet_analytic_account_obj.browse(cr ,uid,fleet_analytic[0] )
-                  cost_analytic_id = fleet_obj.branch_id and fleet_obj.branch_id.project_id and fleet_obj.branch_id.project_id.id
-                  self.write(cr,uid, voucher.id,{'cost_analytic_id' : cost_analytic_id, 'vehicle_id' : vehicle_id})    
+                fleet_obj = fleet_analytic_account_obj.browse(cr ,uid,fleet_analytic[0] )
+                cost_analytic_id = fleet_obj.branch_id and fleet_obj.branch_id.project_id and fleet_obj.branch_id.project_id.id
+                self.write(cr,uid, voucher.id,{'cost_analytic_id' : cost_analytic_id, 'vehicle_id' : vehicle_id})    
              
             if voucher.from_date and voucher.no_months and voucher.cost_analytic_id:
                 self.purchase_receipt(cr, uid, ids, context=None)
@@ -844,92 +835,77 @@ class account_voucher(osv.osv):
     
     def purchase_receipt(self, cr, uid, ids, context=None):
         expense_line_obj = self.pool.get('account.expense.line')
-        voucher_obj = self.pool.get('account.voucher') 
-        voucher_line_obj = self.pool.get('account.voucher.line') 
         period_pool = self.pool.get('account.period')
-        voucher_ids = []
         for voucher in self.browse(cr, uid, ids, context):
-          for voucher_line in voucher.line_ids:  
-            #try:
-            from_date = datetime.datetime.strptime(voucher.from_date[:10],"%Y-%m-%d")
-#             except:
-#                 from_date = datetime.datetime.strptime(voucher.from_date,"%Y-%m-%d %H:%M:%S")   
-            analytic_ids = [voucher.cost_analytic_id.id]
-            per_month = voucher_line.amount/voucher.no_months
-            account_id = voucher.account_id.id
+            for voucher_line in voucher.line_ids:  
+                #try:
+                from_date = datetime.datetime.strptime(voucher.from_date[:10],"%Y-%m-%d")
+    #             except:
+    #                 from_date = datetime.datetime.strptime(voucher.from_date,"%Y-%m-%d %H:%M:%S")   
+                analytic_ids = [voucher.cost_analytic_id.id]
+                per_month = voucher_line.amount/voucher.no_months
+                    
+                for month in range(voucher.no_months):
+                    from_date1 = from_date + relativedelta(months=month+1) - relativedelta(days=1)
+                    pids = period_pool.find(cr, uid, from_date1, context=None)
+                    expense_line_dic = { 'date': from_date1,
+                                         'amount' : per_month,
+                                         'voucher_id': voucher.id,
+                                          'period_id': pids and pids[0],
+                                         'account_id' : voucher_line.account_id.id, 
+                                         'debit_account_id' : voucher.exp_account_id.id,
+                                         'account_analytic_id' : analytic_ids and analytic_ids[0] or False,
+                                    
+                                    }
+                    expense_line_obj.create(cr,uid,expense_line_dic )
             
-            if voucher_line.type == 'dr':
-                voucher_type = 'purchase'
-            else:
-                voucher_type = 'sale' 
-                
-            for month in range(voucher.no_months):
-                from_date1 = from_date + relativedelta(months=month+1) - relativedelta(days=1)
-                pids = period_pool.find(cr, uid, from_date1, context=None)
-    
-            
-              
-                
-                expense_line_dic = { 'date': from_date1,
-                                     'amount' : per_month,
-                                     'voucher_id': voucher.id,
-                                      'period_id': pids and pids[0],
-                                     'account_id' : voucher_line.account_id.id, 
-                                     'debit_account_id' : voucher.exp_account_id.id,
-                                     'account_analytic_id' : analytic_ids and analytic_ids[0] or False,
-                                
-                                }
-                line_id = expense_line_obj.create(cr,uid,expense_line_dic )
-        
             
             
         return True
     def purchase_receipt1(self, cr, uid, ids, context=None):
-        analytic_obj = self.pool.get('account.analytic.account')
         voucher_obj = self.pool.get('account.voucher') 
         voucher_line_obj = self.pool.get('account.voucher.line') 
         period_pool = self.pool.get('account.period')
         voucher_ids = []
         for voucher in self.browse(cr, uid, ids, context):
-          for voucher_line in voucher.line_ids:  
-            try:
-               from_date = datetime.datetime.strptime(voucher.from_date,"%Y-%m-%d")
-            except:
-                from_date = datetime.datetime.strptime(voucher.from_date,"%Y-%m-%d %H:%M:%S")   
-            analytic_ids = [voucher.cost_analytic_id.id]
-            per_month = voucher_line.amount/voucher.no_months
-            account_id = voucher.account_id.id
-            
-            if voucher_line.type == 'dr':
-                voucher_type = 'purchase'
-            else:
-                voucher_type = 'sale'
-            for month in range(voucher.no_months):
-                from_date1 = from_date + relativedelta(months=month+1) - relativedelta(days=1)
-                pids = period_pool.find(cr, uid, from_date1, context=None)
-    
-            
-                voucher_dict = { 'partner_id' : voucher.partner_id.id,
-                                'company_id' : voucher.company_id.id,
-                                'date': from_date1,
-                                'date_due': from_date1,
-                                'type' : voucher_type,
-                                'account_id' : voucher_line.account_id.id,
-                                'journal_id' : voucher.rent_jounral_id.id,
-                                'amount' :per_month,
-                                'cost_analytic_id': voucher.cost_analytic_id.id,
-                                'period_id': pids and pids[0],
-                               # 'line_dr_ids' :[],                    
-                 }
-                voucher_id = voucher_obj.create(cr,uid,voucher_dict)
-                voucher_ids.append(voucher_id)
-                voucher_line_dic = { 'account_id' : voucher.exp_account_id.id, 
-                                'account_analytic_id' : analytic_ids and analytic_ids[0] or False,
-                                'amount' : per_month,
-                                'voucher_id': voucher_id,
-                                'type': voucher_line.type,
-                                }
-                line_id = voucher_line_obj.create(cr,uid,voucher_line_dic )
+            for voucher_line in voucher.line_ids:  
+                try:
+                    from_date = datetime.datetime.strptime(voucher.from_date,"%Y-%m-%d")
+                except:
+                    from_date = datetime.datetime.strptime(voucher.from_date,"%Y-%m-%d %H:%M:%S")   
+                analytic_ids = [voucher.cost_analytic_id.id]
+                per_month = voucher_line.amount/voucher.no_months
+                
+                if voucher_line.type == 'dr':
+                    voucher_type = 'purchase'
+                else:
+                    voucher_type = 'sale'
+                for month in range(voucher.no_months):
+                    from_date1 = from_date + relativedelta(months=month+1) - relativedelta(days=1)
+                    pids = period_pool.find(cr, uid, from_date1, context=None)
+        
+                
+                    voucher_dict = { 'partner_id' : voucher.partner_id.id,
+                                    'company_id' : voucher.company_id.id,
+                                    'date': from_date1,
+                                    'date_due': from_date1,
+                                    'type' : voucher_type,
+                                    'account_id' : voucher_line.account_id.id,
+                                    'journal_id' : voucher.rent_jounral_id.id,
+                                    'amount' :per_month,
+                                    'cost_analytic_id': voucher.cost_analytic_id.id,
+                                    'period_id': pids and pids[0],
+                                   # 'line_dr_ids' :[],                    
+                     }
+                    voucher_id = voucher_obj.create(cr,uid,voucher_dict)
+                    voucher_ids.append(voucher_id)
+                    voucher_line_dic = { 'account_id' : voucher.exp_account_id.id, 
+                                    'account_analytic_id' : analytic_ids and analytic_ids[0] or False,
+                                    'amount' : per_month,
+                                    'voucher_id': voucher_id,
+                                    'type': voucher_line.type,
+                                    }
+                    voucher_line_obj.create(cr,uid,voucher_line_dic )
         wf_service = netsvc.LocalService("workflow")
         for vid in voucher_ids:
             wf_service.trg_validate(uid, 'account.voucher', vid, 'proforma_voucher', cr)   
@@ -964,7 +940,7 @@ class account_voucher(osv.osv):
     def onchange_journal(self, cr, uid, ids, journal_id, line_ids, tax_id, partner_id, date, amount, ttype, company_id, context=None):
        
         if not context:
-             context = {}
+            context = {}
         if not journal_id:
             return False
         journal_pool = self.pool.get('account.journal')
@@ -1050,7 +1026,6 @@ class account_voucher(osv.osv):
             context = {}
         move_pool = self.pool.get('account.move')
         move_line_pool = self.pool.get('account.move.line')
-        user_obj = self.pool.get('res.users').browse(cr, uid, uid)
         for voucher in self.browse(cr, uid, ids, context=context):
             if voucher.move_id:
                 continue
@@ -1087,7 +1062,7 @@ class account_voucher(osv.osv):
             if ml_writeoff:
                 move_line_pool.create(cr, uid, ml_writeoff, context)
             # We post the voucher.
-            print "hhhherererertetrer",voucher.id,move_id
+            
             self.write(cr, uid, [voucher.id], {
                 'move_id': move_id,
                 'state': 'posted',
@@ -1096,10 +1071,9 @@ class account_voucher(osv.osv):
             if voucher.journal_id.entry_posted:
                 move_pool.post(cr, uid, [move_id], context={})
             # We automatically reconcile the account move lines.
-            reconcile = False
             for rec_ids in rec_list_ids:
                 if len(rec_ids) >= 2:
-                    reconcile = move_line_pool.reconcile_partial(cr, uid, rec_ids, writeoff_acc_id=voucher.writeoff_acc_id.id, writeoff_period_id=voucher.period_id.id, writeoff_journal_id=voucher.journal_id.id)
+                    move_line_pool.reconcile_partial(cr, uid, rec_ids, writeoff_acc_id=voucher.writeoff_acc_id.id, writeoff_period_id=voucher.period_id.id, writeoff_journal_id=voucher.journal_id.id)
         return True
 
     def voucher_move_line_create1(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):

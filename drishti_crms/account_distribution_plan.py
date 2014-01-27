@@ -1,15 +1,6 @@
-from openerp.osv import fields, osv, orm
-import time
-from openerp import SUPERUSER_ID
-from openerp import tools
-from openerp.tools.translate import _
+from openerp.osv import fields, osv
 import datetime
-#from datetime import datetime
 from dateutil import relativedelta
-import calendar
-from openerp.tools import float_compare
-from openerp import netsvc
-import openerp.addons.decimal_precision as dp
 
 
 class account_afras_cost_distribution(osv.osv):
@@ -103,9 +94,6 @@ class account_afras_cost_distribution(osv.osv):
                     dist_plan_line_obj.create(cr, uid, vals, context=context)
                 
         
-    
-    
-
 class account_afras_cost_distribution_lines(osv.osv):
     _name = 'account.afras.cost.distribution.lines'
     _columns = {

@@ -1,23 +1,19 @@
 from openerp.osv import fields, osv
 import datetime
 
+_ENTRY_TYPE = [('car', 'Car'), ('branch', 'Branch'),('area', 'Area'), ('city', 'City'),
+                ('region', 'Region'), ('segment','Segment'),('company', 'Company'),]
 class account_analytic_line(osv.osv):
     _inherit = 'account.analytic.line'
     _description = 'Analytic Line'
-
     _columns = {
                 'vehicle_id' : fields.many2one('fleet.vehicle','Vehicle'),
                 'split_entry' : fields.selection([('draft','New'),('progress','Progress'),('done','Done')],'Split Entry'),
-                'entry_type': fields.selection([('car', 'Car'), ('branch', 'Branch'),
-                                                 ('area', 'Area'), ('city', 'City'),
-                                                 ('region', 'Region'), ('segment','Segment'),('company', 'Company'),
-                                                 ], 'Analytic Entry Type',),
+                'entry_type': fields.selection(_ENTRY_TYPE, 'Analytic Entry Type',),
                 'from_date' : fields.date('From Date'),
                 'to_date' : fields.date('To Date'),
-                'next_split_date' : fields.date('Next Split Date')
-                                                 
-                }
-    
+                'next_split_date' : fields.date('Next Split Date')                               
+                } 
     _defaults = {
                  'split_entry' : 'draft'
                  }
@@ -27,48 +23,33 @@ class account_analytic_line(osv.osv):
         for rec in ids:
             rec_ids = distribution_obj.search(cr, uid, [('analytic_line_id', '=', rec)])
             if rec_ids:
-                distribution_obj.unlink(cr, uid, rec_ids, context=context)
-                
+                distribution_obj.unlink(cr, uid, rec_ids, context=context)    
         return super(account_analytic_line, self).unlink(cr, uid, ids, context=context)
     
     def split_analytic_line(self, cr, uid, ids, context=None):
         date = datetime.datetime.today()
-        
-        #for current expenses
         line_obj = self.pool.get('account.analytic.line') 
         fleet_analytic_obj = self.pool.get('fleet.analytic.account')
         branch_obj =  self.pool.get('sale.shop')
-        area_obj =  self.pool.get('res.city.area')
-        city_obj =  self.pool.get('res.state.city')
-        region_obj =  self.pool.get('res.country.state')
-        country_obj =  self.pool.get('res.country')
         vehicle_obj =  self.pool.get('fleet.vehicle')
         line_id = line_obj.search(cr, uid, [('next_split_date','<=',date),
                                                                ('split_entry','<>','done')])
-        
         analytic_line_objs = line_obj.browse(cr,uid, line_id)
-        
-        list = []
         for alo in analytic_line_objs:
             if not alo.from_date or  not alo.to_date:
-                amount = alo.amount
-                       
+                amount = alo.amount        
             if alo.from_date:
                         # find different between two date
-                 from_date = datetime.datetime.strptime(alo.from_date,"%Y-%m-%d")
-                 to_date = datetime.datetime.strptime(alo.to_date,"%Y-%m-%d") 
-                 no_of_days = (to_date - from_date).days +1
-                 amount = alo.amount/no_of_days 
+                from_date = datetime.datetime.strptime(alo.from_date,"%Y-%m-%d")
+                to_date = datetime.datetime.strptime(alo.to_date,"%Y-%m-%d") 
+                no_of_days = (to_date - from_date).days +1
+                amount = alo.amount/no_of_days 
             try:     
                 next_split_date =  datetime.datetime.strptime(alo.next_split_date,"%Y-%m-%d") 
             except:
                 next_split_date = datetime.datetime.strptime(alo.next_split_date,"%Y-%m-%d %H:%M:%S")           
             vehicle_id = False
             branch_id = False
-            area_id = False
-            city_id = False
-            region_id = False
-            country_id = False
             fleet_analytic_ids = False
             if alo.entry_type == 'car':
                 vehicle_id =  vehicle_obj.search(cr ,uid,[('analytic_id','=',alo.account_id.id)])
@@ -79,17 +60,17 @@ class account_analytic_line(osv.osv):
                 fleet_analytic_ids = fleet_analytic_obj.browse(cr,uid,fa_line)
                    
             elif alo.entry_type == 'branch':
-               branch_id = branch_obj.search(cr,uid,[('project_id','=',alo.account_id.id)]) 
-               fa_line = fleet_analytic_obj.search(cr, uid,[('branch_id','in',branch_id)])
-               fleet_analytic_ids = fleet_analytic_obj.browse(cr,uid,fa_line)
+                branch_id = branch_obj.search(cr,uid,[('project_id','=',alo.account_id.id)]) 
+                fa_line = fleet_analytic_obj.search(cr, uid,[('branch_id','in',branch_id)])
+                fleet_analytic_ids = fleet_analytic_obj.browse(cr,uid,fa_line)
             
             elif alo.entry_type =='area':
-               fa_line = fleet_analytic_obj.search(cr, uid,[('area_id','=',alo.account_id.area_id.id)])
-               fleet_analytic_ids = fleet_analytic_obj.browse(cr,uid,fa_line)
+                fa_line = fleet_analytic_obj.search(cr, uid,[('area_id','=',alo.account_id.area_id.id)])
+                fleet_analytic_ids = fleet_analytic_obj.browse(cr,uid,fa_line)
                
             elif alo.entry_type == 'city':               
-               fa_line = fleet_analytic_obj.search(cr, uid,[('city_id','=',alo.account_id.city_id.id)])
-               fleet_analytic_ids = fleet_analytic_obj.browse(cr,uid,fa_line)
+                fa_line = fleet_analytic_obj.search(cr, uid,[('city_id','=',alo.account_id.city_id.id)])
+                fleet_analytic_ids = fleet_analytic_obj.browse(cr,uid,fa_line)
             
             elif alo.entry_type == 'region':
                 fa_line = fleet_analytic_obj.search(cr, uid,[('region_id','=',alo.account_id.region_id.id)])
@@ -106,38 +87,34 @@ class account_analytic_line(osv.osv):
                 total_value  = 0
                 dic = {}
                 if fleet_analytic_ids:
-                
-                
-                  for analytic_id in fleet_analytic_ids:
-                    
-                    if datetime.datetime.strptime( analytic_id.date_from,"%Y-%m-%d") <= next_split_date and (not analytic_id.date_to or datetime.datetime.strptime( analytic_id.date_to,"%Y-%m-%d") >= next_split_date ):
-                           
-                           total_value  += analytic_id.vehicle_id.car_value  
-                           dic[analytic_id.vehicle_id.id] = {
-                                'name': alo.name,
-                                'vehicle_id' : analytic_id.vehicle_id.id,
-                                'branch_id': analytic_id.branch_id.id,
-                                'area_id': analytic_id.area_id.id,
-                                'city_id': analytic_id.city_id.id, 
-                                'region_id': analytic_id.region_id.id,
-                                'country_id': analytic_id.country_id.id,
-                                'debit' : 0,
-                                'credit': 0,
-                                'amount': 0,
-                                'date': next_split_date,
-                                'entry_type': alo.entry_type,
-                                'car_value' : analytic_id.vehicle_id.car_value,
-                                'account_id' : alo.general_account_id.id,
-                                'analytic_line_id': alo.id,
-                                'move_id': alo.move_id.id,
-                                
-                            }
+                    for analytic_id in fleet_analytic_ids:
+                        if datetime.datetime.strptime( analytic_id.date_from,"%Y-%m-%d") <= next_split_date and (not analytic_id.date_to or datetime.datetime.strptime( analytic_id.date_to,"%Y-%m-%d") >= next_split_date ):
+                               
+                            total_value  += analytic_id.vehicle_id.car_value  
+                            dic[analytic_id.vehicle_id.id] = {
+                                    'name': alo.name,
+                                    'vehicle_id' : analytic_id.vehicle_id.id,
+                                    'branch_id': analytic_id.branch_id.id,
+                                    'area_id': analytic_id.area_id.id,
+                                    'city_id': analytic_id.city_id.id, 
+                                    'region_id': analytic_id.region_id.id,
+                                    'country_id': analytic_id.country_id.id,
+                                    'debit' : 0,
+                                    'credit': 0,
+                                    'amount': 0,
+                                    'date': next_split_date,
+                                    'entry_type': alo.entry_type,
+                                    'car_value' : analytic_id.vehicle_id.car_value,
+                                    'account_id' : alo.general_account_id.id,
+                                    'analytic_line_id': alo.id,
+                                    'move_id': alo.move_id.id,
+                                    
+                                }
                            
                            
                 if  not fleet_analytic_ids:
                     dic1 = {
                                 'name': alo.name,
-                              
                                 'company_id': alo.account_id.company_id.id,
                                 'debit' : (amount >=0) and amount or 0,
                                 'credit': (amount < 0) and amount* -1 or 0,
@@ -177,10 +154,7 @@ class account_analytic_line(osv.osv):
                         vehicle_id =  vehicle_obj.search(cr ,uid,[('analytic_id','=',alo.account_id.id)])
                         dic1['vehicle_id'] =  vehicle_id and vehicle_id[0]   
                                    
-                    id11 = self.pool.get('fleet.vehicle.cost.distribution').create(cr, uid, dic1)    
-                   
-                       
-                         
+
                 for key,values in dic.items():
 
                     dic[key]['amount'] = (dic[key]['car_value'] * amount) / total_value
@@ -189,8 +163,8 @@ class account_analytic_line(osv.osv):
                     self.pool.get('fleet.vehicle.cost.distribution').create(cr, uid, dic[key])
                          
                 if not alo.from_date or datetime.datetime.strptime(alo.to_date,"%Y-%m-%d")  <= next_split_date:
-                       next_split_date += datetime.timedelta(days=1) 
-                       break
+                    next_split_date += datetime.timedelta(days=1) 
+                    break
                 next_split_date += datetime.timedelta(days=1) 
                  
             if not alo.to_date or alo.to_date and datetime.datetime.strptime(alo.to_date,"%Y-%m-%d")  <=date :
@@ -222,12 +196,8 @@ class account_analytic_account(osv.osv):
         return ids4+ids
     
     _columns = {
-                
                 'use_distribution_plan': fields.boolean('Use Distribution Plan'),
-                'entry_type': fields.selection([('car', 'Car'), ('branch', 'Branch'),
-                                                ('area', 'Area'), ('city', 'City'),
-                                                ('region', 'Region'), ('segment','Segment'),('company', 'Company'),
-                                                ], 'Cost Center Type',),
+                'entry_type': fields.selection(_ENTRY_TYPE, 'Cost Center Type',),
                 'vehicle_id' : fields.many2one('fleet.vehicle','vehicle'),
                 'branch_id': fields.many2one('sale.shop',  'Branch'),
                 'area_id': fields.many2one('res.city.area',  'Area'),
@@ -244,15 +214,6 @@ class account_analytic_account(osv.osv):
          'unique (code)',
          'analytic account code must be unique')
     ]
-    
-    def _get_one_full_name(self, elmt, level=6):
-        if level<=0:
-            return '...'
-        if elmt.parent_id and not elmt.type == 'template':
-            parent_path = self._get_one_full_name(elmt.parent_id, level-1) + " / "
-        else:
-            parent_path = ''
-        return parent_path + elmt.name
     
     def name_get(self, cr, uid, ids, context=None):
 

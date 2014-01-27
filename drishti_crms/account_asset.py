@@ -1,15 +1,7 @@
-from openerp.osv import fields, osv, orm
-import time
-from openerp import SUPERUSER_ID
-from openerp import tools
-from openerp.tools.translate import _
+from openerp.osv import fields, osv
 from datetime import datetime,timedelta
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare
-
+from openerp.tools import  DEFAULT_SERVER_DATETIME_FORMAT
 from dateutil.relativedelta import relativedelta
-import calendar
-from openerp.tools import float_compare
-from openerp import netsvc
 import openerp.addons.decimal_precision as dp
 
 
@@ -42,7 +34,6 @@ class account_asset_depreciation_line(osv.osv):
               
             
     def create_move(self, cr, uid, ids, context=None):
-        can_close = False
         if context is None:
             context = {}
         asset_obj = self.pool.get('account.asset.asset')
@@ -50,7 +41,6 @@ class account_asset_depreciation_line(osv.osv):
         move_obj = self.pool.get('account.move')
         move_line_obj = self.pool.get('account.move.line')
         currency_obj = self.pool.get('res.currency')
-        fleet_analytic_obj = self.pool.get('fleet.analytic.account')
         
         created_move_ids = []
         asset_ids = []
@@ -58,42 +48,13 @@ class account_asset_depreciation_line(osv.osv):
             ids = self.search(cr,uid,[('depreciation_date' ,'<=', datetime.today()),('move_check','=',False),('parent_state','=','open')])
            
         for line in self.browse(cr, uid, ids, context=context):
-            
-            
             #depreciation_date = context.get('depreciation_date') or time.strftime('%Y-%m-%d')
             depreciation_date = line.depreciation_date
             depreciation_date1 = datetime.strptime(depreciation_date,"%Y-%m-%d")     
             if line.asset_id.depreciation_period =='months':
-              from_date = depreciation_date1 - relativedelta(months=line.asset_id.method_period) + timedelta(days=1)
+                from_date = depreciation_date1 - relativedelta(months=line.asset_id.method_period) + timedelta(days=1)
             else:
-                 from_date = depreciation_date1 - relativedelta(days=line.asset_id.method_period) + timedelta(days=1) 
-           # from_date = period_obj._get_last_depreciation_date(cr, uid, [line.id], context)
-#             if line.asset_id.vehicle_id:
-#                 date1 = from_date
-#                 dic = {}
-#                 vehicle_id  = line.asset_id.vehicle_id and line.asset_id.vehicle_id.id or False
-#                 fleet_analytic_ids = fleet_analytic_obj.search(cr, uid, ['&' ,('vehicle_id','=',vehicle_id),'|','&',
-#                                                     ('date_from','<=',from_date),
-#                                                     ('date_to','>=',from_date),'|', '&',
-#                                                     ('date_from','>=',from_date),
-#                                                     ('date_from','<=',depreciation_date),'&',
-#                                                     ('date_to','>=',from_date),
-#                                                     ('date_to','<=',depreciation_date)])
-#                 for analytic in fleet_analytic_ids:
-#                      dic[analytic] = 0
-#                 tot_days =0  
-#                 while date1 <= depreciation_date1:
-#                     fleet_analytic_id = fleet_analytic_obj.search(cr, uid, [('vehicle_id','=',vehicle_id),
-#                                                         ('date_from','<=',date1),
-#                                                         ('date_to','>=',date1)])
-#                     if fleet_analytic_id:
-#                         dic[fleet_analytic_id[0]] +=1
-#                     tot_days +=1    
-#                     date1 += timedelta(days=1)
-        
-        
-        
-            analytic_id = False
+                from_date = depreciation_date1 - relativedelta(days=line.asset_id.method_period) + timedelta(days=1) 
             
             ctx = dict(context, account_period_prefer_normal=True)
             period_ids = period_obj.find(cr, uid, depreciation_date, context=ctx)
@@ -112,17 +73,17 @@ class account_asset_depreciation_line(osv.osv):
                 fleet_analytic = fleet_analytic_account_obj.search(cr, uid, [('date_from','<=',depreciation_date),('date_to', '=', False),('vehicle_id','=',vehicle_id)]) or fleet_analytic_account_obj.search(cr, uid, [('date_from','<=',depreciation_date),('date_to', '!=', False),('date_to','>=',depreciation_date),('vehicle_id','=',vehicle_id)])
                 cost_analytic_id = False
                 if fleet_analytic:
-                      fleet_obj = fleet_analytic_account_obj.browse(cr ,uid,fleet_analytic[0] )
-                      cost_analytic_id = fleet_obj.branch_id and fleet_obj.branch_id.project_id and fleet_obj.branch_id.project_id.id    
+                    fleet_obj = fleet_analytic_account_obj.browse(cr ,uid,fleet_analytic[0] )
+                    cost_analytic_id = fleet_obj.branch_id and fleet_obj.branch_id.project_id and fleet_obj.branch_id.project_id.id    
             else:
                 asset_cost_center_obj = self.pool.get('account.asset.cost.center')
                 analytic_account = asset_cost_center_obj.search(cr, uid, [('from_date','<=',depreciation_date),('to_date', '=', False),('asset_id','=',line.asset_id.id)]) or asset_cost_center_obj.search(cr, uid, [('from_date','<=',depreciation_date),('to_date', '!=', False),('to_date','>=',depreciation_date),('asset_id','=',line.asset_id.id)])
                 cost_analytic_id = False
                 if analytic_account:
-                      analytic_obj = asset_cost_center_obj.browse(cr ,uid,analytic_account[0] )
-                      cost_analytic_id = analytic_obj.analytic_id.id
+                    analytic_obj = asset_cost_center_obj.browse(cr ,uid,analytic_account[0] )
+                    cost_analytic_id = analytic_obj.analytic_id.id
                 else:
-                      cost_analytic_id = line.cost_analytic_id and line.cost_analytic_id.id or False
+                    cost_analytic_id = line.cost_analytic_id and line.cost_analytic_id.id or False
                 cost_analytic_id = line.cost_analytic_id and line.cost_analytic_id.id or False
             move_vals = {
                 'name': asset_name,
@@ -135,7 +96,6 @@ class account_asset_depreciation_line(osv.osv):
             move_id = move_obj.create(cr, uid, move_vals, context=context)
             journal_id = line.asset_id.category_id.journal_id.id
             partner_id = line.asset_id.partner_id.id
-            analytic_journal_id = line.asset_id.category_id.journal_id.analytic_journal_id.id
             
             move_line_obj.create(cr, uid, {
                 'name': asset_name,
@@ -154,7 +114,7 @@ class account_asset_depreciation_line(osv.osv):
                 
             })
             
-            move_line_id = move_line_obj.create(cr, uid, {
+            move_line_obj.create(cr, uid, {
                 'name': asset_name,
                 'ref': reference,
                 'move_id': move_id,
@@ -173,32 +133,6 @@ class account_asset_depreciation_line(osv.osv):
                 'to_date' : depreciation_date,
                  'cost_analytic_id': line.asset_id.cost_analytic_id and line.asset_id.cost_analytic_id.id or False,
             })
-            
-#             if line.asset_id.vehicle_id:
-#                 for fleet in  fleet_analytic_obj.browse(cr, uid,fleet_analytic_ids ):
-#                     
-#                      analytic_id =  line.asset_id.analytic_id.id    #fleet.analytic_id.id
-#                      val = amount
-#                      amt=float(val * dic[fleet.id])/tot_days
-#                      
-#                      al_vals={
-#                            'name': asset_name,
-#                            'date': depreciation_date,
-#                            'account_id': analytic_id,
-#                            #'unit_amount': line.quantity,
-#                            #'product_id': line.product_id and line.product_id.id or False,
-#                            #'product_uom_id': line.product_uom_id and line.product_uom_id.id or False,
-#                            'amount': -amt,
-#                            'general_account_id': line.asset_id.category_id.account_expense_depreciation_id.id,
-#                            'move_id': move_line_id,
-#                            'journal_id':analytic_journal_id,
-#                            'ref': reference,
-#                           
-#                            'vehicle_id':vehicle_id,
-#                        }
-#                      print "here",amt,line.asset_id.category_id.account_depreciation_id.id,line.asset_id.category_id.account_expense_depreciation_id.id
-#                      self.pool.get('account.analytic.line').create(cr, uid, al_vals, context=context)
-                
             
             self.write(cr, uid, line.id, {'move_id': move_id}, context=context)
             created_move_ids.append(move_id)
@@ -276,7 +210,7 @@ class account_asset_asset(osv.osv):
                 else:
                     res['value']['depreciation_start_date'] = (datetime.strptime(purchase_date, '%Y-%m-%d') + relativedelta(days=+category_obj.non_depreciation_value)).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False
             else:
-                  res['value']['depreciation_start_date'] =   purchase_date         
+                res['value']['depreciation_start_date'] =   purchase_date         
         return res
 
 
@@ -321,7 +255,7 @@ class account_asset_asset(osv.osv):
                 if (len(posted_depreciation_line_ids)>0):
                     last_depreciation_date = datetime.strptime(depreciation_lin_obj.browse(cr,uid,posted_depreciation_line_ids[0],context=context).depreciation_date, '%Y-%m-%d')
                     if asset.depreciation_period =='months': 
-                      depreciation_date = (last_depreciation_date+relativedelta(months=+asset.method_period))
+                        depreciation_date = (last_depreciation_date+relativedelta(months=+asset.method_period))
                     else:
                         depreciation_date = (last_depreciation_date+relativedelta(days=+asset.method_period) ) 
                 else:
@@ -352,10 +286,10 @@ class account_asset_asset(osv.osv):
                      'depreciation_date': depreciation_date.strftime('%Y-%m-%d'),
                 }
                 if amount!=0:
-                   depreciation_lin_obj.create(cr, uid, vals, context=context)
+                    depreciation_lin_obj.create(cr, uid, vals, context=context)
                 # Considering Depr. Period as months
                 if asset.depreciation_period =='months':
-                   depreciation_date = (datetime(year1, month1, day1) + relativedelta(months=+(asset.method_period*i)))
+                    depreciation_date = (datetime(year1, month1, day1) + relativedelta(months=+(asset.method_period*i)))
                 else:
                     depreciation_date = (datetime(year, month, day) + relativedelta(days=+asset.method_period))
                 day = depreciation_date.day
@@ -398,7 +332,7 @@ class account_asset_asset(osv.osv):
 #                                 total_days += next_month_days
 #                         amount = (amount_to_depr / asset.method_number) / total_days * days
 #                                  
-                         amount = 0 #(amount_to_depr / asset.method_number) / total_days * days
+                        amount = 0 #(amount_to_depr / asset.method_number) / total_days * days
 #                     elif i == undone_dotation_number:
 #                         amount = (amount_to_depr / asset.method_number) / total_days * (total_days - days)
             elif asset.method == 'degressive':
