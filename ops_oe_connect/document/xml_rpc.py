@@ -73,6 +73,7 @@ SA3630400
 
 
 #partner_id = sock.execute(dbname, uid, pwd, model, 'CreateRecord', supplier_data)            
+print"======PRODUCT===5====",product_id
 
 model = 'purchase.requisition'
 

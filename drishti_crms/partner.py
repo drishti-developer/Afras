@@ -1,11 +1,4 @@
-from openerp.osv import fields, osv, orm
-import time
-from openerp import SUPERUSER_ID
-from openerp import tools
-from openerp.tools.translate import _
-import datetime
-from dateutil.relativedelta import relativedelta
-
+from openerp.osv import fields, osv
 
 class res_partner(osv.osv):
     _inherit = "res.partner"    

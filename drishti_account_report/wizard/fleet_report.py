@@ -65,11 +65,9 @@ class fleet_report(osv.osv_memory):
     }
     def _get_account_report(self, cr, uid, context=None):
         # TODO deprecate this it doesnt work in web
-        menu_obj = self.pool.get('ir.ui.menu')
         report_obj = self.pool.get('account.financial.report')
         report_ids = []
         if context.get('active_id'):
-            menu = menu_obj.browse(cr, uid, context.get('active_id')).name
             report_ids = report_obj.search(cr, uid, [('name','ilike','Profit and Loss')])
         return report_ids and report_ids[0] or False
     

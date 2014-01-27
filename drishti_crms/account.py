@@ -1083,7 +1083,7 @@ class account_voucher(osv.osv):
             move_id = move_pool.create(cr, uid, self.account_move_get(cr, uid, voucher.id, context=context), context=context)
             if voucher.adjust_journal_id:
                 move_id1 = move_pool.create(cr, uid, self.account_move_get1(cr, uid, voucher.id, context=context), context=context)
-                move_line_id1 = move_line_pool.create(cr, uid, self.first_move_line_get1(cr,uid,voucher.id, move_id1, company_currency, current_currency, context), context)
+                move_line_pool.create(cr, uid, self.first_move_line_get1(cr,uid,voucher.id, move_id1, company_currency, current_currency, context), context)
             # Get the name of the account_move just created
             name = move_pool.browse(cr, uid, move_id, context=context).name
             # Create the first line of the voucher
@@ -1139,7 +1139,6 @@ class account_voucher(osv.osv):
         currency_obj = self.pool.get('res.currency')
         tax_obj = self.pool.get('account.tax')
         tot_line = line_total
-        rec_lst_ids = []
 
         date = self.read(cr, uid, voucher_id, ['date'], context=context)['date']
         ctx = context.copy()
@@ -1188,7 +1187,6 @@ class account_voucher(osv.osv):
             }
             if voucher.adjust_journal_id:
                 period_pool = self.pool.get('account.period')  
-                account_obj = self.pool.get('account.account')   
                 ctx = context.copy()
                 ctx.update({'company_id': voucher.adjust_journal_id.company_id.id, 'account_period_prefer_normal': True})
 #                 voucher_currency_id = currency_id or self.pool.get('res.company').browse(cr, uid, voucher.adjust_journal_id.company_id.id, context=ctx).currency_id.id
@@ -1287,7 +1285,7 @@ class account_voucher(osv.osv):
             move_line['amount_currency'] = amount_currency
             move_line1['amount_currency'] = amount_currency
 #             voucher_line = move_line_obj.create(cr, uid, move_line)
-            voucher_line = move_line_obj.create(cr, uid, move_line1)
+            move_line_obj.create(cr, uid, move_line1)
             
         return True
     

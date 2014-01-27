@@ -1,5 +1,4 @@
 from openerp.osv import fields, osv
-from openerp.tools.translate import _
 
 
 class account_asset_asset_wiz(osv.osv_memory):
@@ -26,8 +25,6 @@ class account_asset_asset_wiz(osv.osv_memory):
     def print_report(self,cr,uid,ids,context=None):
         data={}
         domain=[]
-        child_ids=[]
-        
         obj=self.browse(cr,uid,ids[0])
         asset_obj=self.pool.get('account.asset.asset')
         cost_center_obj=self.pool.get('account.asset.cost.center')
@@ -39,14 +36,13 @@ class account_asset_asset_wiz(osv.osv_memory):
         if obj.asset_id:
             domain.append(('id','=',obj.asset_id.id))
         asset_ids=asset_obj.search(cr,uid,domain)
-        list1=[]
         if obj.cost_center_id:
             cost_center_ids=account_analytic_account_obj._get_children(cr,uid,[obj.cost_center_id.id],context=None)
             to_date=cost_center_obj.search(cr,uid,[('analytic_id','in',cost_center_ids),('asset_id','in',asset_ids),('from_date','<=',obj.start_date),('to_date','>=',obj.start_date)])
             if to_date:
                 asset_cost_center_ids=cost_center_obj.search(cr,uid,[('analytic_id','in',cost_center_ids),('asset_id','in',asset_ids),('from_date','<=',obj.start_date),('to_date','>=',obj.start_date)])
             else:
-               asset_cost_center_ids=cost_center_obj.search(cr,uid,[('analytic_id','in',cost_center_ids),('asset_id','in',asset_ids),('from_date','<=',obj.start_date)])
+                asset_cost_center_ids=cost_center_obj.search(cr,uid,[('analytic_id','in',cost_center_ids),('asset_id','in',asset_ids),('from_date','<=',obj.start_date)])
             asset_ids = []
             for cost_center_brw in cost_center_obj.browse(cr, uid, asset_cost_center_ids):
                 asset_ids.append(cost_center_brw.asset_id.id)

@@ -1,12 +1,8 @@
-from osv import osv
-from osv import fields
-from tools.translate import _
+from openerp.osv import osv
+from openerp.osv import fields
 import StringIO
-import cStringIO
 import base64
 import xlrd
-import string
-import sys
 class import_analytical_account(osv.osv_memory):
     _name='import.analytical.account'
     _columns={
@@ -15,9 +11,7 @@ class import_analytical_account(osv.osv_memory):
               }
     def import_account_info(self,cr,uid,ids,context=None):
         lst=[]
-        list_company=[]
         cur_obj = self.browse(cr,uid,ids)[0]
-        account_type_obj=self.pool.get('account.analytic.account')
         company_obj=self.pool.get('res.company')
         company_id=company_obj.search(cr,uid,[('name','ilike','Facility Management')])
         if company_id:
@@ -39,11 +33,10 @@ class import_analytical_account(osv.osv_memory):
         fp = StringIO.StringIO()
         fp.write(val)     
         wb = xlrd.open_workbook(file_contents=fp.getvalue())
-        type='normal'
         for sh in range(0,5):
             sheet=wb.sheet_by_index(sh)
             company_id=lst[sh]
-            parent_id=parent1=parent2=parent3=parent4=parent5=parent6=False
+            parent_id=parent1=parent2=parent3=parent5=False
             for i in range(1,sheet.nrows):
                 name1 =sheet.row_values(i,0,sheet.ncols)[0]
                 name2 =sheet.row_values(i,0,sheet.ncols)[1]
@@ -54,35 +47,34 @@ class import_analytical_account(osv.osv_memory):
                 name5 =sheet.row_values(i,0,sheet.ncols)[5]
                 reference_number =sheet.row_values(i,0,sheet.ncols)[6]
                 if name1:
-                                    
-#                                    analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
-                                   account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name1,'type':type,'code':reference_number,'parent_id':parent_id  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
-                                   parent1=account_id
+                                        
+#                   analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
+                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name1,'type':'normal','code':reference_number,'parent_id':parent_id  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
+                    parent1=account_id
                 elif name2:
-#                                     analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
-                                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name2,'type':type,'code':str(int(reference_number)),'parent_id':parent1  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
-                                    parent2=account_id
+#                   analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
+                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name2,'type':'normal','code':str(int(reference_number)),'parent_id':parent1  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
+                    parent2=account_id
                 elif cost_center_type=='region':
-#                                   analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
-                                  region_id=self.pool.get('res.country.state').search(cr,uid,[('name','ilike',region)])
-                                  account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : region,'type':type,'code':str(int(reference_number)),'parent_id':parent2  or False,'company_id':company_id,'entry_type':cost_center_type or False,'region_id':region_id[0]}) 
-                                  parent3=account_id
+#                   analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
+                    region_id=self.pool.get('res.country.state').search(cr,uid,[('name','ilike',region)])
+                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : region,'type':'normal','code':str(int(reference_number)),'parent_id':parent2  or False,'company_id':company_id,'entry_type':cost_center_type or False,'region_id':region_id[0]}) 
+                    parent3=account_id
                 elif cost_center_type=='company':
-#                                     analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
-                                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name5,'type':type,'code':str(int(reference_number)),'parent_id':parent3  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
-                                    parent4=account_id
+#                   analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
+                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name5,'type':'normal','code':str(int(reference_number)),'parent_id':parent3  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
                 elif cost_center_type=='city':
-#                                     analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
-                                    city_id=self.pool.get('res.state.city').search(cr,uid,[('name','ilike',city)])
-                                    if not city_id:
-                                        account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : city ,'type':type,'code':str(int(reference_number)),'parent_id':parent3  or False,'company_id':company_id,'entry_type':cost_center_type or False,'city_id':city_id}) 
-                                        parent5=account_id
-                                    else:
-                                        account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : city ,'type':type,'code':str(int(reference_number)),'parent_id':parent3  or False,'company_id':company_id,'entry_type':cost_center_type or False,'city_id':city_id[0]}) 
-                                        parent5=account_id
+#                   analitical_parent_id=self.pool.get('account.analytic.account').search(cr,uid,[('parent_id','like',analitical_parent_code)]) 
+                    city_id=self.pool.get('res.state.city').search(cr,uid,[('name','ilike',city)])
+                    if not city_id:
+                        account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : city ,'type':'normal','code':str(int(reference_number)),'parent_id':parent3  or False,'company_id':company_id,'entry_type':cost_center_type or False,'city_id':city_id}) 
+                        parent5=account_id
+                    else:
+                        account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : city ,'type':'normal','code':str(int(reference_number)),'parent_id':parent3  or False,'company_id':company_id,'entry_type':cost_center_type or False,'city_id':city_id[0]}) 
+                        parent5=account_id
                     
                 elif parent5:
-                                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name5,'type':type,'code':str(int(reference_number)),'parent_id':parent5  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
+                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name5,'type':'normal','code':str(int(reference_number)),'parent_id':parent5  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
                 else:
-                                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name5,'type':type,'code':str(int(reference_number)),'parent_id':parent3  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
+                    account_id=self.pool.get('account.analytic.account').create(cr,uid,{'name' : name5,'type':'normal','code':str(int(reference_number)),'parent_id':parent3  or False,'company_id':company_id,'entry_type':cost_center_type or False}) 
         return True

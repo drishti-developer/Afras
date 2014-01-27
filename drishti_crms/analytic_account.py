@@ -155,7 +155,7 @@ class account_analytic_line(osv.osv):
                         dic1['vehicle_id'] =  vehicle_id and vehicle_id[0]   
                                    
 
-                for key,values in dic.items():
+                for key in dic.items():
 
                     dic[key]['amount'] = (dic[key]['car_value'] * amount) / total_value
                     dic[key]['debit'] =   (dic[key]['amount'] >=0) and  dic[key]['amount'] or 0

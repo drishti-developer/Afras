@@ -237,6 +237,37 @@
 		               		<field name="closing_bal"/>
 		               		<field name="branch_id"/>
 		               	</group>
+		               	<notebook>
+		               		<page string = 'Account'>
+		               			<group>
+			               			<group>
+			               			<field name='property_cash_branch_journal'/>
+			               			<field name='property_cash_expense_account'/>
+			               			</group>
+			               			<group>
+			               			<field name='property_cash_branch_account'/>
+			               			<field name='property_cash_head_office_account'/>
+			               			</group>
+		               			</group>
+		               		
+		               		
+		               		</page>
+		               		<page string='Account Entries'>
+								<field name='line_ids' nolabel='1'>
+								<tree>
+									<field name='crms_branch_id' invisible='1'/>
+									<field name='account_id'/>
+									<field name='date_maturity'/>
+									<field name='debit'/>
+									<field name='credit'/>
+									<field name='analytic_account_id'/>
+									<field name='from_date'/>
+									<field name='to_date'/>
+								
+								</tree>
+								</field>										               		
+		               		</page>
+		               	</notebook>
 			        </sheet>
 				</form>
 			</field>
@@ -249,7 +280,7 @@
 			<field name="view_id" ref="crms_cash_branch_tree"/>
 		</record>
 		
-		<menuitem id="sub_menu_crms_cash_branch2" action="action_crms_cash_branch" name="Cash Branch" parent="account.menu_finance_receivables" sequence=""/>
+		<menuitem id="sub_menu_crms_cash_branch2" action="action_crms_cash_branch" name="Cash Branch" parent="account.menu_finance_receivables" sequence="2"/>
     
     </data>
 </openerp>
