@@ -1,13 +1,5 @@
-from openerp.osv import fields, osv, orm
-import time
-from openerp import SUPERUSER_ID
-from openerp import tools
-from openerp.tools.translate import _
-import datetime
-from dateutil.relativedelta import relativedelta
-import calendar
+from openerp.osv import osv
 from openerp import netsvc
-from openerp import pooler
 
 class purchase_order(osv.osv):
     _inherit = "purchase.order"
@@ -18,8 +10,8 @@ class purchase_order(osv.osv):
             product_qty =1
             product_uos_qty = 1
         else:
-             product_qty =order_line.product_qty
-             product_uos_qty = order_line.product_qty
+            product_qty =order_line.product_qty
+            product_uos_qty = order_line.product_qty
                
         return {
             'name': order_line.name or '',

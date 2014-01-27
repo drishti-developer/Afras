@@ -20,19 +20,11 @@
 ##############################################################################
 
 
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import fields, osv
 import StringIO
-import cStringIO
 import base64
 import xlrd
-import string
-import calendar
-from calendar import monthrange
-from datetime import datetime,timedelta
-from dateutil.relativedelta import relativedelta
-import datetime
-
+from datetime import timedelta, datetime
 DATA_DIC={
          
            'Computer Hardware':8,
@@ -56,7 +48,6 @@ class data_import(osv.osv_memory):
     
     def import_data(self,cr,uid,ids,context=None):
         assetObj = self.pool.get('account.asset.asset')
-        assetCategoryObj = self.pool.get('account.asset.category')
         dataObj = self.browse(cr,uid,ids)[0]
         val=base64.decodestring(dataObj.file)
         fp = StringIO.StringIO()
@@ -96,7 +87,7 @@ class data_import(osv.osv_memory):
                         })
             assetQty = int(sheet.row_values(i,0,sheet.ncols)[9])
             for j in range(assetQty):
-                asset_id = assetObj.create(cr ,uid,assetDic)
+                assetObj.create(cr ,uid,assetDic)
         return True  
     
     
@@ -130,14 +121,12 @@ class data_import(osv.osv_memory):
                     gross_value =sheet.row_values(i,0,sheet.ncols)[2]
                     acumulated_depreciation = sheet.row_values(i,0,sheet.ncols)[3]
                     
-                    salvage_value = gross_value - acumulated_depreciation
                     already_dept_days = (dep_start_date - purchase_date).days
                     remaining_days = tot_dep_days - already_dept_days
                     depreciation_per_days = gross_value/tot_dep_days
                     real_accumlated_dept = already_dept_days *depreciation_per_days
                     dept_arrear  =  real_accumlated_dept-acumulated_depreciation
                     value_residual = gross_value - real_accumlated_dept
-                    value_residual1 = gross_value - acumulated_depreciation
                     
                     asset_id = asset_obj.create(cr ,uid, {
                     'name' : asset_name,

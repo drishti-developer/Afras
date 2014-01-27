@@ -1,4 +1,4 @@
-from osv import osv,fields
+from openerp.osv import osv,fields
 
 class account_asset_sub_category(osv.osv):
     _name='account.asset.sub.category'
@@ -14,7 +14,7 @@ class res_company(osv.osv):
     _inherit="res.company"
     _columns={
     'company_ids': fields.many2many('res.company', 'company_rel', 'company_id', 'rel_id', 'Allow Shared Company'),
-}
+            }
 
 class account_asset_cost_center(osv.osv):
     _name='account.asset.cost.center'

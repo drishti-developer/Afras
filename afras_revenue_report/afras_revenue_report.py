@@ -1,6 +1,5 @@
-from osv import osv
-from osv import fields
-import time
+from openerp.osv import osv
+from openerp.osv import fields
 import datetime
 
 class revenue_report(osv.osv):
@@ -55,7 +54,6 @@ class revenue_report(osv.osv):
     def validate(self,cr, uid, ids, context=None):
         created_move_ids = []
         move_obj = self.pool.get('account.move')
-        move_line_obj = self.pool.get('account.move.line')
         period_obj = self.pool.get('account.period')
         
         self_brw=self.browse(cr,uid,ids[0])

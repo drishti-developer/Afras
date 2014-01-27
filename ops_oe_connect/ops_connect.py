@@ -1,10 +1,7 @@
 from openerp.osv import fields, osv
 import openerp.addons.decimal_precision as dp
-from openerp import pooler
-from openerp.tools.translate import _
 import datetime
 from openerp import netsvc
-
 
 
 class location_setting(osv.osv):
@@ -199,15 +196,6 @@ class product_product(osv.osv):
 product_product()
 
 
-class res_bank(osv.osv):
-    
-    _inherit="res.bank"
-    
-    _columns={
-            'ops_id':fields.char('OPS Bank ID',size=64),     
-          }
-
-    
 class res_partner(osv.osv):
     _inherit='res.partner'
     _columns={
@@ -454,7 +442,7 @@ class res_country(osv.osv):
             #dict={}
             #for key,value in COUNTRY_LIST_DIC.iteritems():
                 #if isinstance(value, (object,record)):
-                 #   value=value.id
+                #   value=value.id
                 #dict.update({key:getattr(val,value)})
                 #dic[COUNTRY_LIST_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
             
@@ -529,7 +517,6 @@ class res_state_city(osv.osv):
     
     def ListRecord(self,cr,uid):
         res=[]
-        dict={}
         region_obj=self.pool.get('res.state.city')
         for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
 #assuming country ops code and region ops code is updated in ERP
@@ -569,12 +556,12 @@ class res_bank(osv.osv):
         region_obj=self.pool.get('res.bank')
         for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
 #assuming country ops code and region ops code is updated in ERP
-                dict={
+            dict={
                       'ERPID':val.id,
                       'BANKNAME':val.name,
                       'BANKBIC':val.bic,
-                      }
-                res.append(dict)
+            }
+            res.append(dict)
         return res
     
     def UpdateRecord(self,cr,uid,vals):
@@ -653,8 +640,8 @@ class purchase_order(osv.osv):
             val = val1 = 0.0
             cur = order.pricelist_id.currency_id
             for line in order.order_line:
-               val1 += line.price_subtotal
-               for c in self.pool.get('account.tax').compute_all(cr, uid, line.taxes_id, line.price_unit, line.product_qty, line.product_id, order.partner_id)['taxes']:
+                val1 += line.price_subtotal
+                for c in self.pool.get('account.tax').compute_all(cr, uid, line.taxes_id, line.price_unit, line.product_qty, line.product_id, order.partner_id)['taxes']:
                     val += c.get('amount', 0.0)
             res[order.id]['amount_tax']=cur_obj.round(cr, uid, cur, val)
             res[order.id]['amount_untaxed']=cur_obj.round(cr, uid, cur, val1)
@@ -726,7 +713,7 @@ class purchase_order(osv.osv):
             purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
                                  if purchase_id else self.create(cr,uid,dic)
         self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
-        validate=netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
+        netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
         return purchase_id
     
 PURCHASE_ORDER_LINE_DIC = {
@@ -763,7 +750,6 @@ class purchase_order_line(osv.osv):
         purchase_obj=self.pool.get('purchase.order')
         requisition_obj=self.pool.get('purchase.requisition')
         requisition_line_obj=self.pool.get('purchase.requisition.line')
-        analytic_obj=self.pool.get('account.analytic.account')
         for val in vals:
             for key,value in val.iteritems():
                 dic[PURCHASE_ORDER_LINE_DIC.get(key)] =  value

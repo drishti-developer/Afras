@@ -1,15 +1,4 @@
-from openerp.osv import fields, osv, orm
-import time
-from openerp import SUPERUSER_ID
-from openerp import tools
-from openerp.tools.translate import _
-import datetime
-
-from dateutil.relativedelta import relativedelta
-import calendar
-from openerp.tools import float_compare
-from openerp import netsvc
-import openerp.addons.decimal_precision as dp
+from openerp.osv import fields, osv
 
 class product_product(osv.osv):
     _inherit = "product.product"

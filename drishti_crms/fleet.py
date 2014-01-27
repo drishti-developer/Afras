@@ -1,16 +1,5 @@
-from openerp.osv import fields, osv, orm
-import time
-from openerp import SUPERUSER_ID
-from openerp import tools
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import datetime
-
-from dateutil.relativedelta import relativedelta
-import calendar
-from openerp.tools import float_compare
-from openerp import netsvc
-import openerp.addons.decimal_precision as dp
-
 
 class fleet_vehicle(osv.osv):
     _inherit = "fleet.vehicle"
@@ -42,39 +31,38 @@ class fleet_vehicle(osv.osv):
                          })
         values['analytic_id'] = analytic_id
         
-        id = super(fleet_vehicle,self).create(cr, uid, values, context=context)
+        res = super(fleet_vehicle,self).create(cr, uid, values, context=context)
         
-        return id
+        return res
     
     def write(self, cr, uid, ids, vals, context=None):
         fleet_analytic_account_obj = self.pool.get('fleet.analytic.account')
         assetObj = self.pool.get('account.asset.asset')
         
         super(osv.osv, self).write(cr, uid, ids, vals, context=context)
-        fleet_obj = self.browse(cr, uid, ids[0], context=context)
         if 'analytic_account_ids' in vals:
-           fleet_branch_ids = fleet_analytic_account_obj.search(cr,uid,[('vehicle_id','=',ids[0])],order='date_from ASC',)
-           i =0
-           for branch_id in  fleet_branch_ids:
-               i +=1
-               branchDict = fleet_analytic_account_obj.read(cr, uid, branch_id,['date_from','date_to'])
-               if i ==1:
-                   date_to = branchDict['date_to']
-               if not branchDict['date_to'] and i != len(fleet_branch_ids):
-                  raise osv.except_osv(_('To Date'),_("Please select to date of all branches except last branch") )
-               if i>=2 and branchDict['date_from']<= date_to:
-                   raise osv.except_osv(_('To Date'),_("Vehcle can not be assign to two branch on the same date") )
-               else:
-                   date_to = branchDict['date_to']
-           if fleet_branch_ids:
-               date_from = fleet_analytic_account_obj.read(cr, uid, fleet_branch_ids[0],['date_from','date_to'])
+            fleet_branch_ids = fleet_analytic_account_obj.search(cr,uid,[('vehicle_id','=',ids[0])],order='date_from ASC',)
+            i =0
+            for branch_id in  fleet_branch_ids:
+                i +=1
+                branchDict = fleet_analytic_account_obj.read(cr, uid, branch_id,['date_from','date_to'])
+                if i ==1:
+                    date_to = branchDict['date_to']
+                if not branchDict['date_to'] and i != len(fleet_branch_ids):
+                    raise osv.except_osv(_('To Date'),_("Please select to date of all branches except last branch") )
+                if i>=2 and branchDict['date_from']<= date_to:
+                    raise osv.except_osv(_('To Date'),_("Vehcle can not be assign to two branch on the same date") )
+                else:
+                    date_to = branchDict['date_to']
+            if fleet_branch_ids:
+                date_from = fleet_analytic_account_obj.read(cr, uid, fleet_branch_ids[0],['date_from','date_to'])
                
-               asset_id = assetObj.search(cr,uid,[('vehicle_id','=',ids[0])]) 
-               if asset_id:
-                   asset = assetObj.browse(cr,uid,asset_id[0])
-                   if asset.depreciation_start_date > date_from['date_from'] and not asset.account_move_line_ids:
-                       assetObj.write(cr, uid, asset_id[0],{'depreciation_start_date': date_from['date_from']})
-                       assetObj.compute_depreciation_board(cr, uid, asset_id, context=context)      
+                asset_id = assetObj.search(cr,uid,[('vehicle_id','=',ids[0])]) 
+                if asset_id:
+                    asset = assetObj.browse(cr,uid,asset_id[0])
+                    if asset.depreciation_start_date > date_from['date_from'] and not asset.account_move_line_ids:
+                        assetObj.write(cr, uid, asset_id[0],{'depreciation_start_date': date_from['date_from']})
+                        assetObj.compute_depreciation_board(cr, uid, asset_id, context=context)      
               
         return True
     
@@ -182,11 +170,11 @@ class fleet_vehicle_model(osv.osv):
     
     
     def create(self, cr, uid, values, context=None):
-        id=super(fleet_vehicle_model,self).create(cr, uid, values, context=context)
+        val=super(fleet_vehicle_model,self).create(cr, uid, values, context=context)
         brand_obj = self.pool.get('fleet.vehicle.model.brand').browse(cr, uid, values['brand_id'])
         
         dic = {
-               'model_id' : id,
+               'model_id' : val,
                'name':brand_obj.name + ' ' + values['modelname'],
                #'image_medium': values['image_medium'],
                'image_medium': values.get('image_medium', False),
@@ -197,7 +185,7 @@ class fleet_vehicle_model(osv.osv):
                }
         
         self.pool.get('product.product').create(cr,uid,dic)
-        return id
+        return val
     
 fleet_vehicle_model()    
     

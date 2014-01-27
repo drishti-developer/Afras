@@ -108,7 +108,7 @@ class accounting_report(osv.osv_memory):
     def check_report(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-       # res = super(accounting_report, self).check_report(cr, uid, ids, context=context)
+        # res = super(accounting_report, self).check_report(cr, uid, ids, context=context)
         data = {}
         data['form'] = self.read(cr, uid, ids, ['account_report_id', 'date_from_cmp',  'date_to_cmp',  'fiscalyear_id_cmp', 'journal_ids', 'period_from_cmp', 'period_to_cmp',  'filter_cmp',  'chart_account_id', 'target_move','level','cost_analytic_ids','child_cost_center','entry_type','fleet_report'], context=context)[0]
         for field in ['fiscalyear_id_cmp', 'chart_account_id', 'period_from_cmp', 'period_to_cmp', 'account_report_id','cost_analytic_ids','child_cost_center']:
