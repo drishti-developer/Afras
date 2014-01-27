@@ -68,10 +68,5 @@ def Hijri2Gregorian(yr, mth, day):
 #Usage:
 
 # Convert from Gregorian to Hijri
-print Gregorian2Hijri(1972, 12, 9)
-print Gregorian2Hijri(2008, 1, 8)
 
 # Convert from Hijri to Gregorian28//
-print "==========><=======",Hijri2Gregorian(1434,8,28)
-print Hijri2Gregorian(1392, 11, 3)
-print Hijri2Gregorian(1428, 12, 29)

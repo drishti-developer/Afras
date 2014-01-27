@@ -270,7 +270,6 @@ class account_invoice(osv.osv):
     def get_fiscal_position_id(self, cr, uid, fiscal_position, account_id,company_id,type, context=None):
         fiscal_account_obj = self.pool.get('account.fiscal.position.account')
         default_account_obj = self.pool.get('account.fiscal.default.account')
-        print "here",fiscal_position,account_id,company_id
         fiscal_account_id = fiscal_account_obj.search(cr,uid,[('position_id','=',fiscal_position),('account_src_id','=',account_id),('company_id','=',company_id)])        
         if fiscal_account_id:
             return fiscal_account_obj.browse(cr, uid, fiscal_account_id)[0].account_dest_id.id
@@ -336,10 +335,8 @@ class account_invoice(osv.osv):
                         customer_account_invoice_ids = self.onchange_journal_id(cr, uid, False, \
                                                                                 journal_id,fiscal_position,fiscal_type,partner_id,)['value']['customer_account_invoice_ids']
                         
-                        print "customer_account_invoice_ids",customer_account_invoice_ids
                     invoice_vals = self.onchange_partner_id(cr, uid, False, invoice_type, partner_id, date_invoice, \
                                                         payment_term, partner_bank_id, company_id)['value']
-                    print "invoice_vals",invoice_vals
                     context_copy.update({
                         'company_id': company_id,
                         'invoice_type': invoice_type,
@@ -367,7 +364,6 @@ class account_invoice(osv.osv):
                         'customer_account_invoice_ids': customer_account_invoice_ids
                     })
                     
-                    print "hhhhh"
                     invoice_id = self.create(cr, 1, invoice_vals, context) #To bypass access and record rules
                     # if both invoice want to validate at a time then remove if condition
 #                     if 1 ==1:
@@ -390,7 +386,6 @@ class account_invoice(osv.osv):
      
     def onchange_journal_id(self, cr, uid, ids, journal_id=False,position_id=False,fiscal_type=False,partner_id=False, context=None):
         result = {}
-        print journal_id,position_id,fiscal_type,partner_id,context
         if journal_id:
             journal = self.pool.get('account.journal').browse(cr, uid, journal_id, context=context)
             currency_id = journal.currency and journal.currency.id or journal.company_id.currency_id.id
@@ -404,24 +399,19 @@ class account_invoice(osv.osv):
             lst = []
             
             if position_id:
-                print "here",position_id,journal_id
                 fiscal_jurnl_obj = self.pool.get('account.fiscal.journal')
                 fiscal_obj = self.pool.get('account.fiscal.position')
                 fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',journal_id),('position_id','=',position_id)])
-                print "fiscal_jurnl_id",fiscal_jurnl_id
                 position_id1 = False
                 if fiscal_jurnl_id: 
                      fiscal_jurnl_brw = fiscal_jurnl_obj.browse(cr,uid,fiscal_jurnl_id[0])
-                     print "fiscal_jurnl_brw",fiscal_jurnl_brw,fiscal_jurnl_brw.position_id.name
                      fiscal_type = fiscal_jurnl_brw.position_id.type
                      if fiscal_type == 'icb':
                         comp_id = self.pool.get('res.company').search(cr, uid, [('partner_id','=', partner_id)])  
                         for journ in fiscal_jurnl_brw.journal_dest_id:
-                            print "here"   
                             if journ.company_id.id == comp_id[0]:
                                 part_id = self.pool.get('res.users').browse(cr, uid, uid).company_id.partner_id.id
                                 if journ.company_id.is_shared_company:
-                                    print "Hereeeeee"
                                     position_id1 = fiscal_obj.search(cr,uid,[('company_id','=',journ.company_id.id),('type','=','ss')])  
                                     if position_id1:
                                         position_id1 = position_id1[0]
@@ -458,7 +448,6 @@ class account_invoice(osv.osv):
         user_obj = self.pool.get('res.users').browse(cr, uid, uid)    
         if partner_id:
             currnet_cmpny=self.pool.get('res.users').browse(cr,uid,uid).company_id
-            print'======current_company====',currnet_cmpny
             opt.insert(0, ('id', partner_id))
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             comp_id=self.pool.get('res.company').search(cr,uid,[('name','=',p.name)])
@@ -497,7 +486,6 @@ class account_invoice(osv.osv):
                 bank_id = p.bank_ids[0].id
             if p.is_intragroup_company ==True:
                 value1=True
-            print "user_obj.company_id.is_shared_company",user_obj.company_id.is_shared_company
             if  p.is_intragroup_company:
                   fiscal_type  = 'icb'
                   is_intragroup_company = True

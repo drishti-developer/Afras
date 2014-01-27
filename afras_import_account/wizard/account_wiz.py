@@ -25,7 +25,6 @@ class import_account(osv.osv_memory):
         company_id=company_obj.search(cr,uid,[('name','ilike','Facility Management')])
         if company_id:
             lst.append(company_id[0])
-        print'======company_id===='
         company_id=company_obj.search(cr,uid,[('name','ilike','O&M Public Sector')])
         if company_id:
             lst.append(company_id[0])
@@ -54,7 +53,6 @@ class import_account(osv.osv_memory):
             company_id=lst[sh]
             parent_id=parent1=parent2=parent3=parent4=parent5=parent6=False
             for i in range(1,sheet.nrows):
-                print'======loop=======',i
                 account_code =sheet.row_values(i,0,sheet.ncols)[0]
                 acc_type=account_type_obj.search(cr, uid, [('name','ilike','Bank')], context=context)
                 user_type=acc_type[0]
@@ -90,75 +88,56 @@ class import_account(osv.osv_memory):
                     map_account_id5=self.pool.get('account.account').search(cr,uid,[('code','=',map_code5),('company_id','=',lst[4])])
                     if map_account_id5:
                         list_company.append(map_account_id5[0])
-                    print'========',list_company
                     
                 if account_code:
-                            print'=======account_code====',account_code
                             if name1:
-                                   print'========name===1===',name1
         #                          account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
-        #                          print'========account_search====',account_search_id
         #                          if not account_search_id:
                                    account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name1,'type':type,'user_type':user_type,'parent_id':parent_id  or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                   print'======account_id==1==',account_id
                                    parent1=account_id
-                                   print'======parent_id1====',parent1
     #                             else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name1,'type':type,'user_type':user_type,'parent_id':parent_id  or False})    
     
                             elif name2:
-                                    print'====name2====',name2
     #                             account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                             if not account_search_id:
                                     account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name2,'type':type,'user_type':user_type,'parent_id':parent1 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    print'======account_id=2===',account_id
                                     parent2=account_id
-                                    print'======parent_id1====',parent1
     #                             else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name2,'type':type,'user_type':user_type,'parent_id':parent1  or False})    
                             elif name3:
     #                             account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                             if not account_search_id:
                                     account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name3,'type':type,'user_type':user_type,'parent_id':parent2 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    print'======account_id3====',account_id
                                     parent3=account_id
-                                    print'======parent_id3===',parent3
     #                             else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name3,'type':type,'user_type':user_type,'parent_id':parent2  or False})    
                             elif name4:
     #                              account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                              if not account_search_id:
                                     account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name4,'type':type,'user_type':user_type,'parent_id':parent3 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    print'=====account_id4====',account_id
                                     parent4=account_id
-                                    print'=====parent4====',parent4
     #                              else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name4,'type':type,'user_type':user_type,'parent_id':parent3  or False})    
                             elif name5:
     #                              account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                              if not account_search_id:
                                     account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name5,'type':type,'user_type':user_type,'parent_id':parent4 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    print'=====account_id5====',account_id
                                     parent5=account_id
-                                    print'=====parent5====',parent5
     #                              else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name5,'type':type,'user_type':user_type,'parent_id':parent4  or False})    
                             elif name6:
     #                              account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                              if not account_search_id:
                                     account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name6,'type':type,'user_type':user_type,'parent_id':parent5 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    print'=====account_id6====',account_id
                                     parent6=account_id
-                                    print'=====parent6====',parent6
     #                              else:
 #                                         self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name6,'type':type,'user_type':user_type,'parent_id':parent5  or False})    
                             elif name7:
     #                              account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                              if not account_search_id:
                                     account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name7,'type':type,'user_type':user_type,'parent_id':parent6 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    print'=====account_id6====',account_id
                                     parent7=account_id
-                                    print'=====parent6====',parent7
     #                              else:
 #                                         self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name6,'type':type,'user_type':user_type,'parent_id':parent5  or False})    
 

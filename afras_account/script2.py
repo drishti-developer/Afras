@@ -40,8 +40,6 @@ for row in csvData:
 	field5.set("name", "user_type")
 	field5.set("ref", user_type)
 	tree = ET.ElementTree(doc)
-        print "code",code
-	print "tree",tree
    
 	tree.write(xmlData)
 	xmlData.write("\n")

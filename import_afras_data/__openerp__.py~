@@ -27,7 +27,7 @@
     'description': """ """,
     'author': 'DrishtiTech',
     'website': 'http://drishtitech.com',
-    'depends': ['base','drishti_crms','account_asset',],
+    'depends': ['base','drishti_crms',],
     'data': ['wizard/import_data_view.xml','wizard/vehicle_wiz_view.xml'],
     'demo': [],
     'test':[],

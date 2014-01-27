@@ -24,7 +24,6 @@ product_uom()
 #    _columns={
 #       }
 #    def CreateRecord(self, cr, uid, data, context=None):
-#        print"==========purchase_order============>>",data
 #        self.pool.get('purchase.order').create(cr,uid,data)
 #        return True
 #purchase_order()    

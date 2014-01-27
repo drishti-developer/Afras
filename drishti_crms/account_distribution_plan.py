@@ -72,7 +72,6 @@ class account_afras_cost_distribution(osv.osv):
                              
                              }
                 plan_id = self.create(cr,uid,plan_vals,context=context)
-                print plan_id
                 child_analytic_ids = analytic_account_obj._get_children(cr,uid,[parent.id],context=None) # Get all the child Analytic Accounts that are 'not' 'use_distribution_plan'
                 child_analytic_ids1=analytic_account_obj.search(cr, uid, [('id', 'in', child_analytic_ids),('use_distribution_plan', '=', False)], context=context)
                 child_analytic_objs = analytic_account_obj.browse(cr,uid,child_analytic_ids1,context=context)

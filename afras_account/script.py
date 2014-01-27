@@ -39,7 +39,5 @@ for row in csvData:
 	field5.set("ref", user_type)
 	tree = ET.ElementTree(doc)
 
-	print "tree",tree
-   
 	tree.write(xmlData)
 	xmlData.write("\n")

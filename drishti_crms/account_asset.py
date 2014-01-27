@@ -159,8 +159,17 @@ class account_asset_asset(osv.osv):
         for id in ids:
             res.setdefault(id, 0.0)
         return res
-
     
+    
+    def get_serial_no(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        count=1
+        for each in self.browse(cr, uid, ids):
+            res[each.id]=count
+            count+=1
+        return res
+
+     
     _columns = {
                 'already_depreciated_amt' : fields.float('Exa Depreciated Amount'),
                  'dept_arrear' : fields.float('Arrear Amount'),
@@ -174,6 +183,7 @@ class account_asset_asset(osv.osv):
                 'cost_analytic_id': fields.many2one('account.analytic.account','Invoice Cost Center', required=True),
                  'value_residual': fields.function(_amount_residual, method=True, digits_compute=dp.get_precision('Account'), string='Residual Value'),
                'is_status':fields.selection([('act','Active'),('inact','Inactive'),('rs','Ready to sell'),('sold','Sold')],'Status'),
+                'unique_id' : fields.function(get_serial_no,type='integer',string='Unique ID'),
                 }  
     
     def onchange_vehicle_id(self, cr, uid, ids, vehicle_id):
@@ -185,7 +195,7 @@ class account_asset_asset(osv.osv):
         res['value'] = { 'analytic_id': vehicle.analytic_id and vehicle.analytic_id.id or False }
         return res
                     
-    def onchange_category_id(self, cr, uid, ids, category_id, purchase_date,context=None):
+    def onchange_category_id(self, cr, uid, ids, category_id, purchase_date=False,context=None):
         res = {'value':{}}
         asset_categ_obj = self.pool.get('account.asset.category')
         if category_id:
@@ -204,7 +214,6 @@ class account_asset_asset(osv.osv):
                            
                          }
             if category_obj.non_depreciation_value and  category_obj.non_depreciation_period and purchase_date:
-                #print "category_obj.non_depreciation_value",category_obj.non_depreciation_value,category_obj.non_depreciation_period
                 if category_obj.non_depreciation_period == 'months':
                     res['value']['depreciation_start_date'] = (datetime.strptime(purchase_date, '%Y-%m-%d') + relativedelta(months=+category_obj.non_depreciation_value)).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
                 else:

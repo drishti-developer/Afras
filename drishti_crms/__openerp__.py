@@ -40,6 +40,7 @@
                 'auth_ldap'
                 ],
     'data': [
+               'form_sequence.xml',
                'account_asset_view.xml',  
                'account_view.xml',
                'account_voucher_change_view.xml',

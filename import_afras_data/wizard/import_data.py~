@@ -31,16 +31,6 @@ import calendar
 from calendar import monthrange
 from datetime import datetime,timedelta
 from dateutil.relativedelta import relativedelta
-import datetime
-
-DATA_DIC={
-         
-           'Computer Hardware':8,
-           'Furniture':4,
-           'Equipments & Tools':3,
-           'Prefabricated buildings':28,
-           
-            }
 
 class data_import(osv.osv_memory):
     _name='data.import'
@@ -54,15 +44,32 @@ class data_import(osv.osv_memory):
               }
     
     
+    
+    
+    
+    DATA_DIC={
+         
+           'Computer Hardware':8,
+           'Furniture':4,
+           'Equipments & Tools':3,
+           'Prefabricated buildings':28,
+           
+            }
+    
     def import_data(self,cr,uid,ids,context=None):
+        print'=======ddddddddddd'
         assetObj = self.pool.get('account.asset.asset')
         assetCategoryObj = self.pool.get('account.asset.category')
         dataObj = self.browse(cr,uid,ids)[0]
+        print'======dataobhj====',dataObj
         val=base64.decodestring(dataObj.file)
+        print'====val======',val
         fp = StringIO.StringIO()
         fp.write(val)     
         wb = xlrd.open_workbook(file_contents=fp.getvalue())
-        sheet=wb.sheet_by_index(1)
+        print'========wb=====',wb
+        sheet=wb.sheet_by_index(0)
+        print'=====sheet====',sheet
         companyId = 1
         analyticId = 4762
        
@@ -72,31 +79,30 @@ class data_import(osv.osv_memory):
                    
                    }
         for i in range(1,sheet.nrows):
+            print'=======record======',i
             categoryName =sheet.row_values(i,0,sheet.ncols)[2]
             categoryId = DATA_DIC.get(categoryName,False)
-            result = assetObj.onchange_category_id(cr, uid,  [],categoryId)
+            result = assetCategoryObj.onchange_category_id(cr,uid,categoryId)
             assetDic.update(result['value'])
-            purchase_date=sheet.row_values(i,0,sheet.ncols)[5]
-            purchase_date_conv= datetime.date(1900, 1, 1) + datetime.timedelta(int(purchase_date)-2)
-            depreciation_date=sheet.row_values(i,0,sheet.ncols)[11]
-            depreciation_date_conv= datetime.date(1900, 1, 1) + datetime.timedelta(int(depreciation_date)-2)
             assetDic.update({'name' :sheet.row_values(i,0,sheet.ncols)[7],
-                             'category_id': categoryId,
-                             'purhcase_date':purchase_date_conv, #5
-                             'cost_analytic_id' : analyticId,
-                             'analytic_id' : analyticId,
-                             'depreciation_start_date':depreciation_date_conv, #11
-                             'purchase_value':sheet.row_values(i,0,sheet.ncols)[8],
-                             'prorata' : True,
-                             'cost_center_ids':  [(0,0,{
-                                                         'analyric_id': analyticId,
-                                                         'from_date' : purchase_date_conv, #5
-                                                })],
+                         'category_id': categoryId,
+                         'purhcase_date':sheet.row_values(i,0,sheet.ncols)[5],
+                         'cost_analytic_id' : analyticId,
+                         'analytic_id' : analyticId,
+                         'depreciation_start_date':sheet.row_values(i,0,sheet.ncols)[5],
+                         'purchase_value':sheet.row_values(i,0,sheet.ncols)[8],
+                         'prorata' : True,
+                         'cost_center_ids':  [(0,0,{
+                                                     'analyric_id': analyticId,
+                                                     'from_date' : sheet.row_values(i,0,sheet.ncols)[8],
+                                            })],
                              
                         })
-            assetQty = int(sheet.row_values(i,0,sheet.ncols)[9])
+            assetQty = sheet.row_values(i,0,sheet.ncols)[9]
             for j in range(assetQty):
                 asset_id = assetObj.create(cr ,uid,assetDic)
+                print'=====asset_id======',asset_id
+            
         return True  
     
     
@@ -172,6 +178,7 @@ class data_import(osv.osv_memory):
                     }
                     
                     if dept_arrear and dept_arrear < 0:
+                    
                         number = int(dept_arrear/depreciation_per_days) *-1
                         dep_date1 = datetime.strptime(cur_obj.date,"%Y-%m-%d") + timedelta(days=(remaining_days-number-1)) 
                         depreciated_value1 =   dept_arrear*-1 - depreciation_per_days*number
@@ -183,6 +190,7 @@ class data_import(osv.osv_memory):
                         depreciation_lin_obj.unlink(cr,uid,line_id)
                     depreciation_lin_obj.create(cr, uid,vals)
             
+            print "Row Number:",i,asset_name,asset_id
             i +=1
                    
         return True
