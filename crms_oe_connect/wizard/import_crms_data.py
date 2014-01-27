@@ -24,7 +24,6 @@ class import_crms_data(osv.osv_memory):
         cur_obj = self.browse(cr,uid,ids)[0]
         file_data=cur_obj.file
         reader = open('/home/drishti/Documents/test_project/outputfile.csv', 'r')
-        print reader
         line  = reader.readlines()
         rownum=0
         final_value = []
@@ -41,7 +40,6 @@ class import_crms_data(osv.osv_memory):
                 final_value.append(value_dict)
             rownum +=1
                 
-        print final_value
         error
         val=base64.decodestring(file_data)
         fp = StringIO.StringIO()

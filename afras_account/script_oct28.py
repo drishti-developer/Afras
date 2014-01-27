@@ -73,8 +73,6 @@ for worksheet_name in worksheets:
 			field5.set("name", "user_type")
 			field5.set("ref", user_type)
 			tree = ET.ElementTree(doc)
-			print "code",code
-			print "tree",tree
 		   
 			tree.write(xmlData)
 			xmlData.write("\n")

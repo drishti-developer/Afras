@@ -21,13 +21,13 @@
 
 
 {
-    'name': 'Attendance_import_7.0',
+    'name': 'Attendance_import_7.11',
     'version': '0.1',
     'category': '',
     'description': """ """,
-    'author': 'Amit Gupta',
+    'author': 'DrishtiTech',
     'website': 'http://drishtitech.com',
-    'depends': ['base','drishti_crms',],
+    'depends': ['base','drishti_crms','account_asset',],
     'data': ['wizard/import_data_view.xml','wizard/vehicle_wiz_view.xml'],
     'demo': [],
     'test':[],

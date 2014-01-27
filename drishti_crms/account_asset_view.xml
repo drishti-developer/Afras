@@ -36,6 +36,7 @@
 			<field name="arch" type="xml">
 			     <field name="parent_id" position="after">
 			     <field name="is_status"/>
+			     <field name="unique_id"/>
 			     </field>
 				</field>
 			</record>
@@ -46,6 +47,7 @@
 			<field name="arch" type="xml">
 				<field name="code" position="after">				 
 					<field name="vehicle_id" on_change="onchange_vehicle_id(vehicle_id)"/>
+                	<field name="unique_id"/>
                 </field>
                 <field name="company_id" position="after"> 
                 	<field name="analytic_id" attrs="{'required':[('vehicle_id', '&lt;&gt;', False)]}"/>

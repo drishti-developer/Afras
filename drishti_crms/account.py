@@ -376,11 +376,9 @@ class account_invoice(osv.osv):
             
             ctx.update(invoice=inv)
             
-            print "move",move
             move_id = move_obj.create(cr, uid, move, context=ctx)
             new_move_name = move_obj.browse(cr, uid, move_id, context=ctx).name
             # make the invoice point to that move
-            print "hhhhhhhh",move_id,inv.id
             self.write(cr, uid, [inv.id], {'move_id': move_id,'period_id':period_id, 'move_name':new_move_name}, context=ctx)
             # Pass invoice in context in method post: used if you want to get the same
             # account move reference when creating the same invoice after a cancelled one:
@@ -1087,7 +1085,6 @@ class account_voucher(osv.osv):
             if ml_writeoff:
                 move_line_pool.create(cr, uid, ml_writeoff, context)
             # We post the voucher.
-            print "hhhherererertetrer",voucher.id,move_id
             self.write(cr, uid, [voucher.id], {
                 'move_id': move_id,
                 'state': 'posted',

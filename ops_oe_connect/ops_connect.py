@@ -408,21 +408,17 @@ class purchase_requisition_line(osv.osv):
     
     def CreateRecord(self, cr, uid, vals, context=None):
         dic = {  }
-        print "create=======",vals
         requisition_obj=self.pool.get('purchase.requisition')
         product_obj=self.pool.get('product.product')
         
         for key,value in vals.iteritems():
             dic[MATERIAL_LINE_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
         requisition_id = requisition_obj.search(cr, uid, [('ops_id','=',dic['requisition_id'])])
-        print 'requisition_id======',requisition_id
         product_id = product_obj.search(cr, uid, [('ops_code','=',dic['product_id'])])
-        print "product id",product_id
         if requisition_id and product_id:
             dic['requisition_id'] = requisition_id[0]
             dic['product_id'] = product_id[0]
             requisition_line_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
-            print 'requisition_line_id======',requisition_line_id
             requisition_line_id = self.write(cr,uid,requisition_line_id[0],dic) and requisition_line_id[0] \
                                  if requisition_line_id else self.create(cr,uid,dic)
             return requisition_line_id                     
@@ -457,8 +453,6 @@ class res_country(osv.osv):
         for val in country_obj.browse(cr,uid,country_ids):
             #dict={}
             #for key,value in COUNTRY_LIST_DIC.iteritems():
-                #print val
-                #print "key valu=================",key,getattr(val,value)
                 #if isinstance(value, (object,record)):
                  #   value=value.id
                 #dict.update({key:getattr(val,value)})
@@ -776,7 +770,6 @@ class purchase_order_line(osv.osv):
             requisition_id=requisition_obj.search(cr,uid,[('ops_id','=',dic['requisition_id'])])
             requisition_line_id=requisition_line_obj.search(cr,uid,[('ops_id','=',dic['requisition_line_id'])])
             order_id=purchase_obj.search(cr,uid,[('ops_order_id','=',dic['order_id'])])
-            print requisition_line_id,"11111111111"
             line_obj=requisition_line_obj.browse(cr,uid,requisition_line_id[0])
             if order_id:
                 dic.update({'order_id':order_id[0],'requisition_id':requisition_id[0],'requisition_line_id':requisition_line_id[0],'product_id':line_obj.product_id.id,'name':line_obj.product_id.name,

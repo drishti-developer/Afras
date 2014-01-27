@@ -90,8 +90,6 @@ class CompanyLDAP(osv.osv):
             
         try:
             results = self.query(conf, filter)
-            import pprint
-            pprint.pprint(results)
             if results and len(results) == 1:
                 dn = results[0][0]
                 conn = self.connect(conf)
