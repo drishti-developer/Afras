@@ -168,11 +168,11 @@ class account_analytic_line(osv.osv):
                         branch_id = branch_obj.search(cr,uid,[('project_id','=',alo.account_id.id)]) 
                         if branch_id:
                             branch = branch_obj.browse(cr,uid,branch_id[0])
-                        dic1['branch_id'] =  branch.id
-                        dic1['area_id'] =  branch.area_id.id
-                        dic1['city_id'] =  branch.city_id.id
-                        dic1['region_id'] =  branch.state_id.id
-                        dic1['country_id'] = branch.country_id.id
+                            dic1['branch_id'] =  branch.id
+                            dic1['area_id'] =  branch.area_id.id
+                            dic1['city_id'] =  branch.city_id.id
+                            dic1['region_id'] =  branch.state_id.id
+                            dic1['country_id'] = branch.country_id.id
                     if  alo.entry_type == 'car':
                         vehicle_id =  vehicle_obj.search(cr ,uid,[('analytic_id','=',alo.account_id.id)])
                         dic1['vehicle_id'] =  vehicle_id and vehicle_id[0]   
@@ -211,16 +211,15 @@ class account_analytic_account(osv.osv):
     _inherit = "account.analytic.account"
     
     def _get_children(self,cr,uid, ids, context=None):
-          ids3 = []
-          ids2 = self.search(cr, uid, [('parent_id', 'in', ids)], context=context)
-          ids3 = list(set(ids2+ids))
-          ids4 = self.search(cr, uid, [('parent_id', 'in', ids3)], context=context)
-          while sorted(ids2) <> sorted(ids4):
-                ids2 = ids4
-                ids3 = list(set(ids2+ids))
-                ids4 = self.search(cr, uid, [('parent_id', 'in', ids3)], context=context) 
+        ids2 = self.search(cr, uid, [('parent_id', 'in', ids)], context=context)
+        ids3 = list(set(ids2+ids))
+        ids4 = self.search(cr, uid, [('parent_id', 'in', ids3)], context=context)
+        while sorted(ids2) <> sorted(ids4):
+            ids2 = ids4
+            ids3 = list(set(ids2+ids))
+            ids4 = self.search(cr, uid, [('parent_id', 'in', ids3)], context=context) 
                          
-          return ids4+ids
+        return ids4+ids
     
     _columns = {
                 
