@@ -199,13 +199,6 @@ class product_product(osv.osv):
 product_product()
 
 
-class res_bank(osv.osv):
-    
-    _inherit="res.bank"
-    
-    _columns={
-            'ops_id':fields.char('OPS Bank ID',size=64),     
-          }
 
     
 class res_partner(osv.osv):
@@ -884,7 +877,6 @@ class purchase_order_line(osv.osv):
             requisition_id=requisition_obj.search(cr,uid,[('ops_id','=',dic['requisition_id'])])
             requisition_line_id=requisition_line_obj.search(cr,uid,[('ops_id','=',dic['requisition_line_id'])])
             order_id=purchase_obj.search(cr,uid,[('ops_order_id','=',dic['order_id'])])
-            print requisition_line_id,"11111111111"
             line_obj=requisition_line_obj.browse(cr,uid,requisition_line_id[0])
             if order_id:
                 dic.update({'order_id':order_id[0],'requisition_id':requisition_id[0],'requisition_line_id':requisition_line_id[0],'product_id':line_obj.product_id.id,'name':line_obj.product_id.name,

@@ -54,6 +54,7 @@
                'account_distribution_plan_view.xml',
                 'crms_payment_view.xml',
                 'user_ldap_view.xml',
+                'asset_sale_view.xml',
                
             ],
     'demo': [],
