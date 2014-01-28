@@ -25,8 +25,7 @@ class account_chart(osv.osv_memory):
             context = {}
         data = self.read(cr, uid, ids, [], context=context)[0]
         result = mod_obj.get_object_reference(cr, uid, 'account', 'action_account_tree')
-        id = result and result[1] or False
-        result = act_obj.read(cr, uid, [id], context=context)[0]
+        result = act_obj.read(cr, uid, [result and result[1] or False], context=context)[0]
         fiscalyear_id = data.get('fiscalyear', False) and data['fiscalyear'][0] or False
         cost_analytic_ids = data.get('cost_analytic_ids', False) and data['cost_analytic_ids'] or False
         child_cost_center = data.get('child_cost_center', False) and data['cost_analytic_ids'] or False

@@ -20,10 +20,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
-from openerp.osv.orm import setup_modifiers
 import openerp.addons.decimal_precision as dp
-from openerp.tools.translate import _
-from openerp.tools import float_compare
 import time
 
 class pay_multi_invoice(osv.osv_memory):

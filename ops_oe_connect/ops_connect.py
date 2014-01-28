@@ -1,7 +1,5 @@
 from openerp.osv import fields, osv
 import openerp.addons.decimal_precision as dp
-from openerp import pooler
-from openerp.tools.translate import _
 import datetime
 from openerp import netsvc
 

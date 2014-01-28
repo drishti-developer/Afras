@@ -71,9 +71,7 @@ class account_invoice(osv.osv):
         move_line_obj = self.pool.get('account.move.line')
         company_obj = self.pool.get('res.company')
         period_obj = self.pool.get('account.period')
-        res_partner = self.pool.get('res.partner')
         fiscal_jurnl_obj = self.pool.get('account.fiscal.journal')
-        fiscal_obj = self.pool.get('account.fiscal.position')
         property_obj = self.pool.get('ir.property')
         
         
@@ -105,7 +103,6 @@ class account_invoice(osv.osv):
             move_id1 = False
             currency = False
             position_id = False
-            date1 = False
             journal_id1 = False
             period_id =False
             account_id = False 
@@ -137,10 +134,10 @@ class account_invoice(osv.osv):
                 position_id = tech_invoice_brw.position_id.id
                 
                 fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',journal_id),('position_id','=',position_id)])
-                if fiscal_jurnl_id: 
-                     fiscal_jurnl_brw = fiscal_jurnl_obj.browse(cr,uid,fiscal_jurnl_id[0])
-                     fiscal_type = fiscal_jurnl_brw.position_id.type
-                     if fiscal_type == 'icb':
+                if fiscal_jurnl_id:
+                    fiscal_jurnl_brw = fiscal_jurnl_obj.browse(cr,uid,fiscal_jurnl_id[0])
+                    fiscal_type = fiscal_jurnl_brw.position_id.type
+                    if fiscal_type == 'icb':
                         for journ in fiscal_jurnl_brw.journal_dest_id:
                             if journ.company_id.id == partner_dict[partner_id].id:
                                 journal_id1 =journ.id
@@ -168,9 +165,9 @@ class account_invoice(osv.osv):
                     debit_amt = 0
                     credit_amt  = 0
                     if type == 'out_invoice':
-                       credit_amt = line.price_subtotal*(tech_invoice_brw.percentage/100)
+                        credit_amt = line.price_subtotal*(tech_invoice_brw.percentage/100)
                     else:
-                       debit_amt = line.price_subtotal*(tech_invoice_brw.percentage/100)    
+                        debit_amt = line.price_subtotal*(tech_invoice_brw.percentage/100)    
                     
                     account_id = line.account_id.id
                     move_line = {
@@ -267,7 +264,7 @@ class account_invoice(osv.osv):
               
         return True
     
-    def get_fiscal_position_id(self, cr, uid, fiscal_position, account_id,company_id,type, context=None):
+    def get_fiscal_position_id(self, cr, uid, fiscal_position, account_id,company_id, type, context=None):
         fiscal_account_obj = self.pool.get('account.fiscal.position.account')
         default_account_obj = self.pool.get('account.fiscal.default.account')
         fiscal_account_id = fiscal_account_obj.search(cr,uid,[('position_id','=',fiscal_position),('account_src_id','=',account_id),('company_id','=',company_id)])        
@@ -304,8 +301,8 @@ class account_invoice(osv.osv):
                
             }
             if invoice.fiscal_type == 'icb':
-                 invoice_type = invoice.type.startswith('in_') and invoice.type.replace('in_', 'out_') or invoice.type.replace('out_', 'in_')
-                 invoice_line_vals['account_id'] = self.get_fiscal_position_id(cr, uid, invoice.fiscal_position.id, line.account_id.id,company_id,invoice_type, context),
+                invoice_type = invoice.type.startswith('in_') and invoice.type.replace('in_', 'out_') or invoice.type.replace('out_', 'in_')
+                invoice_line_vals['account_id'] = self.get_fiscal_position_id(cr, uid, invoice.fiscal_position.id, line.account_id.id,company_id,invoice_type, context),
             else:
                 invoice_line_vals['account_id'] =line.account_id.id
                 invoice_line_vals['price_unit'] = line.price_unit/(100/percentage)
@@ -318,7 +315,7 @@ class account_invoice(osv.osv):
             ids = [ids]
         for invoice in self.browse(cr, uid, ids, context):
 #             if  invoice.partner_id.partner_company_id:
-             for line in invoice.customer_account_invoice_ids:
+            for line in invoice.customer_account_invoice_ids:
                     invoice_type = invoice.type.startswith('in_') and invoice.type.replace('in_', 'out_') or invoice.type.replace('out_', 'in_')
                     partner_id = line.partner_id.id
                     date_invoice = invoice.date_invoice
@@ -368,8 +365,8 @@ class account_invoice(osv.osv):
                     # if both invoice want to validate at a time then remove if condition
 #                     if 1 ==1:
                     if invoice_vals['fiscal_position']:
-                         wf_service = netsvc.LocalService("workflow")
-                         wf_service.trg_validate(uid, 'account.invoice',
+                        wf_service = netsvc.LocalService("workflow")
+                        wf_service.trg_validate(uid, 'account.invoice',
                                         invoice_id, 'invoice_open', cr)
                        
         return True
@@ -379,7 +376,7 @@ class account_invoice(osv.osv):
         res = super(account_invoice, self).action_number(cr, uid, ids, context)
         fiscal_type = self.browse(cr, uid,ids)[0].fiscal_type
         if fiscal_type == 'icb' or fiscal_type == 'T':
-             self.create_inter_company_invoices(cr, uid, ids, context)
+            self.create_inter_company_invoices(cr, uid, ids, context)
         return res
     
  #################################################################################################################
@@ -404,9 +401,9 @@ class account_invoice(osv.osv):
                 fiscal_jurnl_id = fiscal_jurnl_obj.search(cr,uid,[('journal_src_id','=',journal_id),('position_id','=',position_id)])
                 position_id1 = False
                 if fiscal_jurnl_id: 
-                     fiscal_jurnl_brw = fiscal_jurnl_obj.browse(cr,uid,fiscal_jurnl_id[0])
-                     fiscal_type = fiscal_jurnl_brw.position_id.type
-                     if fiscal_type == 'icb':
+                    fiscal_jurnl_brw = fiscal_jurnl_obj.browse(cr,uid,fiscal_jurnl_id[0])
+                    fiscal_type = fiscal_jurnl_brw.position_id.type
+                    if fiscal_type == 'icb':
                         comp_id = self.pool.get('res.company').search(cr, uid, [('partner_id','=', partner_id)])  
                         for journ in fiscal_jurnl_brw.journal_dest_id:
                             if journ.company_id.id == comp_id[0]:
@@ -417,27 +414,26 @@ class account_invoice(osv.osv):
                                         position_id1 = position_id1[0]
                                 lst.append((0,0,{'journal_id':journ.id,'company_id':comp_id[0],'partner_id' : part_id,'percentage': 100,'position_id':position_id1})),
                                 
-                     else:                                              
-                             for comp in fiscal_jurnl_brw.company_ids :
-                                  if comp.is_shared_company:
-                                      type = 'ss'
-                                  else:
-                                      type = 'icb'
+                    else:                                              
+                        for comp in fiscal_jurnl_brw.company_ids :
+                            if comp.is_shared_company:
+                                type = 'ss'
+                            else:
+                                type = 'icb'
                                      
-                                  position_id1 = fiscal_obj.search(cr,uid,[('company_id','=',company_id),('type','=','icb')])      
-                                  if position_id1:
-                                          position_id1 = position_id1[0]  
+                                position_id1 = fiscal_obj.search(cr,uid,[('company_id','=',company_id),('type','=','icb')])      
+                                if position_id1:
+                                    position_id1 = position_id1[0]  
                                       
-                                  lst.append((0,0,{'journal_id':fiscal_jurnl_brw.inter_journal_dest_id.id,'company_id':company_id,'position_id': position_id1,'partner_id':comp.partner_id.id,'percentage':100/len(fiscal_jurnl_brw.company_ids)})),
-                     result['value']['customer_account_invoice_ids'] = lst 
-                     result['value']['fiscal_type'] =fiscal_type                             
+                                lst.append((0,0,{'journal_id':fiscal_jurnl_brw.inter_journal_dest_id.id,'company_id':company_id,'position_id': position_id1,'partner_id':comp.partner_id.id,'percentage':100/len(fiscal_jurnl_brw.company_ids)})),
+                    result['value']['customer_account_invoice_ids'] = lst 
+                    result['value']['fiscal_type'] =fiscal_type                             
         return result 
  
    
         
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,\
             date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
-        lst=[]
         partner_payment_term = False
         acc_id = False
         bank_id = False
@@ -453,8 +449,8 @@ class account_invoice(osv.osv):
             comp_id=self.pool.get('res.company').search(cr,uid,[('name','=',p.name)])
             acc_fiscal_posi=self.pool.get('account.fiscal.position')
             if company_id:
-               acc_fiscal_position=acc_fiscal_posi.search(cr,uid,[('type','=','icb'),('company_id','in',comp_id)])
-               if (p.property_account_receivable.company_id and (p.property_account_receivable.company_id.id != company_id)) and (p.property_account_payable.company_id and (p.property_account_payable.company_id.id != company_id)):
+                acc_fiscal_position=acc_fiscal_posi.search(cr,uid,[('type','=','icb'),('company_id','in',comp_id)])
+                if (p.property_account_receivable.company_id and (p.property_account_receivable.company_id.id != company_id)) and (p.property_account_payable.company_id and (p.property_account_payable.company_id.id != company_id)):
                     property_obj = self.pool.get('ir.property')
                     rec_pro_id = property_obj.search(cr,uid,[('name','=','property_account_receivable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
                     pay_pro_id = property_obj.search(cr,uid,[('name','=','property_account_payable'),('res_id','=','res.partner,'+str(partner_id)+''),('company_id','=',company_id)])
@@ -487,17 +483,17 @@ class account_invoice(osv.osv):
             if p.is_intragroup_company ==True:
                 value1=True
             if  p.is_intragroup_company:
-                  fiscal_type  = 'icb'
-                  is_intragroup_company = True
+                fiscal_type  = 'icb'
+                is_intragroup_company = True
             elif user_obj.company_id.is_shared_company:
                 fiscal_type  = 'ss'
             elif user_obj.company_id.technology_company:
                 fiscal_type  = 'T'
             else:
-                  fiscal_type = False   
+                fiscal_type = False   
             fiscal_id =  acc_fiscal_posi.search(cr,uid, [('type','=',fiscal_type),('company_id','=',user_obj.company_id.id)])
             if fiscal_type and fiscal_id:
-                      fiscal_position = fiscal_id[0]
+                fiscal_position = fiscal_id[0]
                    
         result = {'value': {
             'is_intragroup_invoice_company':is_intragroup_company,

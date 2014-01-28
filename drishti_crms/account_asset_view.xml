@@ -36,7 +36,7 @@
 			<field name="arch" type="xml">
 			     <field name="parent_id" position="after">
 			     <field name="is_status"/>
-			     <field name="unique_id"/>
+			    
 			     </field>
 				</field>
 			</record>
