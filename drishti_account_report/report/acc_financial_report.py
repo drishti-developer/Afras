@@ -1,7 +1,6 @@
 import time
 from openerp.report import report_sxw
 from common_report_header import common_report_header
-from openerp.tools.translate import _
 
 class acc_financial_report(report_sxw.rml_parse, common_report_header):
 
@@ -35,7 +34,6 @@ class acc_financial_report(report_sxw.rml_parse, common_report_header):
         
         lines = []
         account_obj = self.pool.get('account.account')
-        analytic_obj = self.pool.get('account.analytic.account')
         currency_obj = self.pool.get('res.currency')
       
        
@@ -71,34 +69,34 @@ class acc_financial_report(report_sxw.rml_parse, common_report_header):
                 
                 chart_account = account_obj.browse(self.cr, self.uid, data['form']['chart_account_id'], context=data['form']['used_context'])
                 for account in account_obj.browse(self.cr, self.uid, account_ids, context=data['form']['used_context']):
-                   if account.company_id.id ==  chart_account.company_id.id:
+                    if account.company_id.id ==  chart_account.company_id.id:
                     
                     #if there are accounts to display, we add them to the lines with a level equals to their level in
                     #the COA + 1 (to avoid having them with a too low level that would conflicts with the level of data
                     #financial reports for Assets, liabilities...)
-                    if report.display_detail == 'detail_flat' and account.type == 'view':
-                        continue
-                    flag = False
-                    vals = {
-                        'name': account.code + ' ' + account.name,
-                        'balance':  account.balance != 0 and account.balance * report.sign or account.balance,
-                        'type': 'account',
-                        'level': report.display_detail == 'detail_with_hierarchy' and min(account.level + 1,6) or 6, #account.level + 1
-                        'account_type': account.type,
-                    }
- 
-                    if data['form']['debit_credit']:
-                        vals['debit'] = account.debit
-                        vals['credit'] = account.credit
-                    if not currency_obj.is_zero(self.cr, self.uid, account.company_id.currency_id, vals['balance']):
-                        flag = True
-                    if data['form']['enable_filter']:
-                        vals['balance_cmp'] = account_obj.browse(self.cr, self.uid, account.id, context=data['form']['comparison_context']).balance * report.sign or 0.0
-                        if not currency_obj.is_zero(self.cr, self.uid, account.company_id.currency_id, vals['balance_cmp']):
+                        if report.display_detail == 'detail_flat' and account.type == 'view':
+                            continue
+                        flag = False
+                        vals = {
+                            'name': account.code + ' ' + account.name,
+                            'balance':  account.balance != 0 and account.balance * report.sign or account.balance,
+                            'type': 'account',
+                            'level': report.display_detail == 'detail_with_hierarchy' and min(account.level + 1,6) or 6, #account.level + 1
+                            'account_type': account.type,
+                        }
+     
+                        if data['form']['debit_credit']:
+                            vals['debit'] = account.debit
+                            vals['credit'] = account.credit
+                        if not currency_obj.is_zero(self.cr, self.uid, account.company_id.currency_id, vals['balance']):
                             flag = True
-                    if True:
-                        if int(data['form']['level']) >= account.level: 
-                            lines.append(vals)
+                        if data['form']['enable_filter']:
+                            vals['balance_cmp'] = account_obj.browse(self.cr, self.uid, account.id, context=data['form']['comparison_context']).balance * report.sign or 0.0
+                            if not currency_obj.is_zero(self.cr, self.uid, account.company_id.currency_id, vals['balance_cmp']):
+                                flag = True
+                        if True:
+                            if int(data['form']['level']) >= account.level: 
+                                lines.append(vals)
         return lines
 
 report_sxw.report_sxw('report.acc_financial_report', 'account.financial.report',

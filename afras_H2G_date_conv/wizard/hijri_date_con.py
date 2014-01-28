@@ -1,15 +1,8 @@
-from osv import osv
-from osv import fields
-import datetime
-import time
-from datetime import date
-from dateutil.relativedelta import relativedelta
-from tools.translate import _
+from openerp.osv import osv
+from openerp.osv import fields
 import StringIO
-import cStringIO
 import base64
 import xlrd
-import string
 import math
 class import_hijri_date(osv.osv_memory):
     _name='import.hijri.date'
@@ -28,27 +21,27 @@ class import_hijri_date(osv.osv_memory):
         jd = jd1 + 354 * yr + 30 * mth - jd2 + day + 1948440 - 385
     
         if jd > 2299160:
-           l = jd + 68569
-           n = self.intPart((4 * l) / 146097.0)
-           l = l - self.intPart((146097 * n + 3) / 4.0)
-           i = self.intPart((4000 * (l + 1)) / 1461001.0)
-           l = l - self.intPart((1461 * i) / 4.0) + 31
-           j = self.intPart((80 * l) / 2447.0)
-           d = l - self.intPart((2447 * j) / 80.0)
-           l = self.intPart(j / 11.0)
-           m = j + 2 - 12 * l
-           y = 100 * (n - 49) + i + l
+            l = jd + 68569
+            n = self.intPart((4 * l) / 146097.0)
+            l = l - self.intPart((146097 * n + 3) / 4.0)
+            i = self.intPart((4000 * (l + 1)) / 1461001.0)
+            l = l - self.intPart((1461 * i) / 4.0) + 31
+            j = self.intPart((80 * l) / 2447.0)
+            d = l - self.intPart((2447 * j) / 80.0)
+            l = self.intPart(j / 11.0)
+            m = j + 2 - 12 * l
+            y = 100 * (n - 49) + i + l
         else:
-           j = jd + 1402
-           k = self.intPart((j - 1) / 1461.0)
-           l = j - 1461 * k
-           n = self.intPart((l - 1) / 365.0) - self.intPart(l / 1461.0)
-           i = l - 365 * n + 30
-           j = self.intPart((80 * i) / 2447.0)
-           d = i - self.intPart((2447 * j) / 80.0)
-           i = self.intPart(j / 11.0)
-           m = j + 2 - 12 * i
-           y = 4 * k + n + i - 4716
+            j = jd + 1402
+            k = self.intPart((j - 1) / 1461.0)
+            l = j - 1461 * k
+            n = self.intPart((l - 1) / 365.0) - self.intPart(l / 1461.0)
+            i = l - 365 * n + 30
+            j = self.intPart((80 * i) / 2447.0)
+            d = i - self.intPart((2447 * j) / 80.0)
+            i = self.intPart(j / 11.0)
+            m = j + 2 - 12 * i
+            y = 4 * k + n + i - 4716
         d,m,y=int(d),int(m),int(y)
         birthday=str(y)+str('-')+str(m)+str('-')+str(d)
         return birthday
@@ -69,7 +62,7 @@ class import_hijri_date(osv.osv_memory):
             year=int(split_rec[2])
             birth_date=self.Hijri2Gregorian(year, month, day)
             if first_date:
-                emp_birthday=self.pool.get('hr.employee').create(cr,uid,{'name':'Test','birthday':birth_date})
+                self.pool.get('hr.employee').create(cr,uid,{'name':'Test','birthday':birth_date})
             else:
                 pass
         return True

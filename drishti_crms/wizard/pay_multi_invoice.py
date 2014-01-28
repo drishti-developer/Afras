@@ -20,10 +20,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
-from openerp.osv.orm import setup_modifiers
 import openerp.addons.decimal_precision as dp
-from openerp.tools.translate import _
-from openerp.tools import float_compare
 import time
 
 class pay_multi_invoice(osv.osv_memory):
@@ -126,6 +123,7 @@ class pay_multi_invoice(osv.osv_memory):
                 'date':wizard.date or False,
                 'journal_id':wizard.journal_id.id,
                 'type':'payment',
+                'cost_analytic_id':invoice.cost_analytic_id.id if invoice.cost_analytic_id else False,
                 }
                 
                 partner_ochg = voucher_pool.onchange_partner_id(cr, uid, [], invoice.partner_id.id, wizard.journal_id.id, amount, wizard.currency_id.id, 'payment', wizard.date, ctx)

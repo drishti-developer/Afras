@@ -605,7 +605,7 @@ def CreateRequest(self, cr, uid, data):
                     
                 except Exception ,e:
                     response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
-                    response_data += "<RecordStatus>%s</RecordStatus>"%(e)
+                    response_data += "<RecordStatus>FAILURE - %s</RecordStatus>"%(e)
 
                 response_data += "</%s>"%(response_name)
 

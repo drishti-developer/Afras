@@ -155,9 +155,9 @@ class common_report_header(object):
                       
                       }
         if data.get('form', False) and data['form'].get('entry_type', False):
-             return entry_dict[data['form']['entry_type']]
+            return entry_dict[data['form']['entry_type']]
         else:
-             return ''
+            return ''
     
     def _get_currency(self, data):
         if data.get('form', False) and data['form'].get('chart_account_id', False):

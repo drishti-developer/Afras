@@ -30,7 +30,7 @@ class account_invoice(osv.osv):
     _inherit = "account.invoice"
     _columns = {
     'multi_invoice_id': fields.many2one('account.multi.invoice','Multi Expenses'),
-    }
+        }
     
 account_invoice()
 
@@ -107,6 +107,7 @@ class account_multi_invoice(osv.osv):
         'currency_id': _get_currency,
         'company_id': lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr, uid, 'account.invoice', context=c),
         'internal_number': False,
+        'date_invoice':str(datetime.date.today()),
     }
 #     _sql_constraints = [
 #         ('number_uniq', 'unique(number, company_id, journal_id, type)', 'Invoice Number must be unique per Company!'),

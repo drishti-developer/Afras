@@ -1,6 +1,5 @@
 import time
 from openerp.report import report_sxw
-from openerp.tools.translate import _
 from common_report_header import common_report_header
 
 class account_fleet_report(report_sxw.rml_parse, common_report_header):
@@ -34,8 +33,6 @@ class account_fleet_report(report_sxw.rml_parse, common_report_header):
         lines = []
         account_obj = self.pool.get('account.account')
         analytic_obj = self.pool.get('account.analytic.account')
-        currency_obj = self.pool.get('res.currency')
-        fleet_obj = self.pool.get('fleet.vehicle.cost.distribution')
         vehicle_obj = self.pool.get('fleet.vehicle')
         branch_obj = self.pool.get('sale.shop')
         
@@ -139,10 +136,10 @@ class account_fleet_report(report_sxw.rml_parse, common_report_header):
                             entry_list.append(obj.region_id.id)
                     where.append(tuple(entry_list))
                 elif entry_type == 'segment' and form_value.get('cost_analytic_ids'):
-                       for obj in analytic_obj.browse(self.cr, self.uid,form_value.get('cost_analytic_ids')):
+                    for obj in analytic_obj.browse(self.cr, self.uid,form_value.get('cost_analytic_ids')):
                             entry_list.append(obj.segment) 
-                       entry_str = 'segment in %s'     
-                       where.append(tuple(entry_list))     
+                    entry_str = 'segment in %s'     
+                    where.append(tuple(entry_list))     
                 elif entry_type == 'company' and form_value.get('cost_analytic_ids'):
                     for obj in analytic_obj.browse(self.cr, self.uid,form_value.get('cost_analytic_ids')):
                             entry_list.append(obj.country_id.id)
