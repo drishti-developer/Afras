@@ -1,8 +1,5 @@
 from openerp.report import report_sxw
-from openerp.tools.translate import _
 import time
-from datetime import datetime
-import textwrap
 
 class account_asset_asset_report(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -15,13 +12,9 @@ class account_asset_asset_report(report_sxw.rml_parse):
                                   })
     def get_total(self,data):
         dic={}
-        category_ids=[]
-        domain=[]
         total_purchase=0.00
         current_book_total=0.00
         depricaited_total_amount=0.00
-        asset_ids=[]
-        status_ids=[]
         status=data['status']
         start_date=data['start_date']
         asset_cat_id=data['asset_cat_id']
@@ -32,9 +25,9 @@ class account_asset_asset_report(report_sxw.rml_parse):
                 depr_line_id= self.pool.get('account.asset.depreciation.line').search(self.cr,self.uid,[('depreciation_date','=',start_date),('asset_id','=',line.id)])
                 total_purchase=total_purchase+line.purchase_value
                 if depr_line_id:
-                     depr_line_obj = self.pool.get('account.asset.depreciation.line').browse(self.cr, self.uid, depr_line_id[0])
-                     depricaited_total_amount=depricaited_total_amount+depr_line_obj.depreciated_value
-                     current_book_total=current_book_total+depr_line_obj.remaining_value
+                    depr_line_obj = self.pool.get('account.asset.depreciation.line').browse(self.cr, self.uid, depr_line_id[0])
+                    depricaited_total_amount=depricaited_total_amount+depr_line_obj.depreciated_value
+                    current_book_total=current_book_total+depr_line_obj.remaining_value
             dic['total_purchase']=total_purchase
             dic['depricaited_total_amount']=depricaited_total_amount
             dic['current_book_total']=current_book_total
@@ -43,15 +36,8 @@ class account_asset_asset_report(report_sxw.rml_parse):
         else:
             return True
     
-
- #Add this line in self.localcontext.update dictionary
-
     def get_category(self, data):
-        dic={}
-        domain=[]
-        category_ids=[]
         asset_ids=data['asset_ids']
-        status_ids=[]
         start_date=data['start_date']
         asset_cat_id=data['asset_cat_id']
         status=data['status']
@@ -59,9 +45,7 @@ class account_asset_asset_report(report_sxw.rml_parse):
         asset_obj=self.pool.get('account.asset.asset')
         dic1={}
         result=[]
-        depricaited_total_amount=0.0
-        current_book_total=0.0
-        total_purchase=0.0
+        depricaited_total_amount=current_book_total=total_purchase=0.0
         if asset_ids:
             for line in asset_obj.browse(self.cr,self.uid,asset_ids):
                 depr_line_id= self.pool.get('account.asset.depreciation.line').search(self.cr,self.uid,[('depreciation_date','=',start_date),('asset_id','=',line.id)])
@@ -90,10 +74,10 @@ class account_asset_asset_report(report_sxw.rml_parse):
                         'analytic_id':line.analytic_id.name,
                         }
                 if depr_line_id:
-                     depr_line_obj = self.pool.get('account.asset.depreciation.line').browse(self.cr, self.uid, depr_line_id[0])
-                     dic1['amount'] = depr_line_obj.amount
-                     dic1['depreciated_value'] = depr_line_obj.depreciated_value
-                     dic1['remaining_value'] = depr_line_obj.remaining_value
+                    depr_line_obj = self.pool.get('account.asset.depreciation.line').browse(self.cr, self.uid, depr_line_id[0])
+                    dic1['amount'] = depr_line_obj.amount
+                    dic1['depreciated_value'] = depr_line_obj.depreciated_value
+                    dic1['remaining_value'] = depr_line_obj.remaining_value
                 result.append(dic1) 
             if result:
                 return result
@@ -103,7 +87,6 @@ class account_asset_asset_report(report_sxw.rml_parse):
         
     def get_headtable(self, data):
             dic={}
-            lst=[]
             state=''
             asset_cat_id=data['asset_cat_id']
             if data.get('start_date'):

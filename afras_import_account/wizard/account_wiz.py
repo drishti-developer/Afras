@@ -1,15 +1,8 @@
-from osv import osv
-from osv import fields
-import datetime
-import time
-from datetime import date
-from dateutil.relativedelta import relativedelta
-from tools.translate import _
+from openerp.osv import osv
+from openerp.osv import fields
 import StringIO
-import cStringIO
 import base64
 import xlrd
-import string
 class import_account(osv.osv_memory):
     _name='import.account'
     _columns={
@@ -93,51 +86,51 @@ class import_account(osv.osv_memory):
                             if name1:
         #                          account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
         #                          if not account_search_id:
-                                   account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name1,'type':type,'user_type':user_type,'parent_id':parent_id  or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                   parent1=account_id
+                                account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name1,'type':type,'user_type':user_type,'parent_id':parent_id  or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
+                                parent1=account_id
     #                             else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name1,'type':type,'user_type':user_type,'parent_id':parent_id  or False})    
     
                             elif name2:
     #                             account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                             if not account_search_id:
-                                    account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name2,'type':type,'user_type':user_type,'parent_id':parent1 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    parent2=account_id
+                                account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name2,'type':type,'user_type':user_type,'parent_id':parent1 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
+                                parent2=account_id
     #                             else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name2,'type':type,'user_type':user_type,'parent_id':parent1  or False})    
                             elif name3:
     #                             account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                             if not account_search_id:
-                                    account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name3,'type':type,'user_type':user_type,'parent_id':parent2 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    parent3=account_id
+                                account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name3,'type':type,'user_type':user_type,'parent_id':parent2 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
+                                parent3=account_id
     #                             else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name3,'type':type,'user_type':user_type,'parent_id':parent2  or False})    
                             elif name4:
     #                              account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                              if not account_search_id:
-                                    account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name4,'type':type,'user_type':user_type,'parent_id':parent3 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    parent4=account_id
+                                account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name4,'type':type,'user_type':user_type,'parent_id':parent3 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
+                                parent4=account_id
     #                              else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name4,'type':type,'user_type':user_type,'parent_id':parent3  or False})    
                             elif name5:
     #                              account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                              if not account_search_id:
-                                    account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name5,'type':type,'user_type':user_type,'parent_id':parent4 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    parent5=account_id
+                                account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name5,'type':type,'user_type':user_type,'parent_id':parent4 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
+                                parent5=account_id
     #                              else:
     #                                 self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name5,'type':type,'user_type':user_type,'parent_id':parent4  or False})    
                             elif name6:
     #                              account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                              if not account_search_id:
-                                    account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name6,'type':type,'user_type':user_type,'parent_id':parent5 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    parent6=account_id
+                                account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name6,'type':type,'user_type':user_type,'parent_id':parent5 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
+                                parent6=account_id
     #                              else:
 #                                         self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name6,'type':type,'user_type':user_type,'parent_id':parent5  or False})    
                             elif name7:
     #                              account_search_id=self.pool.get('account.account').search(cr,uid,[('code','=',account_code)])
     #                              if not account_search_id:
-                                    account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name7,'type':type,'user_type':user_type,'parent_id':parent6 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
-                                    parent7=account_id
+                                account_id=self.pool.get('account.account').create(cr,uid,{'code' : account_code,'name' : name7,'type':type,'user_type':user_type,'parent_id':parent6 or False,'company_id':company_id,'child_consol_ids':[[6,0,list_company]]}) 
+                                parent7=account_id
     #                              else:
 #                                         self.pool.get('account.account').write(cr,uid,account_search_id[0],{'code':account_code,'name' : name6,'type':type,'user_type':user_type,'parent_id':parent5  or False})    
 

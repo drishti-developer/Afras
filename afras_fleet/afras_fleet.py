@@ -1,5 +1,4 @@
-from osv import osv,fields
-import datetime
+from openerp.osv import osv,fields
 
 class fleet_vehicle_insurance(osv.osv):
     _name='fleet.vehicle.insurance'
