@@ -80,7 +80,7 @@
 				</xpath>
                <field name="journal_id" position="before">
                 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
-                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]"  required="1"/>
+                <field name="cost_analytic_id" attrs="{'readonly':[('state','=','posted')]}" domain="[('company_id', '=', company_id)]"  required="1"/>
                </field>
                
                <xpath expr="//field[@name='invoice_line']"
@@ -166,7 +166,7 @@
 				</xpath>
 				<field name="company_id" position="before">
 				 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}" readonly="1"/>
-                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]"  required="1"/>
+                <field name="cost_analytic_id" attrs="{'readonly':[('state','=','posted')]}" domain="[('company_id', '=', company_id)]"  required="1"/>
                </field>
                <xpath expr="//field[@name='line_cr_ids']"
 					position="attributes">
@@ -212,7 +212,7 @@
 				
 				<field name="company_id" position="before">
 				 <field name="vehicle_id" attrs="{'invisible':[('vehicle_id', '=', False)],}"/>
-                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" attrs="{'readonly':[('state','=','posted')]}" required="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" attrs="{'readonly':[('stat','=','posted')]}" required="1"/>
                </field>
 				
 				<xpath expr="//field[@name='line_dr_ids']"

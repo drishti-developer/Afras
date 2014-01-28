@@ -25,7 +25,7 @@
                           <field name="advance_payment" required="1" invisible="1"/>
                         <field name="company_id" widget="selection" groups="base.group_multi_company" invisible="1"/>
                         
-                        <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+                        <field name="cost_analytic_id" attrs="{'readonly':[('state','=','posted')]}" domain="[('company_id', '=', company_id)]" required="1"/>
               
                         <field name="reference" 	/>
                         <field name="number" string="Payment No"/>
@@ -33,13 +33,13 @@
                         <field name="account_id" context="{'journal_id1':	journal_id, }" string="Credit A/C" 
                          help="This is the account where the balance will be credited for the Advance Payment Entry"/>
                            
-                         <field name="from_date" required="1"/>
-                         <field name="no_months" required="1"/>
+                         <field name="from_date" required="1" attrs="{'readonly':[('state','=','posted')]}"/>
+                         <field name="no_months" required="1" attrs="{'readonly':[('state','=','posted')]}"/>
 <!--                          <field name="analytic_id" /> -->
-                         <field name="rent_jounral_id" required="1" string="Expenses Journal" 
+                         <field name="rent_jounral_id" required="1" string="Expenses Journal" attrs="{'readonly':[('state','=','posted')]}"
                              on_change="onchange_exp_journal(rent_jounral_id)" domain="[('type','in',['purchase','general']),]"/>
                           <field name="exp_account_id" required="1" context="{'journal_id1':rent_jounral_id, }"
-                          help="This is the account where the corresponding future expense transactions will be debited"/>
+                          help="This is the account where the corresponding future expense transactions will be debited" attrs="{'readonly':[('state','=','posted')]}"/>
                          <field name="payment_rate_currency_id" invisible="1"/>
                          <field name="currency_id" groups="base.group_multi_currency"/> 
                     </group>
