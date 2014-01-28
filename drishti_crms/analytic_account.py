@@ -153,10 +153,10 @@ class account_analytic_line(osv.osv):
                     if  alo.entry_type == 'car':
                         vehicle_id =  vehicle_obj.search(cr ,uid,[('analytic_id','=',alo.account_id.id)])
                         dic1['vehicle_id'] =  vehicle_id and vehicle_id[0]   
-                                   
+                    self.pool.get('fleet.vehicle.cost.distribution').create(cr, uid, dic1)               
 
-                for key in dic.items():
-
+                for key,v1 in dic.items():
+                    
                     dic[key]['amount'] = (dic[key]['car_value'] * amount) / total_value
                     dic[key]['debit'] =   (dic[key]['amount'] >=0) and  dic[key]['amount'] or 0
                     dic[key]['credit'] =   (dic[key]['amount'] < 0) and  dic[key]['amount'] * -1 or 0
