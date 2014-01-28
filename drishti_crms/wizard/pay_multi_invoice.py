@@ -123,6 +123,7 @@ class pay_multi_invoice(osv.osv_memory):
                 'date':wizard.date or False,
                 'journal_id':wizard.journal_id.id,
                 'type':'payment',
+                'cost_analytic_id':invoice.cost_analytic_id.id if invoice.cost_analytic_id else False,
                 }
                 
                 partner_ochg = voucher_pool.onchange_partner_id(cr, uid, [], invoice.partner_id.id, wizard.journal_id.id, amount, wizard.currency_id.id, 'payment', wizard.date, ctx)
