@@ -40,7 +40,7 @@
          </record>
 
          <record model="ir.actions.act_window" id="action_asset_sub_category_view">
-             <field name="name">Asset Sub Category</field>
+             <field name="name">Asset Categories</field>
              <field name="type">ir.actions.act_window</field>
              <field name="res_model">account.asset.sub.category</field>
              <field name="view_type">form</field>
@@ -149,8 +149,12 @@
              <field name="view_mode">tree,form</field>
              <field name="view_id" ref="account_asset_cost_center_tree_view"/>
          </record>      
+	         
+	    <menuitem parent="account_asset.menu_finance_config_assets" name = "Asset Depr. Category"
+	              id="account_asset.menu_action_account_asset_asset_list_normal" 
+	              action="account_asset.action_account_asset_asset_list_normal"/>
 	            
-		<menuitem id="asset_sub_category_menu_id" name="Asset Sub Category" parent="account_asset.menu_finance_config_assets"  action="action_asset_sub_category_view"/>
+		<menuitem id="asset_sub_category_menu_id" name="Asset Categories" parent="account_asset.menu_finance_config_assets"  action="action_asset_sub_category_view"/>
 		<menuitem id="asset_sub_category_hierarchi_id" name="Asset Category Hierarchy" parent="account_asset.menu_finance_config_assets" action="action_account_asset_asset_hierarchy_tree"/>
 	<!-- 	<menuitem id="account_asset_cost_center" name="Account Asset Cost Center" parent="account_asset.menu_finance_assets" action="action_account_asset_cost_center_view"/>   -->
 		
