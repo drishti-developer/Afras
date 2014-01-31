@@ -174,7 +174,7 @@ class account_asset_asset(osv.osv):
                 'already_depreciated_amt' : fields.float('Exa Depreciated Amount'),
                  'dept_arrear' : fields.float('Arrear Amount'),
                 'vehicle_id' : fields.many2one('fleet.vehicle','Vehicle'),
-                'analytic_id' : fields.many2one('account.analytic.account','Cost Center'),
+                'analytic_id' : fields.many2one('account.analytic.account','Analytic Account'),
                 'depreciation_period' : fields.selection([('days','Days'),('months','Months')],'Depreciation Period',required=True),
                 'depreciation_start_date':fields.date('Depreciation Start Date',required=True),
                 'non_depreciation_value': fields.integer('Non depreciation Time'),
