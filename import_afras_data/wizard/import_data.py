@@ -24,7 +24,9 @@ from openerp.osv import fields, osv
 import StringIO
 import base64
 import xlrd
-from datetime import timedelta, datetime
+from datetime import timedelta
+import datetime
+from datetime import datetime
 DATA_DIC={
          
            'Computer Hardware':8,
@@ -48,6 +50,7 @@ class data_import(osv.osv_memory):
     
     def import_data(self,cr,uid,ids,context=None):
         assetObj = self.pool.get('account.asset.asset')
+        analytic_Obj = self.pool.get('account.analytic.account')
         dataObj = self.browse(cr,uid,ids)[0]
         val=base64.decodestring(dataObj.file)
         fp = StringIO.StringIO()
@@ -60,7 +63,6 @@ class data_import(osv.osv_memory):
         i =1
         assetDic ={
                    'company_id':companyId,
-                   
                    }
         for i in range(1,sheet.nrows):
             categoryName =sheet.row_values(i,0,sheet.ncols)[2]
@@ -71,16 +73,17 @@ class data_import(osv.osv_memory):
             purchase_date_conv= datetime.date(1900, 1, 1) + datetime.timedelta(int(purchase_date)-2)
             depreciation_date=sheet.row_values(i,0,sheet.ncols)[11]
             depreciation_date_conv= datetime.date(1900, 1, 1) + datetime.timedelta(int(depreciation_date)-2)
+            analytic_create_id=analytic_Obj.create(cr,uid,{'name':sheet.row_values(i,0,sheet.ncols)[7]})
             assetDic.update({'name' :sheet.row_values(i,0,sheet.ncols)[7],
                              'category_id': categoryId,
-                             'purhcase_date':purchase_date_conv, #5
+                             'purchase_date':purchase_date_conv, #5
                              'cost_analytic_id' : analyticId,
-                             'analytic_id' : analyticId,
+                             'analytic_id' : analytic_create_id,
                              'depreciation_start_date':depreciation_date_conv, #11
                              'purchase_value':sheet.row_values(i,0,sheet.ncols)[8],
                              'prorata' : True,
                              'cost_center_ids':  [(0,0,{
-                                                         'analyric_id': analyticId,
+                                                         'analytic_id': analyticId,
                                                          'from_date' : purchase_date_conv, #5
                                                 })],
                              

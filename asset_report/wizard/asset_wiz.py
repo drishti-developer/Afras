@@ -11,10 +11,10 @@ class account_asset_asset_wiz(osv.osv_memory):
     _columns={
     'asset_id':fields.many2one('account.asset.asset','Asset'),
     'asset_cat_id':fields.many2one('account.asset.category','Asset category'),
-    'status':fields.selection([('act','Active'),('inact','Inactive'),('rs','Ready to sell'),('sld','Sold')],'Status'),
+    'status':fields.selection([('act','Active'),('inact','Inactive'),('rs','Ready to sell'),('sold','Sold')],'Status'),
     'cost_center_id':fields.many2one('account.analytic.account','Cost Center'),
     'start_date':fields.date('As on Date',required=True),  
-    'company_id':fields.many2one('res.company','Company'),
+    'company_id':fields.many2one('res.company','Company Name'),
               }
     _defaults = {
         'start_date': fields.date.context_today,
@@ -25,6 +25,7 @@ class account_asset_asset_wiz(osv.osv_memory):
     def print_report(self,cr,uid,ids,context=None):
         data={}
         domain=[]
+        analytic_account=''
         obj=self.browse(cr,uid,ids[0])
         asset_obj=self.pool.get('account.asset.asset')
         cost_center_obj=self.pool.get('account.asset.cost.center')
@@ -32,7 +33,7 @@ class account_asset_asset_wiz(osv.osv_memory):
         if obj.asset_cat_id:
             domain.append(('category_id','=',obj.asset_cat_id.id))
         if obj.status:
-            domain.append(('is_status','=',obj.status)) 
+            domain.append(('is_status','=',obj.status))
         if obj.asset_id:
             domain.append(('id','=',obj.asset_id.id))
         asset_ids=asset_obj.search(cr,uid,domain)
@@ -46,9 +47,17 @@ class account_asset_asset_wiz(osv.osv_memory):
             asset_ids = []
             for cost_center_brw in cost_center_obj.browse(cr, uid, asset_cost_center_ids):
                 asset_ids.append(cost_center_brw.asset_id.id)
+        if obj.asset_cat_id:
+            search_id=self.pool.get('account.asset.cost.center').search(cr,uid,[('asset_id','in',asset_ids),('from_date','<=',obj.start_date),'|',('to_date','=',False),('to_date','>=',obj.start_date)])
+            if not search_id:
+                analytic_account=''
+            else:
+                brw_id=self.pool.get('account.asset.cost.center').browse(cr,uid,search_id[0])
+                analytic_account=brw_id.analytic_id.name
         if asset_ids:
             data=self.read(cr, uid, ids,[])[0]
             data['asset_ids']=asset_ids
+            data['analytic_account']=analytic_account
             return {
                 'type':'ir.actions.report.xml',
                 'report_name':'account_asset_asset_report',

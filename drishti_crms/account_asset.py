@@ -162,11 +162,11 @@ class account_asset_asset(osv.osv):
     
     
     
-    def _get_code(self, cr, uid,context, *args):
-        obj_sequence = self.pool.get('ir.sequence')    
-        return obj_sequence.next_by_code(cr, uid, 'account.asset.asset', context=context)
-
-     
+#     def _get_code(self, cr, uid,context, *args):
+#         obj_sequence = self.pool.get('ir.sequence')    
+#         return obj_sequence.next_by_code(cr, uid, 'account.asset.asset', context=context)
+# 
+#      
     _columns = {
                 'already_depreciated_amt' : fields.float('Exa Depreciated Amount'),
                  'dept_arrear' : fields.float('Arrear Amount'),
@@ -180,9 +180,11 @@ class account_asset_asset(osv.osv):
                 'cost_analytic_id': fields.many2one('account.analytic.account','Invoice Cost Center', required=True),
                  'value_residual': fields.function(_amount_residual, method=True, digits_compute=dp.get_precision('Account'), string='Residual Value'),
                'is_status':fields.selection([('act','Active'),('inact','Inactive'),('rs','Ready to sell'),('sold','Sold')],'Status'),
-                'unique_id' : fields.char('Unique ID'),
+                'unique_id' : fields.char('Unique ID',readonly=True),
                 }
-    _defaults = { 'unique_id': _get_code, }  
+    _defaults = { 
+                  'unique_id': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'account.asset.asset'),
+                  }  
     
     def onchange_vehicle_id(self, cr, uid, ids, vehicle_id):
         res = {'value':{}}

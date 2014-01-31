@@ -203,3 +203,4 @@ base.menu_custom,Technical,"base.group_no_one,group_readonly"
 fleet.menu_root,Fleet,"fleet.group_fleet_user,group_readonly"
 base.menu_tools,Tools,"base.group_tool_user,group_readonly"
 base.menu_administration,Settings,"base.group_erp_manager,base.group_system,group_readonly"
+crms.payment,CRMS Payment,

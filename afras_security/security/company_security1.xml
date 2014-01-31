@@ -15,5 +15,9 @@
         <field name="name">User Access </field>
     </record>
     
+    <record id="group_nlco_admin" model="res.groups">
+        <field name="name">Nlco admin</field>
+    </record>
+    
 </data>
 </openerp>
