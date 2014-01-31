@@ -823,4 +823,34 @@ access_revenue_report_line_id,revenue.report.line,afras_revenue_report.model_rev
 ,account.fiscal.journal,Multicompany_billing.model_account_fiscal_journal,,1,1,1,1
 ,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,,1,1,1,1
 ,supplier.account.invoice,Multicompany_billing.model_supplier_account_invoice,,1,1,1,1
-group_all_companies_user_new_557,account.asset.asset,account_asset.model_account_asset_asset,group_user_access,1,1,1,1
+,account.asset.asset,account_asset.model_account_asset_asset,group_user_access,1,1,1,1
+,crms.cash.branch,drishti_crms.model_crms_cash_branch,,1,1,1,1
+,crms.payment.car.history,drishti_crms.model_crms_payment_car_history,,1,1,1,1
+group_all_companies_user_new_793,account.move.line invoice,account.model_account_move_line,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_794,account.fiscalyear,account.model_account_fiscalyear,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_795,account.period,account.model_account_period,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_796,account.journal,account.model_account_journal,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_797,res.partner.bank.type.user,base.model_res_partner_bank_type,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_798,account.account,account.model_account_account,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_799,account.chart.template,account.model_account_chart_template,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_800,account.tax.template,account.model_account_tax_template,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_801,account.account.template,account.model_account_account_template,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_802,account.tax.code.template,account.model_account_tax_code_template,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_803,account.fiscal.position.template,account.model_account_fiscal_position_template,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_804,account.fiscal.position.tax.template,account.model_account_fiscal_position_tax_template,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_805,account.fiscal.position.account.template,account.model_account_fiscal_position_account_template,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_806,account.account.type,account.model_account_account_type,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_807,account.tax,account.model_account_tax,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_808,account.tax.code,account.model_account_tax_code,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_809,account.fiscal.position all,account.model_account_fiscal_position,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_810,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_811,account.asset.category,account_asset.model_account_asset_category,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_812,account.asset.sub.category,asset_report.model_account_asset_sub_category,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_813,account.financial.report,account.model_account_financial_report,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_814,account.analytic.journal,account.model_account_analytic_journal,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_815,account.afras.cost.distribution,drishti_crms.model_account_afras_cost_distribution,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_816,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_817,account.payment.term,account.model_account_payment_term,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_818,account.payment.term.line,account.model_account_payment_term_line,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_819,res.currency account manager,account.model_res_currency,group_nlco_admin,1,0,0,0
+group_all_companies_user_new_820,email.template,email_template.model_email_template,group_nlco_admin,1,0,0,0

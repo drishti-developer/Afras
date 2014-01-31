@@ -163,11 +163,13 @@ class account_asset_asset(osv.osv):
     
     
     
+
     def get_code(self, cr, uid,context):
         obj_sequence = self.pool.get('ir.sequence')    
         return obj_sequence.next_by_code(cr, uid, 'account.asset.asset', context=context)
 
      
+
     _columns = {
                 'already_depreciated_amt' : fields.float('Exa Depreciated Amount'),
                  'dept_arrear' : fields.float('Arrear Amount'),
@@ -181,6 +183,7 @@ class account_asset_asset(osv.osv):
                 'cost_analytic_id': fields.many2one('account.analytic.account','Invoice Cost Center', required=True),
                  'value_residual': fields.function(_amount_residual, method=True, digits_compute=dp.get_precision('Account'), string='Residual Value'),
                'is_status':fields.selection([('act','Active'),('inact','Inactive'),('rs','Ready to sell'),('sold','Sold')],'Status'),
+
                
                 }
 
@@ -190,6 +193,7 @@ class account_asset_asset(osv.osv):
         asset_id = super(account_asset_asset, self).create(cr, uid, vals, context=context)
         self.compute_depreciation_board(cr, uid, [asset_id], context=context)
         return asset_id
+
     
     def onchange_vehicle_id(self, cr, uid, ids, vehicle_id):
         res = {'value':{}}

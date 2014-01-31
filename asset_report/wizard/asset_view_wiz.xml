@@ -13,7 +13,7 @@
                     <field name="status"/>
                     <field name="cost_center_id" domain="[('company_id','=',company_id),('entry_type','!=','car')]"/>
                     <field name="start_date"/>
-                    <field name="company_id" invisible="1"/>
+                    <field name="company_id" groups='base.group_multi_company'/>
                     </group>
                     <footer>
                  <button name="print_report" string="Print" type="object" colspan="1" icon="gtk-print"/>

@@ -1,5 +1,7 @@
 from openerp.report import report_sxw
 import time
+from openerp.osv import osv,fields
+import datetime
 
 class account_asset_asset_report(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -36,7 +38,10 @@ class account_asset_asset_report(report_sxw.rml_parse):
         else:
             return True
     
-    def get_category(self, data):
+    def get_category(self,data):
+        status=''
+        analytic_account=data['analytic_account']
+        print'======analytic_acount======',data['analytic_account']
         asset_ids=data['asset_ids']
         start_date=data['start_date']
         asset_cat_id=data['asset_cat_id']
@@ -45,49 +50,109 @@ class account_asset_asset_report(report_sxw.rml_parse):
         asset_obj=self.pool.get('account.asset.asset')
         dic1={}
         result=[]
-        depricaited_total_amount=current_book_total=total_purchase=0.0
         if asset_ids:
-            for line in asset_obj.browse(self.cr,self.uid,asset_ids):
-                depr_line_id= self.pool.get('account.asset.depreciation.line').search(self.cr,self.uid,[('depreciation_date','=',start_date),('asset_id','=',line.id)])
-                if asset_cat_id == 0.00:
-                    asset_cat_id=''
-                if data['status'] == 'act':
-                    status='Active'
-                if data['status'] == 'inact':
-                    status='Inactive'
-                if data['status'] == 'rs':
-                    status='Ready to sell'
-                if data['status'] == 'sld':
-                    status='Sold'
-                self.cr.execute('select max(depreciation_date) from account_asset_depreciation_line where asset_id=%s', [line.id])
-                date=self.cr.fetchall()[0]
-                dic1 = {
-                        'start_date':data['start_date'],
-                        'is_status':status,
-                        'name' :line.name,
-                        'amount': 0,
-                        'depreciated_value': 0,
-                        'remaining_value' :0,
-                        'purchase_value':line.purchase_value,
-                        'purchase_date':line.purchase_date,
-                        'last_period':date[0],
-                        'analytic_id':line.analytic_id.name,
-                        }
-                if depr_line_id:
-                    depr_line_obj = self.pool.get('account.asset.depreciation.line').browse(self.cr, self.uid, depr_line_id[0])
-                    dic1['amount'] = depr_line_obj.amount
-                    dic1['depreciated_value'] = depr_line_obj.depreciated_value
-                    dic1['remaining_value'] = depr_line_obj.remaining_value
-                result.append(dic1) 
-            if result:
-                return result
-            else:
-                return True
+                for line in asset_obj.browse(self.cr,self.uid,asset_ids):
+                    depr_line_id= self.pool.get('account.asset.depreciation.line').search(self.cr,self.uid,[('depreciation_date','<=',start_date),('asset_id','=',line.id)])
+                    print'===depr_line_id=============',depr_line_id
+                    get_depr_id=depr_line_id.sort()
+                    search_id=self.pool.get('account.asset.cost.center').search(self.cr,self.uid,[('asset_id','=',line.id),('from_date','<=',start_date),'|',('to_date','=',False),('to_date','>=',start_date)])
+                    if asset_cat_id == 0.00:
+                        asset_cat_id=''
+                    if data['status'] == 'act':
+                        status='Active'
+                        if not search_id:
+                            analytic_account=''
+                        else:
+                            brw_id=self.pool.get('account.asset.cost.center').browse(self.cr,self.uid,search_id[0])
+                            analytic_account=brw_id.analytic_id.name
+                            print'=====analytic_account======',analytic_account
+                    if data['status'] == 'inact':
+                        status='Inactive'
+                        if not search_id:
+                            analytic_account=''
+                        else:
+                            brw_id=self.pool.get('account.asset.cost.center').browse(self.cr,self.uid,search_id[0])
+                            analytic_account=brw_id.analytic_id.name
+                            print'=====analytic_account======',analytic_account
+                    if data['status'] == 'rs':
+                        status='Ready to sell'
+                        if not search_id:
+                            analytic_account=''
+                        else:
+                            brw_id=self.pool.get('account.asset.cost.center').browse(self.cr,self.uid,search_id[0])
+                            analytic_account=brw_id.analytic_id.name
+                            print'=====analytic_account======',analytic_account
+                    if data['status'] == 'sold':
+                        status='Sold'
+                        print'=======gggggggggggggggg'
+                        analytic_account=''
+                    elif data['status'] == False:
+                        print'======status===11111==',data['status']
+                        status=line.is_status
+                        if status == 'act':
+                            status='Active'
+                            if not search_id:
+                                analytic_account=''
+                            else:
+                                brw_id=self.pool.get('account.asset.cost.center').browse(self.cr,self.uid,search_id[0])
+                                analytic_account=brw_id.analytic_id.name
+                                print'=====analytic_account======',analytic_account
+                        elif status == 'inact':
+                            status='Inactive'
+                            if not search_id:
+                                analytic_account=''
+                            else:
+                                brw_id=self.pool.get('account.asset.cost.center').browse(self.cr,self.uid,search_id[0])
+                                analytic_account=brw_id.analytic_id.name
+                                print'=====analytic_account======',analytic_account
+                        elif status == 'rs':
+                            status='Ready to sell'
+                            if not search_id:
+                                analytic_account=''
+                            else:
+                                brw_id=self.pool.get('account.asset.cost.center').browse(self.cr,self.uid,search_id[0])
+                                analytic_account=brw_id.analytic_id.name
+                                print'=====analytic_account======',analytic_account
+                        elif status == 'sold':
+                            status='Sold'
+                            analytic_account=''
+#                     else:
+#                         search_id=self.pool.get('account.asset.cost.center').search(self.cr,self.uid,[('asset_id','=',line.id),('from_date','<=',start_date),'|',('to_date','=',False),('to_date','>=',start_date)])
+#                         print'===search_id======',search_id
+#                         brw_id=self.pool.get('account.asset.cost.center').browse(self.cr,self.uid,search_id[0])
+#                         analytic_account=brw_id.analytic_id.name
+#                         print'=====analytic_account======',analytic_account
+    # #                     self.cr.execute('select max(depreciation_date) from account_asset_depreciation_line where asset_id=%s', [line.id])
+    #                     date=self.cr.fetchall()[0]
+                    dic1 = {
+                                        'start_date':data['start_date'],
+                                        'is_status':status,
+                                        'name' :line.name,
+                                        'amount': 0,
+                                        'depreciated_value': 0,
+                                        'remaining_value' :0,
+                                        'purchase_value':line.purchase_value,
+                                        'purchase_date':line.purchase_date,
+                        #               'last_period':date[0],
+                                        'analytic_id':analytic_account,
+                                        }
+                    if depr_line_id:
+                        depr_line_obj = self.pool.get('account.asset.depreciation.line').browse(self.cr, self.uid, depr_line_id[0])
+                        dic1['amount'] = depr_line_obj.amount
+                        dic1['depreciated_value'] = depr_line_obj.depreciated_value
+                        dic1['remaining_value'] = depr_line_obj.remaining_value
+                    result.append(dic1) 
+                if result:
+                    return result
+                else:
+                    return True
         
         
     def get_headtable(self, data):
             dic={}
             state=''
+            status=data['status']
+            print'======status====',status
             asset_cat_id=data['asset_cat_id']
             if data.get('start_date'):
                 dic.update({'start_date':data['start_date']})
@@ -104,7 +169,7 @@ class account_asset_asset_report(report_sxw.rml_parse):
             if data.get('status') == 'rs':
                     state='Ready to sell'
                     dic.update({'status':state})
-            if data.get('status') == 'sld':
+            if data.get('status') == 'sold':
                     state='Sold'
                     dic.update({'status':state})
                  
