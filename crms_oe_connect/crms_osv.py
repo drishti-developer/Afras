@@ -288,7 +288,6 @@ CASH_BRANCH = [
            ]
 
 def getDataArray(responseDOM, tag, level_1, level_2=False):
-    
     responsearray = []
     for node in responseDOM.getElementsByTagName(tag):
         for cNode in node.childNodes:
@@ -306,7 +305,6 @@ def getDataArray(responseDOM, tag, level_1, level_2=False):
                         info_1[scNode.nodeName] = scNode.childNodes[0].data
                 if info_1:
                     responsearray.append(info_1)
-                    
     return responsearray
 
 # Send Request from OpenERP --> CRMS System.

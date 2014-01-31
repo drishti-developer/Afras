@@ -7,28 +7,48 @@
             <field name="arch" type="xml">
                 <form string="Sale Details" version="7.0">
                 	<header>
-                    	<button name="confirm" type="object" string="Confirm Sale" states='draft'/>
-                    	<button name="sell_asset" type="object" string="Sale" states='ready'/>
+                    	<button name="confirm" type="object" string="Request Sale" states='draft'/>
+                    	<button name="sell_asset" type="object" string="Confirm Sale" states='ready'/>
                     	<button name="cancel" type="object" string="Cancel Sale" states='draft,ready'/>
                     	<field name="state" widget="statusbar" statusbar_visible="draft,ready,sold" />
                 	</header>
                 	<sheet string="Asset Detail">
 	                	<group col="4" colspan="2" string="Asset Details">
 	                	<group>
-	                		<field name="asset_id" on_change='onchange_asset(asset_id)'/>
-	                		<field name='partner_id' states='ready,sold' attrs="{'required':[('state','!=','draft')]}"/>
-	                		<field name="vehicle_id"/>
-	                		<field name="property_asset_sale_journal"/>
-	                		</group>
-	                		<group>
-	                		<field name="date"/>
-	                    	<field name="amount" attrs="{'required':[('state','!=','draft')]}"/>
-	                		</group>
+		                		<field name="asset_id" on_change='onchange_asset(asset_id)'/>
+		                		<field name="category_id"/>
+		                		<field name='partner_id' states='ready,sold' attrs="{'required':[('state','!=','draft')]}"/>
+		                		<field name="vehicle_id"/>
+		                		<field name="property_asset_sale_journal" domain="[('type','=','cash')]" states='ready,sold' attrs="{'required':[('state','!=','draft')]}"/>
+                		</group>
+                		<group>
+		                		<field name="date"/>
+		                		<field name="company_id" required='1'/>
+		                    	<field name="amount" attrs="{'required':[('state','!=','draft')]}"/>
 	                	</group>
+	                		
+	                	</group>
+	                	<notebook string="Invoice" states='sold,cancel'>
+	                		<page string='Invoice Detail'>
+	                			<field name='asset_invoice_ids' readonly='1'/>
+	                		</page>
+	                	</notebook>
                     </sheet> 
                 </form>
             </field>
         </record>
+        
+        <record model="ir.ui.view" id="view_account_asset_asset_vehicle_form23">
+			<field name="name">account.asset.asset.vehicle.form1</field>
+			<field name="model">account.asset.asset</field>
+			<field name="inherit_id" ref="account_asset.view_account_asset_asset_form" />
+			<field name="arch" type="xml">
+				<field name="partner_id" position="after">				 
+				    <field name="sold_value" />	
+                </field>
+   			</field>
+   		</record>
+   			     
         
       <record id="asset_sale_tree" model="ir.ui.view">
             <field name="name">asset.sale.tree</field>
@@ -54,7 +74,7 @@
             <field name="view_mode">tree,form</field>
       </record> 
       
-      <menuitem action="action_sale_assets" id="menu_sale_asset" parent='account.menu_finance_receivables' name = "Asset Sale Details" sequence="4"/>
+      <menuitem action="action_sale_assets" id="menu_sale_asset" parent='account_asset.menu_finance_assets' name = "Sales Asset" sequence="4"/>
       
     
     </data>
