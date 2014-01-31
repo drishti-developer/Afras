@@ -462,21 +462,22 @@
         </record>
         
         
-<!--          <record model="ir.ui.view" id="view_company_inherit_analytic_form"> -->
-<!--             <field name="name">res.company.form.inherit1</field> -->
-<!--             <field name="inherit_id" ref="base.view_company_form"/> -->
-<!--             <field name="model">res.company</field> -->
-<!--             <field name="arch" type="xml"> -->
-            
-                
-<!--                     <field name="company_registry" position="after" > -->
-                      
-<!--                         <field name="analytic_id" context="{'default_entry_type': 'company','default_company_id' : active_id}" -->
-<!--                                                   domain="[('entry_type','=','company'),('company_id','=',active_id)]"/> -->
-<!--                     </field> -->
-                
-<!--             </field> -->
-<!--         </record> -->
+          <record model="ir.ui.view" id="view_company_inherit_analytic_form"> 
+             <field name="name">res.company.form.inherit1</field> 
+             <field name="inherit_id" ref="base.view_company_form"/> 
+             <field name="model">res.company</field> 
+             <field name="arch" type="xml"> 
+<!--            -->
+<!--                -->
+                     <field name="company_registry" position="after" > 
+<!--                      -->
+                         <field name="analytic_id" context="{'default_entry_type': 'company','default_company_id' : active_id}" 
+                                                   domain="[('entry_type','=','company'),('company_id','=',active_id)]"/> 
+                     			<field name='type'/>
+                     </field> 
+<!--                -->
+             </field> 
+         </record> 
         
        
 	</data>

@@ -125,7 +125,8 @@ class account_multi_invoice(osv.osv):
         self_brw = self.browse(cr, uid, ids)[0]
         invoice_date = datetime.datetime.strptime(self_brw.date_invoice,"%Y-%m-%d")        
         
-        compy_ana_acc_id = analytic_account_obj.search(cr, uid, [('entry_type','=','company'),('company_id','=',1)])
+        #compy_ana_acc_id = analytic_account_obj.search(cr, uid, [('entry_type','=','company'),('company_id','=',1)])
+        compy_ana_acc_id = self_brw.company_id.analytic_id.id if self_brw.company_id.analytic_id else False 
         result = {}
             
         for line in self_brw.invoice_line:
@@ -165,14 +166,15 @@ class account_multi_invoice(osv.osv):
                 if branch_id:
                     parent_id = branch_id
                 else:
-                    parent_id = compy_ana_acc_id[0]
+                    parent_id = compy_ana_acc_id
             
             else:
-                if line.account_analytic_id.parent_id:
+                if line.account_analytic_id.entry_type in ['branch','area','city','region','company']:
+                    parent_id=line.account_analytic_id.id
+                elif line.account_analytic_id.parent_id:
                     parent_id = line.account_analytic_id.parent_id.id
                 else:
                     parent_id = line.account_analytic_id.id
-                    
             invoice_line_list = result.get(parent_id,[])                    
             invoice_line_list.append((0,0,invoice_line_dict))
             result[parent_id] = invoice_line_list    
