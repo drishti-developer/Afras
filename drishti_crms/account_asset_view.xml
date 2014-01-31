@@ -29,47 +29,51 @@
 				</field>
 			</record>
 			
-			<record model="ir.ui.view" id="view_account_asset_ineherit">
-			<field name="name">account.asset.asset.inherit</field>
-			<field name="model">account.asset.asset</field>
-			<field name="inherit_id" ref="account_asset.view_account_asset_asset_form" />
-			<field name="arch" type="xml">
-			     <field name="parent_id" position="after">
-			     <field name="is_status"/>
-			    
-			     </field>
-				</field>
-			</record>
+			
      <record model="ir.ui.view" id="view_account_asset_asset_vehicle_form">
 			<field name="name">account.asset.asset.vehicle.form1</field>
 			<field name="model">account.asset.asset</field>
 			<field name="inherit_id" ref="account_asset.view_account_asset_asset_form" />
 			<field name="arch" type="xml">
-				<field name="code" position="after">				 
-					<field name="vehicle_id" on_change="onchange_vehicle_id(vehicle_id)"/>
-                	<field name="unique_id"/>
+				<field name="code" position="replace">				 
+				    <field name="vehicle_id" on_change="onchange_vehicle_id(vehicle_id)"/>	
+                	
                 </field>
+			   <xpath expr="/form/sheet/div[@class='oe_title']" position="replace">
+			 
+			    <label for="code" string="Asset Code and Name"/>
+			        <div>
+                    <h2>
+                       
+                        <field name="name" class="oe_inline" placeholder="Asset name"/>-
+                         <field name="code" class="oe_inline" placeholder="Asset code" readonly="True"/>
+                    </h2>
+                 </div>   
+			    </xpath>
+				
                 <field name="company_id" position="after"> 
-                	<field name="analytic_id" attrs="{'required':[('vehicle_id', '&lt;&gt;', False)]}"/>
-	                <field name="already_depreciated_amt" readonly="1" />
-	                <field name="dept_arrear" readonly="1"/>
-                  	<field name="depreciation_start_date" />
+                	
+	                
+                  	<field name="depreciation_start_date"/>
+                  	<field name="is_status"/>
+                  	
 				</field>
 				<field name="category_id" position="attributes">
 					<attribute name="on_change">onchange_category_id(category_id,purchase_date)</attribute>
+					<attribute name="string">Asset Depr. Category</attribute>
 				</field>
 				<field name="method_number" position="replace">
-					<label for="method_number" />
+					<label for="method_number"/>
 						<div>
-							<field name="method_number" class="oe_inline" />
-							<field name="depreciation_period" class="oe_inline" />
+							<field name="method_number" class="oe_inline"/>
+							<field name="depreciation_period" class="oe_inline"/>
 						</div>
-		       		<label for="non_depreciation_value" />
+		       		<label for="non_depreciation_value"/>
 					<div>
-						<field name="non_depreciation_value" class="oe_inline" />
-						<field name="non_depreciation_period" class="oe_inline" />
+						<field name="non_depreciation_value" class="oe_inline"/>
+						<field name="non_depreciation_period" class="oe_inline"/>
 					</div>
-					<field name="cost_analytic_id" required="1"/>		
+							
 				</field>
 		
 		<!--			change monthly depreciation change to Period depreciation	-->
@@ -77,7 +81,16 @@
 				<field name="amount" position="replace">
 					<field name="amount" string="Period Depreciation"/>
 				</field>
-				
+				<notebook>
+            	<page string="Other Info">
+            	<group>
+            	<field name="already_depreciated_amt" readonly="1"/>
+	                <field name="dept_arrear" readonly="1"/>
+            	<field name="analytic_id" attrs="{'required':[('vehicle_id', '&lt;&gt;', False)]}"/>
+            	<field name="cost_analytic_id" required="1"/>
+            	</group>
+            	</page>
+            	</notebook>
 			</field>
 		</record>
 	</data>

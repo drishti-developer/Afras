@@ -226,43 +226,51 @@
 			<field name="arch" type="xml">
 				<form string="Cash Branch" version="7.0">
 			        <sheet>
-				        <group col="4" colspan="2">
+				        <group>
+				            <group>
 			            	<field name="date"/>
+			            	
 						  	<field name="branch_opening_bal"/>
-		               		<field name="cash_received"/>
-		               		<field name="cash_paid"/>
-		               		<field name="branch_expenses_related_to_vehicle"/>
-		               		<field name="total_branch_expenses"/>
+						  	<field name="cash_paid"/>
 		               		<field name="cash_paid_head_office"/>
-		               		<field name="closing_bal"/>
+		               		</group>
+		               		<group>
 		               		<field name="branch_id"/>
+		               		<field name="total_branch_expenses"/> 
+		               		<field name="cash_received"/>
+		               		<field name="closing_bal"/>
+		               		<field name="branch_expenses_related_to_vehicle"/>
+		               		
+		               		
+		               		
+		               		</group>
 		               	</group>
 		               	<notebook>
-		               		<page string = 'Account'>
+		               		<page string="Account">
 		               			<group>
 			               			<group>
-			               			<field name='property_cash_branch_journal'/>
-			               			<field name='property_cash_expense_account'/>
+			               			<field name="property_cash_branch_journal"/>
+			               			<field name="property_cash_expense_account"/>
 			               			</group>
 			               			<group>
-			               			<field name='property_cash_branch_account'/>
-			               			<field name='property_cash_head_office_account'/>
+			               			<field name="property_cash_branch_account"/>
+			               			<field name="property_cash_head_office_account"/>
 			               			</group>
 		               			</group>
 		               		
 		               		
 		               		</page>
-		               		<page string='Account Entries'>
-								<field name='line_ids' nolabel='1'>
+		               		<page string="Account Entries">
+								<field name="line_ids" nolabel="1">
 								<tree>
-									<field name='crms_branch_id' invisible='1'/>
-									<field name='account_id'/>
-									<field name='date_maturity'/>
-									<field name='debit'/>
-									<field name='credit'/>
-									<field name='analytic_account_id'/>
-									<field name='from_date'/>
-									<field name='to_date'/>
+									<field name="crms_branch_id" invisible="1"/>
+									<field name="account_id"/>
+									<field name="date_maturity"/>
+									<field name="debit"/>
+									<field name="credit"/>
+									<field name="analytic_account_id"/>
+									<field name="from_date"/>
+									<field name="to_date"/>
 								
 								</tree>
 								</field>										               		

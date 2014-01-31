@@ -720,7 +720,7 @@ cmrs_payment_car_history()
 class crms_cash_branch(osv.osv):
     _name='crms.cash.branch'
     _columns={
-    'date':fields.date('Date'),
+    'date':fields.date('Date',required =True),
     'branch_opening_bal':fields.float('Branch Opening Balance'),
     'cash_received':fields.float('Cash Received'),
     'cash_paid':fields.float('Cash paid'),
@@ -728,12 +728,12 @@ class crms_cash_branch(osv.osv):
     'total_branch_expenses':fields.float('Total Branch Expenses'),
     'cash_paid_head_office':fields.float('Cash paid head office'),
     'closing_bal':fields.float('Closing Balance'),
-    'branch_id':fields.many2one('sale.shop','Branch id'),
+    'branch_id':fields.many2one('sale.shop','Branch' ,required =True),
     'crms_cash_branch_id':fields.integer('Crms Id'),
-    'property_cash_branch_journal': fields.property('account.journal', type='many2one', relation='account.journal', string="Cash Journal Branch", view_load=True, help="Cash Journal",),
-    'property_cash_expense_account': fields.property('account.account', type='many2one', relation='account.account', string="Expense Cash Branch Account", view_load=True, help=" Advance Account",),
-    'property_cash_branch_account': fields.property('account.account', type='many2one', relation='account.account', string="Branch Cash Branch Account", view_load=True, help=" Advance Account",),
-    'property_cash_head_office_account': fields.property('account.account', type='many2one', relation='account.account', string="HeadOffice Cash Branch Account", view_load=True, help=" Advance Account",),
+    'property_cash_branch_journal': fields.property('account.journal', type='many2one', relation='account.journal', string="Cash Journal", view_load=True, help="Cash Journal",required =True),
+    'property_cash_expense_account': fields.property('account.account', type='many2one', relation='account.account', string="Expense A/C", view_load=True, help=" Advance Account",required =True),
+    'property_cash_branch_account': fields.property('account.account', type='many2one', relation='account.account', string="Branch Cash A/C", view_load=True, help=" Advance Account",required =True),
+    'property_cash_head_office_account': fields.property('account.account', type='many2one', relation='account.account', string="HeadOffice Cash A/C", view_load=True, help=" Advance Account",required =True),
     'line_ids': fields.one2many('account.move.line','crms_branch_id',string="Lines"),
     }
     def create(self,cr,uid, data,context=None):

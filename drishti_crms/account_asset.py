@@ -16,7 +16,8 @@ class account_asset_category(osv.osv):
                 }
     _defaults = {
                  'non_depreciation_period': 'months',
-                 'depreciation_period' : 'months'
+                 'depreciation_period' : 'months',
+                 'prorata': True,
                  }
 
         
@@ -82,9 +83,9 @@ class account_asset_depreciation_line(osv.osv):
                 if analytic_account:
                     analytic_obj = asset_cost_center_obj.browse(cr ,uid,analytic_account[0] )
                     cost_analytic_id = analytic_obj.analytic_id.id
-                else:
-                    cost_analytic_id = line.cost_analytic_id and line.cost_analytic_id.id or False
-                cost_analytic_id = line.cost_analytic_id and line.cost_analytic_id.id or False
+            if not cost_analytic_id:    
+                cost_analytic_id = line.asset_id.cost_analytic_id and line.asset_id.cost_analytic_id.id or False
+                
             move_vals = {
                 'name': asset_name,
                 'date': depreciation_date,
@@ -162,7 +163,7 @@ class account_asset_asset(osv.osv):
     
     
     
-    def _get_code(self, cr, uid,context, *args):
+    def get_code(self, cr, uid,context):
         obj_sequence = self.pool.get('ir.sequence')    
         return obj_sequence.next_by_code(cr, uid, 'account.asset.asset', context=context)
 
@@ -180,9 +181,15 @@ class account_asset_asset(osv.osv):
                 'cost_analytic_id': fields.many2one('account.analytic.account','Invoice Cost Center', required=True),
                  'value_residual': fields.function(_amount_residual, method=True, digits_compute=dp.get_precision('Account'), string='Residual Value'),
                'is_status':fields.selection([('act','Active'),('inact','Inactive'),('rs','Ready to sell'),('sold','Sold')],'Status'),
-                'unique_id' : fields.char('Unique ID'),
+               
                 }
-    _defaults = { 'unique_id': _get_code, }  
+
+    
+    def create(self, cr, uid, vals, context=None):
+        vals['code'] = self.get_code(cr,uid,context=None)
+        asset_id = super(account_asset_asset, self).create(cr, uid, vals, context=context)
+        self.compute_depreciation_board(cr, uid, [asset_id], context=context)
+        return asset_id
     
     def onchange_vehicle_id(self, cr, uid, ids, vehicle_id):
         res = {'value':{}}
