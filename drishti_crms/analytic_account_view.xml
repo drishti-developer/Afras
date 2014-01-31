@@ -27,9 +27,9 @@
 					<field name="to_date" />
 					<field name="next_split_date" />
 					<field name="vehicle_id" />
-					<button name="split_analytic_line" type="object"
+					<!-- <button name="split_analytic_line" type="object"
 								 string="Split record"
-								 />
+								 /> -->
 				</field>
 			</field>
 		</record>

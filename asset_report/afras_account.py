@@ -40,7 +40,8 @@ class account_asset_asset(osv.osv):
         'cost_center_ids':fields.one2many('account.asset.cost.center','asset_id','Cost Center'),
         'sub_category_id':fields.many2one('account.asset.sub.category','Sub Category'),
         'category_rel_id': fields.related('category_id','category_id',type='many2one',relation='account.asset.sub.category',string='Asset Category',store=True),
-}
+         'unique_id': fields.char('Unique'),
+    }
 account_asset_asset()
 
 
