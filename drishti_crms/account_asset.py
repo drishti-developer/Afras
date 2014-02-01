@@ -168,8 +168,6 @@ class account_asset_asset(osv.osv):
         obj_sequence = self.pool.get('ir.sequence')    
         return obj_sequence.next_by_code(cr, uid, 'account.asset.asset', context=context)
 
-     
-
     _columns = {
                 'already_depreciated_amt' : fields.float('Exa Depreciated Amount'),
                  'dept_arrear' : fields.float('Arrear Amount'),

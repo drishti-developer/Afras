@@ -4,16 +4,15 @@
         
         <!-- Sequences for account.asset.asset -->
         <record id="seq_account_asset_asset_form" model="ir.sequence.type">
-            <field name="name">Unique ID</field>
+            <field name="name">Asset Code</field>
             <field name="code">account.asset.asset</field>
         </record>
         
         <record id="seq_account_asset_asset_id" model="ir.sequence">
-            <field name="name">Unique ID</field>
+            <field name="name">Asset Code</field>
             <field name="code">account.asset.asset</field>
             <field name="prefix"></field>
             <field name="padding">10</field>
-            <field name="unique_id" eval="False"/>
         </record>
         
     </data>
