@@ -1,800 +1,800 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-group_all_companies_user_new_1,ir_attachment all,base.model_ir_attachment,group_readonly,1,0,0,0
-group_all_companies_user_new_2,ir_attachment group_user,base.model_ir_attachment,group_readonly,1,0,0,0
-group_all_companies_user_new_3,ir_cron group_cron,base.model_ir_cron,group_readonly,1,0,0,0
-group_all_companies_user_new_4,ir_cron user,base.model_ir_cron,group_readonly,1,0,0,0
-group_all_companies_user_new_5,ir_default group_system,base.model_ir_default,group_readonly,1,0,0,0
-group_all_companies_user_new_6,ir_exports group_system,base.model_ir_exports,group_readonly,1,0,0,0
-group_all_companies_user_new_7,ir_exports_line group_system,base.model_ir_exports_line,group_readonly,1,0,0,0
-group_all_companies_user_new_8,ir_fields_converter,base.model_ir_fields_converter,group_readonly,1,0,0,0
-group_all_companies_user_new_9,ir_model group_erp_manager,base.model_ir_model,group_readonly,1,0,0,0
-group_all_companies_user_new_10,ir_model_constraint group_erp_manager,base.model_ir_model_constraint,group_readonly,1,0,0,0
-group_all_companies_user_new_11,ir_model_relation group_erp_manager,base.model_ir_model_relation,group_readonly,1,0,0,0
-group_all_companies_user_new_12,ir_model_access_group_erp_manager,base.model_ir_model_access,group_readonly,1,0,0,0
-group_all_companies_user_new_13,ir_model_data group_erp_manager,base.model_ir_model_data,group_readonly,1,0,0,0
-group_all_companies_user_new_14,ir_model_fields group_erp_manager,base.model_ir_model_fields,group_readonly,1,0,0,0
-group_all_companies_user_new_15,ir_model_all,base.model_ir_model,group_readonly,1,0,0,0
-group_all_companies_user_new_16,ir_model_constraint,base.model_ir_model_constraint,group_readonly,1,0,0,0
-group_all_companies_user_new_17,ir_model_relation,base.model_ir_model_relation,group_readonly,1,0,0,0
-group_all_companies_user_new_18,ir_model_access_all,base.model_ir_model_access,group_readonly,1,0,0,0
-group_all_companies_user_new_19,ir_model_data all,base.model_ir_model_data,group_readonly,1,0,0,0
-group_all_companies_user_new_20,ir_model_fields all,base.model_ir_model_fields,group_readonly,1,0,0,0
-group_all_companies_user_new_21,ir_module_category group_user,base.model_ir_module_category,group_readonly,1,0,0,0
-group_all_companies_user_new_22,ir_module_module group_user,base.model_ir_module_module,group_readonly,1,0,0,0
-group_all_companies_user_new_23,ir_module_module user,base.model_ir_module_module,group_readonly,1,0,0,0
-group_all_companies_user_new_24,ir_module_module_dependency group_system,base.model_ir_module_module_dependency,group_readonly,1,0,0,0
-group_all_companies_user_new_25,ir_module_module_dependency all,base.model_ir_module_module_dependency,group_readonly,1,0,0,0
-group_all_companies_user_new_26,ir_property group_user,base.model_ir_property,group_readonly,1,0,0,0
-group_all_companies_user_new_27,ir_property group_manager,base.model_ir_property,group_readonly,1,0,0,0
-group_all_companies_user_new_28,ir_rule group_user,base.model_ir_rule,group_readonly,1,0,0,0
-group_all_companies_user_new_29,ir_rule group_erp_manager,base.model_ir_rule,group_readonly,1,0,0,0
-group_all_companies_user_new_30,ir_sequence group_user,account.model_ir_sequence,group_readonly,1,0,0,0
-group_all_companies_user_new_31,ir_sequence group_system,account.model_ir_sequence,group_readonly,1,0,0,0
-group_all_companies_user_new_32,ir_sequence_type group_user,base.model_ir_sequence_type,group_readonly,1,0,0,0
-group_all_companies_user_new_33,ir_sequence_type group_system,base.model_ir_sequence_type,group_readonly,1,0,0,0
-group_all_companies_user_new_34,ir_translation all,base.model_ir_translation,group_readonly,1,0,0,0
-group_all_companies_user_new_35,ir_translation group_system,base.model_ir_translation,group_readonly,1,0,0,0
-group_all_companies_user_new_36,ir_ui_menu group_user,base.model_ir_ui_menu,group_readonly,1,0,0,0
-group_all_companies_user_new_37,ir_ui_menu group_system,base.model_ir_ui_menu,group_readonly,1,0,0,0
-group_all_companies_user_new_38,ir_ui_view group_user,base.model_ir_ui_view,group_readonly,1,0,0,0
-group_all_companies_user_new_39,ir_ui_view group_system,base.model_ir_ui_view,group_readonly,1,0,0,0
-group_all_companies_user_new_40,ir_ui_view_custom_group_user,base.model_ir_ui_view_custom,group_readonly,1,0,0,0
-group_all_companies_user_new_41,ir_ui_view_sc group_user,base.model_ir_ui_view_sc,group_readonly,1,0,0,0
-group_all_companies_user_new_42,ir_values group_all,base.model_ir_values,group_readonly,1,0,0,0
-group_all_companies_user_new_43,res_company group_erp_manager,account.model_res_company,group_readonly,1,0,0,0
-group_all_companies_user_new_44,res_company group_user,account.model_res_company,group_readonly,1,0,0,0
-group_all_companies_user_new_45,res_country group_user_all,base.model_res_country,group_readonly,1,0,0,0
-group_all_companies_user_new_46,res_country_state group_user_all,base.model_res_country_state,group_readonly,1,0,0,0
-group_all_companies_user_new_47,res_country group_user,base.model_res_country,group_readonly,1,0,0,0
-group_all_companies_user_new_48,res_country_state group_user,base.model_res_country_state,group_readonly,1,0,0,0
-group_all_companies_user_new_49,res_currency group_all,account.model_res_currency,group_readonly,1,0,0,0
-group_all_companies_user_new_50,res_currency_rate group_all,base.model_res_currency_rate,group_readonly,1,0,0,0
-group_all_companies_user_new_51,res_currency_rate_type group_all,base.model_res_currency_rate_type,group_readonly,1,0,0,0
-group_all_companies_user_new_52,res_currency group_system,account.model_res_currency,group_readonly,1,0,0,0
-group_all_companies_user_new_53,res_currency_rate group_system,base.model_res_currency_rate,group_readonly,1,0,0,0
-group_all_companies_user_new_54,res_groups group_erp_manager,base.model_res_groups,group_readonly,1,0,0,0
-group_all_companies_user_new_55,res_groups group_user,base.model_res_groups,group_readonly,1,0,0,0
-group_all_companies_user_new_56,res_lang group_all,base.model_res_lang,group_readonly,1,0,0,0
-group_all_companies_user_new_57,res_lang group_user,base.model_res_lang,group_readonly,1,0,0,0
-group_all_companies_user_new_58,res_partner group_partner_manager,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_59,res_partner group_user,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_60,res_partner_bank group_user,account.model_res_partner_bank,group_readonly,1,0,0,0
-group_all_companies_user_new_61,res_partner_bank group_partner_manager,account.model_res_partner_bank,group_readonly,1,0,0,0
-group_all_companies_user_new_62,res_partner_bank_type group_partner_manager,base.model_res_partner_bank_type,group_readonly,1,0,0,0
-group_all_companies_user_new_63,res_partner_bank_type group_user,base.model_res_partner_bank_type,group_readonly,1,0,0,0
-group_all_companies_user_new_64,res_partner_bank_type_field group_partner_manager,base.model_res_partner_bank_type_field,group_readonly,1,0,0,0
-group_all_companies_user_new_65,res_partner_bank_type_field group_user,base.model_res_partner_bank_type_field,group_readonly,1,0,0,0
-group_all_companies_user_new_66,res_partner_category group_user,base.model_res_partner_category,group_readonly,1,0,0,0
-group_all_companies_user_new_67,res_partner_category group_partner_manager,base.model_res_partner_category,group_readonly,1,0,0,0
-group_all_companies_user_new_68,res_partner_title group_user,base.model_res_partner_title,group_readonly,1,0,0,0
-group_all_companies_user_new_69,res_partner_title group_partner_manager,base.model_res_partner_title,group_readonly,1,0,0,0
-group_all_companies_user_new_70,res_request group_user,base.model_res_request,group_readonly,1,0,0,0
-group_all_companies_user_new_71,res_request_history group_user,base.model_res_request_history,group_readonly,1,0,0,0
-group_all_companies_user_new_72,res_request group_user all,base.model_res_request,group_readonly,1,0,0,0
-group_all_companies_user_new_73,res_request_history group_user all,base.model_res_request_history,group_readonly,1,0,0,0
-group_all_companies_user_new_74,res_request_link group_system,base.model_res_request_link,group_readonly,1,0,0,0
-group_all_companies_user_new_75,res_request_link group_user,base.model_res_request_link,group_readonly,1,0,0,0
-group_all_companies_user_new_76,res_users all,auth_ldap.model_res_users,group_readonly,1,1,1,1
-group_all_companies_user_new_77,res_users group_erp_manager,auth_ldap.model_res_users,group_readonly,1,1,1,1
-group_all_companies_user_new_78,ir_actions_all,base.model_ir_actions_actions,group_readonly,1,0,0,0
-group_all_companies_user_new_79,ir_actions_group_system,base.model_ir_actions_actions,group_readonly,1,0,0,0
-group_all_companies_user_new_80,ir_actions_act_window_all,base.model_ir_actions_act_window,group_readonly,1,0,0,0
-group_all_companies_user_new_81,ir_actions_act_window_system,base.model_ir_actions_act_window,group_readonly,1,0,0,0
-group_all_companies_user_new_82,ir_actions_act_window_close_all,base.model_ir_actions_act_window_close,group_readonly,1,0,0,0
-group_all_companies_user_new_83,ir_actions_act_window_close_group_system,base.model_ir_actions_act_window_close,group_readonly,1,0,0,0
-group_all_companies_user_new_84,ir_actions_report_xml,base.model_ir_actions_report_xml,group_readonly,1,0,0,0
-group_all_companies_user_new_85,ir_actions_report_xml_group_system,base.model_ir_actions_report_xml,group_readonly,1,0,0,0
-group_all_companies_user_new_86,ir_actions_wizard,base.model_ir_actions_wizard,group_readonly,1,0,0,0
-group_all_companies_user_new_87,ir_actions_wizard_group_system,base.model_ir_actions_wizard,group_readonly,1,0,0,0
-group_all_companies_user_new_88,ir_actions_todo group system,base.model_ir_actions_todo,group_readonly,1,0,0,0
-group_all_companies_user_new_89,workflow_all,base.model_workflow,group_readonly,1,0,0,0
-group_all_companies_user_new_90,workflow_group_system,base.model_workflow,group_readonly,1,0,0,0
-group_all_companies_user_new_91,workflow_activity_all,base.model_workflow_activity,group_readonly,1,0,0,0
-group_all_companies_user_new_92,workflow_activity_group_system,base.model_workflow_activity,group_readonly,1,0,0,0
-group_all_companies_user_new_93,workflow_instance_all,base.model_workflow_instance,group_readonly,1,0,0,0
-group_all_companies_user_new_94,workflow_transition_all,base.model_workflow_transition,group_readonly,1,0,0,0
-group_all_companies_user_new_95,workflow_transition_group_system,base.model_workflow_transition,group_readonly,1,0,0,0
-group_all_companies_user_new_96,workflow_triggers_all,base.model_workflow_triggers,group_readonly,1,0,0,0
-group_all_companies_user_new_97,workflow_triggers_group_system,base.model_workflow_triggers,group_readonly,1,0,0,0
-group_all_companies_user_new_98,workflow_workitem_all,base.model_workflow_workitem,group_readonly,1,0,0,0
-group_all_companies_user_new_99,ir_actions_act_window_view_all,base.model_ir_actions_act_window_view,group_readonly,1,0,0,0
-group_all_companies_user_new_100,ir_actions_act_window_view_group_system,base.model_ir_actions_act_window_view,group_readonly,1,0,0,0
-group_all_companies_user_new_101,ir_actions_act_url_all,base.model_ir_actions_act_url,group_readonly,1,0,0,0
-group_all_companies_user_new_102,ir_actions_act_url_group_system,base.model_ir_actions_act_url,group_readonly,1,0,0,0
-group_all_companies_user_new_103,ir_server_object_lines_all,base.model_ir_server_object_lines,group_readonly,1,0,0,0
-group_all_companies_user_new_104,ir_server_object_lines_group_system,base.model_ir_server_object_lines,group_readonly,1,0,0,0
-group_all_companies_user_new_105,ir_actions_server_all,base.model_ir_actions_server,group_readonly,1,0,0,0
-group_all_companies_user_new_106,ir_actions_server_group_system,base.model_ir_actions_server,group_readonly,1,0,0,0
-group_all_companies_user_new_107,res_bank_group_system,base.model_res_bank,group_readonly,1,0,0,0
-group_all_companies_user_new_108,res_bank_group_partner_manager,base.model_res_bank,group_readonly,1,0,0,0
-group_all_companies_user_new_109,res_bank user,base.model_res_bank,group_readonly,1,0,0,0
-group_all_companies_user_new_110,multi_company_default all,base.model_multi_company_default,group_readonly,1,0,0,0
-group_all_companies_user_new_111,multi_company_default Manager,base.model_multi_company_default,group_readonly,1,0,0,0
-group_all_companies_user_new_112,ir_filters all,base.model_ir_filters,group_readonly,1,0,0,0
-group_all_companies_user_new_113,ir_filters employee,base.model_ir_filters,group_readonly,1,0,0,0
-group_all_companies_user_new_114,ir_filters_all,base.model_ir_filters,group_readonly,1,0,0,0
-group_all_companies_user_new_115,ir_config_parameter,base.model_ir_config_parameter,group_readonly,1,0,0,0
-group_all_companies_user_new_116,ir_mail_server,base.model_ir_mail_server,group_readonly,1,0,0,0
-group_all_companies_user_new_117,ir_actions_client all,base.model_ir_actions_client,group_readonly,1,0,0,0
-group_all_companies_user_new_118,ir_needaction_mixin,base.model_ir_needaction_mixin,group_readonly,1,0,0,0
-group_all_companies_user_new_119,process.process,process.model_process_process,group_readonly,1,0,0,0
-group_all_companies_user_new_120,process.node,process.model_process_node,group_readonly,1,0,0,0
-group_all_companies_user_new_121,process.transition,process.model_process_transition,group_readonly,1,0,0,0
-group_all_companies_user_new_122,process.transition.action,process.model_process_transition_action,group_readonly,1,0,0,0
-group_all_companies_user_new_123,process.condition,process.model_process_condition,group_readonly,1,0,0,0
-group_all_companies_user_new_124,board.board,board.model_board_board,group_readonly,1,0,0,0
-group_all_companies_user_new_125,decimal.precision configuration,decimal_precision.model_decimal_precision,group_readonly,1,0,0,0
-group_all_companies_user_new_126,decimal.precision,decimal_precision.model_decimal_precision,group_readonly,1,0,0,0
-group_all_companies_user_new_127,mail.message.all,base_calendar.model_mail_message,group_readonly,1,0,0,0
-group_all_companies_user_new_128,mail.message.user,base_calendar.model_mail_message,group_readonly,1,0,0,0
-group_all_companies_user_new_129,mail.mail.all,fetchmail.model_mail_mail,group_readonly,1,0,0,0
-group_all_companies_user_new_130,mail.mail.user,fetchmail.model_mail_mail,group_readonly,1,0,0,0
-group_all_companies_user_new_131,mail.mail.system,fetchmail.model_mail_mail,group_readonly,1,0,0,0
-group_all_companies_user_new_132,mail.followers.all,mail.model_mail_followers,group_readonly,1,0,0,0
-group_all_companies_user_new_133,mail.followers.user,mail.model_mail_followers,group_readonly,1,0,0,0
-group_all_companies_user_new_134,mail.followers.system,mail.model_mail_followers,group_readonly,1,0,0,0
-group_all_companies_user_new_135,mail.notification.all,mail.model_mail_notification,group_readonly,1,0,0,0
-group_all_companies_user_new_136,mail.notification.user,mail.model_mail_notification,group_readonly,1,0,0,0
-group_all_companies_user_new_137,mail.notification.system,mail.model_mail_notification,group_readonly,1,0,0,0
-group_all_companies_user_new_138,mail.group.all,mail.model_mail_group,group_readonly,1,0,0,0
-group_all_companies_user_new_139,mail.group.user,mail.model_mail_group,group_readonly,1,0,0,0
-group_all_companies_user_new_140,mail.alias.all,mail.model_mail_alias,group_readonly,1,0,0,0
-group_all_companies_user_new_141,mail.alias.user,mail.model_mail_alias,group_readonly,1,0,0,0
-group_all_companies_user_new_142,mail.alias.system,mail.model_mail_alias,group_readonly,1,0,0,0
-group_all_companies_user_new_143,mail.message.subtype.all,mail.model_mail_message_subtype,group_readonly,1,0,0,0
-group_all_companies_user_new_144,mail.message.subtype.system,mail.model_mail_message_subtype,group_readonly,1,0,0,0
-group_all_companies_user_new_145,mail.thread.all,mail.model_mail_thread,group_readonly,1,0,0,0
-group_all_companies_user_new_146,publisher.warranty.contract.all,mail.model_publisher_warranty_contract,group_readonly,1,0,0,0
-group_all_companies_user_new_147,email.template,email_template.model_email_template,group_readonly,1,0,0,0
-group_all_companies_user_new_148,email.template system,email_template.model_email_template,group_readonly,1,0,0,0
-group_all_companies_user_new_149,fetchmail.server,fetchmail.model_fetchmail_server,group_readonly,1,0,0,0
-group_all_companies_user_new_150,product.uom.categ.user,product.model_product_uom_categ,group_readonly,1,0,0,0
-group_all_companies_user_new_151,product.uom.user,product.model_product_uom,group_readonly,1,0,0,0
-group_all_companies_user_new_152,product.ul.user,product.model_product_ul,group_readonly,1,0,0,0
-group_all_companies_user_new_153,product.category.user,account.model_product_category,group_readonly,1,0,0,0
-group_all_companies_user_new_154,product.template.user,account.model_product_template,group_readonly,1,0,0,0
-group_all_companies_user_new_155,product.packaging.user,product.model_product_packaging,group_readonly,1,0,0,0
-group_all_companies_user_new_156,product.supplierinfo.user,product.model_product_supplierinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_157,pricelist.partnerinfo.user,product.model_pricelist_partnerinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_158,product.price.type.user,product.model_product_price_type,group_readonly,1,0,0,0
-group_all_companies_user_new_159,product.pricelist.type.user,product.model_product_pricelist_type,group_readonly,1,0,0,0
-group_all_companies_user_new_160,product.pricelist.user,product.model_product_pricelist,group_readonly,1,0,0,0
-group_all_companies_user_new_161,product.pricelist.version.user,product.model_product_pricelist_version,group_readonly,1,0,0,0
-group_all_companies_user_new_162,product.pricelist.item.user,product.model_product_pricelist_item,group_readonly,1,0,0,0
-group_all_companies_user_new_163,product.pricelist.type partner manager,product.model_product_pricelist_type,group_readonly,1,0,0,0
-group_all_companies_user_new_164,product.pricelist partner manager,product.model_product_pricelist,group_readonly,1,0,0,0
-group_all_companies_user_new_165,product.product employee,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_166,product.template salemanager,account.model_product_template,group_readonly,1,0,0,0
-group_all_companies_user_new_167,product.product salemanager,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_168,product.category salemanager,account.model_product_category,group_readonly,1,0,0,0
-group_all_companies_user_new_169,product.product.account.user,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_170,account.payment.term,account.model_account_payment_term,group_readonly,1,0,0,0
-group_all_companies_user_new_171,account.payment.term.line,account.model_account_payment_term_line,group_readonly,1,0,0,0
-group_all_companies_user_new_172,account.account.type,account.model_account_account_type,group_readonly,1,0,0,0
-group_all_companies_user_new_173,account.tax internal user,account.model_account_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_174,account.account,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_175,account.account user,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_176,account.account partner manager,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_177,account.journal.period manager,account.model_account_journal_period,group_readonly,1,0,0,0
-group_all_companies_user_new_178,account.tax.code,account.model_account_tax_code,group_readonly,1,0,0,0
-group_all_companies_user_new_179,account.tax,account.model_account_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_180,account.model,account.model_account_model,group_readonly,1,0,0,0
-group_all_companies_user_new_181,account.model.line,account.model_account_model_line,group_readonly,1,0,0,0
-group_all_companies_user_new_182,account.subscription,account.model_account_subscription,group_readonly,1,0,0,0
-group_all_companies_user_new_183,account.subscription.line,account.model_account_subscription_line,group_readonly,1,0,0,0
-group_all_companies_user_new_184,account.subscription manager,account.model_account_subscription,group_readonly,1,0,0,0
-group_all_companies_user_new_185,account.subscription.line manager,account.model_account_subscription_line,group_readonly,1,0,0,0
-group_all_companies_user_new_186,account.account.template,account.model_account_account_template,group_readonly,1,0,0,0
-group_all_companies_user_new_187,account.tax.code.template,account.model_account_tax_code_template,group_readonly,1,0,0,0
-group_all_companies_user_new_188,account.chart.template,account.model_account_chart_template,group_readonly,1,0,0,0
-group_all_companies_user_new_189,account.tax.template,account.model_account_tax_template,group_readonly,1,0,0,0
-group_all_companies_user_new_190,account.bank.statement,account.model_account_bank_statement,group_readonly,1,0,0,0
-group_all_companies_user_new_191,account.bank.statement.line,account.model_account_bank_statement_line,group_readonly,1,0,0,0
-group_all_companies_user_new_192,account.analytic.line manager,account.model_account_analytic_line,group_readonly,1,0,0,0
-group_all_companies_user_new_193,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_194,account.analytic.journal,account.model_account_analytic_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_195,account.analytic.journal,account.model_account_analytic_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_196,account.invoice,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_197,account.invoice.line,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_198,account.invoice.tax,account.model_account_invoice_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_199,account.move,account.model_account_move,group_readonly,1,0,0,0
-group_all_companies_user_new_200,account.move.line invoice,account.model_account_move_line,group_readonly,1,0,0,0
-group_all_companies_user_new_201,account.move.reconcile,account.model_account_move_reconcile,group_readonly,1,0,0,0
-group_all_companies_user_new_202,account.journal.period,account.model_account_journal_period,group_readonly,1,0,0,0
-group_all_companies_user_new_203,account.payment.term,account.model_account_payment_term,group_readonly,1,0,0,0
-group_all_companies_user_new_204,account.payment.term.line,account.model_account_payment_term_line,group_readonly,1,0,0,0
-group_all_companies_user_new_205,account.tax,account.model_account_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_206,account.journal,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_207,account.journal invoice,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_208,account.period,account.model_account_period,group_readonly,1,0,0,0
-group_all_companies_user_new_209,account.period invoice,account.model_account_period,group_readonly,1,0,0,0
-group_all_companies_user_new_210,account.invoice group invoice,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_211,account.analytic.journal,account.model_account_analytic_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_212,account.fiscalyear,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_213,account.fiscalyear.invoice,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_214,account.fiscalyear.partnermanager,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_215,account.fiscalyear employee,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_216,res.currency account manager,account.model_res_currency,group_readonly,1,0,0,0
-group_all_companies_user_new_217,res.currency.rate account manager,base.model_res_currency_rate,group_readonly,1,0,0,0
-group_all_companies_user_new_218,res.currency.rate.type account manager,base.model_res_currency_rate_type,group_readonly,1,0,0,0
-group_all_companies_user_new_219,account.invoice.line user,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_220,account.payment.term partner manager,account.model_account_payment_term,group_readonly,1,0,0,0
-group_all_companies_user_new_221,account.payment.term.line partner manager,account.model_account_payment_term_line,group_readonly,1,0,0,0
-group_all_companies_user_new_222,account.account sale manager,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_223,account.fiscal.position account.manager,account.model_account_fiscal_position,group_readonly,1,0,0,0
-group_all_companies_user_new_224,account.fiscal.position.tax account.manager,account.model_account_fiscal_position_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_225,account.fiscal.position account.manager,account.model_account_fiscal_position_account,group_readonly,1,0,0,0
-group_all_companies_user_new_226,account.fiscal.position all,account.model_account_fiscal_position,group_readonly,1,0,0,0
-group_all_companies_user_new_227,account.fiscal.position.tax all,account.model_account_fiscal_position_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_228,account.fiscal.position all,account.model_account_fiscal_position_account,group_readonly,1,0,0,0
-group_all_companies_user_new_229,account.fiscal.position.template,account.model_account_fiscal_position_template,group_readonly,1,0,0,0
-group_all_companies_user_new_230,account.fiscal.position.tax.template,account.model_account_fiscal_position_tax_template,group_readonly,1,0,0,0
-group_all_companies_user_new_231,account.fiscal.position.account.template,account.model_account_fiscal_position_account_template,group_readonly,1,0,0,0
-group_all_companies_user_new_232,account.sequence.fiscalyear user,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_233,temp.range,account.model_temp_range,group_readonly,1,0,0,0
-group_all_companies_user_new_234,report.aged.receivable,account.model_report_aged_receivable,group_readonly,1,0,0,0
-group_all_companies_user_new_235,report.invoice.created,account.model_report_invoice_created,group_readonly,1,0,0,0
-group_all_companies_user_new_236,report.account_type.sales,account.model_report_account_type_sales,group_readonly,1,0,0,0
-group_all_companies_user_new_237,report.account.sales,account.model_report_account_sales,group_readonly,1,0,0,0
-group_all_companies_user_new_238,account.invoice.report,account.model_account_invoice_report,group_readonly,1,0,0,0
-group_all_companies_user_new_239,res_partner group_account_manager,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_240,account.invoice accountant,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_241,account.tax.code accountant,account.model_account_tax_code,group_readonly,1,0,0,0
-group_all_companies_user_new_242,account.move.line manager,account.model_account_move_line,group_readonly,1,0,0,0
-group_all_companies_user_new_243,account.move manager,account.model_account_move,group_readonly,1,0,0,0
-group_all_companies_user_new_244,account.entries.report,account.model_account_entries_report,group_readonly,1,0,0,0
-group_all_companies_user_new_245,account.entries.report,account.model_account_entries_report,group_readonly,1,0,0,0
-group_all_companies_user_new_246,account.entries.report employee,account.model_account_entries_report,group_readonly,1,0,0,0
-group_all_companies_user_new_247,analytic.entries.report,account.model_analytic_entries_report,group_readonly,1,0,0,0
-group_all_companies_user_new_248,account.cashbox.line,account.model_account_cashbox_line,group_readonly,1,0,0,0
-group_all_companies_user_new_249,account.journal.cashbox.line,account.model_account_journal_cashbox_line,group_readonly,1,0,0,0
-group_all_companies_user_new_250,account.invoice.tax accountant,account.model_account_invoice_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_251,account.move.reconcile manager,account.model_account_move_reconcile,group_readonly,1,0,0,0
-group_all_companies_user_new_252,account.analytic.line invoice,account.model_account_analytic_line,group_readonly,1,0,0,0
-group_all_companies_user_new_253,account.invoice.line accountant,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_254,account.account invoice,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_255,account.analytic.account accountant,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_256,account.account.type invoice,account.model_account_account_type,group_readonly,1,0,0,0
-group_all_companies_user_new_257,report.account.receivable.invoice,account.model_report_account_receivable,group_readonly,1,0,0,0
-group_all_companies_user_new_258,account.sequence.fiscalyear invoice,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_259,account.tax sale manager,account.model_account_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_260,account.journal sale manager,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_261,account.invoice.tax  sale manager,account.model_account_invoice_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_262,account.sequence.fiscalyear.sale.user,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_263,account.sequence.fiscalyear.sale.manager,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_264,account.treasury.report.manager,account.model_account_treasury_report,group_readonly,1,0,0,0
-group_all_companies_user_new_265,account.financial.report,account.model_account_financial_report,group_readonly,1,0,0,0
-group_all_companies_user_new_266,account.financial.report invoice,account.model_account_financial_report,group_readonly,1,0,0,0
-group_all_companies_user_new_267,mail.message.portal,base_calendar.model_mail_message,group_readonly,1,0,0,0
-group_all_companies_user_new_268,mail.mail.portal,fetchmail.model_mail_mail,group_readonly,1,0,0,0
-group_all_companies_user_new_269,mail.notification.portal,mail.model_mail_notification,group_readonly,1,0,0,0
-group_all_companies_user_new_270,mail.followers.portal,mail.model_mail_followers,group_readonly,1,0,0,0
-group_all_companies_user_new_271,res.partner,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_272,portal.payment.acquirer,portal.model_portal_payment_acquirer,group_readonly,1,0,0,0
-group_all_companies_user_new_273,portal.payment.acquirer,portal.model_portal_payment_acquirer,group_readonly,1,0,0,0
-group_all_companies_user_new_274,ir.attachment group_portal,base.model_ir_attachment,group_readonly,1,0,0,0
-group_all_companies_user_new_275,account.voucher,account_voucher.model_account_voucher,group_readonly,1,0,0,0
-group_all_companies_user_new_276,account.voucher.line,account_voucher.model_account_voucher_line,group_readonly,1,0,0,0
-group_all_companies_user_new_277,account.voucher invoice,account_voucher.model_account_voucher,group_readonly,1,0,0,0
-group_all_companies_user_new_278,account.voucher.line invoice,account_voucher.model_account_voucher_line,group_readonly,1,0,0,0
-group_all_companies_user_new_279,account.sale.receipt.report,account_voucher.model_sale_receipt_report,group_readonly,1,0,0,0
-group_all_companies_user_new_280,account.sale.receipt.report,account_voucher.model_sale_receipt_report,group_readonly,1,0,0,0
-group_all_companies_user_new_281,fleet_vehicle_model_access_right,crms_oe_connect.model_fleet_vehicle_model,group_readonly,1,0,0,0
-group_all_companies_user_new_282,fleet_vehicle_tag_access_right,fleet.model_fleet_vehicle_tag,group_readonly,1,0,0,0
-group_all_companies_user_new_283,fleet_vehicle_state_access_right,fleet.model_fleet_vehicle_state,group_readonly,1,0,0,0
-group_all_companies_user_new_284,fleet_vehicle_model_brand_access_right,crms_oe_connect.model_fleet_vehicle_model_brand,group_readonly,1,0,0,0
-group_all_companies_user_new_285,"fleet_vehicle_access_right""",crms_oe_connect.model_fleet_vehicle,group_readonly,1,0,0,0
-group_all_companies_user_new_286,fleet_vehicle_log_services_access_right,fleet.model_fleet_vehicle_log_services,group_readonly,1,0,0,0
-group_all_companies_user_new_287,fleet_vehicle_log_contract_access_right,fleet.model_fleet_vehicle_log_contract,group_readonly,1,0,0,0
-group_all_companies_user_new_288,fleet_service_type_access_right,fleet.model_fleet_service_type,group_readonly,1,0,0,0
-group_all_companies_user_new_289,access_fleet_vehicle_cost,fleet.model_fleet_vehicle_cost,group_readonly,1,0,0,0
-group_all_companies_user_new_290,access_fleet_contract_state,fleet.model_fleet_contract_state,group_readonly,1,0,0,0
-group_all_companies_user_new_291,fleet_vehicle_model_access_right,crms_oe_connect.model_fleet_vehicle_model,group_readonly,1,0,0,0
-group_all_companies_user_new_292,fleet_vehicle_tag_access_right,fleet.model_fleet_vehicle_tag,group_readonly,1,0,0,0
-group_all_companies_user_new_293,fleet_vehicle_state_access_right,fleet.model_fleet_vehicle_state,group_readonly,1,0,0,0
-group_all_companies_user_new_294,fleet_vehicle_odometer_access_right,crms_oe_connect.model_fleet_vehicle_odometer,group_readonly,1,0,0,0
-group_all_companies_user_new_295,fleet_vehicle_model_brand_access_right,crms_oe_connect.model_fleet_vehicle_model_brand,group_readonly,1,0,0,0
-group_all_companies_user_new_296,fleet_vehicle_access_right,crms_oe_connect.model_fleet_vehicle,group_readonly,1,0,0,0
-group_all_companies_user_new_297,fleet_vehicle_log_fuel_access_right,fleet.model_fleet_vehicle_log_fuel,group_readonly,1,0,0,0
-group_all_companies_user_new_298,fleet_vehicle_log_services_access_right,fleet.model_fleet_vehicle_log_services,group_readonly,1,0,0,0
-group_all_companies_user_new_299,fleet_vehicle_log_contract_access_right,fleet.model_fleet_vehicle_log_contract,group_readonly,1,0,0,0
-group_all_companies_user_new_300,fleet_service_type_access_right,fleet.model_fleet_service_type,group_readonly,1,0,0,0
-group_all_companies_user_new_301,access_fleet_vehicle_cost,fleet.model_fleet_vehicle_cost,group_readonly,1,0,0,0
-group_all_companies_user_new_302,access_fleet_contract_state,fleet.model_fleet_contract_state,group_readonly,1,0,0,0
-group_all_companies_user_new_303,sale.shop,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
-group_all_companies_user_new_304,sale.order,portal_sale.model_sale_order,group_readonly,1,0,0,0
-group_all_companies_user_new_305,sale.order.line,sale.model_sale_order_line,group_readonly,1,0,0,0
-group_all_companies_user_new_306,sale.order.line accountant,sale.model_sale_order_line,group_readonly,1,0,0,0
-group_all_companies_user_new_307,account_invoice_tax salesman,account.model_account_invoice_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_308,account_invoice salesman,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_309,account_invoice manager,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_310,account_invoice.line salesman,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_311,account_payment_term salesman,account.model_account_payment_term,group_readonly,1,0,0,0
-group_all_companies_user_new_312,account_analytic_account salesman,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_313,sale.order.manager,portal_sale.model_sale_order,group_readonly,1,0,0,0
-group_all_companies_user_new_314,sale.order.accountant,portal_sale.model_sale_order,group_readonly,1,0,0,0
-group_all_companies_user_new_315,sale.report,sale.model_sale_report,group_readonly,1,0,0,0
-group_all_companies_user_new_316,sale.report,sale.model_sale_report,group_readonly,1,0,0,0
-group_all_companies_user_new_317,ir.property.sales,base.model_ir_property,group_readonly,1,0,0,0
-group_all_companies_user_new_318,account.journal sale order.user,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_319,res.partner.sale.user,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_320,res.partner.sale.manager,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_321,product.template sale use,account.model_product_template,group_readonly,1,0,0,0
-group_all_companies_user_new_322,product.product sale use,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_323,account.journal sale order.user,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
-group_all_companies_user_new_324,account.fiscalyear.user,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_325,account.tax.user,account.model_account_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_326,ir.attachment.sales,base.model_ir_attachment,group_readonly,1,0,0,0
-group_all_companies_user_new_327,ir.attachment.manager,base.model_ir_attachment,group_readonly,1,0,0,0
-group_all_companies_user_new_328,res.partner.bank.type.user,base.model_res_partner_bank_type,group_readonly,1,0,0,0
-group_all_companies_user_new_329,res.partner.bank.type.field.user,base.model_res_partner_bank_type_field,group_readonly,1,0,0,0
-group_all_companies_user_new_330,product.uom.user,product.model_product_uom,group_readonly,1,0,0,0
-group_all_companies_user_new_331,product.pricelist.sale.user,product.model_product_pricelist,group_readonly,1,0,0,0
-group_all_companies_user_new_332,account_account salesman,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_333,sale.shop.sale.user,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
-group_all_companies_user_new_334,sale.shop.sale.manager,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
-group_all_companies_user_new_335,product.uom.categ salemanager,product.model_product_uom_categ,group_readonly,1,0,0,0
-group_all_companies_user_new_336,product.uom salemanager,product.model_product_uom,group_readonly,1,0,0,0
-group_all_companies_user_new_337,product.ul salemanager,product.model_product_ul,group_readonly,1,0,0,0
-group_all_companies_user_new_338,product.category salemanager,account.model_product_category,group_readonly,1,0,0,0
-group_all_companies_user_new_339,product.supplierinfo.user,product.model_product_supplierinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_340,product.supplierinfo salemanager,product.model_product_supplierinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_341,pricelist.partnerinfo salemanager,product.model_pricelist_partnerinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_342,product.price.type salemanager,product.model_product_price_type,group_readonly,1,0,0,0
-group_all_companies_user_new_343,product.pricelist.type salemanager,product.model_product_pricelist_type,group_readonly,1,0,0,0
-group_all_companies_user_new_344,product.pricelist salemanager,product.model_product_pricelist,group_readonly,1,0,0,0
-group_all_companies_user_new_345,res_partner group_sale_manager,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_346,product.pricelist.version sale_manager,product.model_product_pricelist_version,group_readonly,1,0,0,0
-group_all_companies_user_new_347,account.invoice.report salesman,account.model_account_invoice_report,group_readonly,1,0,0,0
-group_all_companies_user_new_348,account.move.line invoice,account.model_account_move_line,group_readonly,1,0,0,0
-group_all_companies_user_new_349,sale.order,portal_sale.model_sale_order,group_readonly,1,0,0,0
-group_all_companies_user_new_350,sale.order.line,sale.model_sale_order_line,group_readonly,1,0,0,0
-group_all_companies_user_new_351,account.invoice,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_352,account.invoice.tax,account.model_account_invoice_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_353,account.invoice.line,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_354,account.journal,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_355,account.voucher,account_voucher.model_account_voucher,group_readonly,1,0,0,0
-group_all_companies_user_new_356,account.voucher.line,account_voucher.model_account_voucher_line,group_readonly,1,0,0,0
-group_all_companies_user_new_357,account.move,account.model_account_move,group_readonly,1,0,0,0
-group_all_companies_user_new_358,account.move.line,account.model_account_move_line,group_readonly,1,0,0,0
-group_all_companies_user_new_359,account.move.reconcile,account.model_account_move_reconcile,group_readonly,1,0,0,0
-group_all_companies_user_new_360,account.fiscalyear,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_361,sale.shop,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
-group_all_companies_user_new_362,product.pricelist,product.model_product_pricelist,group_readonly,1,0,0,0
-group_all_companies_user_new_363,res.partner,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_364,account.tax,account.model_account_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_365,res.partner.category,base.model_res_partner_category,group_readonly,1,0,0,0
-group_all_companies_user_new_366,account.period,account.model_account_period,group_readonly,1,0,0,0
-group_all_companies_user_new_367,account.account,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_368,resource.calendar,resource.model_resource_calendar,group_readonly,1,0,0,0
-group_all_companies_user_new_369,resource.calendar.attendance,resource.model_resource_calendar_attendance,group_readonly,1,0,0,0
-group_all_companies_user_new_370,resource.resource,resource.model_resource_resource,group_readonly,1,0,0,0
-group_all_companies_user_new_371,resource.resource all,resource.model_resource_resource,group_readonly,1,0,0,0
-group_all_companies_user_new_372,resource.calendar.leaves,hr_holidays.model_resource_calendar_leaves,group_readonly,1,0,0,0
-group_all_companies_user_new_373,project.project,portal_project.model_project_project,group_readonly,1,0,0,0
-group_all_companies_user_new_374,project.project,portal_project.model_project_project,group_readonly,1,0,0,0
-group_all_companies_user_new_375,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_376,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_377,project.task.type user,project.model_project_task_type,group_readonly,1,0,0,0
-group_all_companies_user_new_378,project.task,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
-group_all_companies_user_new_379,project.task.work,project.model_project_task_work,group_readonly,1,0,0,0
-group_all_companies_user_new_380,report.project.task.user,project.model_report_project_task_user,group_readonly,1,0,0,0
-group_all_companies_user_new_381,base.res.partner user,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_382,project.task on partners,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
-group_all_companies_user_new_383,project.project on partners,portal_project.model_project_project,group_readonly,1,0,0,0
-group_all_companies_user_new_384,project.task salesman,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
-group_all_companies_user_new_385,project.task.type salesman,project.model_project_task_type,group_readonly,1,0,0,0
-group_all_companies_user_new_386,project.task.history salesman,project.model_project_task_history,group_readonly,1,0,0,0
-group_all_companies_user_new_387,project.project salesman,portal_project.model_project_project,group_readonly,1,0,0,0
-group_all_companies_user_new_388,account.analytic.line project,account.model_account_analytic_line,group_readonly,1,0,0,0
-group_all_companies_user_new_389,project.task.history project,project.model_project_task_history,group_readonly,1,0,0,0
-group_all_companies_user_new_390,project.task.history project,project.model_project_task_history_cumulative,group_readonly,1,0,0,0
-group_all_companies_user_new_391,project.resource_calendar manager,resource.model_resource_calendar,group_readonly,1,0,0,0
-group_all_companies_user_new_392,project.project_category,project.model_project_category,group_readonly,1,0,0,0
-group_all_companies_user_new_393,project.project_category,project.model_project_category,group_readonly,1,0,0,0
-group_all_companies_user_new_394,project,portal_project.model_project_project,group_readonly,1,0,0,0
-group_all_companies_user_new_395,task,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
-group_all_companies_user_new_396,task_type,project.model_project_task_type,group_readonly,1,0,0,0
-group_all_companies_user_new_397,task_work,project.model_project_task_work,group_readonly,1,0,0,0
-group_all_companies_user_new_398,project_category,project.model_project_category,group_readonly,1,0,0,0
-group_all_companies_user_new_399,account_analytic_account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_400,project,portal_project.model_project_project,group_readonly,1,0,0,0
-group_all_companies_user_new_401,task,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
-group_all_companies_user_new_402,task_type,project.model_project_task_type,group_readonly,1,0,0,0
-group_all_companies_user_new_403,task_work,project.model_project_task_work,group_readonly,1,0,0,0
-group_all_companies_user_new_404,project_category,project.model_project_category,group_readonly,1,0,0,0
-group_all_companies_user_new_405,account_analytic_account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_406,stock.incoterms all,stock.model_stock_incoterms,group_readonly,1,0,0,0
-group_all_companies_user_new_407,stock.incoterms manager,stock.model_stock_incoterms,group_readonly,1,0,0,0
-group_all_companies_user_new_408,stock.warehouse.manager,stock.model_stock_warehouse,group_readonly,1,0,0,0
-group_all_companies_user_new_409,stock.warehouse.user,stock.model_stock_warehouse,group_readonly,1,0,0,0
-group_all_companies_user_new_410,stock.location.partner.manager,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_411,stock.location.manager,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_412,stock.location.user,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_413,stock.journal.user,stock.model_stock_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_414,stock.journal.manager,stock.model_stock_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_415,stock.tracking user,stock.model_stock_tracking,group_readonly,1,0,0,0
-group_all_companies_user_new_416,stock.tracking manager,stock.model_stock_tracking,group_readonly,1,0,0,0
-group_all_companies_user_new_417,stock.tracking sales.user,stock.model_stock_tracking,group_readonly,1,0,0,0
-group_all_companies_user_new_418,stock.picking user,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
-group_all_companies_user_new_419,stock.picking.in,purchase.model_stock_picking_in,group_readonly,1,0,0,0
-group_all_companies_user_new_420,stock.picking.out,sale_stock.model_stock_picking_out,group_readonly,1,0,0,0
-group_all_companies_user_new_421,stock.picking manager,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
-group_all_companies_user_new_422,stock.picking.in manager,purchase.model_stock_picking_in,group_readonly,1,0,0,0
-group_all_companies_user_new_423,stock.picking.out manager,sale_stock.model_stock_picking_out,group_readonly,1,0,0,0
-group_all_companies_user_new_424,stock.production.lot manager,drishti_crms.model_stock_production_lot,group_readonly,1,0,0,0
-group_all_companies_user_new_425,stock.production.lot user,drishti_crms.model_stock_production_lot,group_readonly,1,0,0,0
-group_all_companies_user_new_426,stock.production.lot.revision,stock.model_stock_production_lot_revision,group_readonly,1,0,0,0
-group_all_companies_user_new_427,stock.move manager,procurement.model_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_428,stock.move user,procurement.model_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_429,stock.inventory user,stock.model_stock_inventory,group_readonly,1,0,0,0
-group_all_companies_user_new_430,stock.inventory manager,stock.model_stock_inventory,group_readonly,1,0,0,0
-group_all_companies_user_new_431,stock.inventory.line user,stock.model_stock_inventory_line,group_readonly,1,0,0,0
-group_all_companies_user_new_432,stock.inventory.line manager,stock.model_stock_inventory_line,group_readonly,1,0,0,0
-group_all_companies_user_new_433,stock.report.prodlots,stock.model_stock_report_prodlots,group_readonly,1,0,0,0
-group_all_companies_user_new_434,stock.location sale manager,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_435,stock.location stock manager,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_436,report.stock.lines.date user,stock.model_report_stock_lines_date,group_readonly,1,0,0,0
-group_all_companies_user_new_437,report.stock.lines.date manager,stock.model_report_stock_lines_date,group_readonly,1,0,0,0
-group_all_companies_user_new_438,stock.report.tracklots,stock.model_stock_report_tracklots,group_readonly,1,0,0,0
-group_all_companies_user_new_439,report.stock.move user,stock.model_report_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_440,report.stock.move manager,stock.model_report_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_441,report.stock.inventory user,stock.model_report_stock_inventory,group_readonly,1,0,0,0
-group_all_companies_user_new_442,product_product_stock_user,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_443,product.template stock user,account.model_product_template,group_readonly,1,0,0,0
-group_all_companies_user_new_444,account.invoice stock user,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_445,account.invoice.line stock user,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_446,account.invoice.tax stock user,account.model_account_invoice_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_447,account.journal stock user,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_448,account.fiscalyear stock user,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_449,product.pricelist.item salemanager,product.model_product_pricelist_item,group_readonly,1,0,0,0
-group_all_companies_user_new_450,product.uom.categ stock_manager,product.model_product_uom_categ,group_readonly,1,0,0,0
-group_all_companies_user_new_451,product.uom stock_manager,product.model_product_uom,group_readonly,1,0,0,0
-group_all_companies_user_new_452,product.ul stock_manager,product.model_product_ul,group_readonly,1,0,0,0
-group_all_companies_user_new_453,product.category stock_manager,account.model_product_category,group_readonly,1,0,0,0
-group_all_companies_user_new_454,product.template stock_manager,account.model_product_template,group_readonly,1,0,0,0
-group_all_companies_user_new_455,product.product stock_manager,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_456,product.packaging stock_manager,product.model_product_packaging,group_readonly,1,0,0,0
-group_all_companies_user_new_457,product.supplierinfo stock_manager,product.model_product_supplierinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_458,pricelist.partnerinfo stock_manager,product.model_pricelist_partnerinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_459,product.price.type stock_manager,product.model_product_price_type,group_readonly,1,0,0,0
-group_all_companies_user_new_460,product.pricelist.type stock_manager,product.model_product_pricelist_type,group_readonly,1,0,0,0
-group_all_companies_user_new_461,product.pricelist stock_manager,product.model_product_pricelist,group_readonly,1,0,0,0
-group_all_companies_user_new_462,ir_property group_stock_manager,base.model_ir_property,group_readonly,1,0,0,0
-group_all_companies_user_new_463,res_partner group_stock_manager,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_464,product.pricelist.version stock_manager,product.model_product_pricelist_version,group_readonly,1,0,0,0
-group_all_companies_user_new_465,product.pricelist.item stock_manager,product.model_product_pricelist_item,group_readonly,1,0,0,0
-group_all_companies_user_new_466,account.account stock manager,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_467,board.board user,board.model_board_board,group_readonly,1,0,0,0
-group_all_companies_user_new_468,procurement.order,procurement.model_procurement_order,group_readonly,1,0,0,0
-group_all_companies_user_new_469,procurement.order stock.user,procurement.model_procurement_order,group_readonly,1,0,0,0
-group_all_companies_user_new_470,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
-group_all_companies_user_new_471,stock.warehouse.orderpoint system,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
-group_all_companies_user_new_472,mrp.property.group,procurement.model_mrp_property_group,group_readonly,1,0,0,0
-group_all_companies_user_new_473,mrp.property,procurement.model_mrp_property,group_readonly,1,0,0,0
-group_all_companies_user_new_474,purchase.order,drishti_crms.model_purchase_order,group_readonly,1,0,0,0
-group_all_companies_user_new_475,purchase.order,drishti_crms.model_purchase_order,group_readonly,1,0,0,0
-group_all_companies_user_new_476,purchase.order.line user,purchase.model_purchase_order_line,group_readonly,1,0,0,0
-group_all_companies_user_new_477,purchase.order.line,purchase.model_purchase_order_line,group_readonly,1,0,0,0
-group_all_companies_user_new_478,stock.location,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_479,stock.warehouse,stock.model_stock_warehouse,group_readonly,1,0,0,0
-group_all_companies_user_new_480,stock.picking,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
-group_all_companies_user_new_481,stock.move,procurement.model_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_482,purchase.order,drishti_crms.model_purchase_order,group_readonly,1,0,0,0
-group_all_companies_user_new_483,purchase.order.line,purchase.model_purchase_order_line,group_readonly,1,0,0,0
-group_all_companies_user_new_484,account.tax,account.model_account_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_485,purchase.report,purchase.model_purchase_report,group_readonly,1,0,0,0
-group_all_companies_user_new_486,purchase.report user,purchase.model_purchase_report,group_readonly,1,0,0,0
-group_all_companies_user_new_487,stock.location,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_488,stock.warehouse,stock.model_stock_warehouse,group_readonly,1,0,0,0
-group_all_companies_user_new_489,stock.picking,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
-group_all_companies_user_new_490,stock.move,procurement.model_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_491,account.tax,account.model_account_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_492,product.product.purchase.user,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_493,product.product purchase_manager,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_494,product.template purchase_user,account.model_product_template,group_readonly,1,0,0,0
-group_all_companies_user_new_495,product.template purchase_manager,account.model_product_template,group_readonly,1,0,0,0
-group_all_companies_user_new_496,account_invoice purchase,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_497,account_invoice.line purchase,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_498,account_invoice purchase manager,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_499,account_invoice.line purchase manager,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_500,account_invoice.tax purchase,account.model_account_invoice_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_501,account.fiscal.position purchase,account.model_account_fiscal_position,group_readonly,1,0,0,0
-group_all_companies_user_new_502,account.sequence.fiscalyear purchase,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_503,res.partner purchase,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_504,account.journal.period,account.model_account_journal_period,group_readonly,1,0,0,0
-group_all_companies_user_new_505,account.journal,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_506,account.journal,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_507,account.period,account.model_account_period,group_readonly,1,0,0,0
-group_all_companies_user_new_508,account.fiscalyear,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_509,account.move,account.model_account_move,group_readonly,1,0,0,0
-group_all_companies_user_new_510,account.move.line,account.model_account_move_line,group_readonly,1,0,0,0
-group_all_companies_user_new_511,account.analytic.line,account.model_account_analytic_line,group_readonly,1,0,0,0
-group_all_companies_user_new_512,account.move.reconcile,account.model_account_move_reconcile,group_readonly,1,0,0,0
-group_all_companies_user_new_513,report.stock.move.manager,stock.model_report_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_514,report.stock.move.user,stock.model_report_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_515,stock.production.lot user,drishti_crms.model_stock_production_lot,group_readonly,1,0,0,0
-group_all_companies_user_new_516,stock.production.lot.revision,stock.model_stock_production_lot_revision,group_readonly,1,0,0,0
-group_all_companies_user_new_517,res.partner.purchase.manager,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_518,product.uom.categ purchase_manager,product.model_product_uom_categ,group_readonly,1,0,0,0
-group_all_companies_user_new_519,product.uom purchase_manager,product.model_product_uom,group_readonly,1,0,0,0
-group_all_companies_user_new_520,product.ul purchase_manager,product.model_product_ul,group_readonly,1,0,0,0
-group_all_companies_user_new_521,product.category purchase_manager,account.model_product_category,group_readonly,1,0,0,0
-group_all_companies_user_new_522,product.packaging purchase_manager,product.model_product_packaging,group_readonly,1,0,0,0
-group_all_companies_user_new_523,product.supplierinfo purchase_manager,product.model_product_supplierinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_524,pricelist.partnerinfo purchase_manager,product.model_pricelist_partnerinfo,group_readonly,1,0,0,0
-group_all_companies_user_new_525,product.price.type purchase_manager,product.model_product_price_type,group_readonly,1,0,0,0
-group_all_companies_user_new_526,product.pricelist.type purchase_manager,product.model_product_pricelist_type,group_readonly,1,0,0,0
-group_all_companies_user_new_527,product.pricelist purchase_manager,product.model_product_pricelist,group_readonly,1,0,0,0
-group_all_companies_user_new_528,ir_property group_purchase_manager,base.model_ir_property,group_readonly,1,0,0,0
-group_all_companies_user_new_529,res_partner group_purchase_manager,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_530,product.pricelist.version purchase_manager,product.model_product_pricelist_version,group_readonly,1,0,0,0
-group_all_companies_user_new_531,product.pricelist.item purchase_manager,product.model_product_pricelist_item,group_readonly,1,0,0,0
-group_all_companies_user_new_532,account.account purchase manager,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_533,account.journal purchase manager,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_534,stock.tracking purchase.user,stock.model_stock_tracking,group_readonly,1,0,0,0
-group_all_companies_user_new_535,stock.location purchase manager,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_536,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
-group_all_companies_user_new_537,stock_picking salesman,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
-group_all_companies_user_new_538,stock_move salesman,procurement.model_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_539,stock_move manager,procurement.model_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_540,procurement.order salesman,procurement.model_procurement_order,group_readonly,1,0,0,0
-group_all_companies_user_new_541,procurement.order manager,procurement.model_procurement_order,group_readonly,1,0,0,0
-group_all_companies_user_new_542,sale.order stock worker,portal_sale.model_sale_order,group_readonly,1,0,0,0
-group_all_companies_user_new_543,sale.order.line stock worker,sale.model_sale_order_line,group_readonly,1,0,0,0
-group_all_companies_user_new_544,report.stock.move.sale,stock.model_report_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_545,stock.picking.sales,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
-group_all_companies_user_new_546,product.packaging.user,product.model_product_packaging,group_readonly,1,0,0,0
-group_all_companies_user_new_547,product.packaging.manager,product.model_product_packaging,group_readonly,1,0,0,0
-group_all_companies_user_new_548,stock.warehouse.user,stock.model_stock_warehouse,group_readonly,1,0,0,0
-group_all_companies_user_new_549,stock.location.user,stock.model_stock_location,group_readonly,1,0,0,0
-group_all_companies_user_new_550,product.packaging salemanager,product.model_product_packaging,group_readonly,1,0,0,0
-group_all_companies_user_new_551,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
-group_all_companies_user_new_552,stock.picking,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
-group_all_companies_user_new_553,stock.picking.out,sale_stock.model_stock_picking_out,group_readonly,1,0,0,0
-group_all_companies_user_new_554,stock.move,procurement.model_stock_move,group_readonly,1,0,0,0
-group_all_companies_user_new_555,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
-group_all_companies_user_new_556,account.asset.category,account_asset.model_account_asset_category,group_readonly,1,0,0,0
-group_all_companies_user_new_557,account.asset.asset,account_asset.model_account_asset_asset,group_readonly,1,0,0,0
-group_all_companies_user_new_558,account.asset.history,account_asset.model_account_asset_history,group_readonly,1,0,0,0
-group_all_companies_user_new_559,account.asset.category,account_asset.model_account_asset_category,group_readonly,1,0,0,0
-group_all_companies_user_new_560,account.asset.asset,account_asset.model_account_asset_asset,group_readonly,1,0,0,0
-group_all_companies_user_new_561,account.asset.history,account_asset.model_account_asset_history,group_readonly,1,0,0,0
-group_all_companies_user_new_562,account.asset.depreciation.line,account_asset.model_account_asset_depreciation_line,group_readonly,1,0,0,0
-group_all_companies_user_new_563,account.asset.depreciation.line,account_asset.model_account_asset_depreciation_line,group_user_access,1,1,1,1
-group_all_companies_user_new_564,asset.asset.report,account_asset.model_asset_asset_report,group_readonly,1,0,0,0
-group_all_companies_user_new_565,asset.asset.report,account_asset.model_asset_asset_report,group_readonly,1,0,0,0
-group_all_companies_user_new_566,hr.employee.category.user,hr.model_hr_employee_category,group_readonly,1,0,0,0
-group_all_companies_user_new_567,hr.employee.category.emp,hr.model_hr_employee_category,group_readonly,1,0,0,0
-group_all_companies_user_new_568,hr.employee user,hr.model_hr_employee,group_readonly,1,0,0,0
-group_all_companies_user_new_569,hr.employee system user,hr.model_hr_employee,group_readonly,1,0,0,0
-group_all_companies_user_new_570,resource.resource.user,resource.model_resource_resource,group_readonly,1,0,0,0
-group_all_companies_user_new_571,hr.department.user,hr.model_hr_department,group_readonly,1,0,0,0
-group_all_companies_user_new_572,hr.department.employee,hr.model_hr_department,group_readonly,1,0,0,0
-group_all_companies_user_new_573,hr.job user,hr.model_hr_job,group_readonly,1,0,0,0
-group_all_companies_user_new_574,ir_property hr_user,base.model_ir_property,group_readonly,1,0,0,0
-group_all_companies_user_new_575,base.action.rule,base_action_rule.model_base_action_rule,group_readonly,1,0,0,0
-group_all_companies_user_new_576,base.action.rule config,base_action_rule.model_base_action_rule,group_readonly,1,0,0,0
-group_all_companies_user_new_577,calendar.attendee,base_calendar.model_calendar_attendee,group_readonly,1,0,0,0
-group_all_companies_user_new_578,calendar.alarm,base_calendar.model_calendar_alarm,group_readonly,1,0,0,0
-group_all_companies_user_new_579,res.alarm,base_calendar.model_res_alarm,group_readonly,1,0,0,0
-group_all_companies_user_new_580,calendar.todo,base_calendar.model_calendar_todo,group_readonly,1,0,0,0
-group_all_companies_user_new_581,calendar.event,base_calendar.model_calendar_event,group_readonly,1,0,0,0
-group_all_companies_user_new_582,calendar.attendee,base_calendar.model_calendar_attendee,group_readonly,1,0,0,0
-group_all_companies_user_new_583,crm.meeting.manager,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
-group_all_companies_user_new_584,crm.meeting,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
-group_all_companies_user_new_585,crm.meeting_allll,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
-group_all_companies_user_new_586,crm.meeting.partner.manager,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
-group_all_companies_user_new_587,crm.meeting.type.manager,base_calendar.model_crm_meeting_type,group_readonly,1,0,0,0
-group_all_companies_user_new_588,crm.meeting.type.salesman,base_calendar.model_crm_meeting_type,group_readonly,1,0,0,0
-group_all_companies_user_new_589,crm.meeting.type.manager,base_calendar.model_crm_meeting_type,group_readonly,1,0,0,0
-group_all_companies_user_new_590,hr.employee.resource.manager,resource.model_resource_resource,group_readonly,1,0,0,0
-group_all_companies_user_new_591,hr.employee.resource.calendar.user,resource.model_resource_calendar,group_readonly,1,0,0,0
-group_all_companies_user_new_592,hr.contract.type.manager,hr_contract.model_hr_contract_type,group_readonly,1,0,0,0
-group_all_companies_user_new_593,hr.contract.manager,hr_contract.model_hr_contract,group_readonly,1,0,0,0
-group_all_companies_user_new_594,hr.holidays.status user,hr_holidays.model_hr_holidays_status,group_readonly,1,0,0,0
-group_all_companies_user_new_595,hr.holidays.user,hr_holidays.model_hr_holidays,group_readonly,1,0,0,0
-group_all_companies_user_new_596,hr.holidays.employee,hr_holidays.model_hr_holidays,group_readonly,1,0,0,0
-group_all_companies_user_new_597,hr.holidays.status employee,hr_holidays.model_hr_holidays_status,group_readonly,1,0,0,0
-group_all_companies_user_new_598,hr.holidays.ramain.user,hr_holidays.model_hr_holidays_remaining_leaves_user,group_readonly,1,0,0,0
-group_all_companies_user_new_599,resource_calendar_leaves_user,hr_holidays.model_resource_calendar_leaves,group_readonly,1,0,0,0
-group_all_companies_user_new_600,crm.meeting.type.manager,base_calendar.model_crm_meeting_type,group_readonly,1,0,0,0
-group_all_companies_user_new_601,hr.payroll.structure,hr_payroll.model_hr_payroll_structure,group_readonly,1,0,0,0
-group_all_companies_user_new_602,hr.contribution.register,hr_payroll.model_hr_contribution_register,group_readonly,1,0,0,0
-group_all_companies_user_new_603,hr.salary.rule.category,hr_payroll.model_hr_salary_rule_category,group_readonly,1,0,0,0
-group_all_companies_user_new_604,hr.payslip,hr_payroll.model_hr_payslip,group_readonly,1,0,0,0
-group_all_companies_user_new_605,hr.payslip.line,hr_payroll.model_hr_payslip_line,group_readonly,1,0,0,0
-group_all_companies_user_new_606,hr.payslip.input.user,hr_payroll.model_hr_payslip_input,group_readonly,1,0,0,0
-group_all_companies_user_new_607,hr.payslip.worked_days,hr_payroll.model_hr_payslip_worked_days,group_readonly,1,0,0,0
-group_all_companies_user_new_608,hr.payslip.run,hr_payroll.model_hr_payslip_run,group_readonly,1,0,0,0
-group_all_companies_user_new_609,hr.rule.input,hr_payroll.model_hr_rule_input,group_readonly,1,0,0,0
-group_all_companies_user_new_610,hr.salary.rule.user,hr_payroll.model_hr_salary_rule,group_readonly,1,0,0,0
-group_all_companies_user_new_611,hr.expense.expense.user,hr_expense.model_hr_expense_expense,group_readonly,1,0,0,0
-group_all_companies_user_new_612,hr.expense.expense.employee,hr_expense.model_hr_expense_expense,group_readonly,1,0,0,0
-group_all_companies_user_new_613,hr.expense.line.user,hr_expense.model_hr_expense_line,group_readonly,1,0,0,0
-group_all_companies_user_new_614,hr.expense.line.employee,hr_expense.model_hr_expense_line,group_readonly,1,0,0,0
-group_all_companies_user_new_615,hr.expense.report.manager,hr_expense.model_hr_expense_report,group_readonly,1,0,0,0
-group_all_companies_user_new_616,product.product.hr.expense.user,drishti_crms.model_product_product,group_readonly,1,0,0,0
-group_all_companies_user_new_617,product.template.hr.expense.user,account.model_product_template,group_readonly,1,0,0,0
-group_all_companies_user_new_618,product.uom.hr.expense.user,product.model_product_uom,group_readonly,1,0,0,0
-group_all_companies_user_new_619,product.price.type.user,product.model_product_price_type,group_readonly,1,0,0,0
-group_all_companies_user_new_620,account.journal.user,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_621,account.journal.employee,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_622,account.invoice.user,account.model_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_623,account.invoice.line.user,account.model_account_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_624,account.ianalytic.journal.user,account.model_account_analytic_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_625,account.invoice.tax.user,account.model_account_invoice_tax,group_readonly,1,0,0,0
-group_all_companies_user_new_626,account.period.user,account.model_account_period,group_readonly,1,0,0,0
-group_all_companies_user_new_627,account.fiscalyear.user,account.model_account_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_628,account.move.user,account.model_account_move,group_readonly,1,0,0,0
-group_all_companies_user_new_629,account.move.line.user,account.model_account_move_line,group_readonly,1,0,0,0
-group_all_companies_user_new_630,account.ianalytic.line.user,account.model_account_analytic_line,group_readonly,1,0,0,0
-group_all_companies_user_new_631,account.journal.period.manager,account.model_account_journal_period,group_readonly,1,0,0,0
-group_all_companies_user_new_632,res_company_ldap,auth_ldap.model_res_company_ldap,group_readonly,1,0,0,0
-group_all_companies_user_new_633,base.import.tests.models.char,base_import.model_base_import_tests_models_char,group_readonly,1,0,0,0
-group_all_companies_user_new_634,base.import.tests.models.char.required,base_import.model_base_import_tests_models_char_required,group_readonly,1,0,0,0
-group_all_companies_user_new_635,base.import.tests.models.char.readonly,base_import.model_base_import_tests_models_char_readonly,group_readonly,1,0,0,0
-group_all_companies_user_new_636,base.import.tests.models.char.states,base_import.model_base_import_tests_models_char_states,group_readonly,1,0,0,0
-group_all_companies_user_new_637,base.import.tests.models.char.noreadonly,base_import.model_base_import_tests_models_char_noreadonly,group_readonly,1,0,0,0
-group_all_companies_user_new_638,base.import.tests.models.char.stillreadonly,base_import.model_base_import_tests_models_char_stillreadonly,group_readonly,1,0,0,0
-group_all_companies_user_new_639,base.import.tests.models.m2o,base_import.model_base_import_tests_models_m2o,group_readonly,1,0,0,0
-group_all_companies_user_new_640,base.import.tests.models.m2o.related,base_import.model_base_import_tests_models_m2o_related,group_readonly,1,0,0,0
-group_all_companies_user_new_641,base.import.tests.models.m2o.required,base_import.model_base_import_tests_models_m2o_required,group_readonly,1,0,0,0
-group_all_companies_user_new_642,base.import.tests.models.m2o.required.related,base_import.model_base_import_tests_models_m2o_required_related,group_readonly,1,0,0,0
-group_all_companies_user_new_643,base.import.tests.models.o2m,base_import.model_base_import_tests_models_o2m,group_readonly,1,0,0,0
-group_all_companies_user_new_644,base.import.tests.models.o2m.child,base_import.model_base_import_tests_models_o2m_child,group_readonly,1,0,0,0
-group_all_companies_user_new_645,base.import.tests.models.preview,base_import.model_base_import_tests_models_preview,group_readonly,1,0,0,0
-group_all_companies_user_new_646,Information of vehicle,crms_oe_connect.model_fleet_vehicle,group_readonly,1,0,0,0
-group_all_companies_user_new_647,Vehicle Model,crms_oe_connect.model_fleet_vehicle_model,group_readonly,1,0,0,0
-group_all_companies_user_new_648,Fleet Type,crms_oe_connect.model_fleet_type,group_readonly,1,0,0,0
-group_all_companies_user_new_649,Brand model of the vehicle,crms_oe_connect.model_fleet_vehicle_model_brand,group_readonly,1,0,0,0
-group_all_companies_user_new_650,Sales Shop,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
-group_all_companies_user_new_651,Area,crms_oe_connect.model_res_city_area,group_readonly,1,0,0,0
-group_all_companies_user_new_652,City,crms_oe_connect.model_res_state_city,group_readonly,1,0,0,0
-group_all_companies_user_new_653,Country state,base.model_res_country_state,group_readonly,1,0,0,0
-group_all_companies_user_new_654,Country,base.model_res_country,group_readonly,1,0,0,0
-group_all_companies_user_new_655,Currency,account.model_res_currency,group_readonly,1,0,0,0
-group_all_companies_user_new_656,Partner,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_657,CRMS Payment,drishti_crms.model_crms_payment,group_readonly,1,0,0,0
-group_all_companies_user_new_658,revenue.report,afras_revenue_report.model_revenue_report,group_readonly,1,0,0,0
-group_all_companies_user_new_659,survey.type.manager,survey.model_survey_type,group_readonly,1,0,0,0
-group_all_companies_user_new_660,survey.request manager,survey.model_survey_request,group_readonly,1,0,0,0
-group_all_companies_user_new_661,survey.tbl.column.heading manager,survey.model_survey_tbl_column_heading,group_readonly,1,0,0,0
-group_all_companies_user_new_662,survey.res.partner.user,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_663,survey.user,survey.model_survey,group_readonly,1,0,0,0
-group_all_companies_user_new_664,survey.page user,survey.model_survey_page,group_readonly,1,0,0,0
-group_all_companies_user_new_665,survey.question user,survey.model_survey_question,group_readonly,1,0,0,0
-group_all_companies_user_new_666,survey.answer user,survey.model_survey_answer,group_readonly,1,0,0,0
-group_all_companies_user_new_667,survey.response user,survey.model_survey_response,group_readonly,1,0,0,0
-group_all_companies_user_new_668,survey.response.answer user,survey.model_survey_response_answer,group_readonly,1,0,0,0
-group_all_companies_user_new_669,survey.history.user,survey.model_survey_history,group_readonly,1,0,0,0
-group_all_companies_user_new_670,survey.response.line user,survey.model_survey_response_line,group_readonly,1,0,0,0
-group_all_companies_user_new_671,survey.survey.user,survey.model_survey,group_readonly,1,0,0,0
-group_all_companies_user_new_672,survey.page.survey.user,survey.model_survey_page,group_readonly,1,0,0,0
-group_all_companies_user_new_673,survey.question.survey.user,survey.model_survey_question,group_readonly,1,0,0,0
-group_all_companies_user_new_674,survey.answer.survey.user,survey.model_survey_answer,group_readonly,1,0,0,0
-group_all_companies_user_new_675,survey.response.survey.user,survey.model_survey_response,group_readonly,1,0,0,0
-group_all_companies_user_new_676,survey.response.answer.survey.user,survey.model_survey_response_answer,group_readonly,1,0,0,0
-group_all_companies_user_new_677,survey.history.survey.user,survey.model_survey_history,group_readonly,1,0,0,0
-group_all_companies_user_new_678,survey.response.line.survey.user,survey.model_survey_response_line,group_readonly,1,0,0,0
-group_all_companies_user_new_679,survey.question.column.heading.survey.user,survey.model_survey_question_column_heading,group_readonly,1,0,0,0
-group_all_companies_user_new_680,survey.question.column.heading user,survey.model_survey_question_column_heading,group_readonly,1,0,0,0
-group_all_companies_user_new_681,hr.applicant.user,hr_recruitment.model_hr_applicant,group_readonly,1,0,0,0
-group_all_companies_user_new_682,hr.recruitment.report,hr_recruitment.model_hr_recruitment_report,group_readonly,1,0,0,0
-group_all_companies_user_new_683,hr.recruitment.stage.user,hr_recruitment.model_hr_recruitment_stage,group_readonly,1,0,0,0
-group_all_companies_user_new_684,hr.recruitment.degree,hr_recruitment.model_hr_recruitment_degree,group_readonly,1,0,0,0
-group_all_companies_user_new_685,res.partner.user,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_686,survey.hr.user,survey.model_survey,group_readonly,1,0,0,0
-group_all_companies_user_new_687,crm.meeting.hruser,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
-group_all_companies_user_new_688,hr.recruitment.source,hr_recruitment.model_hr_recruitment_source,group_readonly,1,0,0,0
-group_all_companies_user_new_689,hr.recruitment.source,hr_recruitment.model_hr_recruitment_source,group_readonly,1,0,0,0
-group_all_companies_user_new_690,hr.applicant_category,hr_recruitment.model_hr_applicant_category,group_readonly,1,0,0,0
-group_all_companies_user_new_691,hr.applicant_category,hr_recruitment.model_hr_applicant_category,group_readonly,1,0,0,0
-group_all_companies_user_new_692,account.sequence.fiscalyear,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
-group_all_companies_user_new_693,Email Thread,mail.model_mail_thread,group_readonly,1,0,0,0
-group_all_companies_user_new_694,Project,portal_project.model_project_project,group_readonly,1,0,0,0
-group_all_companies_user_new_695,Companies,account.model_res_company,group_readonly,1,0,0,0
-group_all_companies_user_new_696,fleet.analytic.account,drishti_crms.model_fleet_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_697,Odometer log for a vehicle,crms_oe_connect.model_fleet_vehicle_odometer,group_readonly,1,0,0,0
-group_all_companies_user_new_698,Message,base_calendar.model_mail_message,group_readonly,1,0,0,0
-group_all_companies_user_new_699,Employee,hr.model_hr_employee,group_readonly,1,0,0,0
-group_all_companies_user_new_700,Users,auth_ldap.model_res_users,group_readonly,1,1,1,1
-group_all_companies_user_new_701,Analytic Account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_702,res.company,account.model_res_company,group_readonly,1,0,0,0
-group_all_companies_user_new_703,crm.segmentation user,crm.model_crm_segmentation,group_readonly,1,0,0,0
-group_all_companies_user_new_704,crm.segmentation.line user,crm.model_crm_segmentation_line,group_readonly,1,0,0,0
-group_all_companies_user_new_705,crm.segmentation,crm.model_crm_segmentation,group_readonly,1,0,0,0
-group_all_companies_user_new_706,crm.segmentation.line,crm.model_crm_segmentation_line,group_readonly,1,0,0,0
-group_all_companies_user_new_707,crm.case.channel user,crm.model_crm_case_channel,group_readonly,1,0,0,0
-group_all_companies_user_new_708,crm.case.channel manager,crm.model_crm_case_channel,group_readonly,1,0,0,0
-group_all_companies_user_new_709,crm.case.section,crm.model_crm_case_section,group_readonly,1,0,0,0
-group_all_companies_user_new_710,crm.case.categ,crm.model_crm_case_categ,group_readonly,1,0,0,0
-group_all_companies_user_new_711,crm.lead.manager,crm.model_crm_lead,group_readonly,1,0,0,0
-group_all_companies_user_new_712,crm.phonecall.manager,crm.model_crm_phonecall,group_readonly,1,0,0,0
-group_all_companies_user_new_713,crm.lead,crm.model_crm_lead,group_readonly,1,0,0,0
-group_all_companies_user_new_714,crm.phonecall,crm.model_crm_phonecall,group_readonly,1,0,0,0
-group_all_companies_user_new_715,crm.case.section.user,crm.model_crm_case_section,group_readonly,1,0,0,0
-group_all_companies_user_new_716,crm.case.section.manager,crm.model_crm_case_section,group_readonly,1,0,0,0
-group_all_companies_user_new_717,crm.case.stage,crm.model_crm_case_stage,group_readonly,1,0,0,0
-group_all_companies_user_new_718,crm.case.stage,crm.model_crm_case_stage,group_readonly,1,0,0,0
-group_all_companies_user_new_719,crm_case_resource_type user,crm.model_crm_case_resource_type,group_readonly,1,0,0,0
-group_all_companies_user_new_720,crm_case_resource_type manager,crm.model_crm_case_resource_type,group_readonly,1,0,0,0
-group_all_companies_user_new_721,crm.phonecall.report.user,crm.model_crm_phonecall_report,group_readonly,1,0,0,0
-group_all_companies_user_new_722,crm.phonecall.report,crm.model_crm_phonecall_report,group_readonly,1,0,0,0
-group_all_companies_user_new_723,res.partner.crm.manager,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_724,res.partner.category.crm.manager,base.model_res_partner_category,group_readonly,1,0,0,0
-group_all_companies_user_new_725,calendar.attendee.crm.user,base_calendar.model_calendar_attendee,group_readonly,1,0,0,0
-group_all_companies_user_new_726,calendar.attendee.crm.manager,base_calendar.model_calendar_attendee,group_readonly,1,0,0,0
-group_all_companies_user_new_727,res.partner.crm.user,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_728,res.partner.category.crm.user,base.model_res_partner_category,group_readonly,1,0,0,0
-group_all_companies_user_new_729,mail.thread,mail.model_mail_thread,group_readonly,1,0,0,0
-group_all_companies_user_new_730,crm.case.categ manager,crm.model_crm_case_categ,group_readonly,1,0,0,0
-group_all_companies_user_new_731,base.action.rule manager,base_action_rule.model_base_action_rule,group_readonly,1,0,0,0
-group_all_companies_user_new_732,crm.lead.report user,crm.model_crm_lead_report,group_readonly,1,0,0,0
-group_all_companies_user_new_733,res.partner.bank.type.crm.user,base.model_res_partner_bank_type,group_readonly,1,0,0,0
-group_all_companies_user_new_734,crm.lead.partner.manager,crm.model_crm_lead,group_readonly,1,0,0,0
-group_all_companies_user_new_735,crm.phonecall.partner.manager,crm.model_crm_phonecall,group_readonly,1,0,0,0
-group_all_companies_user_new_736,crm.payment.mode,crm.model_crm_payment_mode,group_readonly,1,0,0,0
-group_all_companies_user_new_737,crm.payment.mode,crm.model_crm_payment_mode,group_readonly,1,0,0,0
-group_all_companies_user_new_738,hr.employee user,hr.model_hr_employee,group_readonly,1,0,0,0
-group_all_companies_user_new_739,hr.employee user,hr.model_hr_employee,group_readonly,1,0,0,0
-group_all_companies_user_new_740,Account Expense Line,drishti_crms.model_account_expense_line,group_readonly,1,0,0,0
-group_all_companies_user_new_741,Supplier Account Invoice,Multicompany_billing.model_supplier_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_742,Account Fiscal Journal,Multicompany_billing.model_account_fiscal_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_743,Fleet Analytical Account,drishti_crms.model_fleet_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_744,Journal,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_745,account expences line,drishti_crms.model_account_expense_line,group_readonly,1,0,0,0
-group_all_companies_user_new_746,fleet analytic account,drishti_crms.model_fleet_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_747,account fiscal journal,Multicompany_billing.model_account_fiscal_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_748,Supplier account invoice,Multicompany_billing.model_supplier_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_749,Area,crms_oe_connect.model_res_city_area,group_readonly,1,0,0,0
-group_all_companies_user_new_750,Currency,account.model_res_currency,group_readonly,1,0,0,0
-group_all_companies_user_new_751,Journal Items,account.model_account_move_line,group_readonly,1,0,0,0
-group_all_companies_user_new_752,Partner,account.model_res_partner,group_readonly,1,0,0,0
-group_all_companies_user_new_753,Companies,account.model_res_company,group_readonly,1,0,0,0
-group_all_companies_user_new_754,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,group_readonly,1,0,0,0
-group_all_companies_user_new_755,Cost Center,asset_report.model_account_asset_cost_center,group_readonly,1,0,0,0
-group_all_companies_user_new_756,Account period,account.model_account_period,group_readonly,1,0,0,0
-group_all_companies_user_new_757,Journal,account.model_account_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_758,Journal Items,account.model_account_move_line,group_readonly,1,0,0,0
-group_all_companies_user_new_759,Accounting Voucher,account_voucher.model_account_voucher,group_readonly,1,0,0,0
-group_all_companies_user_new_760,Account,account.model_account_account,group_readonly,1,0,0,0
-group_all_companies_user_new_761,Voucher Lines,account_voucher.model_account_voucher_line,group_readonly,1,0,0,0
-group_all_companies_user_new_762,Account Entry,account.model_account_move,group_readonly,1,0,0,0
-group_all_companies_user_new_763,Journal Period,account.model_account_journal_period,group_readonly,1,0,0,0
-group_all_companies_user_new_764,Multi invoice line,drishti_crms.model_account_multi_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_765,Multi invoice,drishti_crms.model_account_multi_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_766,account_fiscal_journal,Multicompany_billing.model_account_fiscal_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_767,revenue.report.line,afras_revenue_report.model_revenue_report_line,group_readonly,1,0,0,0
-group_all_companies_user_new_768,account.fiscal.journal,Multicompany_billing.model_account_fiscal_journal,group_readonly,1,0,0,0
-group_all_companies_user_new_769,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,group_readonly,1,0,0,0
-group_all_companies_user_new_770,supplier.account.invoice,Multicompany_billing.model_supplier_account_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_771,fleet.report,drishti_account_report.model_fleet_report,group_readonly,1,0,0,0
-group_all_companies_user_new_772,crms.instance,crms_oe_connect.model_crms_instance,group_readonly,1,0,0,0
-group_all_companies_user_new_773,import.crms.data,crms_oe_connect.model_import_crms_data,group_readonly,1,0,0,0
-group_all_companies_user_new_774,account.asset.sub.category,asset_report.model_account_asset_sub_category,group_readonly,1,0,0,0
-group_all_companies_user_new_775,account.asset.cost.center,asset_report.model_account_asset_cost_center,group_readonly,1,0,0,0
-group_all_companies_user_new_776,account.asset.asset.wiz,asset_report.model_account_asset_asset_wiz,group_readonly,1,0,0,0
-group_all_companies_user_new_777,fleet.vehicle.insurance,afras_fleet.model_fleet_vehicle_insurance,group_readonly,1,0,0,0
-group_all_companies_user_new_778,data.import,import_afras_data.model_data_import,group_readonly,1,0,0,0
-group_all_companies_user_new_779,import.fleet,import_afras_data.model_import_fleet,group_readonly,1,0,0,0
-group_all_companies_user_new_780,account.afras.cost.distribution,drishti_crms.model_account_afras_cost_distribution,group_readonly,1,0,0,0
-group_all_companies_user_new_781,account.afras.cost.distribution.lines,drishti_crms.model_account_afras_cost_distribution_lines,group_readonly,1,0,0,0
-group_all_companies_user_new_782,account.multi.invoice,drishti_crms.model_account_multi_invoice,group_readonly,1,0,0,0
-group_all_companies_user_new_783,account.multi.invoice.line,drishti_crms.model_account_multi_invoice_line,group_readonly,1,0,0,0
-group_all_companies_user_new_784,fleet.analytic.account,drishti_crms.model_fleet_analytic_account,group_readonly,1,0,0,0
-group_all_companies_user_new_785,fleet.type,crms_oe_connect.model_fleet_type,group_readonly,1,0,0,0
-group_all_companies_user_new_786,fleet.vehicle.cost.distribution,drishti_crms.model_fleet_vehicle_cost_distribution,group_readonly,1,0,0,0
-group_all_companies_user_new_787,res.state.city,crms_oe_connect.model_res_state_city,group_readonly,1,0,0,0
-group_all_companies_user_new_788,res.city.area,crms_oe_connect.model_res_city_area,group_readonly,1,0,0,0
-group_all_companies_user_new_789,account.expense.line,drishti_crms.model_account_expense_line,group_readonly,1,0,0,0
-group_all_companies_user_new_790,Analytic Line,account.model_account_analytic_line,group_readonly,1,0,0,0
-group_all_companies_user_new_791,discount,drishti_crms.model_crms_payment_discount_history,group_readonly,1,0,0,0
-group_all_companies_user_new_792,crms.payment.intermediate,drishti_crms.model_crms_payment_intermediatepayment_history,group_readonly,1,0,0,0
-access_fleet_vehicle_registration_all,fleet.vehicle.insurance,afras_fleet.model_fleet_vehicle_insurance,,1,1,1,1
-access_fleet_vehicle_registration_all,fleet.vehicle.registration,afras_fleet.model_fleet_vehicle_registration,,1,1,1,1
-access_afras_revenue_manager_id,revenue.report,afras_revenue_report.model_revenue_report,group_afras_revenue_report_user,1,1,1,1
-access_revenue_report_line_id,revenue.report.line,afras_revenue_report.model_revenue_report_line,group_afras_revenue_report_user,1,1,1,1
+group_all_readonly_user_new_1,ir_attachment all,base.model_ir_attachment,group_readonly,1,0,0,0
+group_all_readonly_user_new_2,ir_attachment group_user,base.model_ir_attachment,group_readonly,1,0,0,0
+group_all_readonly_user_new_3,ir_cron group_cron,base.model_ir_cron,group_readonly,1,0,0,0
+group_all_readonly_user_new_4,ir_cron user,base.model_ir_cron,group_readonly,1,0,0,0
+group_all_readonly_user_new_5,ir_default group_system,base.model_ir_default,group_readonly,1,0,0,0
+group_all_readonly_user_new_6,ir_exports group_system,base.model_ir_exports,group_readonly,1,0,0,0
+group_all_readonly_user_new_7,ir_exports_line group_system,base.model_ir_exports_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_8,ir_fields_converter,base.model_ir_fields_converter,group_readonly,1,0,0,0
+group_all_readonly_user_new_9,ir_model group_erp_manager,base.model_ir_model,group_readonly,1,0,0,0
+group_all_readonly_user_new_10,ir_model_constraint group_erp_manager,base.model_ir_model_constraint,group_readonly,1,0,0,0
+group_all_readonly_user_new_11,ir_model_relation group_erp_manager,base.model_ir_model_relation,group_readonly,1,0,0,0
+group_all_readonly_user_new_12,ir_model_access_group_erp_manager,base.model_ir_model_access,group_readonly,1,0,0,0
+group_all_readonly_user_new_13,ir_model_data group_erp_manager,base.model_ir_model_data,group_readonly,1,0,0,0
+group_all_readonly_user_new_14,ir_model_fields group_erp_manager,base.model_ir_model_fields,group_readonly,1,0,0,0
+group_all_readonly_user_new_15,ir_model_all,base.model_ir_model,group_readonly,1,0,0,0
+group_all_readonly_user_new_16,ir_model_constraint,base.model_ir_model_constraint,group_readonly,1,0,0,0
+group_all_readonly_user_new_17,ir_model_relation,base.model_ir_model_relation,group_readonly,1,0,0,0
+group_all_readonly_user_new_18,ir_model_access_all,base.model_ir_model_access,group_readonly,1,0,0,0
+group_all_readonly_user_new_19,ir_model_data all,base.model_ir_model_data,group_readonly,1,0,0,0
+group_all_readonly_user_new_20,ir_model_fields all,base.model_ir_model_fields,group_readonly,1,0,0,0
+group_all_readonly_user_new_21,ir_module_category group_user,base.model_ir_module_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_22,ir_module_module group_user,base.model_ir_module_module,group_readonly,1,0,0,0
+group_all_readonly_user_new_23,ir_module_module user,base.model_ir_module_module,group_readonly,1,0,0,0
+group_all_readonly_user_new_24,ir_module_module_dependency group_system,base.model_ir_module_module_dependency,group_readonly,1,0,0,0
+group_all_readonly_user_new_25,ir_module_module_dependency all,base.model_ir_module_module_dependency,group_readonly,1,0,0,0
+group_all_readonly_user_new_26,ir_property group_user,base.model_ir_property,group_readonly,1,0,0,0
+group_all_readonly_user_new_27,ir_property group_manager,base.model_ir_property,group_readonly,1,0,0,0
+group_all_readonly_user_new_28,ir_rule group_user,base.model_ir_rule,group_readonly,1,0,0,0
+group_all_readonly_user_new_29,ir_rule group_erp_manager,base.model_ir_rule,group_readonly,1,0,0,0
+group_all_readonly_user_new_30,ir_sequence group_user,account.model_ir_sequence,group_readonly,1,0,0,0
+group_all_readonly_user_new_31,ir_sequence group_system,account.model_ir_sequence,group_readonly,1,0,0,0
+group_all_readonly_user_new_32,ir_sequence_type group_user,base.model_ir_sequence_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_33,ir_sequence_type group_system,base.model_ir_sequence_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_34,ir_translation all,base.model_ir_translation,group_readonly,1,0,0,0
+group_all_readonly_user_new_35,ir_translation group_system,base.model_ir_translation,group_readonly,1,0,0,0
+group_all_readonly_user_new_36,ir_ui_menu group_user,base.model_ir_ui_menu,group_readonly,1,0,0,0
+group_all_readonly_user_new_37,ir_ui_menu group_system,base.model_ir_ui_menu,group_readonly,1,0,0,0
+group_all_readonly_user_new_38,ir_ui_view group_user,base.model_ir_ui_view,group_readonly,1,0,0,0
+group_all_readonly_user_new_39,ir_ui_view group_system,base.model_ir_ui_view,group_readonly,1,0,0,0
+group_all_readonly_user_new_40,ir_ui_view_custom_group_user,base.model_ir_ui_view_custom,group_readonly,1,0,0,0
+group_all_readonly_user_new_41,ir_ui_view_sc group_user,base.model_ir_ui_view_sc,group_readonly,1,0,0,0
+group_all_readonly_user_new_42,ir_values group_all,base.model_ir_values,group_readonly,1,0,0,0
+group_all_readonly_user_new_43,res_company group_erp_manager,account.model_res_company,group_readonly,1,0,0,0
+group_all_readonly_user_new_44,res_company group_user,account.model_res_company,group_readonly,1,0,0,0
+group_all_readonly_user_new_45,res_country group_user_all,base.model_res_country,group_readonly,1,0,0,0
+group_all_readonly_user_new_46,res_country_state group_user_all,base.model_res_country_state,group_readonly,1,0,0,0
+group_all_readonly_user_new_47,res_country group_user,base.model_res_country,group_readonly,1,0,0,0
+group_all_readonly_user_new_48,res_country_state group_user,base.model_res_country_state,group_readonly,1,0,0,0
+group_all_readonly_user_new_49,res_currency group_all,account.model_res_currency,group_readonly,1,0,0,0
+group_all_readonly_user_new_50,res_currency_rate group_all,base.model_res_currency_rate,group_readonly,1,0,0,0
+group_all_readonly_user_new_51,res_currency_rate_type group_all,base.model_res_currency_rate_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_52,res_currency group_system,account.model_res_currency,group_readonly,1,0,0,0
+group_all_readonly_user_new_53,res_currency_rate group_system,base.model_res_currency_rate,group_readonly,1,0,0,0
+group_all_readonly_user_new_54,res_groups group_erp_manager,base.model_res_groups,group_readonly,1,0,0,0
+group_all_readonly_user_new_55,res_groups group_user,base.model_res_groups,group_readonly,1,0,0,0
+group_all_readonly_user_new_56,res_lang group_all,base.model_res_lang,group_readonly,1,0,0,0
+group_all_readonly_user_new_57,res_lang group_user,base.model_res_lang,group_readonly,1,0,0,0
+group_all_readonly_user_new_58,res_partner group_partner_manager,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_59,res_partner group_user,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_60,res_partner_bank group_user,account.model_res_partner_bank,group_readonly,1,0,0,0
+group_all_readonly_user_new_61,res_partner_bank group_partner_manager,account.model_res_partner_bank,group_readonly,1,0,0,0
+group_all_readonly_user_new_62,res_partner_bank_type group_partner_manager,base.model_res_partner_bank_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_63,res_partner_bank_type group_user,base.model_res_partner_bank_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_64,res_partner_bank_type_field group_partner_manager,base.model_res_partner_bank_type_field,group_readonly,1,0,0,0
+group_all_readonly_user_new_65,res_partner_bank_type_field group_user,base.model_res_partner_bank_type_field,group_readonly,1,0,0,0
+group_all_readonly_user_new_66,res_partner_category group_user,base.model_res_partner_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_67,res_partner_category group_partner_manager,base.model_res_partner_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_68,res_partner_title group_user,base.model_res_partner_title,group_readonly,1,0,0,0
+group_all_readonly_user_new_69,res_partner_title group_partner_manager,base.model_res_partner_title,group_readonly,1,0,0,0
+group_all_readonly_user_new_70,res_request group_user,base.model_res_request,group_readonly,1,0,0,0
+group_all_readonly_user_new_71,res_request_history group_user,base.model_res_request_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_72,res_request group_user all,base.model_res_request,group_readonly,1,0,0,0
+group_all_readonly_user_new_73,res_request_history group_user all,base.model_res_request_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_74,res_request_link group_system,base.model_res_request_link,group_readonly,1,0,0,0
+group_all_readonly_user_new_75,res_request_link group_user,base.model_res_request_link,group_readonly,1,0,0,0
+group_all_readonly_user_new_76,res_users all,auth_ldap.model_res_users,group_readonly,1,1,1,1
+group_all_readonly_user_new_77,res_users group_erp_manager,auth_ldap.model_res_users,group_readonly,1,1,1,1
+group_all_readonly_user_new_78,ir_actions_all,base.model_ir_actions_actions,group_readonly,1,0,0,0
+group_all_readonly_user_new_79,ir_actions_group_system,base.model_ir_actions_actions,group_readonly,1,0,0,0
+group_all_readonly_user_new_80,ir_actions_act_window_all,base.model_ir_actions_act_window,group_readonly,1,0,0,0
+group_all_readonly_user_new_81,ir_actions_act_window_system,base.model_ir_actions_act_window,group_readonly,1,0,0,0
+group_all_readonly_user_new_82,ir_actions_act_window_close_all,base.model_ir_actions_act_window_close,group_readonly,1,0,0,0
+group_all_readonly_user_new_83,ir_actions_act_window_close_group_system,base.model_ir_actions_act_window_close,group_readonly,1,0,0,0
+group_all_readonly_user_new_84,ir_actions_report_xml,base.model_ir_actions_report_xml,group_readonly,1,0,0,0
+group_all_readonly_user_new_85,ir_actions_report_xml_group_system,base.model_ir_actions_report_xml,group_readonly,1,0,0,0
+group_all_readonly_user_new_86,ir_actions_wizard,base.model_ir_actions_wizard,group_readonly,1,0,0,0
+group_all_readonly_user_new_87,ir_actions_wizard_group_system,base.model_ir_actions_wizard,group_readonly,1,0,0,0
+group_all_readonly_user_new_88,ir_actions_todo group system,base.model_ir_actions_todo,group_readonly,1,0,0,0
+group_all_readonly_user_new_89,workflow_all,base.model_workflow,group_readonly,1,0,0,0
+group_all_readonly_user_new_90,workflow_group_system,base.model_workflow,group_readonly,1,0,0,0
+group_all_readonly_user_new_91,workflow_activity_all,base.model_workflow_activity,group_readonly,1,0,0,0
+group_all_readonly_user_new_92,workflow_activity_group_system,base.model_workflow_activity,group_readonly,1,0,0,0
+group_all_readonly_user_new_93,workflow_instance_all,base.model_workflow_instance,group_readonly,1,0,0,0
+group_all_readonly_user_new_94,workflow_transition_all,base.model_workflow_transition,group_readonly,1,0,0,0
+group_all_readonly_user_new_95,workflow_transition_group_system,base.model_workflow_transition,group_readonly,1,0,0,0
+group_all_readonly_user_new_96,workflow_triggers_all,base.model_workflow_triggers,group_readonly,1,0,0,0
+group_all_readonly_user_new_97,workflow_triggers_group_system,base.model_workflow_triggers,group_readonly,1,0,0,0
+group_all_readonly_user_new_98,workflow_workitem_all,base.model_workflow_workitem,group_readonly,1,0,0,0
+group_all_readonly_user_new_99,ir_actions_act_window_view_all,base.model_ir_actions_act_window_view,group_readonly,1,0,0,0
+group_all_readonly_user_new_100,ir_actions_act_window_view_group_system,base.model_ir_actions_act_window_view,group_readonly,1,0,0,0
+group_all_readonly_user_new_101,ir_actions_act_url_all,base.model_ir_actions_act_url,group_readonly,1,0,0,0
+group_all_readonly_user_new_102,ir_actions_act_url_group_system,base.model_ir_actions_act_url,group_readonly,1,0,0,0
+group_all_readonly_user_new_103,ir_server_object_lines_all,base.model_ir_server_object_lines,group_readonly,1,0,0,0
+group_all_readonly_user_new_104,ir_server_object_lines_group_system,base.model_ir_server_object_lines,group_readonly,1,0,0,0
+group_all_readonly_user_new_105,ir_actions_server_all,base.model_ir_actions_server,group_readonly,1,0,0,0
+group_all_readonly_user_new_106,ir_actions_server_group_system,base.model_ir_actions_server,group_readonly,1,0,0,0
+group_all_readonly_user_new_107,res_bank_group_system,base.model_res_bank,group_readonly,1,0,0,0
+group_all_readonly_user_new_108,res_bank_group_partner_manager,base.model_res_bank,group_readonly,1,0,0,0
+group_all_readonly_user_new_109,res_bank user,base.model_res_bank,group_readonly,1,0,0,0
+group_all_readonly_user_new_110,multi_company_default all,base.model_multi_company_default,group_readonly,1,0,0,0
+group_all_readonly_user_new_111,multi_company_default Manager,base.model_multi_company_default,group_readonly,1,0,0,0
+group_all_readonly_user_new_112,ir_filters all,base.model_ir_filters,group_readonly,1,0,0,0
+group_all_readonly_user_new_113,ir_filters employee,base.model_ir_filters,group_readonly,1,0,0,0
+group_all_readonly_user_new_114,ir_filters_all,base.model_ir_filters,group_readonly,1,0,0,0
+group_all_readonly_user_new_115,ir_config_parameter,base.model_ir_config_parameter,group_readonly,1,0,0,0
+group_all_readonly_user_new_116,ir_mail_server,base.model_ir_mail_server,group_readonly,1,0,0,0
+group_all_readonly_user_new_117,ir_actions_client all,base.model_ir_actions_client,group_readonly,1,0,0,0
+group_all_readonly_user_new_118,ir_needaction_mixin,base.model_ir_needaction_mixin,group_readonly,1,0,0,0
+group_all_readonly_user_new_119,process.process,process.model_process_process,group_readonly,1,0,0,0
+group_all_readonly_user_new_120,process.node,process.model_process_node,group_readonly,1,0,0,0
+group_all_readonly_user_new_121,process.transition,process.model_process_transition,group_readonly,1,0,0,0
+group_all_readonly_user_new_122,process.transition.action,process.model_process_transition_action,group_readonly,1,0,0,0
+group_all_readonly_user_new_123,process.condition,process.model_process_condition,group_readonly,1,0,0,0
+group_all_readonly_user_new_124,board.board,board.model_board_board,group_readonly,1,0,0,0
+group_all_readonly_user_new_125,decimal.precision configuration,decimal_precision.model_decimal_precision,group_readonly,1,0,0,0
+group_all_readonly_user_new_126,decimal.precision,decimal_precision.model_decimal_precision,group_readonly,1,0,0,0
+group_all_readonly_user_new_127,mail.message.all,base_calendar.model_mail_message,group_readonly,1,0,0,0
+group_all_readonly_user_new_128,mail.message.user,base_calendar.model_mail_message,group_readonly,1,0,0,0
+group_all_readonly_user_new_129,mail.mail.all,fetchmail.model_mail_mail,group_readonly,1,0,0,0
+group_all_readonly_user_new_130,mail.mail.user,fetchmail.model_mail_mail,group_readonly,1,0,0,0
+group_all_readonly_user_new_131,mail.mail.system,fetchmail.model_mail_mail,group_readonly,1,0,0,0
+group_all_readonly_user_new_132,mail.followers.all,mail.model_mail_followers,group_readonly,1,0,0,0
+group_all_readonly_user_new_133,mail.followers.user,mail.model_mail_followers,group_readonly,1,0,0,0
+group_all_readonly_user_new_134,mail.followers.system,mail.model_mail_followers,group_readonly,1,0,0,0
+group_all_readonly_user_new_135,mail.notification.all,mail.model_mail_notification,group_readonly,1,0,0,0
+group_all_readonly_user_new_136,mail.notification.user,mail.model_mail_notification,group_readonly,1,0,0,0
+group_all_readonly_user_new_137,mail.notification.system,mail.model_mail_notification,group_readonly,1,0,0,0
+group_all_readonly_user_new_138,mail.group.all,mail.model_mail_group,group_readonly,1,0,0,0
+group_all_readonly_user_new_139,mail.group.user,mail.model_mail_group,group_readonly,1,0,0,0
+group_all_readonly_user_new_140,mail.alias.all,mail.model_mail_alias,group_readonly,1,0,0,0
+group_all_readonly_user_new_141,mail.alias.user,mail.model_mail_alias,group_readonly,1,0,0,0
+group_all_readonly_user_new_142,mail.alias.system,mail.model_mail_alias,group_readonly,1,0,0,0
+group_all_readonly_user_new_143,mail.message.subtype.all,mail.model_mail_message_subtype,group_readonly,1,0,0,0
+group_all_readonly_user_new_144,mail.message.subtype.system,mail.model_mail_message_subtype,group_readonly,1,0,0,0
+group_all_readonly_user_new_145,mail.thread.all,mail.model_mail_thread,group_readonly,1,0,0,0
+group_all_readonly_user_new_146,publisher.warranty.contract.all,mail.model_publisher_warranty_contract,group_readonly,1,0,0,0
+group_all_readonly_user_new_147,email.template,email_template.model_email_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_148,email.template system,email_template.model_email_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_149,fetchmail.server,fetchmail.model_fetchmail_server,group_readonly,1,0,0,0
+group_all_readonly_user_new_150,product.uom.categ.user,product.model_product_uom_categ,group_readonly,1,0,0,0
+group_all_readonly_user_new_151,product.uom.user,product.model_product_uom,group_readonly,1,0,0,0
+group_all_readonly_user_new_152,product.ul.user,product.model_product_ul,group_readonly,1,0,0,0
+group_all_readonly_user_new_153,product.category.user,account.model_product_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_154,product.template.user,account.model_product_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_155,product.packaging.user,product.model_product_packaging,group_readonly,1,0,0,0
+group_all_readonly_user_new_156,product.supplierinfo.user,product.model_product_supplierinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_157,pricelist.partnerinfo.user,product.model_pricelist_partnerinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_158,product.price.type.user,product.model_product_price_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_159,product.pricelist.type.user,product.model_product_pricelist_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_160,product.pricelist.user,product.model_product_pricelist,group_readonly,1,0,0,0
+group_all_readonly_user_new_161,product.pricelist.version.user,product.model_product_pricelist_version,group_readonly,1,0,0,0
+group_all_readonly_user_new_162,product.pricelist.item.user,product.model_product_pricelist_item,group_readonly,1,0,0,0
+group_all_readonly_user_new_163,product.pricelist.type partner manager,product.model_product_pricelist_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_164,product.pricelist partner manager,product.model_product_pricelist,group_readonly,1,0,0,0
+group_all_readonly_user_new_165,product.product employee,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_166,product.template salemanager,account.model_product_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_167,product.product salemanager,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_168,product.category salemanager,account.model_product_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_169,product.product.account.user,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_170,account.payment.term,account.model_account_payment_term,group_readonly,1,0,0,0
+group_all_readonly_user_new_171,account.payment.term.line,account.model_account_payment_term_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_172,account.account.type,account.model_account_account_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_173,account.tax internal user,account.model_account_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_174,account.account,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_175,account.account user,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_176,account.account partner manager,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_177,account.journal.period manager,account.model_account_journal_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_178,account.tax.code,account.model_account_tax_code,group_readonly,1,0,0,0
+group_all_readonly_user_new_179,account.tax,account.model_account_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_180,account.model,account.model_account_model,group_readonly,1,0,0,0
+group_all_readonly_user_new_181,account.model.line,account.model_account_model_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_182,account.subscription,account.model_account_subscription,group_readonly,1,0,0,0
+group_all_readonly_user_new_183,account.subscription.line,account.model_account_subscription_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_184,account.subscription manager,account.model_account_subscription,group_readonly,1,0,0,0
+group_all_readonly_user_new_185,account.subscription.line manager,account.model_account_subscription_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_186,account.account.template,account.model_account_account_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_187,account.tax.code.template,account.model_account_tax_code_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_188,account.chart.template,account.model_account_chart_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_189,account.tax.template,account.model_account_tax_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_190,account.bank.statement,account.model_account_bank_statement,group_readonly,1,0,0,0
+group_all_readonly_user_new_191,account.bank.statement.line,account.model_account_bank_statement_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_192,account.analytic.line manager,account.model_account_analytic_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_193,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_194,account.analytic.journal,account.model_account_analytic_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_195,account.analytic.journal,account.model_account_analytic_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_196,account.invoice,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_197,account.invoice.line,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_198,account.invoice.tax,account.model_account_invoice_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_199,account.move,account.model_account_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_200,account.move.line invoice,account.model_account_move_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_201,account.move.reconcile,account.model_account_move_reconcile,group_readonly,1,0,0,0
+group_all_readonly_user_new_202,account.journal.period,account.model_account_journal_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_203,account.payment.term,account.model_account_payment_term,group_readonly,1,0,0,0
+group_all_readonly_user_new_204,account.payment.term.line,account.model_account_payment_term_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_205,account.tax,account.model_account_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_206,account.journal,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_207,account.journal invoice,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_208,account.period,account.model_account_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_209,account.period invoice,account.model_account_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_210,account.invoice group invoice,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_211,account.analytic.journal,account.model_account_analytic_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_212,account.fiscalyear,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_213,account.fiscalyear.invoice,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_214,account.fiscalyear.partnermanager,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_215,account.fiscalyear employee,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_216,res.currency account manager,account.model_res_currency,group_readonly,1,0,0,0
+group_all_readonly_user_new_217,res.currency.rate account manager,base.model_res_currency_rate,group_readonly,1,0,0,0
+group_all_readonly_user_new_218,res.currency.rate.type account manager,base.model_res_currency_rate_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_219,account.invoice.line user,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_220,account.payment.term partner manager,account.model_account_payment_term,group_readonly,1,0,0,0
+group_all_readonly_user_new_221,account.payment.term.line partner manager,account.model_account_payment_term_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_222,account.account sale manager,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_223,account.fiscal.position account.manager,account.model_account_fiscal_position,group_readonly,1,0,0,0
+group_all_readonly_user_new_224,account.fiscal.position.tax account.manager,account.model_account_fiscal_position_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_225,account.fiscal.position account.manager,account.model_account_fiscal_position_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_226,account.fiscal.position all,account.model_account_fiscal_position,group_readonly,1,0,0,0
+group_all_readonly_user_new_227,account.fiscal.position.tax all,account.model_account_fiscal_position_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_228,account.fiscal.position all,account.model_account_fiscal_position_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_229,account.fiscal.position.template,account.model_account_fiscal_position_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_230,account.fiscal.position.tax.template,account.model_account_fiscal_position_tax_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_231,account.fiscal.position.account.template,account.model_account_fiscal_position_account_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_232,account.sequence.fiscalyear user,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_233,temp.range,account.model_temp_range,group_readonly,1,0,0,0
+group_all_readonly_user_new_234,report.aged.receivable,account.model_report_aged_receivable,group_readonly,1,0,0,0
+group_all_readonly_user_new_235,report.invoice.created,account.model_report_invoice_created,group_readonly,1,0,0,0
+group_all_readonly_user_new_236,report.account_type.sales,account.model_report_account_type_sales,group_readonly,1,0,0,0
+group_all_readonly_user_new_237,report.account.sales,account.model_report_account_sales,group_readonly,1,0,0,0
+group_all_readonly_user_new_238,account.invoice.report,account.model_account_invoice_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_239,res_partner group_account_manager,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_240,account.invoice accountant,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_241,account.tax.code accountant,account.model_account_tax_code,group_readonly,1,0,0,0
+group_all_readonly_user_new_242,account.move.line manager,account.model_account_move_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_243,account.move manager,account.model_account_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_244,account.entries.report,account.model_account_entries_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_245,account.entries.report,account.model_account_entries_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_246,account.entries.report employee,account.model_account_entries_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_247,analytic.entries.report,account.model_analytic_entries_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_248,account.cashbox.line,account.model_account_cashbox_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_249,account.journal.cashbox.line,account.model_account_journal_cashbox_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_250,account.invoice.tax accountant,account.model_account_invoice_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_251,account.move.reconcile manager,account.model_account_move_reconcile,group_readonly,1,0,0,0
+group_all_readonly_user_new_252,account.analytic.line invoice,account.model_account_analytic_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_253,account.invoice.line accountant,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_254,account.account invoice,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_255,account.analytic.account accountant,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_256,account.account.type invoice,account.model_account_account_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_257,report.account.receivable.invoice,account.model_report_account_receivable,group_readonly,1,0,0,0
+group_all_readonly_user_new_258,account.sequence.fiscalyear invoice,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_259,account.tax sale manager,account.model_account_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_260,account.journal sale manager,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_261,account.invoice.tax  sale manager,account.model_account_invoice_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_262,account.sequence.fiscalyear.sale.user,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_263,account.sequence.fiscalyear.sale.manager,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_264,account.treasury.report.manager,account.model_account_treasury_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_265,account.financial.report,account.model_account_financial_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_266,account.financial.report invoice,account.model_account_financial_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_267,mail.message.portal,base_calendar.model_mail_message,group_readonly,1,0,0,0
+group_all_readonly_user_new_268,mail.mail.portal,fetchmail.model_mail_mail,group_readonly,1,0,0,0
+group_all_readonly_user_new_269,mail.notification.portal,mail.model_mail_notification,group_readonly,1,0,0,0
+group_all_readonly_user_new_270,mail.followers.portal,mail.model_mail_followers,group_readonly,1,0,0,0
+group_all_readonly_user_new_271,res.partner,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_272,portal.payment.acquirer,portal.model_portal_payment_acquirer,group_readonly,1,0,0,0
+group_all_readonly_user_new_273,portal.payment.acquirer,portal.model_portal_payment_acquirer,group_readonly,1,0,0,0
+group_all_readonly_user_new_274,ir.attachment group_portal,base.model_ir_attachment,group_readonly,1,0,0,0
+group_all_readonly_user_new_275,account.voucher,account_voucher.model_account_voucher,group_readonly,1,0,0,0
+group_all_readonly_user_new_276,account.voucher.line,account_voucher.model_account_voucher_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_277,account.voucher invoice,account_voucher.model_account_voucher,group_readonly,1,0,0,0
+group_all_readonly_user_new_278,account.voucher.line invoice,account_voucher.model_account_voucher_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_279,account.sale.receipt.report,account_voucher.model_sale_receipt_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_280,account.sale.receipt.report,account_voucher.model_sale_receipt_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_281,fleet_vehicle_model_access_right,crms_oe_connect.model_fleet_vehicle_model,group_readonly,1,0,0,0
+group_all_readonly_user_new_282,fleet_vehicle_tag_access_right,fleet.model_fleet_vehicle_tag,group_readonly,1,0,0,0
+group_all_readonly_user_new_283,fleet_vehicle_state_access_right,fleet.model_fleet_vehicle_state,group_readonly,1,0,0,0
+group_all_readonly_user_new_284,fleet_vehicle_model_brand_access_right,crms_oe_connect.model_fleet_vehicle_model_brand,group_readonly,1,0,0,0
+group_all_readonly_user_new_285,"fleet_vehicle_access_right""",crms_oe_connect.model_fleet_vehicle,group_readonly,1,0,0,0
+group_all_readonly_user_new_286,fleet_vehicle_log_services_access_right,fleet.model_fleet_vehicle_log_services,group_readonly,1,0,0,0
+group_all_readonly_user_new_287,fleet_vehicle_log_contract_access_right,fleet.model_fleet_vehicle_log_contract,group_readonly,1,0,0,0
+group_all_readonly_user_new_288,fleet_service_type_access_right,fleet.model_fleet_service_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_289,access_fleet_vehicle_cost,fleet.model_fleet_vehicle_cost,group_readonly,1,0,0,0
+group_all_readonly_user_new_290,access_fleet_contract_state,fleet.model_fleet_contract_state,group_readonly,1,0,0,0
+group_all_readonly_user_new_291,fleet_vehicle_model_access_right,crms_oe_connect.model_fleet_vehicle_model,group_readonly,1,0,0,0
+group_all_readonly_user_new_292,fleet_vehicle_tag_access_right,fleet.model_fleet_vehicle_tag,group_readonly,1,0,0,0
+group_all_readonly_user_new_293,fleet_vehicle_state_access_right,fleet.model_fleet_vehicle_state,group_readonly,1,0,0,0
+group_all_readonly_user_new_294,fleet_vehicle_odometer_access_right,crms_oe_connect.model_fleet_vehicle_odometer,group_readonly,1,0,0,0
+group_all_readonly_user_new_295,fleet_vehicle_model_brand_access_right,crms_oe_connect.model_fleet_vehicle_model_brand,group_readonly,1,0,0,0
+group_all_readonly_user_new_296,fleet_vehicle_access_right,crms_oe_connect.model_fleet_vehicle,group_readonly,1,0,0,0
+group_all_readonly_user_new_297,fleet_vehicle_log_fuel_access_right,fleet.model_fleet_vehicle_log_fuel,group_readonly,1,0,0,0
+group_all_readonly_user_new_298,fleet_vehicle_log_services_access_right,fleet.model_fleet_vehicle_log_services,group_readonly,1,0,0,0
+group_all_readonly_user_new_299,fleet_vehicle_log_contract_access_right,fleet.model_fleet_vehicle_log_contract,group_readonly,1,0,0,0
+group_all_readonly_user_new_300,fleet_service_type_access_right,fleet.model_fleet_service_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_301,access_fleet_vehicle_cost,fleet.model_fleet_vehicle_cost,group_readonly,1,0,0,0
+group_all_readonly_user_new_302,access_fleet_contract_state,fleet.model_fleet_contract_state,group_readonly,1,0,0,0
+group_all_readonly_user_new_303,sale.shop,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
+group_all_readonly_user_new_304,sale.order,portal_sale.model_sale_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_305,sale.order.line,sale.model_sale_order_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_306,sale.order.line accountant,sale.model_sale_order_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_307,account_invoice_tax salesman,account.model_account_invoice_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_308,account_invoice salesman,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_309,account_invoice manager,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_310,account_invoice.line salesman,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_311,account_payment_term salesman,account.model_account_payment_term,group_readonly,1,0,0,0
+group_all_readonly_user_new_312,account_analytic_account salesman,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_313,sale.order.manager,portal_sale.model_sale_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_314,sale.order.accountant,portal_sale.model_sale_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_315,sale.report,sale.model_sale_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_316,sale.report,sale.model_sale_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_317,ir.property.sales,base.model_ir_property,group_readonly,1,0,0,0
+group_all_readonly_user_new_318,account.journal sale order.user,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_319,res.partner.sale.user,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_320,res.partner.sale.manager,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_321,product.template sale use,account.model_product_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_322,product.product sale use,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_323,account.journal sale order.user,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
+group_all_readonly_user_new_324,account.fiscalyear.user,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_325,account.tax.user,account.model_account_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_326,ir.attachment.sales,base.model_ir_attachment,group_readonly,1,0,0,0
+group_all_readonly_user_new_327,ir.attachment.manager,base.model_ir_attachment,group_readonly,1,0,0,0
+group_all_readonly_user_new_328,res.partner.bank.type.user,base.model_res_partner_bank_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_329,res.partner.bank.type.field.user,base.model_res_partner_bank_type_field,group_readonly,1,0,0,0
+group_all_readonly_user_new_330,product.uom.user,product.model_product_uom,group_readonly,1,0,0,0
+group_all_readonly_user_new_331,product.pricelist.sale.user,product.model_product_pricelist,group_readonly,1,0,0,0
+group_all_readonly_user_new_332,account_account salesman,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_333,sale.shop.sale.user,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
+group_all_readonly_user_new_334,sale.shop.sale.manager,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
+group_all_readonly_user_new_335,product.uom.categ salemanager,product.model_product_uom_categ,group_readonly,1,0,0,0
+group_all_readonly_user_new_336,product.uom salemanager,product.model_product_uom,group_readonly,1,0,0,0
+group_all_readonly_user_new_337,product.ul salemanager,product.model_product_ul,group_readonly,1,0,0,0
+group_all_readonly_user_new_338,product.category salemanager,account.model_product_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_339,product.supplierinfo.user,product.model_product_supplierinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_340,product.supplierinfo salemanager,product.model_product_supplierinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_341,pricelist.partnerinfo salemanager,product.model_pricelist_partnerinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_342,product.price.type salemanager,product.model_product_price_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_343,product.pricelist.type salemanager,product.model_product_pricelist_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_344,product.pricelist salemanager,product.model_product_pricelist,group_readonly,1,0,0,0
+group_all_readonly_user_new_345,res_partner group_sale_manager,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_346,product.pricelist.version sale_manager,product.model_product_pricelist_version,group_readonly,1,0,0,0
+group_all_readonly_user_new_347,account.invoice.report salesman,account.model_account_invoice_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_348,account.move.line invoice,account.model_account_move_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_349,sale.order,portal_sale.model_sale_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_350,sale.order.line,sale.model_sale_order_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_351,account.invoice,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_352,account.invoice.tax,account.model_account_invoice_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_353,account.invoice.line,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_354,account.journal,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_355,account.voucher,account_voucher.model_account_voucher,group_readonly,1,0,0,0
+group_all_readonly_user_new_356,account.voucher.line,account_voucher.model_account_voucher_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_357,account.move,account.model_account_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_358,account.move.line,account.model_account_move_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_359,account.move.reconcile,account.model_account_move_reconcile,group_readonly,1,0,0,0
+group_all_readonly_user_new_360,account.fiscalyear,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_361,sale.shop,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
+group_all_readonly_user_new_362,product.pricelist,product.model_product_pricelist,group_readonly,1,0,0,0
+group_all_readonly_user_new_363,res.partner,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_364,account.tax,account.model_account_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_365,res.partner.category,base.model_res_partner_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_366,account.period,account.model_account_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_367,account.account,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_368,resource.calendar,resource.model_resource_calendar,group_readonly,1,0,0,0
+group_all_readonly_user_new_369,resource.calendar.attendance,resource.model_resource_calendar_attendance,group_readonly,1,0,0,0
+group_all_readonly_user_new_370,resource.resource,resource.model_resource_resource,group_readonly,1,0,0,0
+group_all_readonly_user_new_371,resource.resource all,resource.model_resource_resource,group_readonly,1,0,0,0
+group_all_readonly_user_new_372,resource.calendar.leaves,hr_holidays.model_resource_calendar_leaves,group_readonly,1,0,0,0
+group_all_readonly_user_new_373,project.project,portal_project.model_project_project,group_readonly,1,0,0,0
+group_all_readonly_user_new_374,project.project,portal_project.model_project_project,group_readonly,1,0,0,0
+group_all_readonly_user_new_375,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_376,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_377,project.task.type user,project.model_project_task_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_378,project.task,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
+group_all_readonly_user_new_379,project.task.work,project.model_project_task_work,group_readonly,1,0,0,0
+group_all_readonly_user_new_380,report.project.task.user,project.model_report_project_task_user,group_readonly,1,0,0,0
+group_all_readonly_user_new_381,base.res.partner user,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_382,project.task on partners,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
+group_all_readonly_user_new_383,project.project on partners,portal_project.model_project_project,group_readonly,1,0,0,0
+group_all_readonly_user_new_384,project.task salesman,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
+group_all_readonly_user_new_385,project.task.type salesman,project.model_project_task_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_386,project.task.history salesman,project.model_project_task_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_387,project.project salesman,portal_project.model_project_project,group_readonly,1,0,0,0
+group_all_readonly_user_new_388,account.analytic.line project,account.model_account_analytic_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_389,project.task.history project,project.model_project_task_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_390,project.task.history project,project.model_project_task_history_cumulative,group_readonly,1,0,0,0
+group_all_readonly_user_new_391,project.resource_calendar manager,resource.model_resource_calendar,group_readonly,1,0,0,0
+group_all_readonly_user_new_392,project.project_category,project.model_project_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_393,project.project_category,project.model_project_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_394,project,portal_project.model_project_project,group_readonly,1,0,0,0
+group_all_readonly_user_new_395,task,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
+group_all_readonly_user_new_396,task_type,project.model_project_task_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_397,task_work,project.model_project_task_work,group_readonly,1,0,0,0
+group_all_readonly_user_new_398,project_category,project.model_project_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_399,account_analytic_account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_400,project,portal_project.model_project_project,group_readonly,1,0,0,0
+group_all_readonly_user_new_401,task,crms_oe_connect.model_project_task,group_readonly,1,0,0,0
+group_all_readonly_user_new_402,task_type,project.model_project_task_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_403,task_work,project.model_project_task_work,group_readonly,1,0,0,0
+group_all_readonly_user_new_404,project_category,project.model_project_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_405,account_analytic_account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_406,stock.incoterms all,stock.model_stock_incoterms,group_readonly,1,0,0,0
+group_all_readonly_user_new_407,stock.incoterms manager,stock.model_stock_incoterms,group_readonly,1,0,0,0
+group_all_readonly_user_new_408,stock.warehouse.manager,stock.model_stock_warehouse,group_readonly,1,0,0,0
+group_all_readonly_user_new_409,stock.warehouse.user,stock.model_stock_warehouse,group_readonly,1,0,0,0
+group_all_readonly_user_new_410,stock.location.partner.manager,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_411,stock.location.manager,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_412,stock.location.user,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_413,stock.journal.user,stock.model_stock_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_414,stock.journal.manager,stock.model_stock_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_415,stock.tracking user,stock.model_stock_tracking,group_readonly,1,0,0,0
+group_all_readonly_user_new_416,stock.tracking manager,stock.model_stock_tracking,group_readonly,1,0,0,0
+group_all_readonly_user_new_417,stock.tracking sales.user,stock.model_stock_tracking,group_readonly,1,0,0,0
+group_all_readonly_user_new_418,stock.picking user,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
+group_all_readonly_user_new_419,stock.picking.in,purchase.model_stock_picking_in,group_readonly,1,0,0,0
+group_all_readonly_user_new_420,stock.picking.out,sale_stock.model_stock_picking_out,group_readonly,1,0,0,0
+group_all_readonly_user_new_421,stock.picking manager,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
+group_all_readonly_user_new_422,stock.picking.in manager,purchase.model_stock_picking_in,group_readonly,1,0,0,0
+group_all_readonly_user_new_423,stock.picking.out manager,sale_stock.model_stock_picking_out,group_readonly,1,0,0,0
+group_all_readonly_user_new_424,stock.production.lot manager,drishti_crms.model_stock_production_lot,group_readonly,1,0,0,0
+group_all_readonly_user_new_425,stock.production.lot user,drishti_crms.model_stock_production_lot,group_readonly,1,0,0,0
+group_all_readonly_user_new_426,stock.production.lot.revision,stock.model_stock_production_lot_revision,group_readonly,1,0,0,0
+group_all_readonly_user_new_427,stock.move manager,procurement.model_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_428,stock.move user,procurement.model_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_429,stock.inventory user,stock.model_stock_inventory,group_readonly,1,0,0,0
+group_all_readonly_user_new_430,stock.inventory manager,stock.model_stock_inventory,group_readonly,1,0,0,0
+group_all_readonly_user_new_431,stock.inventory.line user,stock.model_stock_inventory_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_432,stock.inventory.line manager,stock.model_stock_inventory_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_433,stock.report.prodlots,stock.model_stock_report_prodlots,group_readonly,1,0,0,0
+group_all_readonly_user_new_434,stock.location sale manager,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_435,stock.location stock manager,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_436,report.stock.lines.date user,stock.model_report_stock_lines_date,group_readonly,1,0,0,0
+group_all_readonly_user_new_437,report.stock.lines.date manager,stock.model_report_stock_lines_date,group_readonly,1,0,0,0
+group_all_readonly_user_new_438,stock.report.tracklots,stock.model_stock_report_tracklots,group_readonly,1,0,0,0
+group_all_readonly_user_new_439,report.stock.move user,stock.model_report_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_440,report.stock.move manager,stock.model_report_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_441,report.stock.inventory user,stock.model_report_stock_inventory,group_readonly,1,0,0,0
+group_all_readonly_user_new_442,product_product_stock_user,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_443,product.template stock user,account.model_product_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_444,account.invoice stock user,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_445,account.invoice.line stock user,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_446,account.invoice.tax stock user,account.model_account_invoice_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_447,account.journal stock user,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_448,account.fiscalyear stock user,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_449,product.pricelist.item salemanager,product.model_product_pricelist_item,group_readonly,1,0,0,0
+group_all_readonly_user_new_450,product.uom.categ stock_manager,product.model_product_uom_categ,group_readonly,1,0,0,0
+group_all_readonly_user_new_451,product.uom stock_manager,product.model_product_uom,group_readonly,1,0,0,0
+group_all_readonly_user_new_452,product.ul stock_manager,product.model_product_ul,group_readonly,1,0,0,0
+group_all_readonly_user_new_453,product.category stock_manager,account.model_product_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_454,product.template stock_manager,account.model_product_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_455,product.product stock_manager,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_456,product.packaging stock_manager,product.model_product_packaging,group_readonly,1,0,0,0
+group_all_readonly_user_new_457,product.supplierinfo stock_manager,product.model_product_supplierinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_458,pricelist.partnerinfo stock_manager,product.model_pricelist_partnerinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_459,product.price.type stock_manager,product.model_product_price_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_460,product.pricelist.type stock_manager,product.model_product_pricelist_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_461,product.pricelist stock_manager,product.model_product_pricelist,group_readonly,1,0,0,0
+group_all_readonly_user_new_462,ir_property group_stock_manager,base.model_ir_property,group_readonly,1,0,0,0
+group_all_readonly_user_new_463,res_partner group_stock_manager,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_464,product.pricelist.version stock_manager,product.model_product_pricelist_version,group_readonly,1,0,0,0
+group_all_readonly_user_new_465,product.pricelist.item stock_manager,product.model_product_pricelist_item,group_readonly,1,0,0,0
+group_all_readonly_user_new_466,account.account stock manager,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_467,board.board user,board.model_board_board,group_readonly,1,0,0,0
+group_all_readonly_user_new_468,procurement.order,procurement.model_procurement_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_469,procurement.order stock.user,procurement.model_procurement_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_470,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
+group_all_readonly_user_new_471,stock.warehouse.orderpoint system,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
+group_all_readonly_user_new_472,mrp.property.group,procurement.model_mrp_property_group,group_readonly,1,0,0,0
+group_all_readonly_user_new_473,mrp.property,procurement.model_mrp_property,group_readonly,1,0,0,0
+group_all_readonly_user_new_474,purchase.order,drishti_crms.model_purchase_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_475,purchase.order,drishti_crms.model_purchase_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_476,purchase.order.line user,purchase.model_purchase_order_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_477,purchase.order.line,purchase.model_purchase_order_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_478,stock.location,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_479,stock.warehouse,stock.model_stock_warehouse,group_readonly,1,0,0,0
+group_all_readonly_user_new_480,stock.picking,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
+group_all_readonly_user_new_481,stock.move,procurement.model_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_482,purchase.order,drishti_crms.model_purchase_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_483,purchase.order.line,purchase.model_purchase_order_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_484,account.tax,account.model_account_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_485,purchase.report,purchase.model_purchase_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_486,purchase.report user,purchase.model_purchase_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_487,stock.location,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_488,stock.warehouse,stock.model_stock_warehouse,group_readonly,1,0,0,0
+group_all_readonly_user_new_489,stock.picking,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
+group_all_readonly_user_new_490,stock.move,procurement.model_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_491,account.tax,account.model_account_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_492,product.product.purchase.user,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_493,product.product purchase_manager,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_494,product.template purchase_user,account.model_product_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_495,product.template purchase_manager,account.model_product_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_496,account_invoice purchase,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_497,account_invoice.line purchase,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_498,account_invoice purchase manager,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_499,account_invoice.line purchase manager,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_500,account_invoice.tax purchase,account.model_account_invoice_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_501,account.fiscal.position purchase,account.model_account_fiscal_position,group_readonly,1,0,0,0
+group_all_readonly_user_new_502,account.sequence.fiscalyear purchase,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_503,res.partner purchase,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_504,account.journal.period,account.model_account_journal_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_505,account.journal,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_506,account.journal,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_507,account.period,account.model_account_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_508,account.fiscalyear,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_509,account.move,account.model_account_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_510,account.move.line,account.model_account_move_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_511,account.analytic.line,account.model_account_analytic_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_512,account.move.reconcile,account.model_account_move_reconcile,group_readonly,1,0,0,0
+group_all_readonly_user_new_513,report.stock.move.manager,stock.model_report_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_514,report.stock.move.user,stock.model_report_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_515,stock.production.lot user,drishti_crms.model_stock_production_lot,group_readonly,1,0,0,0
+group_all_readonly_user_new_516,stock.production.lot.revision,stock.model_stock_production_lot_revision,group_readonly,1,0,0,0
+group_all_readonly_user_new_517,res.partner.purchase.manager,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_518,product.uom.categ purchase_manager,product.model_product_uom_categ,group_readonly,1,0,0,0
+group_all_readonly_user_new_519,product.uom purchase_manager,product.model_product_uom,group_readonly,1,0,0,0
+group_all_readonly_user_new_520,product.ul purchase_manager,product.model_product_ul,group_readonly,1,0,0,0
+group_all_readonly_user_new_521,product.category purchase_manager,account.model_product_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_522,product.packaging purchase_manager,product.model_product_packaging,group_readonly,1,0,0,0
+group_all_readonly_user_new_523,product.supplierinfo purchase_manager,product.model_product_supplierinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_524,pricelist.partnerinfo purchase_manager,product.model_pricelist_partnerinfo,group_readonly,1,0,0,0
+group_all_readonly_user_new_525,product.price.type purchase_manager,product.model_product_price_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_526,product.pricelist.type purchase_manager,product.model_product_pricelist_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_527,product.pricelist purchase_manager,product.model_product_pricelist,group_readonly,1,0,0,0
+group_all_readonly_user_new_528,ir_property group_purchase_manager,base.model_ir_property,group_readonly,1,0,0,0
+group_all_readonly_user_new_529,res_partner group_purchase_manager,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_530,product.pricelist.version purchase_manager,product.model_product_pricelist_version,group_readonly,1,0,0,0
+group_all_readonly_user_new_531,product.pricelist.item purchase_manager,product.model_product_pricelist_item,group_readonly,1,0,0,0
+group_all_readonly_user_new_532,account.account purchase manager,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_533,account.journal purchase manager,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_534,stock.tracking purchase.user,stock.model_stock_tracking,group_readonly,1,0,0,0
+group_all_readonly_user_new_535,stock.location purchase manager,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_536,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
+group_all_readonly_user_new_537,stock_picking salesman,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
+group_all_readonly_user_new_538,stock_move salesman,procurement.model_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_539,stock_move manager,procurement.model_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_540,procurement.order salesman,procurement.model_procurement_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_541,procurement.order manager,procurement.model_procurement_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_542,sale.order stock worker,portal_sale.model_sale_order,group_readonly,1,0,0,0
+group_all_readonly_user_new_543,sale.order.line stock worker,sale.model_sale_order_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_544,report.stock.move.sale,stock.model_report_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_545,stock.picking.sales,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
+group_all_readonly_user_new_546,product.packaging.user,product.model_product_packaging,group_readonly,1,0,0,0
+group_all_readonly_user_new_547,product.packaging.manager,product.model_product_packaging,group_readonly,1,0,0,0
+group_all_readonly_user_new_548,stock.warehouse.user,stock.model_stock_warehouse,group_readonly,1,0,0,0
+group_all_readonly_user_new_549,stock.location.user,stock.model_stock_location,group_readonly,1,0,0,0
+group_all_readonly_user_new_550,product.packaging salemanager,product.model_product_packaging,group_readonly,1,0,0,0
+group_all_readonly_user_new_551,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
+group_all_readonly_user_new_552,stock.picking,drishti_crms.model_stock_picking,group_readonly,1,0,0,0
+group_all_readonly_user_new_553,stock.picking.out,sale_stock.model_stock_picking_out,group_readonly,1,0,0,0
+group_all_readonly_user_new_554,stock.move,procurement.model_stock_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_555,stock.warehouse.orderpoint,procurement.model_stock_warehouse_orderpoint,group_readonly,1,0,0,0
+group_all_readonly_user_new_556,account.asset.category,account_asset.model_account_asset_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_557,account.asset.asset,account_asset.model_account_asset_asset,group_readonly,1,0,0,0
+group_all_readonly_user_new_558,account.asset.history,account_asset.model_account_asset_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_559,account.asset.category,account_asset.model_account_asset_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_560,account.asset.asset,account_asset.model_account_asset_asset,group_readonly,1,0,0,0
+group_all_readonly_user_new_561,account.asset.history,account_asset.model_account_asset_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_562,account.asset.depreciation.line,account_asset.model_account_asset_depreciation_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_563,account.asset.depreciation.line,account_asset.model_account_asset_depreciation_line,group_user_access,1,1,1,1
+group_all_readonly_user_new_564,asset.asset.report,account_asset.model_asset_asset_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_565,asset.asset.report,account_asset.model_asset_asset_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_566,hr.employee.category.user,hr.model_hr_employee_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_567,hr.employee.category.emp,hr.model_hr_employee_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_568,hr.employee user,hr.model_hr_employee,group_readonly,1,0,0,0
+group_all_readonly_user_new_569,hr.employee system user,hr.model_hr_employee,group_readonly,1,0,0,0
+group_all_readonly_user_new_570,resource.resource.user,resource.model_resource_resource,group_readonly,1,0,0,0
+group_all_readonly_user_new_571,hr.department.user,hr.model_hr_department,group_readonly,1,0,0,0
+group_all_readonly_user_new_572,hr.department.employee,hr.model_hr_department,group_readonly,1,0,0,0
+group_all_readonly_user_new_573,hr.job user,hr.model_hr_job,group_readonly,1,0,0,0
+group_all_readonly_user_new_574,ir_property hr_user,base.model_ir_property,group_readonly,1,0,0,0
+group_all_readonly_user_new_575,base.action.rule,base_action_rule.model_base_action_rule,group_readonly,1,0,0,0
+group_all_readonly_user_new_576,base.action.rule config,base_action_rule.model_base_action_rule,group_readonly,1,0,0,0
+group_all_readonly_user_new_577,calendar.attendee,base_calendar.model_calendar_attendee,group_readonly,1,0,0,0
+group_all_readonly_user_new_578,calendar.alarm,base_calendar.model_calendar_alarm,group_readonly,1,0,0,0
+group_all_readonly_user_new_579,res.alarm,base_calendar.model_res_alarm,group_readonly,1,0,0,0
+group_all_readonly_user_new_580,calendar.todo,base_calendar.model_calendar_todo,group_readonly,1,0,0,0
+group_all_readonly_user_new_581,calendar.event,base_calendar.model_calendar_event,group_readonly,1,0,0,0
+group_all_readonly_user_new_582,calendar.attendee,base_calendar.model_calendar_attendee,group_readonly,1,0,0,0
+group_all_readonly_user_new_583,crm.meeting.manager,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
+group_all_readonly_user_new_584,crm.meeting,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
+group_all_readonly_user_new_585,crm.meeting_allll,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
+group_all_readonly_user_new_586,crm.meeting.partner.manager,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
+group_all_readonly_user_new_587,crm.meeting.type.manager,base_calendar.model_crm_meeting_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_588,crm.meeting.type.salesman,base_calendar.model_crm_meeting_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_589,crm.meeting.type.manager,base_calendar.model_crm_meeting_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_590,hr.employee.resource.manager,resource.model_resource_resource,group_readonly,1,0,0,0
+group_all_readonly_user_new_591,hr.employee.resource.calendar.user,resource.model_resource_calendar,group_readonly,1,0,0,0
+group_all_readonly_user_new_592,hr.contract.type.manager,hr_contract.model_hr_contract_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_593,hr.contract.manager,hr_contract.model_hr_contract,group_readonly,1,0,0,0
+group_all_readonly_user_new_594,hr.holidays.status user,hr_holidays.model_hr_holidays_status,group_readonly,1,0,0,0
+group_all_readonly_user_new_595,hr.holidays.user,hr_holidays.model_hr_holidays,group_readonly,1,0,0,0
+group_all_readonly_user_new_596,hr.holidays.employee,hr_holidays.model_hr_holidays,group_readonly,1,0,0,0
+group_all_readonly_user_new_597,hr.holidays.status employee,hr_holidays.model_hr_holidays_status,group_readonly,1,0,0,0
+group_all_readonly_user_new_598,hr.holidays.ramain.user,hr_holidays.model_hr_holidays_remaining_leaves_user,group_readonly,1,0,0,0
+group_all_readonly_user_new_599,resource_calendar_leaves_user,hr_holidays.model_resource_calendar_leaves,group_readonly,1,0,0,0
+group_all_readonly_user_new_600,crm.meeting.type.manager,base_calendar.model_crm_meeting_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_601,hr.payroll.structure,hr_payroll.model_hr_payroll_structure,group_readonly,1,0,0,0
+group_all_readonly_user_new_602,hr.contribution.register,hr_payroll.model_hr_contribution_register,group_readonly,1,0,0,0
+group_all_readonly_user_new_603,hr.salary.rule.category,hr_payroll.model_hr_salary_rule_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_604,hr.payslip,hr_payroll.model_hr_payslip,group_readonly,1,0,0,0
+group_all_readonly_user_new_605,hr.payslip.line,hr_payroll.model_hr_payslip_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_606,hr.payslip.input.user,hr_payroll.model_hr_payslip_input,group_readonly,1,0,0,0
+group_all_readonly_user_new_607,hr.payslip.worked_days,hr_payroll.model_hr_payslip_worked_days,group_readonly,1,0,0,0
+group_all_readonly_user_new_608,hr.payslip.run,hr_payroll.model_hr_payslip_run,group_readonly,1,0,0,0
+group_all_readonly_user_new_609,hr.rule.input,hr_payroll.model_hr_rule_input,group_readonly,1,0,0,0
+group_all_readonly_user_new_610,hr.salary.rule.user,hr_payroll.model_hr_salary_rule,group_readonly,1,0,0,0
+group_all_readonly_user_new_611,hr.expense.expense.user,hr_expense.model_hr_expense_expense,group_readonly,1,0,0,0
+group_all_readonly_user_new_612,hr.expense.expense.employee,hr_expense.model_hr_expense_expense,group_readonly,1,0,0,0
+group_all_readonly_user_new_613,hr.expense.line.user,hr_expense.model_hr_expense_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_614,hr.expense.line.employee,hr_expense.model_hr_expense_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_615,hr.expense.report.manager,hr_expense.model_hr_expense_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_616,product.product.hr.expense.user,drishti_crms.model_product_product,group_readonly,1,0,0,0
+group_all_readonly_user_new_617,product.template.hr.expense.user,account.model_product_template,group_readonly,1,0,0,0
+group_all_readonly_user_new_618,product.uom.hr.expense.user,product.model_product_uom,group_readonly,1,0,0,0
+group_all_readonly_user_new_619,product.price.type.user,product.model_product_price_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_620,account.journal.user,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_621,account.journal.employee,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_622,account.invoice.user,account.model_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_623,account.invoice.line.user,account.model_account_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_624,account.ianalytic.journal.user,account.model_account_analytic_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_625,account.invoice.tax.user,account.model_account_invoice_tax,group_readonly,1,0,0,0
+group_all_readonly_user_new_626,account.period.user,account.model_account_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_627,account.fiscalyear.user,account.model_account_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_628,account.move.user,account.model_account_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_629,account.move.line.user,account.model_account_move_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_630,account.ianalytic.line.user,account.model_account_analytic_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_631,account.journal.period.manager,account.model_account_journal_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_632,res_company_ldap,auth_ldap.model_res_company_ldap,group_readonly,1,0,0,0
+group_all_readonly_user_new_633,base.import.tests.models.char,base_import.model_base_import_tests_models_char,group_readonly,1,0,0,0
+group_all_readonly_user_new_634,base.import.tests.models.char.required,base_import.model_base_import_tests_models_char_required,group_readonly,1,0,0,0
+group_all_readonly_user_new_635,base.import.tests.models.char.readonly,base_import.model_base_import_tests_models_char_readonly,group_readonly,1,0,0,0
+group_all_readonly_user_new_636,base.import.tests.models.char.states,base_import.model_base_import_tests_models_char_states,group_readonly,1,0,0,0
+group_all_readonly_user_new_637,base.import.tests.models.char.noreadonly,base_import.model_base_import_tests_models_char_noreadonly,group_readonly,1,0,0,0
+group_all_readonly_user_new_638,base.import.tests.models.char.stillreadonly,base_import.model_base_import_tests_models_char_stillreadonly,group_readonly,1,0,0,0
+group_all_readonly_user_new_639,base.import.tests.models.m2o,base_import.model_base_import_tests_models_m2o,group_readonly,1,0,0,0
+group_all_readonly_user_new_640,base.import.tests.models.m2o.related,base_import.model_base_import_tests_models_m2o_related,group_readonly,1,0,0,0
+group_all_readonly_user_new_641,base.import.tests.models.m2o.required,base_import.model_base_import_tests_models_m2o_required,group_readonly,1,0,0,0
+group_all_readonly_user_new_642,base.import.tests.models.m2o.required.related,base_import.model_base_import_tests_models_m2o_required_related,group_readonly,1,0,0,0
+group_all_readonly_user_new_643,base.import.tests.models.o2m,base_import.model_base_import_tests_models_o2m,group_readonly,1,0,0,0
+group_all_readonly_user_new_644,base.import.tests.models.o2m.child,base_import.model_base_import_tests_models_o2m_child,group_readonly,1,0,0,0
+group_all_readonly_user_new_645,base.import.tests.models.preview,base_import.model_base_import_tests_models_preview,group_readonly,1,0,0,0
+group_all_readonly_user_new_646,Information of vehicle,crms_oe_connect.model_fleet_vehicle,group_readonly,1,0,0,0
+group_all_readonly_user_new_647,Vehicle Model,crms_oe_connect.model_fleet_vehicle_model,group_readonly,1,0,0,0
+group_all_readonly_user_new_648,Fleet Type,crms_oe_connect.model_fleet_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_649,Brand model of the vehicle,crms_oe_connect.model_fleet_vehicle_model_brand,group_readonly,1,0,0,0
+group_all_readonly_user_new_650,Sales Shop,crms_oe_connect.model_sale_shop,group_readonly,1,0,0,0
+group_all_readonly_user_new_651,Area,crms_oe_connect.model_res_city_area,group_readonly,1,0,0,0
+group_all_readonly_user_new_652,City,crms_oe_connect.model_res_state_city,group_readonly,1,0,0,0
+group_all_readonly_user_new_653,Country state,base.model_res_country_state,group_readonly,1,0,0,0
+group_all_readonly_user_new_654,Country,base.model_res_country,group_readonly,1,0,0,0
+group_all_readonly_user_new_655,Currency,account.model_res_currency,group_readonly,1,0,0,0
+group_all_readonly_user_new_656,Partner,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_657,CRMS Payment,drishti_crms.model_crms_payment,group_readonly,1,0,0,0
+group_all_readonly_user_new_658,revenue.report,afras_revenue_report.model_revenue_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_659,survey.type.manager,survey.model_survey_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_660,survey.request manager,survey.model_survey_request,group_readonly,1,0,0,0
+group_all_readonly_user_new_661,survey.tbl.column.heading manager,survey.model_survey_tbl_column_heading,group_readonly,1,0,0,0
+group_all_readonly_user_new_662,survey.res.partner.user,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_663,survey.user,survey.model_survey,group_readonly,1,0,0,0
+group_all_readonly_user_new_664,survey.page user,survey.model_survey_page,group_readonly,1,0,0,0
+group_all_readonly_user_new_665,survey.question user,survey.model_survey_question,group_readonly,1,0,0,0
+group_all_readonly_user_new_666,survey.answer user,survey.model_survey_answer,group_readonly,1,0,0,0
+group_all_readonly_user_new_667,survey.response user,survey.model_survey_response,group_readonly,1,0,0,0
+group_all_readonly_user_new_668,survey.response.answer user,survey.model_survey_response_answer,group_readonly,1,0,0,0
+group_all_readonly_user_new_669,survey.history.user,survey.model_survey_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_670,survey.response.line user,survey.model_survey_response_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_671,survey.survey.user,survey.model_survey,group_readonly,1,0,0,0
+group_all_readonly_user_new_672,survey.page.survey.user,survey.model_survey_page,group_readonly,1,0,0,0
+group_all_readonly_user_new_673,survey.question.survey.user,survey.model_survey_question,group_readonly,1,0,0,0
+group_all_readonly_user_new_674,survey.answer.survey.user,survey.model_survey_answer,group_readonly,1,0,0,0
+group_all_readonly_user_new_675,survey.response.survey.user,survey.model_survey_response,group_readonly,1,0,0,0
+group_all_readonly_user_new_676,survey.response.answer.survey.user,survey.model_survey_response_answer,group_readonly,1,0,0,0
+group_all_readonly_user_new_677,survey.history.survey.user,survey.model_survey_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_678,survey.response.line.survey.user,survey.model_survey_response_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_679,survey.question.column.heading.survey.user,survey.model_survey_question_column_heading,group_readonly,1,0,0,0
+group_all_readonly_user_new_680,survey.question.column.heading user,survey.model_survey_question_column_heading,group_readonly,1,0,0,0
+group_all_readonly_user_new_681,hr.applicant.user,hr_recruitment.model_hr_applicant,group_readonly,1,0,0,0
+group_all_readonly_user_new_682,hr.recruitment.report,hr_recruitment.model_hr_recruitment_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_683,hr.recruitment.stage.user,hr_recruitment.model_hr_recruitment_stage,group_readonly,1,0,0,0
+group_all_readonly_user_new_684,hr.recruitment.degree,hr_recruitment.model_hr_recruitment_degree,group_readonly,1,0,0,0
+group_all_readonly_user_new_685,res.partner.user,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_686,survey.hr.user,survey.model_survey,group_readonly,1,0,0,0
+group_all_readonly_user_new_687,crm.meeting.hruser,base_calendar.model_crm_meeting,group_readonly,1,0,0,0
+group_all_readonly_user_new_688,hr.recruitment.source,hr_recruitment.model_hr_recruitment_source,group_readonly,1,0,0,0
+group_all_readonly_user_new_689,hr.recruitment.source,hr_recruitment.model_hr_recruitment_source,group_readonly,1,0,0,0
+group_all_readonly_user_new_690,hr.applicant_category,hr_recruitment.model_hr_applicant_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_691,hr.applicant_category,hr_recruitment.model_hr_applicant_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_692,account.sequence.fiscalyear,account.model_account_sequence_fiscalyear,group_readonly,1,0,0,0
+group_all_readonly_user_new_693,Email Thread,mail.model_mail_thread,group_readonly,1,0,0,0
+group_all_readonly_user_new_694,Project,portal_project.model_project_project,group_readonly,1,0,0,0
+group_all_readonly_user_new_695,Companies,account.model_res_company,group_readonly,1,0,0,0
+group_all_readonly_user_new_696,fleet.analytic.account,drishti_crms.model_fleet_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_697,Odometer log for a vehicle,crms_oe_connect.model_fleet_vehicle_odometer,group_readonly,1,0,0,0
+group_all_readonly_user_new_698,Message,base_calendar.model_mail_message,group_readonly,1,0,0,0
+group_all_readonly_user_new_699,Employee,hr.model_hr_employee,group_readonly,1,0,0,0
+group_all_readonly_user_new_700,Users,auth_ldap.model_res_users,group_readonly,1,1,1,1
+group_all_readonly_user_new_701,Analytic Account,afras_import_analitical_account.model_account_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_702,res.company,account.model_res_company,group_readonly,1,0,0,0
+group_all_readonly_user_new_703,crm.segmentation user,crm.model_crm_segmentation,group_readonly,1,0,0,0
+group_all_readonly_user_new_704,crm.segmentation.line user,crm.model_crm_segmentation_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_705,crm.segmentation,crm.model_crm_segmentation,group_readonly,1,0,0,0
+group_all_readonly_user_new_706,crm.segmentation.line,crm.model_crm_segmentation_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_707,crm.case.channel user,crm.model_crm_case_channel,group_readonly,1,0,0,0
+group_all_readonly_user_new_708,crm.case.channel manager,crm.model_crm_case_channel,group_readonly,1,0,0,0
+group_all_readonly_user_new_709,crm.case.section,crm.model_crm_case_section,group_readonly,1,0,0,0
+group_all_readonly_user_new_710,crm.case.categ,crm.model_crm_case_categ,group_readonly,1,0,0,0
+group_all_readonly_user_new_711,crm.lead.manager,crm.model_crm_lead,group_readonly,1,0,0,0
+group_all_readonly_user_new_712,crm.phonecall.manager,crm.model_crm_phonecall,group_readonly,1,0,0,0
+group_all_readonly_user_new_713,crm.lead,crm.model_crm_lead,group_readonly,1,0,0,0
+group_all_readonly_user_new_714,crm.phonecall,crm.model_crm_phonecall,group_readonly,1,0,0,0
+group_all_readonly_user_new_715,crm.case.section.user,crm.model_crm_case_section,group_readonly,1,0,0,0
+group_all_readonly_user_new_716,crm.case.section.manager,crm.model_crm_case_section,group_readonly,1,0,0,0
+group_all_readonly_user_new_717,crm.case.stage,crm.model_crm_case_stage,group_readonly,1,0,0,0
+group_all_readonly_user_new_718,crm.case.stage,crm.model_crm_case_stage,group_readonly,1,0,0,0
+group_all_readonly_user_new_719,crm_case_resource_type user,crm.model_crm_case_resource_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_720,crm_case_resource_type manager,crm.model_crm_case_resource_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_721,crm.phonecall.report.user,crm.model_crm_phonecall_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_722,crm.phonecall.report,crm.model_crm_phonecall_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_723,res.partner.crm.manager,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_724,res.partner.category.crm.manager,base.model_res_partner_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_725,calendar.attendee.crm.user,base_calendar.model_calendar_attendee,group_readonly,1,0,0,0
+group_all_readonly_user_new_726,calendar.attendee.crm.manager,base_calendar.model_calendar_attendee,group_readonly,1,0,0,0
+group_all_readonly_user_new_727,res.partner.crm.user,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_728,res.partner.category.crm.user,base.model_res_partner_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_729,mail.thread,mail.model_mail_thread,group_readonly,1,0,0,0
+group_all_readonly_user_new_730,crm.case.categ manager,crm.model_crm_case_categ,group_readonly,1,0,0,0
+group_all_readonly_user_new_731,base.action.rule manager,base_action_rule.model_base_action_rule,group_readonly,1,0,0,0
+group_all_readonly_user_new_732,crm.lead.report user,crm.model_crm_lead_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_733,res.partner.bank.type.crm.user,base.model_res_partner_bank_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_734,crm.lead.partner.manager,crm.model_crm_lead,group_readonly,1,0,0,0
+group_all_readonly_user_new_735,crm.phonecall.partner.manager,crm.model_crm_phonecall,group_readonly,1,0,0,0
+group_all_readonly_user_new_736,crm.payment.mode,crm.model_crm_payment_mode,group_readonly,1,0,0,0
+group_all_readonly_user_new_737,crm.payment.mode,crm.model_crm_payment_mode,group_readonly,1,0,0,0
+group_all_readonly_user_new_738,hr.employee user,hr.model_hr_employee,group_readonly,1,0,0,0
+group_all_readonly_user_new_739,hr.employee user,hr.model_hr_employee,group_readonly,1,0,0,0
+group_all_readonly_user_new_740,Account Expense Line,drishti_crms.model_account_expense_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_741,Supplier Account Invoice,Multicompany_billing.model_supplier_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_742,Account Fiscal Journal,Multicompany_billing.model_account_fiscal_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_743,Fleet Analytical Account,drishti_crms.model_fleet_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_744,Journal,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_745,account expences line,drishti_crms.model_account_expense_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_746,fleet analytic account,drishti_crms.model_fleet_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_747,account fiscal journal,Multicompany_billing.model_account_fiscal_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_748,Supplier account invoice,Multicompany_billing.model_supplier_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_749,Area,crms_oe_connect.model_res_city_area,group_readonly,1,0,0,0
+group_all_readonly_user_new_750,Currency,account.model_res_currency,group_readonly,1,0,0,0
+group_all_readonly_user_new_751,Journal Items,account.model_account_move_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_752,Partner,account.model_res_partner,group_readonly,1,0,0,0
+group_all_readonly_user_new_753,Companies,account.model_res_company,group_readonly,1,0,0,0
+group_all_readonly_user_new_754,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_755,Cost Center,asset_report.model_account_asset_cost_center,group_readonly,1,0,0,0
+group_all_readonly_user_new_756,Account period,account.model_account_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_757,Journal,account.model_account_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_758,Journal Items,account.model_account_move_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_759,Accounting Voucher,account_voucher.model_account_voucher,group_readonly,1,0,0,0
+group_all_readonly_user_new_760,Account,account.model_account_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_761,Voucher Lines,account_voucher.model_account_voucher_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_762,Account Entry,account.model_account_move,group_readonly,1,0,0,0
+group_all_readonly_user_new_763,Journal Period,account.model_account_journal_period,group_readonly,1,0,0,0
+group_all_readonly_user_new_764,Multi invoice line,drishti_crms.model_account_multi_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_765,Multi invoice,drishti_crms.model_account_multi_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_766,account_fiscal_journal,Multicompany_billing.model_account_fiscal_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_767,revenue.report.line,afras_revenue_report.model_revenue_report_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_768,account.fiscal.journal,Multicompany_billing.model_account_fiscal_journal,group_readonly,1,0,0,0
+group_all_readonly_user_new_769,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_770,supplier.account.invoice,Multicompany_billing.model_supplier_account_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_771,fleet.report,drishti_account_report.model_fleet_report,group_readonly,1,0,0,0
+group_all_readonly_user_new_772,crms.instance,crms_oe_connect.model_crms_instance,group_readonly,1,0,0,0
+group_all_readonly_user_new_773,import.crms.data,crms_oe_connect.model_import_crms_data,group_readonly,1,0,0,0
+group_all_readonly_user_new_774,account.asset.sub.category,asset_report.model_account_asset_sub_category,group_readonly,1,0,0,0
+group_all_readonly_user_new_775,account.asset.cost.center,asset_report.model_account_asset_cost_center,group_readonly,1,0,0,0
+group_all_readonly_user_new_776,account.asset.asset.wiz,asset_report.model_account_asset_asset_wiz,group_readonly,1,0,0,0
+group_all_readonly_user_new_777,fleet.vehicle.insurance,afras_fleet.model_fleet_vehicle_insurance,group_readonly,1,0,0,0
+group_all_readonly_user_new_778,data.import,import_afras_data.model_data_import,group_readonly,1,0,0,0
+group_all_readonly_user_new_779,import.fleet,import_afras_data.model_import_fleet,group_readonly,1,0,0,0
+group_all_readonly_user_new_780,account.afras.cost.distribution,drishti_crms.model_account_afras_cost_distribution,group_readonly,1,0,0,0
+group_all_readonly_user_new_781,account.afras.cost.distribution.lines,drishti_crms.model_account_afras_cost_distribution_lines,group_readonly,1,0,0,0
+group_all_readonly_user_new_782,account.multi.invoice,drishti_crms.model_account_multi_invoice,group_readonly,1,0,0,0
+group_all_readonly_user_new_783,account.multi.invoice.line,drishti_crms.model_account_multi_invoice_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_784,fleet.analytic.account,drishti_crms.model_fleet_analytic_account,group_readonly,1,0,0,0
+group_all_readonly_user_new_785,fleet.type,crms_oe_connect.model_fleet_type,group_readonly,1,0,0,0
+group_all_readonly_user_new_786,fleet.vehicle.cost.distribution,drishti_crms.model_fleet_vehicle_cost_distribution,group_readonly,1,0,0,0
+group_all_readonly_user_new_787,res.state.city,crms_oe_connect.model_res_state_city,group_readonly,1,0,0,0
+group_all_readonly_user_new_788,res.city.area,crms_oe_connect.model_res_city_area,group_readonly,1,0,0,0
+group_all_readonly_user_new_789,account.expense.line,drishti_crms.model_account_expense_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_790,Analytic Line,account.model_account_analytic_line,group_readonly,1,0,0,0
+group_all_readonly_user_new_791,discount,drishti_crms.model_crms_payment_discount_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_792,crms.payment.intermediate,drishti_crms.model_crms_payment_intermediatepayment_history,group_readonly,1,0,0,0
+group_all_readonly_user_new_793,fleet.vehicle.insurance,afras_fleet.model_fleet_vehicle_insurance,,1,1,1,1
+group_all_readonly_user_new_794,fleet.vehicle.registration,afras_fleet.model_fleet_vehicle_registration,,1,1,1,1
+group_all_readonly_user_new_795,revenue.report,afras_revenue_report.model_revenue_report,group_afras_revenue_report_user,1,1,1,1
+group_all_readonly_user_new_796,revenue.report.line,afras_revenue_report.model_revenue_report_line,group_afras_revenue_report_user,1,1,1,1
 ,account.fiscal.journal,Multicompany_billing.model_account_fiscal_journal,,1,1,1,1
 ,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,,1,1,1,1
 ,supplier.account.invoice,Multicompany_billing.model_supplier_account_invoice,,1,1,1,1
@@ -823,34 +823,34 @@ access_revenue_report_line_id,revenue.report.line,afras_revenue_report.model_rev
 ,account.fiscal.journal,Multicompany_billing.model_account_fiscal_journal,,1,1,1,1
 ,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,,1,1,1,1
 ,supplier.account.invoice,Multicompany_billing.model_supplier_account_invoice,,1,1,1,1
-,account.asset.asset,account_asset.model_account_asset_asset,group_user_access,1,1,1,1
+group_all_readonly_user_new_797,account.asset.asset,account_asset.model_account_asset_asset,group_user_access,1,1,1,1
 ,crms.cash.branch,drishti_crms.model_crms_cash_branch,,1,1,1,1
 ,crms.payment.car.history,drishti_crms.model_crms_payment_car_history,,1,1,1,1
-group_all_companies_user_new_793,account.move.line invoice,account.model_account_move_line,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_794,account.fiscalyear,account.model_account_fiscalyear,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_795,account.period,account.model_account_period,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_796,account.journal,account.model_account_journal,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_797,res.partner.bank.type.user,base.model_res_partner_bank_type,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_798,account.account,account.model_account_account,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_799,account.chart.template,account.model_account_chart_template,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_800,account.tax.template,account.model_account_tax_template,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_801,account.account.template,account.model_account_account_template,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_802,account.tax.code.template,account.model_account_tax_code_template,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_803,account.fiscal.position.template,account.model_account_fiscal_position_template,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_804,account.fiscal.position.tax.template,account.model_account_fiscal_position_tax_template,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_805,account.fiscal.position.account.template,account.model_account_fiscal_position_account_template,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_806,account.account.type,account.model_account_account_type,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_807,account.tax,account.model_account_tax,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_808,account.tax.code,account.model_account_tax_code,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_809,account.fiscal.position all,account.model_account_fiscal_position,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_810,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_811,account.asset.category,account_asset.model_account_asset_category,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_812,account.asset.sub.category,asset_report.model_account_asset_sub_category,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_813,account.financial.report,account.model_account_financial_report,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_814,account.analytic.journal,account.model_account_analytic_journal,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_815,account.afras.cost.distribution,drishti_crms.model_account_afras_cost_distribution,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_816,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_817,account.payment.term,account.model_account_payment_term,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_818,account.payment.term.line,account.model_account_payment_term_line,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_819,res.currency account manager,account.model_res_currency,group_nlco_admin,1,0,0,0
-group_all_companies_user_new_820,email.template,email_template.model_email_template,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_798,account.move.line,account.model_account_move_line,group_nlco_admin,1,1,0,0
+group_all_readonly_user_new_799,account.fiscalyear,account.model_account_fiscalyear,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_800,account.period,account.model_account_period,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_801,account.journal,account.model_account_journal,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_802,res.partner.bank.type.user,base.model_res_partner_bank_type,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_803,account.account,account.model_account_account,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_804,account.chart.template,account.model_account_chart_template,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_805,account.tax.template,account.model_account_tax_template,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_806,account.account.template,account.model_account_account_template,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_807,account.tax.code.template,account.model_account_tax_code_template,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_808,account.fiscal.position.template,account.model_account_fiscal_position_template,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_809,account.fiscal.position.tax.template,account.model_account_fiscal_position_tax_template,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_810,account.fiscal.position.account.template,account.model_account_fiscal_position_account_template,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_811,account.account.type,account.model_account_account_type,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_812,account.tax,account.model_account_tax,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_813,account.tax.code,account.model_account_tax_code,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_814,account.fiscal.position,account.model_account_fiscal_position,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_815,account.fiscal.default.account,Multicompany_billing.model_account_fiscal_default_account,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_816,account.asset.category,account_asset.model_account_asset_category,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_817,account.asset.sub.category,asset_report.model_account_asset_sub_category,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_818,account.financial.report,account.model_account_financial_report,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_819,account.analytic.journal,account.model_account_analytic_journal,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_820,account.afras.cost.distribution,drishti_crms.model_account_afras_cost_distribution,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_821,account.analytic.account,afras_import_analitical_account.model_account_analytic_account,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_822,account.payment.term,account.model_account_payment_term,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_823,account.payment.term.line,account.model_account_payment_term_line,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_824,res.currency,account.model_res_currency,group_nlco_admin,1,0,0,0
+group_all_readonly_user_new_825,email.template,email_template.model_email_template,group_nlco_admin,1,0,0,0
