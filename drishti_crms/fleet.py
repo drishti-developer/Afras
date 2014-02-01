@@ -16,7 +16,6 @@ class fleet_vehicle(osv.osv):
     'region_id': fields.many2one('res.country.state',  'State'),
     'country_id': fields.many2one('res.country',  'Country'),
     'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', ),
-    
                    }
     _defaults = {
      'car_value' : 1,

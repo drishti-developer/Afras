@@ -181,6 +181,7 @@
 				</field>
 				<field name="location" position="replace">
 					<field name="location" required="1"/>
+					<field name="mvpi_expiry_date" />
 				</field>
 			</field>
 		</record>
