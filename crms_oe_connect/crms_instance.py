@@ -536,7 +536,6 @@ class crms_instance(osv.osv):
                 date_today = datetime.date.today()
                         
                 if vehicle_brw.assigned_for and vehicle_brw.license_plate and vehicle_brw.license_plate_arabic and vehicle_brw.vin_sn and vehicle_brw.color and vehicle_brw.color_arabic and vehicle_brw.company_id and vehicle_brw.model_year and vehicle_brw.model_id and vehicle_brw.model_id.crms_id and vehicle_brw.current_branch_id and vehicle_brw.current_branch_id.crms_id:
-                        
                     allow = True
                     extra_str = ''
                     if vehicle_brw.acquisition_date:
@@ -547,7 +546,8 @@ class crms_instance(osv.osv):
                         extra_str += "\n<CarValue>%s</CarValue>"%(vehicle_brw.car_value)
                     if vehicle_brw.barcode:
                         extra_str += "\n<Barcode>%s</Barcode>"%(vehicle_brw.barcode)
-                        
+                    if vehicle_brw.mvpi_expiry_date:
+                        extra_str += "\n<MVPIExpiryDate>%s</MVPIExpiryDate>"%(vehicle_brw.mvpi_expiry_date)    
                     car_str += """<Car>
 <ERPCarID>%s</ERPCarID>
 <AssignedFor>%s</AssignedFor>
@@ -556,7 +556,6 @@ class crms_instance(osv.osv):
 <VIN>%s</VIN>%s
 <ColorInEng>%s</ColorInEng>
 <ColorInAra>%s</ColorInAra>
-<MVPIExpiryDate>%s</MVPIExpiryDate>
 <Odometer>%s</Odometer>
 <CarOwner>%s</CarOwner>
 <ModelYear>%s</ModelYear>
@@ -566,7 +565,7 @@ class crms_instance(osv.osv):
 <CRMSBranchID>%s</CRMSBranchID>
 </Car>\n
 """%(vehicle_brw.id, vehicle_brw.assigned_for, vehicle_brw.license_plate, vehicle_brw.license_plate_arabic, vehicle_brw.vin_sn, extra_str, \
-     vehicle_brw.color, vehicle_brw.color_arabic, date_today, int(vehicle_brw.odometer), vehicle_brw.company_id.name, vehicle_brw.model_year, vehicle_brw.model_id.id, vehicle_brw.model_id.crms_id, vehicle_brw.current_branch_id.id, vehicle_brw.current_branch_id.crms_id)
+     vehicle_brw.color, vehicle_brw.color_arabic, int(vehicle_brw.odometer), vehicle_brw.company_id.name, vehicle_brw.model_year, vehicle_brw.model_id.id, vehicle_brw.model_id.crms_id, vehicle_brw.current_branch_id.id, vehicle_brw.current_branch_id.crms_id)
             
             car_str +="</CarList>"
               

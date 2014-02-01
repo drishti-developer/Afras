@@ -192,6 +192,7 @@
 									<field name="vin_sn" />
                                        <field name="analytic_id" />
 									<field name="company_id" groups="base.group_multi_company" />
+									<field name="mvpi_expiry_date" />
 								</group>
 								<group>
 									<label for="odometer" />

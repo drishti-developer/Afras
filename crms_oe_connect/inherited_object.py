@@ -499,7 +499,7 @@ class fleet_vehicle(osv.osv):
         'color_arabic':fields.char(string="Color Arabic Name",size=10),
         'assigned_for': fields.selection([('Corporate','Corporate'),('Retail','Retail'),('Awaiting for Barcode','Awaiting for Barcode')],string="Assigned For"),
         'current_branch_id':fields.function(_vehicle_branch_get_fnc, type="many2one", relation="sale.shop", string='Branch'),
-        'mvpi_expiry_date':fields.date(string='MVPIExpiryDate'),
+        'mvpi_expiry_date':fields.date(string='MVPI Expiry Date'),
         'location':fields.selection([('Branch', 'Branch'), ('Agency', 'Agency'), ('Workshop', 'Workshop'), ('Warehouse', 'Warehouse'),], 'Location'),
     }
     
