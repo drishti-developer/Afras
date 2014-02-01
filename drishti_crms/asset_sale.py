@@ -36,6 +36,8 @@ class asset_sale(osv.osv):
               'amount':fields.float('Price'),
               'property_asset_sale_journal': fields.property('account.journal', type='many2one', relation='account.journal', string="Asset Journal", view_load=True, help="Cash Journal",),
               'asset_invoice_ids':fields.one2many('account.invoice','asset_sale_id','Invoice'),
+              'request_by':fields.many2one('res.users','Requested By',readonly=True),
+              'approve_by':fields.many2one('res.users','Approve By',readonly=True),
               
               }
     _defaults={
@@ -52,7 +54,7 @@ class asset_sale(osv.osv):
         
         return {'value':res}
     def confirm(self,cr,uid,ids,context=None):
-        return self.write(cr,uid,ids,{'state':'ready'})
+        return self.write(cr,uid,ids,{'state':'ready','request_by':uid})
     
     def sell_asset(self,cr,uid,ids,context=None):
         obj=self.browse(cr,uid,ids[0])
@@ -85,7 +87,7 @@ class asset_sale(osv.osv):
         self.pool.get('account.invoice.line').create(cr,uid,invoice_line,context)
         self.pool.get('account.asset.asset').set_to_close(cr,uid,obj.asset_id.id,context)
         self.pool.get('account.asset.asset').write(cr,uid,obj.asset_id.id,{'sold_value':obj.amount})
-        return self.write(cr,uid,ids,{'state':'sold'})
+        return self.write(cr,uid,ids,{'state':'sold','approve_by':uid})
     def cancel(self,cr,uid,ids,context=None):
         return self.write(cr,uid,ids,{'state':'cancel'})
 

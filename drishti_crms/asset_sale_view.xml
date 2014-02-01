@@ -16,19 +16,21 @@
 	                	<group col="4" colspan="2" string="Asset Details">
 	                	<group>
 		                		<field name="asset_id" on_change='onchange_asset(asset_id)'/>
-		                		<field name="category_id"/>
 		                		<field name='partner_id' states='ready,sold' attrs="{'required':[('state','!=','draft')]}"/>
 		                		<field name="vehicle_id"/>
+		                		<field name="request_by"/>
 		                		<field name="property_asset_sale_journal" domain="[('type','=','cash')]" states='ready,sold' attrs="{'required':[('state','!=','draft')]}"/>
                 		</group>
                 		<group>
+                				<field name="category_id"/>
 		                		<field name="date"/>
 		                		<field name="company_id" required='1'/>
+		                		<field name="approve_by" states='ready,sold'/>
 		                    	<field name="amount" attrs="{'required':[('state','!=','draft')]}"/>
 	                	</group>
 	                		
 	                	</group>
-	                	<notebook string="Invoice" states='sold,cancel'>
+	                	<notebook string="Invoice" >
 	                		<page string='Invoice Detail'>
 	                			<field name='asset_invoice_ids' readonly='1'/>
 	                		</page>
