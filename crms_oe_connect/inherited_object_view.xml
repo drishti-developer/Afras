@@ -150,10 +150,11 @@
 			<field eval="1" name="priority" />
 			<field name="inherit_id" ref="fleet.fleet_vehicle_form" />
 			<field name="arch" type="xml">
+			<field name="license_plate" on_change="onchange_name_arabic_name(license_plate,license_plate_arabic)"/>
 				<field name="license_plate" position="after">
 					<label for="license_plate_arabic" class="oe_edit_only"/>
 					<h1>
-						<field name="license_plate_arabic" required="1"/>
+						<field name="license_plate_arabic" required="1" on_change="onchange_name_arabic_name(license_plate,license_plate_arabic)"/>
 					</h1>					
 				</field>
 				<field name="vin_sn" position="replace">

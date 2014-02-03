@@ -2,6 +2,8 @@ from openerp.osv import fields, osv
 import datetime
 from openerp.tools.translate import _
 from crms_osv import Call
+import unicodedata as UD
+
 
 class res_currency(osv.osv):
     _inherit = "res.currency"
@@ -557,6 +559,7 @@ class fleet_vehicle(osv.osv):
                             cr.execute("update fleet_vehicle set crms_id=%s where id=%s",(int(response_dict.get('CRMSCarID')), response_dict.get('ERPCarID')))
                  
         return vehicle_id
+    
     
 fleet_vehicle()
 
