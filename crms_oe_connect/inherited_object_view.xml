@@ -116,9 +116,12 @@
             <field name="model">fleet.vehicle.model.brand</field>
             <field name="inherit_id" ref="fleet.fleet_vehicle_model_brand_form" />
             <field name="arch" type="xml">
+            <field name="name" position="replace">
+                <field name="name" on_change="onchange_english_name(name)"/>
+            </field>
                 <field name="name" position="after">
                 	<group col="4" colspan="2">
-                		<field name="arabic_name" required="1"/>
+                		<field name="arabic_name" required="1" on_change="onchange_arabic_name(arabic_name)"/>
 						<field name="routine_service_mileage" required="1"/>
 						<field name="crms_id" readonly="1"/>
                 	</group>
@@ -132,10 +135,14 @@
 			<field eval="1" name="priority" />
 			<field name="inherit_id" ref="drishti_crms.fleet_vehicle_model_form_inht" />
 			<field name="arch" type="xml">
-				<field name="modelname" position="after">
+			
+			<field name="modelname" position="replace">
+			     <field name="modelname" on_change="onchange_english_name(modelname)"/>
+			</field>
+				<field name="modelname" position="after" >
 					<label for="arabic_name" class="oe_edit_only"/>
 					<h1>
-						<field name="arabic_name" required="1"/>
+						<field name="arabic_name" required="1" on_change="onchange_arabic_name(arabic_name)"/>
 					</h1>					
 				</field>
 				<field name="no_of_luggages" position="after">
@@ -150,11 +157,10 @@
 			<field eval="1" name="priority" />
 			<field name="inherit_id" ref="fleet.fleet_vehicle_form" />
 			<field name="arch" type="xml">
-			<field name="license_plate" on_change="onchange_name_arabic_name(license_plate,license_plate_arabic)"/>
-				<field name="license_plate" position="after">
+				<field name="license_plate" position="after" >
 					<label for="license_plate_arabic" class="oe_edit_only"/>
 					<h1>
-						<field name="license_plate_arabic" required="1" on_change="onchange_name_arabic_name(license_plate,license_plate_arabic)"/>
+						<field name="license_plate_arabic" required="1" on_change="onchange_arabic_name(license_plate_arabic)"/>
 					</h1>					
 				</field>
 				<field name="vin_sn" position="replace">

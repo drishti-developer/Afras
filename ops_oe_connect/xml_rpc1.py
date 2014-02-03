@@ -18,7 +18,6 @@ sock = xmlrpclib.ServerProxy('http://localhost:6118/xmlrpc/object')
 # CREATE A PRODUCT CATEGORY
 model = 'res.country'
 country_list = sock.execute(dbname, uid, pwd, model, 'ListRecord')
-import pprint 
 #pprint.pprint(country_list)
 
 COUNTRY_DIC=[{
@@ -77,7 +76,6 @@ CREATE_CITY={
 
 model='res.bank'
 bank_list = sock.execute(dbname, uid, pwd, model, 'ListRecord')
-pprint.pprint(bank_list)
 
 BANK_DATA=[{
              'ERPID':'1',
