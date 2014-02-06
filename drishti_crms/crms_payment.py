@@ -627,80 +627,82 @@ class crms_daily_revenue(osv.osv):
     
     def create(self, cr, uid, data, context=None):
         
-        ctx = context.copy()
-        period_pool = self.pool.get('account.period')
-        move_pool = self.pool.get('account.move')
-        booking_id = int(data.get('booking_id'))
-        analytic_id = self.pool.get('fleet.vehicle').read(cr, uid, int(data.get('vehicle_id')), ['analytic_id'])['analytic_id'][0]
-        crms_payment_brw = self.pool.get('crms.payment').browse(cr,uid,booking_id)
-        expense_date = data['date']
-        remaining_amount = crms_payment_brw.remaining_amount
         per_day_amt = float(data['revenue'])
-        discount_amt = float(data.get('discount_amt',0.0))
-        per_day_amt_disc = per_day_amt - discount_amt
-        
-        ctx.update(company_id=crms_payment_brw.pickup_branch_id.company_id.id,account_period_prefer_normal=True)
-        period_ids = period_pool.find(cr, uid, expense_date, context=ctx)
-        
-        move_lines = [(0,0,{
-        'journal_id': crms_payment_brw.property_sale_journal.id,
-        'date' : expense_date,
-        'partner_id':crms_payment_brw.partner_id.id,
-        'period_id': period_ids and period_ids[0] or False,
-        'analytic_account_id':analytic_id,
-        'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
-        'company_id':crms_payment_brw.property_sale_journal.company_id.id,
-        'name': 'Car Rent Daily Revenue',
-        'credit': per_day_amt,
-        'account_id': crms_payment_brw.property_revenue_account.id,
-        })]
-        
-        move_line_dict = {
-        'journal_id': crms_payment_brw.property_sale_journal.id,
-        'date' : expense_date,
-        'period_id': period_ids and period_ids[0] or False,
-        'partner_id':crms_payment_brw.partner_id.id,
-        'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
-        'company_id':crms_payment_brw.property_sale_journal.company_id.id,
-        'name': 'Car Rent Daily Revenue',
-        'debit': per_day_amt_disc,
-        'account_id': crms_payment_brw.property_advance_account.id,
-        }
-        
-        if remaining_amount < per_day_amt_disc:
-            if remaining_amount > 0:
-                move_line_1 = move_line_dict.copy()
-                move_line_1['debit'] = remaining_amount
-                move_lines.append((0,0,move_line_1))
-                move_line_2 = move_line_dict.copy()
-                move_line_2['debit'] = per_day_amt_disc - remaining_amount
-                move_line_2['account_id'] = crms_payment_brw.property_retail_account.id
-                move_lines.append((0,0,move_line_2))
+        if per_day_amt > 0.0:
+            ctx = context.copy()
+            period_pool = self.pool.get('account.period')
+            move_pool = self.pool.get('account.move')
+            booking_id = int(data.get('booking_id'))
+            analytic_id = self.pool.get('fleet.vehicle').read(cr, uid, int(data.get('vehicle_id')), ['analytic_id'])['analytic_id'][0]
+            crms_payment_brw = self.pool.get('crms.payment').browse(cr,uid,booking_id)
+            expense_date = data['date']
+            remaining_amount = crms_payment_brw.remaining_amount
+            
+            discount_amt = float(data.get('discount_amt',0.0))
+            per_day_amt_disc = per_day_amt - discount_amt
+            
+            ctx.update(company_id=crms_payment_brw.pickup_branch_id.company_id.id,account_period_prefer_normal=True)
+            period_ids = period_pool.find(cr, uid, expense_date, context=ctx)
+            
+            move_lines = [(0,0,{
+            'journal_id': crms_payment_brw.property_sale_journal.id,
+            'date' : expense_date,
+            'partner_id':crms_payment_brw.partner_id.id,
+            'period_id': period_ids and period_ids[0] or False,
+            'analytic_account_id':analytic_id,
+            'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
+            'company_id':crms_payment_brw.property_sale_journal.company_id.id,
+            'name': 'Car Rent Daily Revenue',
+            'credit': per_day_amt,
+            'account_id': crms_payment_brw.property_revenue_account.id,
+            })]
+            
+            move_line_dict = {
+            'journal_id': crms_payment_brw.property_sale_journal.id,
+            'date' : expense_date,
+            'period_id': period_ids and period_ids[0] or False,
+            'partner_id':crms_payment_brw.partner_id.id,
+            'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
+            'company_id':crms_payment_brw.property_sale_journal.company_id.id,
+            'name': 'Car Rent Daily Revenue',
+            'debit': per_day_amt_disc,
+            'account_id': crms_payment_brw.property_advance_account.id,
+            }
+            
+            if remaining_amount < per_day_amt_disc:
+                if remaining_amount > 0:
+                    move_line_1 = move_line_dict.copy()
+                    move_line_1['debit'] = remaining_amount
+                    move_lines.append((0,0,move_line_1))
+                    move_line_2 = move_line_dict.copy()
+                    move_line_2['debit'] = per_day_amt_disc - remaining_amount
+                    move_line_2['account_id'] = crms_payment_brw.property_retail_account.id
+                    move_lines.append((0,0,move_line_2))
+                else:
+                    move_line_1 = move_line_dict.copy()
+                    move_line_1['account_id'] = crms_payment_brw.property_retail_account.id
+                    move_lines.append((0,0,move_line_1))
             else:
-                move_line_1 = move_line_dict.copy()
-                move_line_1['account_id'] = crms_payment_brw.property_retail_account.id
-                move_lines.append((0,0,move_line_1))
-        else:
-            move_lines.append((0,0,move_line_dict))
+                move_lines.append((0,0,move_line_dict))
+                
+            if discount_amt :
+                move_line_disc = move_line_dict.copy()
+                move_line_disc['debit'] = discount_amt
+                move_line_disc['account_id'] = crms_payment_brw.property_discount_account.id
+                move_line_disc['analytic_account_id'] = analytic_id
+                move_lines.append((0,0,move_line_disc))
+                
+            move_pool.create(cr,uid, {
+            'journal_id': crms_payment_brw.property_sale_journal.id,
+            'date' : expense_date,
+            'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
+            'company_id':crms_payment_brw.property_sale_journal.company_id.id,
+            'period_id':period_ids and period_ids[0] or False,
+            'crms_payment_id':crms_payment_brw.id,
+            'line_id':move_lines,
+            })
             
-        if discount_amt :
-            move_line_disc = move_line_dict.copy()
-            move_line_disc['debit'] = discount_amt
-            move_line_disc['account_id'] = crms_payment_brw.property_discount_account.id
-            move_line_disc['analytic_account_id'] = analytic_id
-            move_lines.append((0,0,move_line_disc))
-            
-        move_pool.create(cr,uid, {
-        'journal_id': crms_payment_brw.property_sale_journal.id,
-        'date' : expense_date,
-        'cost_analytic_id': crms_payment_brw.pickup_branch_id.project_id.id,
-        'company_id':crms_payment_brw.property_sale_journal.company_id.id,
-        'period_id':period_ids and period_ids[0] or False,
-        'crms_payment_id':crms_payment_brw.id,
-        'line_id':move_lines,
-        })
-        
-        cr.execute('update crms_payment set remaining_amount=%s where id=%s',(remaining_amount-per_day_amt_disc,data['booking_id']))
+            cr.execute('update crms_payment set remaining_amount=%s where id=%s',(remaining_amount-per_day_amt_disc,data['booking_id']))
         return super(crms_daily_revenue, self).create(cr, uid, data, context=context)
    
 crms_daily_revenue()
