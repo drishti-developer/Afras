@@ -99,20 +99,20 @@
                        		</page>
 	                        <page string="Accounts">
 	                        	<group col="6" colspan="2">
-	                        		<field name="property_cash_journal"/>
-			                    	<field name="property_bank_journal"/>
-			                    	<field name="property_sale_journal"/>
-			                    	<field name="property_advance_account"/>
-			                    	<field name="property_retail_account"/>
-			                    	<field name="property_revenue_account"/>
-			                    	<field name="property_discount_account"/>
-			                    	<field name="property_extra_hours_account"/>
-			                    	<field name="property_extra_kms_account"/>
-			                    	<field name="property_other_charges_account"/>
-			                    	<field name="property_car_damages_account"/>
-			                    	<field name="property_admin_charges_account"/>
-			                    	<field name="property_traffic_violation_charges_account"/>
-			                    	<field name="property_driver_charges_account"/>
+	                        		<field name="property_cash_journal" required="1"/>
+			                    	<field name="property_bank_journal" required="1"/>
+			                    	<field name="property_sale_journal" required="1"/>
+			                    	<field name="property_advance_account" required="1"/>
+			                    	<field name="property_retail_account" required="1"/>
+			                    	<field name="property_revenue_account" required="1"/>
+			                    	<field name="property_discount_account" required="1"/>
+			                    	<field name="property_extra_hours_account" required="1"/>
+			                    	<field name="property_extra_kms_account" required="1"/>
+			                    	<field name="property_other_charges_account" required="1"/>
+			                    	<field name="property_car_damages_account" required="1"/>
+			                    	<field name="property_admin_charges_account" required="1"/>
+			                    	<field name="property_traffic_violation_charges_account" required="1"/>
+			                    	<field name="property_driver_charges_account" required="1"/>
 	                        	</group>
 	                        </page>
 	                        <page string="Extra Charges">

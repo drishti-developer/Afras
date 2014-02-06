@@ -111,13 +111,29 @@
 			</field>
 		</record>
 		
+		<record model='ir.ui.view' id='fleet_vehicle_model_brand_tree_inht'>
+            <field name="name">fleet.vehicle.model.brand.tree.inht</field>
+            <field name="model">fleet.vehicle.model.brand</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_model_brand_tree" />
+            <field name="arch" type="xml">
+            <field name="name" position="after">
+            <field name="crms_id"/>
+            <field name="arabic_name"/>
+            <field name="routine_service_mileage"/>
+            </field>
+            </field>
+            </record>
+            
+
+
+		
 		<record model='ir.ui.view' id='fleet_vehicle_model_brand_form_inht'>
             <field name="name">fleet.vehicle.model.brand.form.inht</field>
             <field name="model">fleet.vehicle.model.brand</field>
             <field name="inherit_id" ref="fleet.fleet_vehicle_model_brand_form" />
             <field name="arch" type="xml">
             <field name="name" position="replace">
-                <field name="name" on_change="onchange_english_name(name)"/>
+                 <field name="name" class="oe_inline"/>
             </field>
                 <field name="name" position="after">
                 	<group col="4" colspan="2">

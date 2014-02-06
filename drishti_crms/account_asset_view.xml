@@ -23,9 +23,7 @@
 			     <group expand="0" string="Group By...">
                         <filter string="Asset Category"  domain="[]" context="{'group_by':'category_id'}"/>
                     </group>
-			     
 			     </field>
-			     
 				</field>
 			</record>
 			

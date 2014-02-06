@@ -17,7 +17,6 @@ class crms_payment(osv.osv):
             intermediate_id = cr.fetchone()
             if intermediate_id:
                 value_id = intermediate_id
-                    
             res[record.id] = value_id
         return res
     
