@@ -250,6 +250,7 @@
 					<field name="from_date" />
 					<field name="to_date" />
            </xpath>
+          
            <xpath expr="/form/sheet/notebook/page/field[@name='line_id']/form/notebook/page/group/group/field[@name='analytic_account_id']" position="after">
                     <field name="vehicle_id" invisible="1"/>
 					<field name="from_date" />

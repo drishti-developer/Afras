@@ -342,11 +342,13 @@ class Call:
                     }
     
             #print "XML Requested Data:\n",request_data
+            _logger.info('Request Send to CRMS for %s :- %s', request_type, request_data)
             encoded_data = urllib.quote_plus(request_data.encode('utf-8')) # Encoding the XML Request
             encoded_data = "xml="+encoded_data
             #print "Encoded Requested Data:\n",encoded_data
             webf = urllib.urlopen(self.URL, encoded_data) #Sending the URL Request with encoded code using urllib library
             response = webf.read() #Web Response
+            _logger.info('Return Response from CRMS for %s :- %s', request_type, response)
             #print "Response",response
             webf.close()
             responseDOM = parseString(response) #Parsing the Response
