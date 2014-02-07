@@ -157,7 +157,7 @@
 						</h1>
 						<label for="license_plate" class="oe_edit_only" />
 						<h2>
-							<field name="license_plate" class="oe_inline" />
+							<field name="license_plate" class="oe_inline" on_change="onchange_english_name(license_plate)"/>
 						</h2>
 						<label for="barcode" class="oe_edit_only" />
 						<h2>
@@ -192,7 +192,6 @@
 									<field name="vin_sn" />
                                        <field name="analytic_id" />
 									<field name="company_id" groups="base.group_multi_company" />
-									<field name="mvpi_expiry_date" />
 								</group>
 								<group>
 									<label for="odometer" />

@@ -404,21 +404,17 @@ class purchase_requisition_line(osv.osv):
     
     def CreateRecord(self, cr, uid, vals, context=None):
         dic = {  }
-        print "create=======",vals
         requisition_obj=self.pool.get('purchase.requisition')
         product_obj=self.pool.get('product.product')
         
         for key,value in vals.iteritems():
             dic[MATERIAL_LINE_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
         requisition_id = requisition_obj.search(cr, uid, [('ops_id','=',dic['requisition_id'])])
-        print 'requisition_id======',requisition_id
         product_id = product_obj.search(cr, uid, [('ops_code','=',dic['product_id'])])
-        print "product id",product_id
         if requisition_id and product_id:
             dic['requisition_id'] = requisition_id[0]
             dic['product_id'] = product_id[0]
             requisition_line_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
-            print 'requisition_line_id======',requisition_line_id
             requisition_line_id = self.write(cr,uid,requisition_line_id[0],dic) and requisition_line_id[0] \
                                  if requisition_line_id else self.create(cr,uid,dic)
             return requisition_line_id                     
@@ -706,9 +702,7 @@ class purchase_order(osv.osv):
                 result= (total*discount_value)/100
             elif discount_type == 'value':
                 result=discount_value
-        print "result=====================",result
         res.update({'discount_amt': result})
-        print "===================onchange======================",res,result
         return {'value':res }
     
     def onchange_deduction(self,cr,uid,ids,discount_type,discount_value,total,context=None):
@@ -751,7 +745,6 @@ class purchase_order(osv.osv):
                 ref =  str(dic['project_code'])
             # Assuming Project already available in analytic account otherwise we will not create and pass as False    
             dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
-            print "dic['analytic_id']=============================",dic['analytic_id']
             
             discount=self.onchange_discount(cr,uid,ids,dic['discount_type'],dic['discount_value'],dic['po_amount'])
             dic['discount_amt']=discount['value']['discount_amt']
@@ -760,13 +753,10 @@ class purchase_order(osv.osv):
             purchase_id=self.search(cr, uid, [('ops_order_id','=',dic['ops_order_id'])])
             purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
                                  if purchase_id else self.create(cr,uid,dic)
-        print "purchase id==================================",purchase_id
         self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
         validate=netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
         invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
-        print "ops     invoice==============",invoice
         context=self.view_invoice(cr, uid, [purchase_id], context={})
-        print "invoice id=======================================",context
         if context.get('res_id',False):
             self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
         netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
@@ -821,7 +811,6 @@ class purchase_order_line(osv.osv):
             requisition_id=requisition_obj.search(cr,uid,[('ops_id','=',dic['requisition_id'])])
             requisition_line_id=requisition_line_obj.search(cr,uid,[('ops_id','=',dic['requisition_line_id'])])
             order_id=purchase_obj.search(cr,uid,[('ops_order_id','=',dic['order_id'])])
-            print requisition_line_id,"11111111111"
             line_obj=requisition_line_obj.browse(cr,uid,requisition_line_id[0])
             if order_id:
                 dic.update({'order_id':order_id[0],'requisition_id':requisition_id[0],'requisition_line_id':requisition_line_id[0],'product_id':line_obj.product_id.id,'name':line_obj.product_id.name,

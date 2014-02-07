@@ -1,10 +1,32 @@
 <?xml version="1.0"?>
 <document filename="Asset Report.pdf">
-<template pageSize="(842.0,585.0)" title="Test" author="Martin Simon" allowSplitting="20">
+<template title="Account Balance" author="DrishtiTech.(sales@NLCO.com)" allowSplitting="20">
     <pageTemplate id="first">
-      <frame id="first" x1="57.0" y1="57.0" width="728.0" height="481.0"/>
-     </pageTemplate>
+      <frame id="first" x1="35.0" y1="35.0" width="525" height="772"/>
+    </pageTemplate>
   </template>
+  <header>
+<pageTemplate>
+    <frame id="first" x1="28.0" y1="28.0" width="786" height="525"/>
+    <stylesheet>
+       <!-- Set here the default font to use for all <para> tags -->
+       <paraStyle name='Normal' fontName="DejaVu Sans"/>
+    </stylesheet>
+    <pageGraphics>
+        <fill color="black"/>
+        <stroke color="black"/>
+        <setFont name="DejaVu Sans" size="8"/>
+        <drawString x="25" y="555"> [[ formatLang(time.strftime("%Y-%m-%d"), date=True) ]]  [[ time.strftime("%H:%M") ]]</drawString>
+        <setFont name="DejaVu Sans Bold" size="10"/>
+        <drawCentredString x="440" y="555">[[ company.partner_id.name ]]</drawCentredString>
+        <stroke color="#000000"/>
+        <lines>25 550 818 550</lines>
+        <!-- Set here the default font to use for all <drawString> tags -->
+        <!-- don't forget to change the 2 other occurence of <setFont> above if needed --> 
+        <setFont name="DejaVu Sans" size="8"/>
+    </pageGraphics>
+</pageTemplate>
+</header>
  <stylesheet>
   <blockTableStyle id="Standard_Outline">
       <blockAlignment value="LEFT"/>
@@ -137,7 +159,7 @@
   </blockTable>
   <pto>
     <pto_header>
-    <blockTable colWidths="40.0,120.0,81.0,81.0,81.0,81.0,80.0,81.0" repeatRows="1" style="Table_Header_Pur_ord_Line">
+    <blockTable colWidths="40.0,100.0,61.0,61.0,61.0,61.0,80.0,81.0" repeatRows="1" style="Table_Header_Pur_ord_Line">
       <tr>
         <td>
           <para style="terp_tblheader_General"><b>Sr.No</b></para>
@@ -170,7 +192,7 @@
     </blockTable>
   </pto_header>
   
-  <blockTable colWidths="40.0,120.0,81.0,81.0,81.0,81.0,80.0,81.0" style="Table_Header_Pur_ord_Line">
+  <blockTable colWidths="40.0,100.0,61.0,61.0,61.0,61.0,80.0,81.0" style="Table_Header_Pur_ord_Line">
       <tr>
         <td>
           <para style="terp_tblheader_General"><b>Sr.No</b></para>
@@ -204,7 +226,7 @@
   
    <section>
       <para style="terp_default_1">[[repeatIn(get_category(data),'line')]]</para>
-   <blockTable colWidths="40.0,120.0,81.0,81.0,81.0,81.0,80.0,81.0" style="Table8">
+   <blockTable colWidths="40.0,100.0,61.0,61.0,61.0,61.0,80.0,81.0" style="Table8">
       <tr>
         <td>
            <para style="P11" leftIndent="10" bulletIndent="0">
@@ -240,7 +262,7 @@
     </blockTable>
    </section>
    <section>  
-<blockTable colWidths="40.0,120.0,81.0,81.0,81.0,81.0,80.0,81.0" style="Table_All_Total_Detail">
+<blockTable colWidths="40.0,100.0,61.0,61.0,61.0,61.0,80.0,81.0" style="Table_All_Total_Detail">
       <tr>
         <td>
             <para style="terp_default_Right_9"></para>

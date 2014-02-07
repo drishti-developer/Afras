@@ -1,7 +1,11 @@
+#! /usr/local/bin/python  -*- coding: UTF-8 -*-
 from openerp.osv import fields, osv
 import datetime
 from openerp.tools.translate import _
 from crms_osv import Call
+import re
+
+
 
 class res_currency(osv.osv):
     _inherit = "res.currency"
@@ -315,6 +319,22 @@ class fleet_vehicle_model_brand(osv.osv):
         'routine_service_mileage':fields.char(string="Routine Service Mileage",size=10)
     }
     
+    def onchange_english_name(self,cr,uid,ids,name=False,context=None):
+        if not name.replace(' ', '').isalpha():
+            return { 'warning':{'title':'warning','message':'Please enter the valid English name'},'value' :{'name':False}}
+        elif type(name) == unicode:
+            return { 'warning':{'title':'warning','message':'Please enter the valid English name not arabic'},'value' :{'name':False}}
+        else:
+            pass
+        return True
+    
+    def onchange_arabic_name(self,cr,uid,ids,arabic_name=False,context=None):
+        if type(arabic_name) == unicode:
+            pass
+        else:
+            return { 'warning':{'title':'warning','message':'Please enter the valid arabic name'},'value' :{'arabic_name':False}}
+        return True
+    
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
         crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
@@ -363,6 +383,7 @@ class fleet_type(osv.osv):
         'arabic_name':fields.char(string="Arabic Name",size=75),
     }
     
+    
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
         crms_instance_id = crms_obj.search(cr,uid,[('active','=',True)])
@@ -410,6 +431,25 @@ class fleet_vehicle_model(osv.osv):
         'modelname':fields.char(string="Model Name",required=True,size=50),
         'arabic_name':fields.char(string="Arabic Name",size=100),
     }
+    
+    def onchange_english_name(self,cr,uid,ids,modelname=False,context=None):
+        if not modelname.replace(' ', '').isalpha():
+            return { 'warning':{'title':'warning','message':'Please enter the valid English name'},'value' :{'modelname':False}}
+        elif type(modelname) == unicode:
+            return { 'warning':{'title':'warning','message':'Please enter the valid English name not arabic'},'value' :{'modelname':False}}
+        else:
+            pass
+        return True
+    
+    def onchange_arabic_name(self,cr,uid,ids,arabic_name=False,context=None):
+        if type(arabic_name) == unicode:
+            pass
+        else:
+            return { 'warning':{'title':'warning','message':'Please enter the valid arabic name'},'value' :{'arabic_name':False}}
+        return True
+    
+    
+    
     
     def update_crms(self,cr,uid,record_id):
         crms_obj = self.pool.get('crms.instance')
@@ -499,8 +539,8 @@ class fleet_vehicle(osv.osv):
         'color_arabic':fields.char(string="Color Arabic Name",size=10),
         'assigned_for': fields.selection([('Corporate','Corporate'),('Retail','Retail'),('Awaiting for Barcode','Awaiting for Barcode')],string="Assigned For"),
         'current_branch_id':fields.function(_vehicle_branch_get_fnc, type="many2one", relation="sale.shop", string='Branch'),
-        'mvpi_expiry_date':fields.date(string='MVPI Expiry Date'),
         'location':fields.selection([('Branch', 'Branch'), ('Agency', 'Agency'), ('Workshop', 'Workshop'), ('Warehouse', 'Warehouse'),], 'Location'),
+        'mvpi_expiry_date':fields.date(string='MVPI Expiry Date'),
     }
     
     def create(self, cr, uid, data, context=None):
@@ -558,6 +598,20 @@ class fleet_vehicle(osv.osv):
                  
         return vehicle_id
     
+    def onchange_arabic_name(self,cr,uid,ids,license_plate_arabic=False,context=None):
+        space=u''
+        if license_plate_arabic:
+            number_list=[u'1',u'2',u'3',u'4',u'5',u'6',u'7',u'8',u'9',u'0']
+            for sb in list(license_plate_arabic): 
+                if sb != u' ':
+                    if (ord(sb) > 65 and ord(sb) < 90 ) or (ord(sb) > 97 and ord(sb) < 122):
+                        return { 'warning':{'title':'warning','message':'Please enter the valid arabic name'},'value' :{'license_plate_arabic':False}}
+                    else:
+                        if sb not in number_list:
+                            space = space + sb + u' '
+                        else:
+                            space = space + sb
+        return {'value':{'license_plate_arabic':space}}
 fleet_vehicle()
 
 class fleet_vehicle_odometer(osv.Model):
@@ -605,7 +659,6 @@ class res_partner(osv.osv):
     
     def onchange_site_url(self,cr,uid,ids,website,context=None):
         if website:
-            import re
             regex = re.compile(
                             r'^(?:www)?\.' # http:// or https://
                             r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
@@ -620,7 +673,6 @@ class res_partner(osv.osv):
     def onchange_validate_email(self,cr,uid,ids,email,context=None):
         if email:
             if len(email) > 0:
-                    import re
                     if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) == None:
                         return { 'warning':{'title':'warning','message':'Email address is not correct please enter the valid email address'},'value' :{'email': ''}}
         return {'value':{}}

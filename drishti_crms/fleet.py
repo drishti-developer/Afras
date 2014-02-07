@@ -16,11 +16,11 @@ class fleet_vehicle(osv.osv):
     'region_id': fields.many2one('res.country.state',  'State'),
     'country_id': fields.many2one('res.country',  'Country'),
     'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', ),
-    
                    }
     _defaults = {
      'car_value' : 1,
      }
+     
      
     def create(self, cr, uid, values, context=None):
         analytic_obj = self.pool.get('account.analytic.account')
@@ -65,6 +65,15 @@ class fleet_vehicle(osv.osv):
                         assetObj.write(cr, uid, asset_id[0],{'depreciation_start_date': date_from['date_from']})
                         assetObj.compute_depreciation_board(cr, uid, asset_id, context=context)      
               
+        return True
+    
+    def onchange_english_name(self,cr,uid,ids,license_plate=False,context=None):
+        if type(license_plate) == unicode:
+            return { 'warning':{'title':'warning','message':'Please enter the valid only alpha numeric in English not Arabic'},'value' :{'license_plate':False}}
+        elif type(license_plate) == bool:
+            pass
+        else:
+            pass
         return True
     
 fleet_vehicle()

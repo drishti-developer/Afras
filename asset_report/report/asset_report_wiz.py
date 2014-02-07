@@ -1,7 +1,5 @@
 from openerp.report import report_sxw
 import time
-from openerp.osv import osv,fields
-import datetime
 
 class account_asset_asset_report(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -161,6 +159,6 @@ class account_asset_asset_report(report_sxw.rml_parse):
             
         
 
-report_sxw.report_sxw('report.account_asset_asset_report', 'account.asset.asset.wiz','asset_report/report/asset.rml',parser=account_asset_asset_report,header=False)
+report_sxw.report_sxw('report.account_asset_asset_report', 'account.asset.asset.wiz','asset_report/report/asset.rml',parser=account_asset_asset_report)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

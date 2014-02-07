@@ -61,7 +61,6 @@ class asset_sale(osv.osv):
             raise osv.except_osv(_('Warning !!'),_('Please Enter Valid Amount'))
         invoice_pool=self.pool.get('account.invoice')
         cost_analytic_id=obj.asset_id.cost_analytic_id.id if obj.asset_id.cost_analytic_id else obj.asset_id.analytic_id.id or False
-        #print "account id =====================",obj.partner_id.property_account_receivable.id,obj.asset_id.category_id.account_asset_id.id,cost_analytic_id
         invoice_dic={
                      'asset_sale_id':obj.id,
                      'partner_id':obj.partner_id.id,
@@ -74,7 +73,6 @@ class asset_sale(osv.osv):
                      }
         invoice_id=invoice_pool.create(cr,uid,invoice_dic,context)
         account_analytic_id=obj.vehicle_id.analytic_id.id if obj.vehicle_id else obj.asset_id.cost_analytic_id.id or False
-        #print "invoice line id==================",account_analytic_id,obj.asset_id.category_id.account_asset_id.id
         invoice_line={
                       'invoice_id':invoice_id,
                       'name':obj.asset_id.name,

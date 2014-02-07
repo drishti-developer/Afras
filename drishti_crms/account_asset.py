@@ -29,7 +29,6 @@ class account_asset_depreciation_line(osv.osv):
                  'remaining_value': fields.float('Book Value', digits_compute=dp.get_precision('Account'),required=True),
                  'depreciated_value': fields.float('Accumulated Depreciated', required=True),
                  
-                 
                 }
     _order = 'depreciated_value'
               
