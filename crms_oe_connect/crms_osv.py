@@ -537,6 +537,8 @@ def CreateRequest(self, cr, uid, data):
             for response in responsearray:
                 response_data += "<%s>"%(response_name)
                 if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
+                
+                elif response_type == 'Car' : search_id = self.search(cr,uid,[('vin_sn','=',int(response.get('VIN')))])
 
                 elif response_type != 'DailyRevenue': crms_id = response.get('CRMS'+response_type+'ID',False)
 
