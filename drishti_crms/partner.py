@@ -67,6 +67,9 @@ class res_city_area(osv.osv):
     'analytic_ids': fields.one2many('account.analytic.account', 'area_id', 'Analytic Accounts'),
     'car_ids': fields.one2many('fleet.analytic.account', 'area_id', 'Car'),
     }
+    _sql_constraints = [
+        ('name_area_uniqie', 'unique (name)', 'The Area name must be unique !')
+    ]
 res_city_area()
       
 class sale_shop(osv.osv):

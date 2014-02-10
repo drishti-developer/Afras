@@ -37,7 +37,7 @@
                 'base', 'purchase','stock',
                 'fleet','account','account_asset',
                 'account_voucher','sale','sale_stock','crm',
-                'auth_ldap'
+                'auth_ldap',
                 ],
     'data': [
                'form_sequence.xml',

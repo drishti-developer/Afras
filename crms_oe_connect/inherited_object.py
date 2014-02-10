@@ -433,13 +433,15 @@ class fleet_vehicle_model(osv.osv):
     }
     
     def onchange_english_name(self,cr,uid,ids,modelname=False,context=None):
-        if not modelname.replace(' ', '').isalpha():
-            return { 'warning':{'title':'warning','message':'Please enter the valid English name'},'value' :{'modelname':False}}
-        elif type(modelname) == unicode:
-            return { 'warning':{'title':'warning','message':'Please enter the valid English name not arabic'},'value' :{'modelname':False}}
-        else:
-            pass
-        return True
+        res={}
+        if modelname:
+            if not modelname.replace(' ', '').isalpha():
+                return { 'warning':{'title':'warning','message':'Please enter the valid English name'},'value' :{'modelname':False}}
+            elif type(modelname) == unicode:
+                return { 'warning':{'title':'warning','message':'Please enter the valid English name not arabic'},'value' :{'modelname':False}}
+            else:
+                pass
+        return {'value':res}
     
     def onchange_arabic_name(self,cr,uid,ids,arabic_name=False,context=None):
         if type(arabic_name) == unicode:
@@ -600,17 +602,24 @@ class fleet_vehicle(osv.osv):
     
     def onchange_arabic_name(self,cr,uid,ids,license_plate_arabic=False,context=None):
         space=u''
+        count=0
         if license_plate_arabic:
+            if len(list(license_plate_arabic)) <> 7:
+                return { 'warning':{'title':'warning','message':'Number Can not be greater than 7 digits'},'value' :{'license_plate_arabic':False}}
             number_list=[u'1',u'2',u'3',u'4',u'5',u'6',u'7',u'8',u'9',u'0']
             for sb in list(license_plate_arabic): 
+                if sb.isdigit():
+                    count+=1
                 if sb != u' ':
                     if (ord(sb) > 65 and ord(sb) < 90 ) or (ord(sb) > 97 and ord(sb) < 122):
-                        return { 'warning':{'title':'warning','message':'Please enter the valid arabic name'},'value' :{'license_plate_arabic':False}}
+                        return { 'warning':{'title':'warning','message':'Please enter the valid Arabic name'},'value' :{'license_plate_arabic':False}}
                     else:
                         if sb not in number_list:
                             space = space + sb + u' '
                         else:
                             space = space + sb
+            if count <> 4:
+                return { 'warning':{'title':'warning','message':'Only 4 numbers are allowed'},'value' :{'license_plate_arabic':False}}
         return {'value':{'license_plate_arabic':space}}
 fleet_vehicle()
 

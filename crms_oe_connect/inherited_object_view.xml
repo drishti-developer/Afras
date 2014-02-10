@@ -267,6 +267,46 @@
 			</field>
 		</record>
 		
+		<!--     	  ============= Car Type View===============       -->
+			<record id="fleet_car_type_form" model="ir.ui.view">
+            <field name="name">fleet.type.form</field>
+            <field name="model">fleet.type</field>
+	            <field name="arch" type="xml">
+		            <form string='Car Type'>
+		            	<group>
+			            	<group>
+			            		<field name='name'/>
+			            		<field name='arabic_name'/>
+			            	</group>
+			            	<group>
+			            		<field name='crms_id'/>
+			            	</group>
+		            	</group>
+		            </form>
+		      	 </field>
+	 		</record>
+	 		
+	 		
+	 		<record id="fleet_car_type_tree" model="ir.ui.view">
+            <field name="name">fleet.type.form</field>
+            <field name="model">fleet.type</field>
+	            <field name="arch" type="xml">
+		            <tree string='Car Type'>
+	            		<field name='name'/>
+	            		<field name='arabic_name'/>
+<!--	            		<field name='crms_id'/>-->
+		            </tree>
+		      	 </field>
+	 		</record>
+			
+	<record id="action_fleet_type_view" model="ir.actions.act_window">
+         <field name="name">Car Type</field>
+         <field name="res_model">fleet.type</field>
+         <field name="view_type">form</field>
+         <field name="view_id" ref="fleet_car_type_tree"/>
+     </record>	
+	<menuitem action="action_fleet_type_view" parent="fleet.fleet_vehicles" id="fleet_vehicle_type" groups="fleet.group_fleet_user"/>	
+		
 	<!-- Project Task -->
 		
 	<record id="project_task_view11" model="ir.ui.view">
