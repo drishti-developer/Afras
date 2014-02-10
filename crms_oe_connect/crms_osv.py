@@ -538,11 +538,11 @@ def CreateRequest(self, cr, uid, data):
                 response_data += "<%s>"%(response_name)
                 if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
                 
-                elif response_type == 'Car' : search_id = self.search(cr,uid,[('vin_sn','=',int(response.get('VIN')))])
-
                 elif response_type != 'DailyRevenue': crms_id = response.get('CRMS'+response_type+'ID',False)
 
                 if response_type == 'DailyRevenue' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('date','=',response.get('Date'))])
+                
+                elif response_type == 'Car' : search_id = self.search(cr,uid,[('vin_sn','=',str(response.get('VIN')))])
                 
                 elif response_type == 'CarHistory' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('car_id','=',response.get('ERPCarID')),('change_date','=',response.get('ChangeDate'))])
                 
