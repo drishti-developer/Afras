@@ -275,11 +275,14 @@
 					<field name="to_date" />
            </xpath>
            <field name="company_id" position="before">
-                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id),('entry_type','!=','car')]" required="1"/>
            </field>
            
-           <xpath expr="/form/sheet/group/group/field[@name='to_check']" position="after">
-                   <field name="discription"/>
+          
+           <xpath expr="/form/sheet/group" position="after">
+           <group colspan="2" col="2">
+                   <field name="description"/>
+                   </group>
            </xpath>
            
           

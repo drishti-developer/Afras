@@ -1482,7 +1482,7 @@ class account_move(osv.osv):
     _columns = {
     'cost_analytic_id' : fields.many2one('account.analytic.account','Cost Center',),
     'crms_payment_id': fields.many2one('crms.payment','Payment ID'),
-    'discription':fields.char('Discription'),
+    'description':fields.char('Description'),
     }
        
 
