@@ -530,11 +530,14 @@ def CreateRequest(self, cr, uid, data):
         response_data = ''
         response_name = response_type+"Response"
         response_service = response_type+"CreateResponse"
-        
+        _logger.info(data)
         data = data.strip()
         data = " ".join(data.split())
         data = data.encode('utf-8')
+        _logger.info('Request from CRMS',)
+        _logger.info(data)
         _logger.info('Create Request from CRMS for %s :- %s', response_name, data)
+        
         try :
             success = 0
             failure = 0
