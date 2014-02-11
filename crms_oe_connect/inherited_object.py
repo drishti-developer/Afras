@@ -602,14 +602,11 @@ class fleet_vehicle(osv.osv):
     
     def onchange_arabic_name(self,cr,uid,ids,license_plate_arabic=False,context=None):
         space=u''
-<<<<<<< HEAD
         if type(license_plate_arabic)== unicode:
-=======
-        count=0
+            count=0
         if license_plate_arabic:
             if len(list(license_plate_arabic)) <> 7:
                 return { 'warning':{'title':'warning','message':'Number Can not be greater than 7 digits'},'value' :{'license_plate_arabic':False}}
->>>>>>> 37a0f36b4d278b6214f5e959d1d9468009a76f3d
             number_list=[u'1',u'2',u'3',u'4',u'5',u'6',u'7',u'8',u'9',u'0']
             for sb in list(license_plate_arabic): 
                 if sb.isdigit():
@@ -622,13 +619,10 @@ class fleet_vehicle(osv.osv):
                             space = space + sb + u' '
                         else:
                             space = space + sb
-<<<<<<< HEAD
         else:
             pass
-=======
             if count <> 4:
                 return { 'warning':{'title':'warning','message':'Only 4 numbers are allowed'},'value' :{'license_plate_arabic':False}}
->>>>>>> 37a0f36b4d278b6214f5e959d1d9468009a76f3d
         return {'value':{'license_plate_arabic':space}}
 fleet_vehicle()
 
