@@ -261,6 +261,7 @@
 	                     	<field name="cardexpiry_date" on_change="onchange_birthdate(dob,cardexpiry_date)"/>
 	                     	<field name="spouser_name"/>
 	                     	<field name="spouser_id" on_change="onchange_loyaltycard_spouser(loyaltycard_id,spouser_id)"/>
+	                     	<field name="customer_source"/>
 	                     </group>
 					</page>
                 </xpath>

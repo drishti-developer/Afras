@@ -4,7 +4,7 @@ import datetime
 from openerp.tools.translate import _
 from crms_osv import Call
 import re
-
+import sys
 
 
 class res_currency(osv.osv):
@@ -662,9 +662,30 @@ class res_partner(osv.osv):
         'nationality': fields.char(string="Nationality",size=64),
         'preferred_lang': fields.char(string="Preferred Language",size=128),
         'company_name': fields.char(string="Company Name",size=128),
+        'customer_source':fields.selection([('ERP','ERP'),('CRMS','CRMS'),('EXA','EXA')],'Customer Source'),
         }
     _sql_constraints = [('id_number_unique', 'unique(id_number)', 'Id Number Already Exist')]
+    
+    _defaults = {
+    'customer_source':'ERP',
+    }
 
+    def create(self, cr, uid, vals,context ):
+        if not context:
+            context={}
+        if context.get('crms_create'):
+            if not vals.get('name'):
+                raise osv.except_osv(_('Error'),_('Customer Name not defined'))
+            
+            id_number = self.search(cr,uid,[('id_number','=',str(vals.get('id_number')))])
+            if id_number:
+                raise osv.except_osv(_('Error'),_('Duplicate ID Number'))
+            if vals.get('exa',False) and vals.get('exa') == 'Yes':
+                vals['customer_source']='EXA'
+            else:
+                vals['customer_source']='CRMS'
+        
+        return super(res_partner,self).create(cr,uid,vals,context)
     
     def onchange_site_url(self,cr,uid,ids,website,context=None):
         if website:
@@ -728,7 +749,7 @@ class res_partner(osv.osv):
         if employee_code:
             if employee_code.isdigit()==False:
                 return { 'warning':{'title':'warning','message':'Employee  code must be digit'},'value' :{'employee_code': ''}}
-        return {'value':{}}  
+        return {'value':{}}
 
 res_partner()
 
@@ -758,4 +779,5 @@ class res_partner_bank(osv.osv):
                 return { 'warning':{'title':'warning','message':'Account Number is Invalid Please Enter the valid Account Number'},'value' :{'acc_number': ''}}
         return {'value':{}} 
     
-res_partner_bank()    
+res_partner_bank()  
+  
