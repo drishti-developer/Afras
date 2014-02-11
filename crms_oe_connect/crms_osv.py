@@ -541,6 +541,7 @@ def CreateRequest(self, cr, uid, data):
             responseDOM = parseString(data)
             responsearray = getDataArray(responseDOM, 'RequestData', response_type+'List', response_type)       
             for response in responsearray:
+                crms_id=False
                 response_data += "<%s>"%(response_name)
                 if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
                 
@@ -618,6 +619,8 @@ def CreateRequest(self, cr, uid, data):
                     
                 except Exception ,e:
                     response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
+                    if crms_id:
+                        response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id, 'CRMS'+response_type+'ID')
                     response_data += "<RecordStatus>FAILURE - %s</RecordStatus>"%(e)
                     failure += 1
 
