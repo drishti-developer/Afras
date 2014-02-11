@@ -3,6 +3,7 @@ import datetime
 
 _ENTRY_TYPE = [('car', 'Car'), ('branch', 'Branch'),('area', 'Area'), ('city', 'City'),
                 ('region', 'Region'), ('segment','Segment'),('company', 'Company'),]
+
 class account_analytic_line(osv.osv):
     _inherit = 'account.analytic.line'
     _description = 'Analytic Line'
