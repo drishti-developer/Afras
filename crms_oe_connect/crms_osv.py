@@ -533,6 +533,7 @@ def CreateRequest(self, cr, uid, data):
         _logger.info(data)
         data = data.strip()
         data = " ".join(data.split())
+        data = data.replace('&','&amp;')
         data = data.encode('utf-8')
         _logger.info('Request from CRMS',)
         _logger.info(data)
