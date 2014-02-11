@@ -600,7 +600,7 @@ class fleet_vehicle(osv.osv):
     
     def onchange_arabic_name(self,cr,uid,ids,license_plate_arabic=False,context=None):
         space=u''
-        if license_plate_arabic:
+        if type(license_plate_arabic)== unicode:
             number_list=[u'1',u'2',u'3',u'4',u'5',u'6',u'7',u'8',u'9',u'0']
             for sb in list(license_plate_arabic): 
                 if sb != u' ':
@@ -611,6 +611,8 @@ class fleet_vehicle(osv.osv):
                             space = space + sb + u' '
                         else:
                             space = space + sb
+        else:
+            pass
         return {'value':{'license_plate_arabic':space}}
 fleet_vehicle()
 

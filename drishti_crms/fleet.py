@@ -175,7 +175,8 @@ class fleet_vehicle_model(osv.osv):
     'no_of_seats' :  fields.integer('Number of Seats'),
     'no_of_doors' : fields.integer('Number of Doors'),
     'no_of_luggages' : fields.integer('Number of Luggages'),
-    'fuel':fields.char(string="Fuel",size=50)
+    'fuel':fields.char(string="Fuel",size=50),
+    'model_id':fields.many2one('product.product','Model ID'),
     }
     
     

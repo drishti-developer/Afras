@@ -15,12 +15,9 @@ class stock_production_lot(osv.osv):
         if 'product_id' in values:
             product_obj = self.pool.get('product.product').browse(cr,uid,values['product_id'])
             if product_obj.car:
-                
-                
                 ids = self.search(cr,uid, [('name','=',values['name'])])
                 if ids:
                     raise osv.except_osv(_('Duplicate Car Number!'),_("You Must have to define unique car serial number!") )
-            
                 dic = {
                        'license_plate': values['name'],
                        'model_id':product_obj.model_id.id,
