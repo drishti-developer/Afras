@@ -79,7 +79,8 @@ class crms_payment(osv.osv):
     'total_amount_paid':fields.float('Total Amount Paid'),
     'revenue_days':fields.integer('Revenue Days'),
     'daily_revenue_ids': fields.one2many('crms.daily.revenue','booking_id',string="Amount Paid History"),
-    'car_history_ids':fields.one2many('crms.payment.car.history','booking_id','Car History')
+    'car_history_ids':fields.one2many('crms.payment.car.history','booking_id','Car History'),
+    'exa':fields.boolean('Exa'),
     }
     
     _sql_constraints = [
@@ -89,6 +90,7 @@ class crms_payment(osv.osv):
     _defaults = {
     'state':'Active',
     'revenue_days':0,
+    'exa':False,
      }
     
     def create(self, cr, uid, data, context=None):
@@ -99,6 +101,9 @@ class crms_payment(osv.osv):
         data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id'),'voucher_amount':data.get('amount_paid')})]
         data['total_amount_paid'] = data.get('amount_paid')   
         if data.get('admin_expenses',False):context['admin_expenses'] = data.get('admin_expenses')
+        
+        if data.get('exa',False) and data.get('exa',False) == 'Yes' or data.get('exa',False) == 'yes':
+            data['exa']=True
             
         return super(crms_payment, self).create(cr, uid, data, context=context)
     

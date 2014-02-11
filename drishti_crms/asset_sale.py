@@ -1,5 +1,4 @@
 from openerp.osv import fields, osv
-import openerp.addons.decimal_precision as dp
 import datetime
 from openerp.tools.translate import _
 class account_asset_asset(osv.osv):
@@ -19,7 +18,7 @@ class account_asset_asset(osv.osv):
         for record in reads:
             name = record['name']
             if record['code']:
-                name = name + record['code']
+                name =  name + record['code'] 
             res.append((record['id'], name))
         return res
     

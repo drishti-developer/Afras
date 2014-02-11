@@ -30,6 +30,7 @@
 	                    	<field name="discount"/>
 	                    	<field name="payment_type"/>
 	                    	<field name="total_amount_paid"/>
+	                    	<field name="exa"/>
 	                	</group>
 	                	<group col="4">
 	                		<group col="2" colspan="2" string="Branch Details">

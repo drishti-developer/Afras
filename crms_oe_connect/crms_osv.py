@@ -29,7 +29,9 @@ import logging
 
 _logger = logging.getLogger('CRMSLOG')
 
-STANDARD_LIST_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><ResponseGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><ERPResponse><ResponseData DataCollectionDate="%(collectiondate)s" ResponseService="%(responsename)s"><ResponseCode>1</ResponseCode><ResponseMessage>SUCCESS</ResponseMessage>%(responsedata)s</ResponseData></ERPResponse></ResponseGroup>"""
+STANDARD_LIST_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><ResponseGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><ERPResponse><ResponseData DataCollectionDate="%(collectiondate)s" ResponseService="%(responsename)s"><ResponseCode>1</ResponseCode><ResponseMessage>%(success)s - SUCCESS, %(failure)s - FAILURE</ResponseMessage>%(responsedata)s</ResponseData></ERPResponse></ResponseGroup>"""
+
+STANDARD_LIST_ERROR_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><ResponseGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><ERPResponse><ResponseData DataCollectionDate="%(collectiondate)s" ResponseService="%(responsename)s"><ResponseCode>0</ResponseCode><ResponseMessage>FAILURE - %(responsedata)s</ResponseMessage></ResponseData></ERPResponse></ResponseGroup>"""
 
 VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner',]
 
@@ -195,6 +197,7 @@ CUSTOMER_LIST  = [
             ('spouser_name','SponsorName'),
             ('spouser_id','SponsorID'),
             ('nationality','Nationality'),
+            ('exa','Exa'),
             ]
 
 RENTAL_PAYMENT_LIST = [
@@ -233,6 +236,7 @@ RENTAL_PAYMENT_LIST = [
             ('discount','Discounts'),
             ('discount_date','DiscountDate'),
             ('rental_extension','RentalExtension'),
+            ('exa','Exa')
             ]
 
 INTERMEDIATE_PAYMENT_LIST = [
@@ -342,11 +346,13 @@ class Call:
                     }
     
             #print "XML Requested Data:\n",request_data
+            _logger.info('Request Send to CRMS for %s :- %s', request_type, request_data)
             encoded_data = urllib.quote_plus(request_data.encode('utf-8')) # Encoding the XML Request
             encoded_data = "xml="+encoded_data
             #print "Encoded Requested Data:\n",encoded_data
             webf = urllib.urlopen(self.URL, encoded_data) #Sending the URL Request with encoded code using urllib library
             response = webf.read() #Web Response
+            _logger.info('Return Response from CRMS for %s :- %s', request_type, response)
             #print "Response",response
             webf.close()
             responseDOM = parseString(response) #Parsing the Response
@@ -530,15 +536,19 @@ def CreateRequest(self, cr, uid, data):
         data = data.encode('utf-8')
         _logger.info('Create Request from CRMS for %s :- %s', response_name, data)
         try :
+            success = 0
+            failure = 0
             responseDOM = parseString(data)
             responsearray = getDataArray(responseDOM, 'RequestData', response_type+'List', response_type)       
             for response in responsearray:
                 response_data += "<%s>"%(response_name)
                 if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
-
+                
                 elif response_type != 'DailyRevenue': crms_id = response.get('CRMS'+response_type+'ID',False)
 
                 if response_type == 'DailyRevenue' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('date','=',response.get('Date'))])
+                
+                elif response_type == 'Car' : search_id = self.search(cr,uid,[('vin_sn','=',str(response.get('VIN')))])
                 
                 elif response_type == 'CarHistory' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('car_id','=',response.get('ERPCarID')),('change_date','=',response.get('ChangeDate'))])
                 
@@ -567,6 +577,7 @@ def CreateRequest(self, cr, uid, data):
                 try :
                     msg = 'SUCCESS'
                     record_id = 0
+                    
                     #Creating record.
                     if len(search_id) == 0 and record_value : record_id = self.create(cr,uid,record_value,{'mail_create_nosubscribe':True,'crms_create':True})
                     
@@ -576,7 +587,10 @@ def CreateRequest(self, cr, uid, data):
                         record_id = search_id[0]
                     
                     #If search condition is not matching with the either of the condition then FAILURE msg will be send.
-                    else:msg = 'FAILURE'
+                    else :
+                        msg = 'FAILURE'
+                        success -= 1
+                        failure += 1
     
                     if response_type == 'RentalPayment' :
                         if payment_id :
@@ -600,19 +614,21 @@ def CreateRequest(self, cr, uid, data):
                         response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
                     
                     response_data += "<RecordStatus>%s</RecordStatus>"%(msg)
+                    success += 1
                     
                 except Exception ,e:
                     response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
                     response_data += "<RecordStatus>FAILURE - %s</RecordStatus>"%(e)
+                    failure += 1
 
                 response_data += "</%s>"%(response_name)
 
-            return_response = STANDARD_LIST_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':response_data}
+            return_response = STANDARD_LIST_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':response_data,'success':success,'failure':failure}
             _logger.info('Return Response for %s :- %s', response_name, return_response)
 # 	        responseDOM = parseString(return_response) #Parsing the Response
 # 	        print "Response from ERP:\n",responseDOM.toprettyxml()
         except Exception ,e:
             _logger.error('Error Occured while processing the %s request:- %s', response_type, e)
-            return_response = "Invalid Request"
+            return_response = STANDARD_LIST_ERROR_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':e}
 
     return return_response
