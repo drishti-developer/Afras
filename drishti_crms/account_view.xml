@@ -275,7 +275,7 @@
 					<field name="to_date" />
            </xpath>
            <field name="company_id" position="before">
-                <field name="cost_analytic_id" domain="[('company_id', '=', company_id)]" required="1"/>
+                <field name="cost_analytic_id" domain="[('company_id', '=', company_id),('entry_type','!=','car')]" required="1"/>
            </field>
            
           
