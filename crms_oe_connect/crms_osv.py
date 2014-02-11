@@ -530,17 +530,21 @@ def CreateRequest(self, cr, uid, data):
         response_data = ''
         response_name = response_type+"Response"
         response_service = response_type+"CreateResponse"
-        
+        _logger.info(data)
         data = data.strip()
         data = " ".join(data.split())
         data = data.encode('utf-8')
+        _logger.info('Request from CRMS',)
+        _logger.info(data)
         _logger.info('Create Request from CRMS for %s :- %s', response_name, data)
+        
         try :
             success = 0
             failure = 0
             responseDOM = parseString(data)
             responsearray = getDataArray(responseDOM, 'RequestData', response_type+'List', response_type)       
             for response in responsearray:
+                crms_id=False
                 response_data += "<%s>"%(response_name)
                 if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
                 
@@ -618,6 +622,8 @@ def CreateRequest(self, cr, uid, data):
                     
                 except Exception ,e:
                     response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
+                    if crms_id:
+                        response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id, 'CRMS'+response_type+'ID')
                     response_data += "<RecordStatus>FAILURE - %s</RecordStatus>"%(e)
                     failure += 1
 
