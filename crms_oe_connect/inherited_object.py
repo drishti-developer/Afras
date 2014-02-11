@@ -674,17 +674,17 @@ class res_partner(osv.osv):
         if not context:
             context={}
         if context.get('crms_create'):
-            if not vals.get('name'):
-                raise osv.except_osv(_('Error'),_('Customer Name not defined'))
-            
             id_number = self.search(cr,uid,[('id_number','=',str(vals.get('id_number')))])
             if id_number:
                 raise osv.except_osv(_('Error'),_('Duplicate ID Number'))
             if vals.get('exa',False) and vals.get('exa') == 'Yes':
                 vals['customer_source']='EXA'
+                vals['name']=vals['arabic_name']
             else:
                 vals['customer_source']='CRMS'
-        
+            if not vals.get('name'):
+                raise osv.except_osv(_('Error'),_('Customer Name not defined'))
+            
         return super(res_partner,self).create(cr,uid,vals,context)
     
     def onchange_site_url(self,cr,uid,ids,website,context=None):
