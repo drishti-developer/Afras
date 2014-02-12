@@ -544,35 +544,30 @@ class fleet_vehicle(osv.osv):
         'location':fields.selection([('Branch', 'Branch'), ('Agency', 'Agency'), ('Workshop', 'Workshop'), ('Warehouse', 'Warehouse'),], 'Location'),
         'mvpi_expiry_date':fields.date(string='MVPI Expiry Date'),
     }
-    
-    def create(self, cr, uid, data, context=None):
-        
-        context = context or {} 
-        vehicle_id = super(fleet_vehicle, self).create(cr, uid, data, context=context)
-        if not context.get('crms_create',False):
-            reference_obj = self.pool.get('crms.instance')
-            reference_ids = reference_obj.search(cr,uid,[])
-            if reference_ids:
-                vehicle_brw = self.browse(cr, uid, vehicle_id)
-                if len(vehicle_brw.analytic_account_ids) <=0:
-                    raise osv.except_osv(_('Error'),_('Please add atleast one Branch'))
+    def update_crms(self,cr,uid,vehicle_id):
+        reference_obj = self.pool.get('crms.instance')
+        reference_ids = reference_obj.search(cr,uid,[])
+        if reference_ids:
+            vehicle_brw = self.browse(cr, uid, vehicle_id)
+            if len(vehicle_brw.analytic_account_ids) <=0:
+                raise osv.except_osv(_('Error'),_('Please add atleast one Branch'))
+            
+            self_brw = reference_obj.browse(cr,uid,reference_ids[0])
+            date_today = datetime.date.today()
+                         
+            if vehicle_brw.assigned_for and vehicle_brw.license_plate and vehicle_brw.license_plate_arabic and vehicle_brw.vin_sn and vehicle_brw.color and vehicle_brw.color_arabic and vehicle_brw.company_id and vehicle_brw.model_year and vehicle_brw.model_id and vehicle_brw.model_id.crms_id and vehicle_brw.current_branch_id and vehicle_brw.current_branch_id.crms_id and vehicle_brw.company_id.id == 1:
+                extra_str = ''
+                if vehicle_brw.acquisition_date:
+                    extra_str += "\n<AcquisitionDate>%s</AquisitionDate>"%(vehicle_brw.acquisition_date)
+                if  vehicle_brw.engine_number:
+                    extra_str += "\n<EngineNumber>%s</EngineNumber>"%(vehicle_brw.engine_number)
+                if vehicle_brw.car_value:
+                    extra_str += "\n<CarValue>%s</CarValue>"%(vehicle_brw.car_value)
+                if vehicle_brw.barcode:
+                    extra_str += "\n<Barcode>%s</Barcode>"%(vehicle_brw.barcode)
                 
-                self_brw = reference_obj.browse(cr,uid,reference_ids[0])
-                date_today = datetime.date.today()
-                             
-                if vehicle_brw.assigned_for and vehicle_brw.license_plate and vehicle_brw.license_plate_arabic and vehicle_brw.vin_sn and vehicle_brw.color and vehicle_brw.color_arabic and vehicle_brw.company_id and vehicle_brw.model_year and vehicle_brw.model_id and vehicle_brw.model_id.crms_id and vehicle_brw.current_branch_id and vehicle_brw.current_branch_id.crms_id and vehicle_brw.company_id.id == 1:
-                    extra_str = ''
-                    if vehicle_brw.acquisition_date:
-                        extra_str += "\n<AcquisitionDate>%s</AquisitionDate>"%(vehicle_brw.acquisition_date)
-                    if  vehicle_brw.engine_number:
-                        extra_str += "\n<EngineNumber>%s</EngineNumber>"%(vehicle_brw.engine_number)
-                    if vehicle_brw.car_value:
-                        extra_str += "\n<CarValue>%s</CarValue>"%(vehicle_brw.car_value)
-                    if vehicle_brw.barcode:
-                        extra_str += "\n<Barcode>%s</Barcode>"%(vehicle_brw.barcode)
-                    
-                    car_str = "<CarList>"        
-                    car_str += """<Car>
+                car_str = "<CarList>"        
+                car_str += """<Car>
 <ERPCarID>%s</ERPCarID>
 <AssignedFor>%s</AssignedFor>
 <LicenseInEng>%s</LicenseInEng>
@@ -592,13 +587,28 @@ class fleet_vehicle(osv.osv):
 """%(vehicle_brw.id, vehicle_brw.assigned_for, vehicle_brw.license_plate, vehicle_brw.license_plate_arabic, vehicle_brw.vin_sn, extra_str, \
      vehicle_brw.color, vehicle_brw.color_arabic, date_today, int(vehicle_brw.odometer), vehicle_brw.company_id.name, vehicle_brw.model_year, vehicle_brw.model_id.id, vehicle_brw.model_id.crms_id, vehicle_brw.current_branch_id.id, vehicle_brw.current_branch_id.crms_id)
          
-                    car_str +="</CarList>" 
-                    responsearray = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request(car_str, 'CarCreateRequest', 'CarResponse')
-                    for response_dict in responsearray:
-                        if response_dict.get('RecordStatus',False) and response_dict.get('RecordStatus') == 'SUCCESS':
-                            cr.execute("update fleet_vehicle set crms_id=%s where id=%s",(int(response_dict.get('CRMSCarID')), response_dict.get('ERPCarID')))
-                 
+                car_str +="</CarList>" 
+                responsearray = Call(self_brw.name, self_brw.erp_ip, self_brw.username, self_brw.password).send_request(car_str, 'CarCreateRequest', 'CarResponse')
+                for response_dict in responsearray:
+                    if response_dict.get('RecordStatus',False) and response_dict.get('RecordStatus') == 'SUCCESS':
+                        cr.execute("update fleet_vehicle set crms_id=%s where id=%s",(int(response_dict.get('CRMSCarID')), response_dict.get('ERPCarID')))
+        return True
+     
+    def create(self, cr, uid, data, context=None):
+        
+        context = context or {} 
+        vehicle_id = super(fleet_vehicle, self).create(cr, uid, data, context=context)
+        if not context.get('crms_create',False):
+            self.update_crms(cr, uid, vehicle_id)
         return vehicle_id
+    
+    def write(self,cr,uid,ids,vals,context={}):
+        res=super(fleet_vehicle, self).write(cr, uid, ids, vals, context=context)
+        self_brw=self.browse(cr,uid,ids[0])
+        if not context.get('crms_create',False):
+            if not self_brw.crms_id or self_brw.crms_id==0:
+                self.update_crms(cr, uid, ids[0])
+        return res
     
     def onchange_arabic_name(self,cr,uid,ids,license_plate_arabic=False,context=None):
         space=u''

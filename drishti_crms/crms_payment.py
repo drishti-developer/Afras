@@ -102,7 +102,7 @@ class crms_payment(osv.osv):
         data['total_amount_paid'] = data.get('amount_paid')   
         if data.get('admin_expenses',False):context['admin_expenses'] = data.get('admin_expenses')
         
-        if data.get('exa',False) and data.get('exa',False) == 'Yes' or data.get('exa',False) == 'yes':
+        if data.get('exa',False) and (data.get('exa') == 'Yes' or data.get('exa') == 'yes'):
             data['exa']=True
             
         return super(crms_payment, self).create(cr, uid, data, context=context)

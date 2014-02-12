@@ -611,7 +611,6 @@ class crms_instance(osv.osv):
                  'vin_sn':response_dict.get('VIN'),
                  'license_plate':response_dict.get('LicenseInEng'),
                  'license_plate_arabic':response_dict.get('LicenseInAra'),
-                 'odometer':response_dict.get('Odometer') if response_dict.get('Odometer',0) > 0 else False,
                  'color':response_dict.get('ColorInEng'),
                  'color_arabic':response_dict.get('ColorInAra') or response_dict.get('ColorInEng'),
                  'assigned_for':response_dict.get('AssignedFor'),
@@ -621,6 +620,8 @@ class crms_instance(osv.osv):
                  'model_year':response_dict.get('ModelYear'),
                  'company_id':1,
                  }
+                if response_dict.get('Odometer',0) > 0:
+                    vals['odometer']=response_dict.get('Odometer')
                 
                 if not vehicle_id :
                     vals['analytic_account_ids'] =[(0,0,{'branch_id':branch_id[0],'date_from':datetime.date.today(),'segment':'retail'})] if branch_id else False
