@@ -205,7 +205,7 @@ class res_partner(osv.osv):
              }
     
     #request for multiple record is to be done
-    def CreateRecord(self, cr, uid, vals, context=None):
+    def CreateRecord(self, cr, uid, vals):
         dic = {}
         partner_obj=self.pool.get('res.partner')
         country_obj=self.pool.get('res.country')
@@ -246,7 +246,7 @@ class res_partner(osv.osv):
             dic['is_company'] =True
             dic['supplier'] =True
             partner_id = self.write(cr,uid,partner_id[0],dic) and partner_id[0] \
-                             if partner_id else self.create(cr,uid,dic)                  
+                             if partner_id else self.create(cr,uid,dic,{})                  
             
             # if contact name then one record will create for contact and map to vendor
             if dic.get('contact_name',False): 
