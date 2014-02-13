@@ -257,7 +257,7 @@ class res_partner(osv.osv):
                                 'phone': dic.get('contact_phone',False),
                                 'phone_ext': dic.get('contact_phone_ext',False), }
                 contact_id = self.write(cr,uid,contact_id[0],contact_dic) and contact_id[0] \
-                                 if contact_id else self.create(cr,uid,contact_dic)
+                                 if contact_id else self.create(cr,uid,contact_dic,{})
                 
             # if owner name then one record will create for owner and map to vendor   
             if dic.get('owner_name',False):  
@@ -267,7 +267,7 @@ class res_partner(osv.osv):
                              'phone': dic.get('owner_phone',False),
                              'email': dic.get('owner_email',False),}
                 owner_id = self.write(cr,uid,owner_id[0],owner_dic) and owner_id[0] \
-                                 if owner_id else self.create(cr,uid,owner_dic)
+                                 if owner_id else self.create(cr,uid,owner_dic,{})
              
             # if ceo name then one record will create for CEO and map to vendor
             if dic.get('ceo_name',False): 
@@ -276,7 +276,7 @@ class res_partner(osv.osv):
                 ceo_dic ={ 'name': dic['ceo_name'],
                            'parent_id':partner_id }   
                 ceo_id = self.write(cr,uid,ceo_id[0],ceo_dic) and ceo_id[0] \
-                                 if ceo_id else self.create(cr,uid,ceo_dic)
+                                 if ceo_id else self.create(cr,uid,ceo_dic,{})
                                  
             # if BankID(ops_id) then create bank in OpenERP res.bank     
             # OPS Need to send Bank Name Also     
