@@ -317,7 +317,7 @@ class res_partner(osv.osv):
                                       else partner_bank_obj.create(cr, uid,partner_bank_dic)
                         
                                                 
-        return partner_id  
+            return partner_id  
         
 res_partner()
 
@@ -590,14 +590,14 @@ PURCHASE_ORDER_DIC={
           # 'RECORDSTATUS':'state',
           # 'PAYMENTSTATUS':'',
            'TOTALAMOUNT':'po_amount',
-           'DISCOUNTACT':'discount_type',
-           'SERVICEACT':'service_type',
-           'DEDUCTIONACT':'deduction_type',
+          # 'DISCOUNTACT':'discount_type',
+         #  'SERVICEACT':'service_type',
+          # 'DEDUCTIONACT':'deduction_type',
            'DISCOUNTAMOUNT':'discount_value',
            'DEDUCTIONAMOUNT':'deduction_value',
            'SERVICEAMOUNT':'service_amt',
            'NETAMOUNT':'amount_total',
-           'EXPENSETYPE':'revenue_type',
+          # 'EXPENSETYPE':'revenue_type',
            'REIMBURSESTATUS':'reimurses_status',
            'REIMBURSECOMMAMOUNT':'reimurses_com_amt',
            'REIMBURSABLEAMOUNT':'reimurses_total_amt',
