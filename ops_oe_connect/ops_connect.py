@@ -286,7 +286,7 @@ class res_partner(osv.osv):
                 bank_dic ={ 'name': dic['ops_id'],'country': dic['country_id'],
                             'ops_id':  dic.get('ops_id',False),
                             'bic': dic.get('bank_bic',False),}
-                bank_id = bank_id[0] if bank_id else bank_obj.create(cr,uid,bank_dic)  
+                bank_id = bank_id[0] if bank_id else bank_obj.create(cr,uid,bank_dic,{})  
                      
                 # if Bank Holder name then one record will create for BankHolderName and map to vendor   
                 if dic.get('bank_holder_name',False): 
@@ -294,7 +294,7 @@ class res_partner(osv.osv):
                     bank_holder_id = partner_obj.search(cr, uid, domain)
                     bank_holder_dic ={ 'name': dic['bank_holder_name'],
                                        'parent_id':partner_id }
-                    bank_holder_id = bank_holder_id[0] if bank_holder_id else self.create(cr,uid,bank_holder_dic)
+                    bank_holder_id = bank_holder_id[0] if bank_holder_id else self.create(cr,uid,bank_holder_dic,{})
                       
                     # Create vendor Bank account in OpenERP res.partner.bank 
                     #Assuming country of Bank is same as vendor country
@@ -314,7 +314,7 @@ class res_partner(osv.osv):
                         partner_bank_id = partner_bank_obj.search(cr, uid, domain)    
                         if not partner_bank_id:
                             partner_bank_id = partner_bank_id[0] if partner_bank_id \
-                                      else partner_bank_obj.create(cr, uid,partner_bank_dic)
+                                      else partner_bank_obj.create(cr, uid,partner_bank_dic,{})
                         
                                                 
             return partner_id  
@@ -375,7 +375,7 @@ class purchase_requisition(osv.osv):
                       
         requisition_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
         requisition_id = self.write(cr,uid,requisition_id[0],dic) and requisition_id[0] \
-                                 if requisition_id else self.create(cr,uid,dic)
+                                 if requisition_id else self.create(cr,uid,dic,{})
         
         return requisition_id  
          
@@ -409,7 +409,7 @@ class purchase_requisition_line(osv.osv):
             requisition_line_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
             print 'requisition_line_id======',requisition_line_id
             requisition_line_id = self.write(cr,uid,requisition_line_id[0],dic) and requisition_line_id[0] \
-                                 if requisition_line_id else self.create(cr,uid,dic)
+                                 if requisition_line_id else self.create(cr,uid,dic,{})
             return requisition_line_id                     
         else:
             return False
@@ -574,7 +574,7 @@ class res_bank(osv.osv):
         if vals.get('IDENTIFIERCODE',False) and vals.get('BANKNAME',False):
             bank_id=self.search(cr,uid,[('name','=',vals['BANKNAME']),('bic','=',vals['IDENTIFIERCODE'])])
             if not bank_id:
-                bank_id=self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'bic':vals['IDENTIFIERCODE'],'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)})
+                bank_id=self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'bic':vals['IDENTIFIERCODE'],'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)},{})
         return bank_id
 
 PURCHASE_ORDER_DIC={
@@ -748,7 +748,7 @@ class purchase_order(osv.osv):
             dic['deduction_amt']=deduction['value']['deduction_amt']
             purchase_id=self.search(cr, uid, [('ops_order_id','=',dic['ops_order_id'])])
             purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
-                                 if purchase_id else self.create(cr,uid,dic)
+                                 if purchase_id else self.create(cr,uid,dic,{})
         #print "purchase id==================================",purchase_id
         order_line=self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
         netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
@@ -822,7 +822,7 @@ class purchase_order_line(osv.osv):
                
             purchase_line_id=self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
             purchase_line_id = self.write(cr,uid,purchase_line_id[0],dic) and purchase_line_id[0] \
-                                     if purchase_line_id else self.create(cr,uid,dic)
+                                     if purchase_line_id else self.create(cr,uid,dic,context={})
         return purchase_line_id
 
 
@@ -885,7 +885,7 @@ class account_invoice_payment(osv.osv):
                 dic['invoice_id']=invoice_id[0]
             payment_id=self.search(cr, uid, [('pos_payment_id','=',dic['pos_payment_id'])])
             payment_id = self.write(cr,uid,payment_id[0],dic) and payment_id[0] \
-                                     if payment_id else self.create(cr,uid,dic)
+                                     if payment_id else self.create(cr,uid,dic,context={})
         return payment_id
     
     
