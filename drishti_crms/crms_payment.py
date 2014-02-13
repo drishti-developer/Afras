@@ -175,6 +175,7 @@ class crms_payment(osv.osv):
     'state':'Active',
     'revenue_days':0,
     'exa':'No',
+    'per_day_amount':0
      }
     
     def onchange_rental_date(self, cr, uid, ids, rental_from_date,context=None):
