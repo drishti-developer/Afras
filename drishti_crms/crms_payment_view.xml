@@ -120,7 +120,6 @@
 	                        <page string="Extra Charges">
 	                        	<group col="4" colspan="2">                        
 			                    	<field name="damage_charges"/>
-			                    	<field name="traffic_violation_charges"/>
 			                    	<field name="other_charges"/>
 			                    	<field name="extra_hour_charges"/>
 			                    	<field name="extra_km_charges"/>
@@ -132,7 +131,22 @@
 	                        		<tree editable="bottom">
 	                        			<field name="date"/>
 	                        			<field name="discount"/>
+	                        			<field name="crms_id"/>
 	                        		</tree>
+	                        	</field>
+	                        </page>
+	                        <page string="Traffic Violation History">
+	                        	<field name="traffic_violation_history_ids" nolabel="1" readonly="True">
+	                        		<tree>
+	                        			<field name="traffic_violation_charges"/>
+	                        			<field name="date"/>
+	                        		    <field name="crms_id"/>
+	                        		</tree>
+	                        		<form string="Traffic Violation History">
+	                        			<field name="traffic_violation_charges"/>
+	                        			<field name="date"/>
+	                        		    <field name="crms_id"/>
+	                        		</form>
 	                        	</field>
 	                        </page>
 	                        <page string="Car History">

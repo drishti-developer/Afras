@@ -225,7 +225,6 @@ RENTAL_PAYMENT_LIST = [
             ('balance_due_amount','BalanceDue'),
             ('admin_expenses','AdminExpenses'),
             ('damage_charges','DamageCharges'),
-            ('traffic_violation_charges','TrafficViolationCharges'),
             ('other_charges','OtherCharges'),
             ('extra_hour_charges','AdditionalHourCharges'),
             ('extra_km_charges','ExtraKMCharges'),
@@ -233,10 +232,14 @@ RENTAL_PAYMENT_LIST = [
             ('payment_type','PaymentMode'),
             ('state','RentalStatus'),
             ('per_day_amount','RatePerDay'),
+            ('rental_extension','RentalExtension'),
+            ('exa','Exa'),
             ('discount','Discounts'),
             ('discount_date','DiscountDate'),
-            ('rental_extension','RentalExtension'),
-            ('exa','Exa')
+            ('crms_discount_id','CRMSDiscountID'),
+            ('traffic_violation_charges','TrafficViolationCharges'),
+            ('traffic_violation_charges_date','TrafficViolationDate'),
+            ('crms_traffic_violation_id','CRMSTrafficViolationID'),
             ]
 
 INTERMEDIATE_PAYMENT_LIST = [
@@ -535,8 +538,6 @@ def CreateRequest(self, cr, uid, data):
         data = " ".join(data.split())
         data = data.replace('&','&amp;')
         data = data.encode('utf-8')
-        _logger.info('Request from CRMS',)
-        _logger.info(data)
         _logger.info('Create Request from CRMS for %s :- %s', response_name, data)
         
         try :
@@ -564,7 +565,12 @@ def CreateRequest(self, cr, uid, data):
                 else : search_id = []
 
                 record_value = {}
-                payment_id = False
+                payment_id = 0
+                discount_id = 0
+                traffic_violation_id = 0
+                booking_id = 0
+                branch_id = 0
+                
                 for field in field_list:
                     if field[0] not in ['id','current_branch_id']:#skip fields
                         if field[0] == 'analytic_account_ids' and len(search_id) > 0 and response.get(field[1],False):
@@ -578,6 +584,10 @@ def CreateRequest(self, cr, uid, data):
                             elif response.get(field[1],False) :
                                 record_value[field[0]] = response.get(field[1],False)
                                 if field[1] == 'CRMSRentalPaymentID' :  payment_id = response.get(field[1])
+                                if field[1] == 'CRMSDiscountID' :  discount_id = response.get(field[1])
+                                if field[1] == 'CRMSTrafficViolationID' :  traffic_violation_id = response.get(field[1])
+                                if field[1] == 'ERPBookingID' and response_type in ['DailyRevenue','CarHistory']:  booking_id = response.get(field[1])
+                                if field[1] == 'ERPBranchID' and response_type == 'CashBranch':  branch_id = response.get(field[1])
 
                 try :
                     msg = 'SUCCESS'
@@ -598,21 +608,39 @@ def CreateRequest(self, cr, uid, data):
                         failure += 1
     
                     if response_type == 'RentalPayment' :
+                        
+                        response_data += "<%s>%s</%s>"%('CRMSBookingID', crms_id or 0, 'CRMSBookingID')
+                        response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
+                        
                         if payment_id :
-                            response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
                             cr.execute('select id from crms_payment_intermediatepayment_history where crms_id=%s',(payment_id,))
                             record_id = cr.fetchone()
                             response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id and record_id[0] or 0, 'ERP'+response_type+'ID')
                             response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', payment_id, 'CRMS'+response_type+'ID')
-                        else :
-                            response_data += "<%s>%s</%s>"%('CRMSBookingID', crms_id or 0, 'CRMSBookingID')
-                            response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
                             
-                    elif response_type == 'DailyRevenue' : response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                        if discount_id :
+                            cr.execute('select id from crms_payment_discount_history where crms_id=%s',(discount_id,))
+                            record_id = cr.fetchone()
+                            response_data += "<%s>%s</%s>"%('ERPDiscountID', record_id and record_id[0] or 0, 'ERPDiscountID')
+                            response_data += "<%s>%s</%s>"%('CRMSDiscountID', discount_id, 'CRMSDiscountID')
+                            
+                        if traffic_violation_id :
+                            cr.execute('select id from crms_payment_traffic_violation_history where crms_id=%s',(traffic_violation_id,))
+                            record_id = cr.fetchone()
+                            response_data += "<%s>%s</%s>"%('ERPTrafficViolationID', record_id and record_id[0] or 0, 'ERPTrafficViolationID')
+                            response_data += "<%s>%s</%s>"%('CRMSTrafficViolationID', traffic_violation_id, 'CRMSTrafficViolationID')
+                            
+                    elif response_type == 'DailyRevenue' :
+                        response_data += "<%s>%s</%s>"%('ERPBookingID', booking_id or 0, 'ERPBookingID')
+                        response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
                     
-                    elif response_type == 'CarHistory' : response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                    elif response_type == 'CarHistory' : 
+                        response_data += "<%s>%s</%s>"%('ERPBookingID', booking_id or 0, 'ERPBookingID')
+                        response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
                    
-                    elif response_type == 'CashBranch' : response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
+                    elif response_type == 'CashBranch' : 
+                        response_data += "<%s>%s</%s>"%('ERPBookingID', branch_id or 0, 'ERPBookingID')
+                        response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
                     
                     else :    
                         response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id or 0, 'CRMS'+response_type+'ID')
@@ -631,11 +659,12 @@ def CreateRequest(self, cr, uid, data):
                 response_data += "</%s>"%(response_name)
 
             return_response = STANDARD_LIST_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':response_data,'success':success,'failure':failure}
-            _logger.info('Return Response for %s :- %s', response_name, return_response)
-# 	        responseDOM = parseString(return_response) #Parsing the Response
-# 	        print "Response from ERP:\n",responseDOM.toprettyxml()
+#             _logger.info('Return Response for %s :- %s', response_name, return_response)
+# 	          responseDOM = parseString(return_response) #Parsing the Response
+# 	          print "Response from ERP:\n",responseDOM.toprettyxml()
         except Exception ,e:
             _logger.error('Error Occured while processing the %s request:- %s', response_type, e)
             return_response = STANDARD_LIST_ERROR_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':e}
+        _logger.info('Return Response for %s :- %s', response_name, return_response)
 
     return return_response
