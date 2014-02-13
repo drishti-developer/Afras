@@ -750,7 +750,7 @@ class purchase_order(osv.osv):
             purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
                                  if purchase_id else self.create(cr,uid,dic)
         #print "purchase id==================================",purchase_id
-        self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
+        order_line=self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
         netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
         invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
         #print "ops     invoice==============",invoice
@@ -886,7 +886,7 @@ class account_invoice_payment(osv.osv):
             payment_id=self.search(cr, uid, [('pos_payment_id','=',dic['pos_payment_id'])])
             payment_id = self.write(cr,uid,payment_id[0],dic) and payment_id[0] \
                                      if payment_id else self.create(cr,uid,dic)
-        return True
+        return payment_id
     
     
 ACCOUNT_DETAILS={
