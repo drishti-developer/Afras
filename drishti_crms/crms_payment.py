@@ -215,7 +215,7 @@ class crms_payment(osv.osv):
         
 
         #Check whether is a new discount is applied or not.
-        if data.get('discount',False) and int(data.get('discount')) > 0 and data.get('discount_date',False) and data.get('crms_discount_id',False):
+        if data.get('discount',False) and float(data.get('discount')) > 0 and data.get('discount_date',False) and data.get('crms_discount_id',False):
             self.pool.get('crms.payment.discount.history').create(cr, uid, {'date':data.get('discount_date'), 
                                                                             'booking_id':booking_id, 
                                                                             'discount':data.get('discount'), 
@@ -241,7 +241,7 @@ class crms_payment(osv.osv):
         account_id = crms_payment_brw.property_cash_journal.default_credit_account_id.id if (vals.get('payment_type',False) and vals.get('payment_type') == 'Cash') else crms_payment_brw.property_bank_journal.default_credit_account_id.id if (vals.get('payment_type',False) and vals.get('payment_type') in ['Span','Card']) else crms_payment_brw.property_retail_account.id 
         
         #Check whether is a new discount is applied or not.
-        if vals.get('discount',False) and int(vals.get('discount')) > 0 and vals.get('discount_date',False) and vals.get('crms_discount_id',False):
+        if vals.get('discount',False) and float(vals.get('discount')) > 0 and vals.get('discount_date',False) and vals.get('crms_discount_id',False):
             self.pool.get('crms.payment.discount.history').create(cr, uid, {'date':vals.get('discount_date'), 
                                                                             'booking_id':ids[0], 
                                                                             'discount':vals.get('discount'), 
