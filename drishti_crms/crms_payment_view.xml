@@ -16,6 +16,7 @@
 	                		<field name="partner_id"/>
 	                		<field name="rental_from_date"/>
 	                    	<field name="rental_to_date"/>
+	                   <!-- 	<field name="arabic_rental_from_date"/> -->
 	                    	<field name="amount_paid"/>
 	                    	<field name="amount_receive_date"/>
 	                    	<field name="no_of_days"/>

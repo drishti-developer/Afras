@@ -3,6 +3,85 @@ from openerp.osv import fields, osv
 import datetime
 from dateutil.relativedelta import relativedelta
 from openerp import netsvc
+import math
+
+def intPart(floatNum):
+    if floatNum < -0.0000001: return math.ceil(floatNum - 0.0000001)
+    return math.floor(floatNum + 0.0000001)
+
+def Gregorian2Hijri(date):
+    dt=datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+    yr=dt.year
+    mth=dt.month
+    day=dt.day
+    if ((yr > 1582) or ((yr == 1582) and (mth > 10)) or \
+        ((yr == 1582) and (mth == 10) and (day > 14))):
+        jd1 = intPart((1461 * (yr + 4800 + \
+                          intPart((mth - 14) / 12.0))) / 4)
+        jd2 = intPart((367 * (mth - 2 - 12 * \
+                         (intPart((mth - 14) / 12.0)))) / 12)
+        jd3 = intPart((3 * (intPart((yr + 4900 + \
+                          intPart((mth - 14) / 12.0)) / 100))) / 4)
+        jd = jd1 + jd2 - jd3 + day - 32075
+    else:
+        jd1 = intPart((7 * (yr + 5001 + \
+                          intPart((mth - 9) / 7.0))) / 4)
+        jd2 = intPart((275 * mth) / 9.0)
+        jd = 367 * yr - jd1 + jd2 + day + 1729777
+
+    l = jd - 1948440 + 10632
+    n = intPart((l - 1) /10631.0)
+    l = l - 10631 * n + 354
+    j1 = (intPart((10985 - l) / 5316.0)) * (intPart((50 * l) / 17719.0))
+    j2 = (intPart(l / 5670.0)) * (intPart((43 * l) / 15238.0))
+    j = j1 + j2
+    l1 = (intPart((30 - j) / 15.0)) * (intPart((17719 * j) / 50.0))
+    l2 = (intPart(j / 16.0)) * (intPart((15238 * j) / 43.0))
+    l = l - l1 - l2 + 29
+    m = int(intPart((24 * l) / 709.0))
+    d = int(l - intPart((709 * m) / 24.0))
+    y = int(30 * n + j - 30)
+    date=str(y)+'-'+str(m)+'-'+str(d)+' '+'00'+':'+'00'+':'+'00'
+    converted_date=datetime.datetime.strptime(date,"%Y-%m-%d %H:%M:%S")
+    return str(converted_date)
+
+def Hijri2Gregorian(date):
+    
+    dt=datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+    yr=dt.year
+    mth=dt.month
+    day=dt.day
+    jd1 = intPart((11 * yr + 3) / 30.0)
+    jd2 = intPart((mth - 1) / 2.0)
+    jd = jd1 + 354 * yr + 30 * mth - jd2 + day + 1948440 - 385
+
+    if jd > 2299160:
+        l = jd + 68569
+        n = intPart((4 * l) / 146097.0)
+        l = l - intPart((146097 * n + 3) / 4.0)
+        i = intPart((4000 * (l + 1)) / 1461001.0)
+        l = l - intPart((1461 * i) / 4.0) + 31
+        j = intPart((80 * l) / 2447.0)
+        d = str(int(l - intPart((2447 * j) / 80.0)))
+        l = intPart(j / 11.0)
+        m = str(int(j + 2 - 12 * l))
+        y = str(int(100 * (n - 49) + i + l))
+    else:
+        j = jd + 1402
+        k = intPart((j - 1) / 1461.0)
+        l = j - 1461 * k
+        n = intPart((l - 1) / 365.0) - intPart(l / 1461.0)
+        i = l - 365 * n + 30
+        j = intPart((80 * i) / 2447.0)
+        d = str(int(i - intPart((2447 * j) / 80.0)))
+        i = (intPart(j / 11.0))
+        m = str(int(j + 2 - 12 * i))
+        y =str(int( 4 * k + n + i - 4716))
+    
+    date=y+'-'+m+'-'+d+' '+'00'+':'+'00'+':'+'00'
+    converted_date=datetime.datetime.strptime(date,"%Y-%m-%d %H:%M:%S")    
+    
+    return str(converted_date)
 
 class crms_payment(osv.osv):
     _name = 'crms.payment'
@@ -80,8 +159,12 @@ class crms_payment(osv.osv):
     'revenue_days':fields.integer('Revenue Days'),
     'daily_revenue_ids': fields.one2many('crms.daily.revenue','booking_id',string="Amount Paid History"),
     'car_history_ids':fields.one2many('crms.payment.car.history','booking_id','Car History'),
+
     'traffic_violation_history_ids':fields.one2many('crms.payment.traffic.violation.history','booking_id','Traffic Violation History'),
     'exa':fields.selection([('Yes','Yes'),('No','No')],string='Exa'),
+
+    'arabic_rental_from_date':fields.datetime('Arabic Rental From Date'),
+
     }
     
     _sql_constraints = [
@@ -94,6 +177,30 @@ class crms_payment(osv.osv):
     'exa':'No',
      }
     
+    def onchange_rental_date(self, cr, uid, ids, rental_from_date,context=None):
+        res={}
+        if rental_from_date:
+            res={
+                'arabic_rental_from_date':Gregorian2Hijri(rental_from_date),
+                }
+        else:
+            res={
+                'arabic_rental_from_date':False,
+                }      
+        return {'value': res} 
+    
+    def onchange_arabic_rental_date(self, cr, uid, ids, arabic_rental_from_date,context=None):
+        res={}
+        if arabic_rental_from_date:
+                res={
+                     'rental_from_date':Hijri2Gregorian(arabic_rental_from_date),
+                     }
+        else:
+            res={
+                'rental_from_date': False,
+                }      
+        return {'value': res}
+               
     def create(self, cr, uid, data, context=None):
         
         if context is None: context = {}
@@ -103,6 +210,7 @@ class crms_payment(osv.osv):
         data['total_amount_paid'] = data.get('amount_paid')   
         booking_id = super(crms_payment, self).create(cr, uid, data, context=context) 
         
+
         #Check whether is a new discount is applied or not.
         if data.get('discount',False) and int(data.get('discount')) > 0 and data.get('discount_date',False) and data.get('crms_discount_id',False):
             self.pool.get('crms.payment.discount.history').create(cr, uid, {'date':data.get('discount_date'), 
