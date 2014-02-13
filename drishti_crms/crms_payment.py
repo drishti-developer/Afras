@@ -131,7 +131,7 @@ class crms_payment(osv.osv):
     'additional_driver_charges':fields.float('Additional Driver charges'),
     'payment_type':fields.selection([('Cash','Cash'),('Card','Card'),('Span','Span')],'Payment Type'),
     'remaining_amount':fields.float('Remaining Amount'),
-    'per_day_amount':fields.float('Per Day Amount', required=True),
+    'per_day_amount':fields.float('Per Day Amount'),
     'state':fields.selection([('Active','Active'),('Awaiting for outgoing check','Awaiting for outgoing check'),('Payment Processing','Payment Processing'),('Replaced','Replaced'),('Changed','Changed'),('Closed','Closed')], string='State'),
     'discount':fields.float(string="Discount(%)"),
     'rental_extension':fields.selection([('Yes','Yes'),('No','No')],string="Rental Extension",readonly=True),
