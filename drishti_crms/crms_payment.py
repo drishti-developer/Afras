@@ -114,8 +114,8 @@ class crms_payment(osv.osv):
     'pickup_branch_id':fields.many2one('sale.shop','Pickup Branch', required=True),
     'drop_branch_id':fields.many2one('sale.shop','Drop Branch'),
     'booking_branch_id':fields.many2one('sale.shop','Booking Branch'),
-    'amount_paid':fields.float('Amount Paid', required=True),
-    'amount_receive_date':fields.datetime('Amount Receive Date', required=True),
+    'amount_paid':fields.float('Amount Paid'),
+    'amount_receive_date':fields.datetime('Amount Receive Date'),
     'rental_amount':fields.float('Rental Amount'),
     'amount_returned':fields.float('Amount Returned'),
     'amount_returned_date':fields.datetime('Amount Returned Date'),
@@ -175,7 +175,8 @@ class crms_payment(osv.osv):
     'state':'Active',
     'revenue_days':0,
     'exa':'No',
-    'per_day_amount':0
+    'per_day_amount':0,
+    'amount_paid':0,
      }
     
     def onchange_rental_date(self, cr, uid, ids, rental_from_date,context=None):
