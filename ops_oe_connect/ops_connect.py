@@ -574,8 +574,8 @@ class res_bank(osv.osv):
         if vals.get('IDENTIFIERCODE',False) and vals.get('BANKNAME',False):
             bank_id=self.search(cr,uid,[('name','=',vals['BANKNAME']),('bic','=',vals['IDENTIFIERCODE'])])
             if not bank_id:
-                self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'bic':vals['IDENTIFIERCODE'],'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)})
-        return True
+                bank_id=self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'bic':vals['IDENTIFIERCODE'],'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)})
+        return bank_id
 
 PURCHASE_ORDER_DIC={
            'PURCHASEORDERNO':'ops_order_id',  
@@ -887,8 +887,10 @@ class account_invoice_payment(osv.osv):
             payment_id = self.write(cr,uid,payment_id[0],dic) and payment_id[0] \
                                      if payment_id else self.create(cr,uid,dic)
         return True
+    
+    
 ACCOUNT_DETAILS={
-                 'VNO':'ops_code',
+               #  'VNO':'ops_code',
                 'ACCOUNTANTID':'ops_accountant',
                 'EMPLOYEECODE':'employee_code',
                 'PROJECTCODE':'project_code',
@@ -924,6 +926,8 @@ INVOICE_DATA_DIC = {
                 #'LOAN_DATAIL_DATA':'LOAN_DATAIL_DATA_LIST',
                 #'LOAN_REQUEST_DETAIL':'LOAN_REQUEST_DETAIL_LIST',
                 }
+
+
 class account_invoice(osv.osv):
     _inherit='account.invoice'
     _columns={
@@ -938,6 +942,7 @@ class account_invoice(osv.osv):
           'unit_discount':fields.float('Unit Discount'),
           'service_charge':fields.float('Service Charge'),
           }
+    
     def CreateRecord(self,cr,uid,vals):
         dic={}
         ids=[]
@@ -993,6 +998,8 @@ INVOICE_DEATIL_LINE_DATA={
                     #'RECORDSTATUS':'',
                     }
 
+
+
 class account_invoice_details(osv.osv):
     _name='account.invoice.details'
     _columns={
@@ -1007,6 +1014,7 @@ class account_invoice_details(osv.osv):
               'rmr_number':fields.char('RMR Number'),
               'rmr_amount':fields.char('RMR Amount'),
               }
+    
     def CreateRecord(self,cr,uid,list):
         dic={}
         invoice=self.pool.get('account.invoice')
@@ -1039,7 +1047,9 @@ INVOICE_LINE_DATA=   {
                     #'BUDGETDETAILID':'',
                     #'BUDGETENTITYID':'',
                     'LOANCODE':'invoice_id',
-                    }    
+                    }   
+
+ 
 class account_invoice_line(osv.osv):
     _inherit='account.invoice.line'
     _columns={
@@ -1049,6 +1059,7 @@ class account_invoice_line(osv.osv):
               'unit_discount':fields.float('Unit Discount'),
               'service_charge':fields.float('Service Charge'),
               }
+    
     def CreateRecord(self,cr,uid,list):
         dic={}
         product=self.pool.get('product.product')
