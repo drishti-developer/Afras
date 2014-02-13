@@ -129,7 +129,7 @@ class crms_payment(osv.osv):
     'extra_hour_charges':fields.float('Extra Hour charges'),
     'extra_km_charges':fields.float('Extra Kilometer charges'),
     'additional_driver_charges':fields.float('Additional Driver charges'),
-    'payment_type':fields.selection([('Cash','Cash'),('Card','Card'),('Span','Span')],'Payment Type', required=True),
+    'payment_type':fields.selection([('Cash','Cash'),('Card','Card'),('Span','Span')],'Payment Type'),
     'remaining_amount':fields.float('Remaining Amount'),
     'per_day_amount':fields.float('Per Day Amount', required=True),
     'state':fields.selection([('Active','Active'),('Awaiting for outgoing check','Awaiting for outgoing check'),('Payment Processing','Payment Processing'),('Replaced','Replaced'),('Changed','Changed'),('Closed','Closed')], string='State'),
@@ -206,7 +206,8 @@ class crms_payment(osv.osv):
         if context is None: context = {}
             
         data['last_expense_date'] = data.get('rental_from_date')
-        data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id'),'voucher_amount':data.get('amount_paid'),'admin_expenses':data.get('admin_expenses',0.0),})]
+        if data.get('amount_paid') and float(data.get('amount_paid',0.0)) > 0.0 and data.get('crms_payment_id',False) and data.get('payment_type',False) and data.get('amount_receive_date',False):
+            data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id'),'voucher_amount':data.get('amount_paid'),'admin_expenses':data.get('admin_expenses',0.0),})]
         data['total_amount_paid'] = data.get('amount_paid')   
         booking_id = super(crms_payment, self).create(cr, uid, data, context=context) 
         
