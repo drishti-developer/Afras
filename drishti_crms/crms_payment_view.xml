@@ -149,7 +149,7 @@
 	                        		</form>
 	                        	</field>
 	                        </page>
-	                        <page string="Car History">
+	                        <page string="Contract Car History">
 	                        	<field name="car_history_ids" nolabel="1" readonly="True">
 	                        		<tree>
 	                        		    <field name="booking_id" invisible="1"/>
@@ -171,6 +171,9 @@
 			                    </group>	                        	
 	                        </page>
 	                    </notebook>
+	                    <div class="oe_chatter">
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
                     </sheet> 
                 </form>
             </field>

@@ -1,5 +1,5 @@
 from openerp.osv import fields, osv
-#from openerp.tools.translate import _
+from openerp.tools.translate import _
 import datetime
 from dateutil.relativedelta import relativedelta
 from openerp import netsvc
@@ -86,6 +86,7 @@ def Hijri2Gregorian(date):
 class crms_payment(osv.osv):
     _name = 'crms.payment'
     _rec_name = 'crms_id'
+    _inherit = 'mail.thread'
     
     def _get_intermediate_payment_id(self, cr, uid, ids, prop, unknow_none, context=None):
         res = {}
@@ -159,12 +160,10 @@ class crms_payment(osv.osv):
     'revenue_days':fields.integer('Revenue Days'),
     'daily_revenue_ids': fields.one2many('crms.daily.revenue','booking_id',string="Amount Paid History"),
     'car_history_ids':fields.one2many('crms.payment.car.history','booking_id','Car History'),
-
     'traffic_violation_history_ids':fields.one2many('crms.payment.traffic.violation.history','booking_id','Traffic Violation History'),
     'exa':fields.selection([('Yes','Yes'),('No','No')],string='Exa'),
-
     'arabic_rental_from_date':fields.datetime('Arabic Rental From Date'),
-
+    'message_id':fields.many2one('mail.message','Message Id'),
     }
     
     _sql_constraints = [
@@ -210,18 +209,28 @@ class crms_payment(osv.osv):
         data['last_expense_date'] = data.get('rental_from_date')
         if data.get('amount_paid') and float(data.get('amount_paid',0.0)) > 0.0 and data.get('crms_payment_id',False) and data.get('payment_type',False) and data.get('amount_receive_date',False):
             data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id'),'voucher_amount':data.get('amount_paid'),'admin_expenses':data.get('admin_expenses',0.0),})]
-        data['total_amount_paid'] = data.get('amount_paid')   
-        booking_id = super(crms_payment, self).create(cr, uid, data, context=context) 
         
-
         #Check whether is a new discount is applied or not.
         if data.get('discount',False) and float(data.get('discount')) > 0 and data.get('discount_date',False) and data.get('crms_discount_id',False):
-            self.pool.get('crms.payment.discount.history').create(cr, uid, {'date':data.get('discount_date'), 
-                                                                            'booking_id':booking_id, 
-                                                                            'discount':data.get('discount'), 
-                                                                            'crms_id':data.get('crms_discount_id')
-                                                                            },context)
-                
+            data['discount_history_ids'] = [(0,0,{'date':data.get('discount_date'),'discount':data.get('discount'),'crms_id':data.get('crms_discount_id')})]
+              
+        data['total_amount_paid'] = float(data.get('amount_paid',0.0))
+        
+        if data.has_key('amount_paid'): data.pop('amount_paid')
+        if data.has_key('crms_payment_id') : data.pop('crms_payment_id')
+        if data.has_key('payment_type') : data.pop('payment_type')
+        if data.has_key('amount_receive_date') : data.pop('amount_receive_date')
+        if data.has_key('discount_date') : data.pop('discount_date')
+        if data.has_key('discount') : data.pop('discount')
+        if data.has_key('crms_discount_id') : data.pop('crms_discount_id')
+        
+        booking_id = super(crms_payment, self).create(cr, uid, data, context=context)
+        
+        changes = ""
+        for key,value in data.iteritems():
+            changes = changes + str(key) + " - " + str(value) + ","
+        msg_id = self.message_post(cr, uid, [booking_id], body=_('Changes:- %s ') % (changes), context=context)
+        cr.execute('update crms_payment set message_id=%s where id=%s',(msg_id,booking_id))
         return booking_id
     
     def write(self, cr, uid, ids, vals, context={}):
@@ -242,15 +251,18 @@ class crms_payment(osv.osv):
         
         #Check whether is a new discount is applied or not.
         if vals.get('discount',False) and float(vals.get('discount')) > 0 and vals.get('discount_date',False) and vals.get('crms_discount_id',False):
-            self.pool.get('crms.payment.discount.history').create(cr, uid, {'date':vals.get('discount_date'), 
-                                                                            'booking_id':ids[0], 
-                                                                            'discount':vals.get('discount'), 
-                                                                            'crms_id':vals.get('crms_discount_id')
-                                                                            },context)
+            discount_pool = self.pool.get('crms.payment.discount.history')
+            discount_ids = discount_pool.search(cr, uid, [('crms_id','=',vals.get('crms_discount_id'))])
+            if not discount_ids:
+                discount_pool.create(cr, uid, {'date':vals.get('discount_date'), 
+                                               'booking_id':ids[0], 
+                                               'discount':vals.get('discount'), 
+                                               'crms_id':vals.get('crms_discount_id')
+                                               },context)
         
         if vals.get('state') and (vals.get('state') == 'Closed' or vals.get('state') == 'Payment Processing') and crms_payment_brw.state in ['Active']:
             
-            context['no_of_days'] = vals.get('no_of_days',0)
+            #context['no_of_days'] = vals.get('no_of_days',0)
             #self.create_account_voucher_entries(cr, uid, ids, context)
             #crms_payment_brw = self.browse(cr, uid, ids[0])
             cr.execute('select remaining_amount from crms_payment where id=%s',(ids[0],))
@@ -270,19 +282,13 @@ class crms_payment(osv.osv):
                                                    'amount': vals.get('amount_returned',0.0), 
                                                    'payment_type':'Cash',
                                                    'booking_id':ids[0], 
-                                                   'crms_id':False,
                                                    'voucher_amount':float(vals.get('amount_returned',0.0))*-1,
                                                    'admin_expenses':vals.get('admin_expenses',0.0),}) 
                 
                 remaining_amount = remaining_amount - float(vals.get('amount_returned'))
                 
-            elif vals.get('amount_paid',False):
+            elif vals.get('amount_paid',False): paid_amount = float(vals.get('amount_paid')) - float(vals.get('admin_expenses',0.0))
                 
-                paid_amount = float(vals.get('amount_paid')) - float(vals.get('admin_expenses',0.0))
-                
-#             if float(vals.get('admin_expenses',0.0)) > 0:
-#                 remaining_amount, paid_amount = self.create_closed_entries(cr, uid, 'Admin Expenses Charges',crms_payment_brw, float(vals.get('admin_expenses')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_admin_charges_account.id, rental_to_date, account_id)
-            
             if float(vals.get('extra_hour_charges',0.0)) > 0:
                 remaining_amount, paid_amount = self.create_closed_entries(cr, uid, 'Extra Hours Charges', crms_payment_brw, float(vals.get('extra_hour_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_extra_hours_account.id, rental_to_date, account_id)
                 
@@ -295,13 +301,9 @@ class crms_payment(osv.osv):
             if float(vals.get('damage_charges',0.0)) > 0:
                 remaining_amount, paid_amount = self.create_closed_entries(cr, uid, 'Damage Charges', crms_payment_brw, float(vals.get('damage_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_car_damages_account.id, rental_to_date, account_id)
                 
-#             if float(vals.get('traffic_violation_charges',0.0)) > 0:
-#                 remaining_amount, paid_amount = self.create_closed_entries(cr, uid, 'Traffic Violation Charges', crms_payment_brw, float(vals.get('traffic_violation_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_traffic_violation_charges_account.id, rental_to_date, account_id)
-            
             if float(vals.get('additional_driver_charges',0.0)) > 0:
                 remaining_amount, paid_amount = self.create_closed_entries(cr, uid, 'Additional Driver Charges', crms_payment_brw, float(vals.get('additional_driver_charges')), remaining_amount, paid_amount, period_ids, crms_payment_brw.property_driver_charges_account.id, rental_to_date, account_id)
                 
-            
             voucher_amount = paid_amount + float(vals.get('admin_expenses',0.0))
             
             cr.execute('update crms_payment set remaining_amount=%s where id=%s',(paid_amount + remaining_amount,ids[0]))
@@ -316,25 +318,42 @@ class crms_payment(osv.osv):
                     voucher_amount = float(vals.get('amount_paid',0.0))
                 
                 intermediate_pool.create(cr, uid, {'date':vals.get('amount_receive_date'), 'amount': vals.get('amount_paid'), 'payment_type':vals.get('payment_type'), 'booking_id':ids[0], 'crms_id':vals.get('crms_payment_id'),'admin_expenses':vals.get('admin_expenses',0.0),'voucher_amount':voucher_amount})
-#             else:
-#                 vals.pop('amount_paid')
-#                 vals.pop('payment_type')
-#                 vals.pop('amount_receive_date')
         
         #Check whether is a Traffic Violation Charges is applied or not.
         if vals.get('traffic_violation_charges',False) and int(vals.get('traffic_violation_charges')) > 0 and vals.get('traffic_violation_charges_date',False) and vals.get('crms_traffic_violation_id',False):
             
-            cr.execute('select remaining_amount from crms_payment where id=%s',(ids[0],))
-            remaining_amount = cr.fetchone()[0]
-            self.pool.get('crms.payment.traffic.violation.history').create(cr, uid, {'date':vals.get('traffic_violation_charges_date'), 
-                                                                            'booking_id':ids[0], 
-                                                                            'traffic_violation_charges':vals.get('traffic_violation_charges'), 
-                                                                            'crms_id':vals.get('crms_traffic_violation_id')
-                                                                            },context)
+            traffic_violation_pool = self.pool.get('crms.payment.traffic.violation.history')
+            traffic_violation_ids = traffic_violation_pool.search(cr, uid, [('crms_id','=',vals.get('crms_traffic_violation_id'))])
+            if not traffic_violation_ids:
+                
+                traffic_violation_pool.create(cr, uid, {'date':vals.get('traffic_violation_charges_date'), 
+                                                        'booking_id':ids[0], 
+                                                        'traffic_violation_charges':vals.get('traffic_violation_charges'), 
+                                                        'crms_id':vals.get('crms_traffic_violation_id')
+                                                        },context)
+                
+                cr.execute('select remaining_amount from crms_payment where id=%s',(ids[0],))
+                remaining_amount = cr.fetchone()[0]
+                
+                remaining_amount, paid_amount = self.create_closed_entries(cr, uid, 'Traffic Violation Charges', crms_payment_brw, float(vals.get('traffic_violation_charges')), remaining_amount, 0.0, period_ids, crms_payment_brw.property_traffic_violation_charges_account.id, rental_to_date, account_id)
+                cr.execute('update crms_payment set remaining_amount=%s where id=%s',(remaining_amount,ids[0]))
+        
+        changes = ""
+        for key,value in vals.iteritems():
+            changes = changes + str(key) + ":" + str(value) + ","
+        msg_id = self.message_post(cr, uid, ids, body=_('Changes:- %s ') % (changes), context=context)
+        cr.execute('update crms_payment set message_id=%s where id=%s',(msg_id,ids[0]))
             
-            remaining_amount, paid_amount = self.create_closed_entries(cr, uid, 'Traffic Violation Charges', crms_payment_brw, float(vals.get('traffic_violation_charges')), remaining_amount, 0.0, period_ids, crms_payment_brw.property_traffic_violation_charges_account.id, rental_to_date, account_id)
-            cr.execute('update crms_payment set remaining_amount=%s where id=%s',(remaining_amount,ids[0]))
-            
+        if vals.has_key('amount_paid'): vals.pop('amount_paid')
+        if vals.has_key('crms_payment_id') : vals.pop('crms_payment_id')
+        if vals.has_key('payment_type') : vals.pop('payment_type')
+        if vals.has_key('amount_receive_date') : vals.pop('amount_receive_date')
+        if vals.has_key('discount_date') : vals.pop('discount_date')
+        if vals.has_key('discount') : vals.pop('discount')
+        if vals.has_key('crms_discount_id') : vals.pop('crms_discount_id')
+        if vals.has_key('traffic_violation_charges') : vals.pop('traffic_violation_charges')
+        if vals.has_key('traffic_violation_charges_date') :vals.pop('traffic_violation_charges_date')
+        if vals.has_key('crms_traffic_violation_id') : vals.has_key('crms_traffic_violation_id')
         
         return super(crms_payment, self).write(cr, uid, ids, vals, context=context)
     
@@ -636,7 +655,7 @@ class crms_payment_intermediatepayment_history(osv.osv):
         data['voucher_id'] = voucher_id
         
         remaining_amount = remaining_amount + float(data['amount']) - float(data.get('admin_expenses',0.0))
-        cr.execute('update crms_payment set remaining_amount=%s where id=%s',(remaining_amount,data['booking_id']))
+        cr.execute('update crms_payment set remaining_amount=%s, amount_paid=%s, payment_type=%s, amount_receive_date=%s where id=%s',(remaining_amount, data.get('amount'), data.get('payment_type'),  data.get('date'), data.get('booking_id')))
          
         return super(crms_payment_intermediatepayment_history, self).create(cr, uid, data, context=context)
     
@@ -737,7 +756,7 @@ class crms_payment_discount_history(osv.osv):
                 remaining_amount += discount_amt
                 iter_date = iter_date + relativedelta(days=1)
             
-            cr.execute('update crms_payment set remaining_amount=%s where id=%s',(remaining_amount,data['booking_id']))
+            cr.execute('update crms_payment set remaining_amount=%s, discount=%s, where id=%s',(remaining_amount, data.get('discount'), data.get('booking_id')))
             
         return super(crms_payment_discount_history, self).create(cr, uid, data, context=context)
     
