@@ -411,7 +411,7 @@ class purchase_requisition_line(osv.osv):
         for key,value in vals.iteritems():
             dic[MATERIAL_LINE_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
         requisition_id = requisition_obj.search(cr, uid, [('ops_id','=',dic['requisition_id'])])
-       # print 'requisition_id======',requisition_id
+#        print 'requisition_id======',requisition_id
         product_id = product_obj.search(cr, uid, [('ops_code','=',dic['product_id'])])
         print "product id",product_id
         if requisition_id and product_id:
