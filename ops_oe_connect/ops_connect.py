@@ -326,7 +326,7 @@ res_partner()
 MATERIAL_DIC = {
             'REQUESTNO':'ops_id',
             'REQUESTDATE':'date_start',
-            'REQUESTSTATUS':'state',
+            'REQUESTSTATUS':'status',
             'PROJECTCODE':'project_code',
             'LOCATIONSERIALCOUNTER':'location_serial_counter',
             'PURPOSE':'description',
@@ -353,6 +353,7 @@ class purchase_requisition(osv.osv):
               'analytic_id':fields.many2one('account.analytic.account','Cost Center'),
               'ops_id':fields.integer('OPS Request No'),
               'rmrnumber':fields.char('Revenue ref Number',size=64),
+              'status':fields.char('Request Status'),
               
               'location_serial_counter':fields.char('Location Serial Counter'),
               'project_code':fields.char('Project Code'),
