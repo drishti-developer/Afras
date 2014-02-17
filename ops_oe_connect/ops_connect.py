@@ -251,32 +251,32 @@ class res_partner(osv.osv):
             # if contact name then one record will create for contact and map to vendor
             if dic.get('contact_name',False): 
                 domain = [('parent_id','=',partner_id),('name','=',dic['contact_name'])]
-                contact_id = partner_obj.search(cr, uid, domain)
+                partner_id = partner_obj.search(cr, uid, domain)
                   
                 contact_dic = { 'name': dic['contact_name'],'parent_id':partner_id ,
                                 'phone': dic.get('contact_phone',False),
                                 'phone_ext': dic.get('contact_phone_ext',False), }
-                contact_id = self.write(cr,uid,contact_id[0],contact_dic) and contact_id[0] \
-                                 if contact_id else self.create(cr,uid,contact_dic,context={})
+                partner_id = self.write(cr,uid,partner_id[0],contact_dic) and partner_id[0] \
+                                 if partner_id else self.create(cr,uid,contact_dic,context={})
                 
             # if owner name then one record will create for owner and map to vendor   
             if dic.get('owner_name',False):  
                 domain = [('parent_id','=',partner_id),('name','=',dic['owner_name'])]
-                owner_id = partner_obj.search(cr, uid, domain)
+                partner_id = partner_obj.search(cr, uid, domain)
                 owner_dic ={ 'name': dic['owner_name'],'parent_id':partner_id,
                              'phone': dic.get('owner_phone',False),
                              'email': dic.get('owner_email',False),}
-                owner_id = self.write(cr,uid,owner_id[0],owner_dic) and owner_id[0] \
-                                 if owner_id else self.create(cr,uid,owner_dic,context={})
+                partner_id = self.write(cr,uid,partner_id[0],owner_dic) and partner_id[0] \
+                                 if partner_id else self.create(cr,uid,owner_dic,context={})
              
             # if ceo name then one record will create for CEO and map to vendor
             if dic.get('ceo_name',False): 
                 domain = [('parent_id','=',partner_id),('name','=',dic['ceo_name'])]
-                ceo_id = partner_obj.search(cr, uid, domain) 
+                partner_id = partner_obj.search(cr, uid, domain) 
                 ceo_dic ={ 'name': dic['ceo_name'],
                            'parent_id':partner_id }   
-                ceo_id = self.write(cr,uid,ceo_id[0],ceo_dic) and ceo_id[0] \
-                                 if ceo_id else self.create(cr,uid,ceo_dic,context={})
+                partner_id = self.write(cr,uid,partner_id[0],ceo_dic) and partner_id[0] \
+                                 if partner_id else self.create(cr,uid,ceo_dic,context={})
                                  
             # if BankID(ops_id) then create bank in OpenERP res.bank     
             # OPS Need to send Bank Name Also     
@@ -300,11 +300,13 @@ class res_partner(osv.osv):
                     #Assuming country of Bank is same as vendor country
                     if  dic.get('acc_number',False):   
                         partner_bank_dic = { 'acc_number': dic['acc_number'],'state' : 'bank',
+                                             'partner_id':partner_id and partner_id[0] or False,
                                              'bank_name' : dic.get('bank_name',False),  
                                              'bank_bic' : dic.get('bank_bic',False),
                                              'owner_name': dic.get('bank_holder_name',False),
                                              'bank': bank_id,
-                                             'partner_id' : partner_id,'country_id':dic['country_id'],}
+                                             #'partner_id' : partner_id,
+                                             'country_id':dic['country_id'],}
                     # According to me if bank account type is IBAN then we need to create another bank record
                     # WE Must need bank identifier code or swift code for IBAN Account Bank
                     # Assuming IBAN and Normal both belong to same bank as we are getting only one bankid
