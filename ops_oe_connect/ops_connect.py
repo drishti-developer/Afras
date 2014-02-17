@@ -340,7 +340,7 @@ MATERIAL_LINE_DIC = {
             'QUANTITY':'product_qty',
             'UNITTYPE':'product_uom_id',
             'PURPOSE':'description',
-            'RQSTDETAILSTATUS':'state',
+            'RQSTDETAILSTATUS':'status',
             'REQUESTDETAILID':'ops_id',
             }
 
@@ -398,6 +398,7 @@ class purchase_requisition_line(osv.osv):
     _columns={
               'description' : fields.char('Description',size=64),
               'ops_id':fields.integer('OPS Request Detail ID'),
+              'status':fields.char('Request Line Status'),
               }
     
     
