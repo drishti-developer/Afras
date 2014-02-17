@@ -46,12 +46,12 @@
     <menuitem
             id="location_config_menu" name="Location"
             parent="menu_purchase_partner_cat12121" sequence="2" />
-=======
-            parent="purchase.menu_purchase_config_purchase"/>
+<!--=======-->
+<!--            parent="purchase.menu_purchase_config_purchase"/>-->
     <menuitem
             id="location_config_menu" name="Products"
             parent="menu_purchase_partner_cat12121" sequence="30" groups="base.group_no_one"/>
->>>>>>> 4c466cba544d465fcc0cbbd6b2c354c0e2735992
+<!-->>>>>>> 4c466cba544d465fcc0cbbd6b2c354c0e2735992-->
     
     
 							<!--  PRODUCT  -->

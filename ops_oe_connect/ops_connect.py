@@ -300,12 +300,12 @@ class res_partner(osv.osv):
                     #Assuming country of Bank is same as vendor country
                     if  dic.get('acc_number',False):   
                         partner_bank_dic = { 'acc_number': dic['acc_number'],'state' : 'bank',
-                                             'partner_id':partner_id and partner_id[0] or False,
+                                             #'partner_id':partner_id and partner_id[0] or False,
                                              'bank_name' : dic.get('bank_name',False),  
                                              'bank_bic' : dic.get('bank_bic',False),
                                              'owner_name': dic.get('bank_holder_name',False),
                                              'bank': bank_id,
-                                             #'partner_id' : partner_id,
+                                             'partner_id' : partner_id,
                                              'country_id':dic['country_id'],}
                     # According to me if bank account type is IBAN then we need to create another bank record
                     # WE Must need bank identifier code or swift code for IBAN Account Bank
