@@ -7,7 +7,7 @@
  """,
     'author': 'OpenERP SA',
     'website': 'http://www.drishtitech.com',
-    'depends': ['base','purchase','product','purchase_requisition','project'],
+    'depends': ['base','purchase','product','purchase_requisition','project','account'],
     'data': [
              'xml_rpc_view.xml',
             ],

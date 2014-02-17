@@ -129,7 +129,7 @@ PURCHASE_ORDER_LINE_DICT = {
 class product_category(osv.osv):
     _inherit = "product.category"
     _columns={
-                'ops_code':fields.integer('OPS Code'),
+                'ops_code':fields.char('OPS Code'),
                 'name_arabic':fields.char('Arabic Name',size=64),       
              }
     
@@ -144,7 +144,7 @@ class product_category(osv.osv):
             if category_id:
                 self.write(cr,uid,category_id[0],dic)
             else:
-                category_id = [self.create(cr,uid,dic)]
+                category_id = [self.create(cr,uid,dic,context={})]
             return category_id[0]
         else:
             return False
@@ -156,7 +156,7 @@ class product_product(osv.osv):
     _inherit="product.product"
     
     _columns={
-            'ops_code':fields.integer('OPS Code'),
+            'ops_code':fields.char('OPS Code'),
             'name_arabic':fields.char('Arbic Name',size=64),
             
             }
@@ -180,7 +180,7 @@ class product_product(osv.osv):
                 dic['categ_id'] = category_id[0]
                 product_id = self.search(cr, uid,[('ops_code','=',dic['ops_code'])] )
                 product_id = self.write(cr,uid,product_id[0],dic) and product_id[0] \
-                                 if product_id else self.create(cr,uid,dic)
+                                 if product_id else self.create(cr,uid,dic,context={})
                 return product_id
             return False  
         else:    
@@ -193,7 +193,7 @@ product_product()
 class res_partner(osv.osv):
     _inherit='res.partner'
     _columns={
-              'ops_code':fields.integer('OPS Code'),
+              'ops_code':fields.char('OPS Code'),
               'phone_ext':fields.char('Phone Ext',size=64),
               'crno':fields.char('Company Registration Number',size=64),
               'fax_ext':fields.char('Fax Ext',size=64),
@@ -205,7 +205,7 @@ class res_partner(osv.osv):
              }
     
     #request for multiple record is to be done
-    def CreateRecord(self, cr, uid, vals, context=None):
+    def CreateRecord(self, cr, uid, vals):
         dic = {}
         partner_obj=self.pool.get('res.partner')
         country_obj=self.pool.get('res.country')
@@ -246,37 +246,37 @@ class res_partner(osv.osv):
             dic['is_company'] =True
             dic['supplier'] =True
             partner_id = self.write(cr,uid,partner_id[0],dic) and partner_id[0] \
-                             if partner_id else self.create(cr,uid,dic)                  
+                             if partner_id else self.create(cr,uid,dic,context={})                  
             
             # if contact name then one record will create for contact and map to vendor
             if dic.get('contact_name',False): 
                 domain = [('parent_id','=',partner_id),('name','=',dic['contact_name'])]
-                contact_id = partner_obj.search(cr, uid, domain)
+                partner_id = partner_obj.search(cr, uid, domain)
                   
                 contact_dic = { 'name': dic['contact_name'],'parent_id':partner_id ,
                                 'phone': dic.get('contact_phone',False),
                                 'phone_ext': dic.get('contact_phone_ext',False), }
-                contact_id = self.write(cr,uid,contact_id[0],contact_dic) and contact_id[0] \
-                                 if contact_id else self.create(cr,uid,contact_dic)
+                partner_id = self.write(cr,uid,partner_id[0],contact_dic) and partner_id[0] \
+                                 if partner_id else self.create(cr,uid,contact_dic,context={})
                 
             # if owner name then one record will create for owner and map to vendor   
             if dic.get('owner_name',False):  
                 domain = [('parent_id','=',partner_id),('name','=',dic['owner_name'])]
-                owner_id = partner_obj.search(cr, uid, domain)
+                partner_id = partner_obj.search(cr, uid, domain)
                 owner_dic ={ 'name': dic['owner_name'],'parent_id':partner_id,
                              'phone': dic.get('owner_phone',False),
                              'email': dic.get('owner_email',False),}
-                owner_id = self.write(cr,uid,owner_id[0],owner_dic) and owner_id[0] \
-                                 if owner_id else self.create(cr,uid,owner_dic)
+                partner_id = self.write(cr,uid,partner_id[0],owner_dic) and partner_id[0] \
+                                 if partner_id else self.create(cr,uid,owner_dic,context={})
              
             # if ceo name then one record will create for CEO and map to vendor
             if dic.get('ceo_name',False): 
                 domain = [('parent_id','=',partner_id),('name','=',dic['ceo_name'])]
-                ceo_id = partner_obj.search(cr, uid, domain) 
+                partner_id = partner_obj.search(cr, uid, domain) 
                 ceo_dic ={ 'name': dic['ceo_name'],
                            'parent_id':partner_id }   
-                ceo_id = self.write(cr,uid,ceo_id[0],ceo_dic) and ceo_id[0] \
-                                 if ceo_id else self.create(cr,uid,ceo_dic)
+                partner_id = self.write(cr,uid,partner_id[0],ceo_dic) and partner_id[0] \
+                                 if partner_id else self.create(cr,uid,ceo_dic,context={})
                                  
             # if BankID(ops_id) then create bank in OpenERP res.bank     
             # OPS Need to send Bank Name Also     
@@ -286,7 +286,7 @@ class res_partner(osv.osv):
                 bank_dic ={ 'name': dic['ops_id'],'country': dic['country_id'],
                             'ops_id':  dic.get('ops_id',False),
                             'bic': dic.get('bank_bic',False),}
-                bank_id = bank_id[0] if bank_id else bank_obj.create(cr,uid,bank_dic)  
+                bank_id = bank_id[0] if bank_id else bank_obj.create(cr,uid,bank_dic,context={})  
                      
                 # if Bank Holder name then one record will create for BankHolderName and map to vendor   
                 if dic.get('bank_holder_name',False): 
@@ -294,17 +294,19 @@ class res_partner(osv.osv):
                     bank_holder_id = partner_obj.search(cr, uid, domain)
                     bank_holder_dic ={ 'name': dic['bank_holder_name'],
                                        'parent_id':partner_id }
-                    bank_holder_id = bank_holder_id[0] if bank_holder_id else self.create(cr,uid,bank_holder_dic)
+                    bank_holder_id = bank_holder_id[0] if bank_holder_id else self.create(cr,uid,bank_holder_dic,context={})
                       
                     # Create vendor Bank account in OpenERP res.partner.bank 
                     #Assuming country of Bank is same as vendor country
                     if  dic.get('acc_number',False):   
                         partner_bank_dic = { 'acc_number': dic['acc_number'],'state' : 'bank',
+                                             #'partner_id':partner_id and partner_id[0] or False,
                                              'bank_name' : dic.get('bank_name',False),  
                                              'bank_bic' : dic.get('bank_bic',False),
                                              'owner_name': dic.get('bank_holder_name',False),
                                              'bank': bank_id,
-                                             'partner_id' : partner_id,'country_id':dic['country_id'],}
+                                             'partner_id' : partner_id,
+                                             'country_id':dic['country_id'],}
                     # According to me if bank account type is IBAN then we need to create another bank record
                     # WE Must need bank identifier code or swift code for IBAN Account Bank
                     # Assuming IBAN and Normal both belong to same bank as we are getting only one bankid
@@ -314,17 +316,17 @@ class res_partner(osv.osv):
                         partner_bank_id = partner_bank_obj.search(cr, uid, domain)    
                         if not partner_bank_id:
                             partner_bank_id = partner_bank_id[0] if partner_bank_id \
-                                      else partner_bank_obj.create(cr, uid,partner_bank_dic)
+                                      else partner_bank_obj.create(cr, uid,partner_bank_dic,context={})
                         
                                                 
-        return partner_id  
+            return partner_id  
         
 res_partner()
 
 MATERIAL_DIC = {
             'REQUESTNO':'ops_id',
             'REQUESTDATE':'date_start',
-            'REQUESTSTATUS':'state',
+            'REQUESTSTATUS':'status',
             'PROJECTCODE':'project_code',
             'LOCATIONSERIALCOUNTER':'location_serial_counter',
             'PURPOSE':'description',
@@ -338,7 +340,7 @@ MATERIAL_LINE_DIC = {
             'QUANTITY':'product_qty',
             'UNITTYPE':'product_uom_id',
             'PURPOSE':'description',
-            'RQSTDETAILSTATUS':'state',
+            'RQSTDETAILSTATUS':'status',
             'REQUESTDETAILID':'ops_id',
             }
 
@@ -351,6 +353,7 @@ class purchase_requisition(osv.osv):
               'analytic_id':fields.many2one('account.analytic.account','Cost Center'),
               'ops_id':fields.integer('OPS Request No'),
               'rmrnumber':fields.char('Revenue ref Number',size=64),
+              'status':fields.char('Request Status'),
               
               'location_serial_counter':fields.char('Location Serial Counter'),
               'project_code':fields.char('Project Code'),
@@ -365,6 +368,13 @@ class purchase_requisition(osv.osv):
         for key,value in vals.iteritems():
             dic[MATERIAL_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
         dic['name'] = dic['ops_id']
+        if dic.get('is_budget'):
+            if dic['is_budget'].lower() == 'true':
+                budget=True
+            else:
+                budget=False
+        else:
+            budget=False
         if dic['project_code'] :
             if dic['location_serial_counter'] :
                 ref = str(dic['project_code']) + '0'*(3-len(str(dic['location_serial_counter']))) + str(dic['location_serial_counter'])
@@ -372,10 +382,10 @@ class purchase_requisition(osv.osv):
                 ref =  str(dic['project_code'])
             # Assuming Project already available in analytic account otherwise we will not create and pass as False    
             dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
-                      
+        dic['is_budget']=budget              
         requisition_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
         requisition_id = self.write(cr,uid,requisition_id[0],dic) and requisition_id[0] \
-                                 if requisition_id else self.create(cr,uid,dic)
+                                 if requisition_id else self.create(cr,uid,dic,context={})
         
         return requisition_id  
          
@@ -388,19 +398,20 @@ class purchase_requisition_line(osv.osv):
     _columns={
               'description' : fields.char('Description',size=64),
               'ops_id':fields.integer('OPS Request Detail ID'),
+              'status':fields.char('Request Line Status'),
               }
     
     
     def CreateRecord(self, cr, uid, vals, context=None):
         dic = {  }
-        print "create=======",vals
+        #print "create=======",vals
         requisition_obj=self.pool.get('purchase.requisition')
         product_obj=self.pool.get('product.product')
         
         for key,value in vals.iteritems():
             dic[MATERIAL_LINE_DIC.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
         requisition_id = requisition_obj.search(cr, uid, [('ops_id','=',dic['requisition_id'])])
-        print 'requisition_id======',requisition_id
+#        print 'requisition_id======',requisition_id
         product_id = product_obj.search(cr, uid, [('ops_code','=',dic['product_id'])])
         print "product id",product_id
         if requisition_id and product_id:
@@ -409,7 +420,7 @@ class purchase_requisition_line(osv.osv):
             requisition_line_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
             print 'requisition_line_id======',requisition_line_id
             requisition_line_id = self.write(cr,uid,requisition_line_id[0],dic) and requisition_line_id[0] \
-                                 if requisition_line_id else self.create(cr,uid,dic)
+                                 if requisition_line_id else self.create(cr,uid,dic,context={})
             return requisition_line_id                     
         else:
             return False
@@ -431,16 +442,16 @@ COUNTRY_DIC={
 class res_country(osv.osv):
     _inherit='res.country'
     _columns={
-              'ops_id':fields.integer('OPS Country ID',readonly=True),
+              'ops_id':fields.char('OPS Country ID',readonly=True),
               
               } 
     def ListRecord(self,cr,uid):
         res=[]
-        dict={}
+        dic={}
         country_obj=self.pool.get('res.country')
         country_ids=country_obj.search(cr,uid,[])
         for val in country_obj.browse(cr,uid,country_ids):
-            dict={
+            dic={
                   'ERPID':val.id,
                   'NAME':val.name,
                   'NAMEARABIC':(val.arabic_name.encode('utf-8')),
@@ -448,7 +459,7 @@ class res_country(osv.osv):
                   'CALLINGCODE':val.calling_code,
                   'CURRENCYCODE':val.currency_id.id,
                   }
-            res.append(dict)
+            res.append(dic)
         return res
     
     def UpdateRecord(self,cr,uid,vals):
@@ -464,7 +475,7 @@ class res_country(osv.osv):
 class res_country_state(osv.osv):
     _inherit='res.country.state'
     _columns={
-               'ops_id':fields.integer('OPS Region ID',readonly=True),
+               'ops_id':fields.char('OPS Region ID',readonly=True),
                
                }
     def ListRecord(self,cr,uid):
@@ -496,17 +507,17 @@ class res_country_state(osv.osv):
     
 city_dict={
             'CITYNAME':'name',
-              'CITYNAMEARABIC':'arabic_name',
-              'CITYCODE':'code',
-              'CITYOPSID':'ops_id',
-              'COUNTRYERPID':'country_id',
-              'REGIONERPID':'state_id',
+            'CITYNAMEARABIC':'arabic_name',
+            'CITYCODE':'code',
+            'CITYOPSID':'ops_id',
+            'COUNTRYERPID':'country_id',
+            'REGIONERPID':'state_id',
            
            }
 class res_state_city(osv.osv):
     _inherit='res.state.city'
     _columns={
-              'ops_id':fields.integer('OPS City ID',readonly=True),
+              'ops_id':fields.char('OPS City ID',readonly=True),
               }
     
     def ListRecord(self,cr,uid):
@@ -515,7 +526,7 @@ class res_state_city(osv.osv):
         region_obj=self.pool.get('res.state.city')
         for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
 #assuming country ops code and region ops code is updated in ERP
-            if val.country_id.ops_id >0 and val.state_id.ops_id > 0:
+            if val.country_id.ops_id > 0 and val.state_id.ops_id > 0:
                 dict={
                       'ERPID':val.id,
                       'CITYNAME':val.name,
@@ -538,7 +549,13 @@ class res_state_city(osv.osv):
             if vals.get('ERPID',False) and vals.get('OPSID',False):
                     self.pool.get('res.state.city').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
         return True
-
+    
+    def CreateRecord(self,cr,uid,vals):
+        if vals.get('CITYCODE',False) and vals.get('CITYNAME',False):
+            city_id=self.search(cr,uid,[('name','=',vals['CITYNAME']),('code','=',vals['CITYCODE'])])
+            if not city_id:
+                city_id=self.pool.get('res.state.city').create(cr,uid,{'name':vals['CITYNAME'],'code':vals['CITYCODE'],'arabic_name':vals['CITYNAMEARABIC'],'ops_id':vals['OPSID'],'country_id':vals['COUNTRYERPID'],'state_id':vals['REGIONERPID']},context={})
+        return city_id
 
 class res_bank(osv.osv):
     _inherit='res.bank'
@@ -574,8 +591,8 @@ class res_bank(osv.osv):
         if vals.get('IDENTIFIERCODE',False) and vals.get('BANKNAME',False):
             bank_id=self.search(cr,uid,[('name','=',vals['BANKNAME']),('bic','=',vals['IDENTIFIERCODE'])])
             if not bank_id:
-                self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'bic':vals['IDENTIFIERCODE'],'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)})
-        return True
+                bank_id=self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'bic':vals['IDENTIFIERCODE'],'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)},context={})
+        return bank_id
 
 PURCHASE_ORDER_DIC={
            'PURCHASEORDERNO':'ops_order_id',  
@@ -590,14 +607,14 @@ PURCHASE_ORDER_DIC={
           # 'RECORDSTATUS':'state',
           # 'PAYMENTSTATUS':'',
            'TOTALAMOUNT':'po_amount',
-           'DISCOUNTACT':'discount_type',
-           'SERVICEACT':'service_type',
-           'DEDUCTIONACT':'deduction_type',
+          # 'DISCOUNTACT':'discount_type',
+         #  'SERVICEACT':'service_type',
+          # 'DEDUCTIONACT':'deduction_type',
            'DISCOUNTAMOUNT':'discount_value',
            'DEDUCTIONAMOUNT':'deduction_value',
            'SERVICEAMOUNT':'service_amt',
            'NETAMOUNT':'amount_total',
-           'EXPENSETYPE':'revenue_type',
+          # 'EXPENSETYPE':'revenue_type',
            'REIMBURSESTATUS':'reimurses_status',
            'REIMBURSECOMMAMOUNT':'reimurses_com_amt',
            'REIMBURSABLEAMOUNT':'reimurses_total_amt',
@@ -616,7 +633,7 @@ PURCHASE_ORDER_DIC={
 #           'product_id':'product_id',
 #           'order_line':'order_line'
    }
-    
+
 class purchase_order(osv.osv):
     _inherit='purchase.order'
     
@@ -650,7 +667,18 @@ class purchase_order(osv.osv):
         for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
             result[line.order_id.id] = True
         return result.keys()
-    
+    def check_material(self,cr,uid,vals):
+        for val in vals:
+            if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
+                return True
+            else:
+                if not val.get('REQUESTNO',False):
+                    error="Please send 'REQUESTNO' "
+                elif not val.get('REQUESTDETAILID',False):
+                    error="Please send 'REQUESTDETAILID' "
+                else:
+                    error='Please Create Material Request First'
+                return error
     _columns={
               'ops_order_id':fields.char('OPS ID'),
               'purchse_type':fields.char('Purchase Type'),
@@ -687,27 +715,27 @@ class purchase_order(osv.osv):
               
               }
 
-    def onchange_discount(self,cr,uid,ids,discount_type,discount_value,total,context=None):
-        result=0.0
-        res={}
-        if discount_type:
-            if discount_type == 'percentage':
-                result= (total*discount_value)/100
-            elif discount_type == 'value':
-                result=discount_value
-        #print "result=====================",result
-        res.update({'discount_amt': result})
-        #print "===================onchange======================",res,result
-        return {'value':res }
+#    def onchange_discount(self,cr,uid,ids,discount_type,discount_value,total,context=None):
+#        result=0.0
+#        res={}
+#        if discount_type:
+#            if discount_type == 'percentage':
+#                result= (total*discount_value)/100
+#            elif discount_type == 'value':
+#                result=discount_value
+#        #print "result=====================",result
+#        res.update({'discount_amt': result})
+#        #print "===================onchange======================",res,result
+#        return {'value':res }
     
-    def onchange_deduction(self,cr,uid,ids,discount_type,discount_value,total,context=None):
-        result=0.0
-        if discount_type:
-            if discount_type == 'percentage':
-                result= (total*discount_value)/100
-            elif discount_type == 'value':
-                result=discount_value
-        return {'value': {'deduction_amt': result}}
+#    def onchange_deduction(self,cr,uid,ids,discount_type,discount_value,total,context=None):
+#        result=0.0
+#        if discount_type:
+#            if discount_type == 'percentage':
+#                result= (total*discount_value)/100
+#            elif discount_type == 'value':
+#                result=discount_value
+#        return {'value': {'deduction_amt': result}}
     _defaults={
               'pricelist_id': lambda self, cr, uid, context: context.get('partner_id', False) and self.pool.get('res.partner').browse(cr, uid, context['partner_id']).property_product_pricelist_purchase.id,
                
@@ -717,49 +745,53 @@ class purchase_order(osv.osv):
         ids=[]
         val1=vals['DetailData']
         del vals['DetailData']
-        analytic_obj=self.pool.get('account.analytic.account')
-        for key,value in vals.iteritems():
-            dic[PURCHASE_ORDER_DIC.get(key)] =  value 
-        #location_id=self.pool.get('location.setting').search(cr,uid,[])[0]
-        dic.update({'name':dic['ops_order_id'],'invoice_method':'manual'})
-        partner_id=self.pool.get('res.partner').search(cr,uid,[('ops_code','=',dic['partner_id'])])
-        partner_id=partner_id[0] if isinstance (partner_id,(list,tuple)) else partner_id
-        
-        pricelist_id=self.pool.get('res.partner').browse(cr, uid, partner_id).property_product_pricelist_purchase.id
-        self.onchange_pricelist(cr, uid, ids, pricelist_id, context=None)
-        #self.onchange_warehouse_id(cr, uid, ids, warehouse_id)
-        self.onchange_partner_id(cr, uid, ids, partner_id)
-        dic['partner_id']=partner_id or False
-        dic ['pricelist_id']=pricelist_id or False
-        dic['location_id']=16
-        dic.update({'name':dic['ops_order_id'],'invoice_method':'picking'})
-        if dic['project_code'] :
-            if dic['location_serial_counter'] :
-                ref = str(dic['project_code']) + '0'*(3-len(str(dic['location_serial_counter']))) + str(dic['location_serial_counter'])
-            else:
-                ref =  str(dic['project_code'])
-            # Assuming Project already available in analytic account otherwise we will not create and pass as False    
-            dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
-            #print "dic['analytic_id']=============================",dic['analytic_id']
+        response=self.check_material(cr,uid,val1)
+        if response == True:
+            analytic_obj=self.pool.get('account.analytic.account')
+            for key,value in vals.iteritems():
+                dic[PURCHASE_ORDER_DIC.get(key)] =  value 
+            #location_id=self.pool.get('location.setting').search(cr,uid,[])[0]
+            dic.update({'name':dic['ops_order_id'],'invoice_method':'manual'})
+            partner_id=self.pool.get('res.partner').search(cr,uid,[('ops_code','=',dic['partner_id'])])
+            partner_id = partner_id and partner_id[0] if isinstance (partner_id,(list,tuple)) else partner_id
             
-            discount=self.onchange_discount(cr,uid,ids,dic['discount_type'],dic['discount_value'],dic['po_amount'])
-            dic['discount_amt']=discount['value']['discount_amt']
-            deduction=self.onchange_deduction(cr,uid,ids,dic['deduction_type'],dic['deduction_value'],dic['po_amount'])
-            dic['deduction_amt']=deduction['value']['deduction_amt']
-            purchase_id=self.search(cr, uid, [('ops_order_id','=',dic['ops_order_id'])])
-            purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
-                                 if purchase_id else self.create(cr,uid,dic)
-        #print "purchase id==================================",purchase_id
-        self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
-        netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
-        invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
-        #print "ops     invoice==============",invoice
-        context=self.view_invoice(cr, uid, [purchase_id], context={})
-        #print "invoice id=======================================",context
-        if context.get('res_id',False):
-            self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
-        netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
-        return purchase_id
+            pricelist_id=self.pool.get('res.partner').browse(cr, uid, partner_id).property_product_pricelist_purchase.id
+            self.onchange_pricelist(cr, uid, ids, pricelist_id, context=None)
+            #self.onchange_warehouse_id(cr, uid, ids, warehouse_id)
+            self.onchange_partner_id(cr, uid, ids, partner_id)
+            dic['partner_id']=partner_id or False
+            dic ['pricelist_id']=pricelist_id or False
+            dic['location_id']=16
+            dic.update({'name':dic['ops_order_id'],'invoice_method':'picking'})
+            if dic['project_code'] :
+                if dic['location_serial_counter'] :
+                    ref = str(dic['project_code']) + '0'*(3-len(str(dic['location_serial_counter']))) + str(dic['location_serial_counter'])
+                else:
+                    ref =  str(dic['project_code'])
+                # Assuming Project already available in analytic account otherwise we will not create and pass as False    
+                dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
+                #print "dic['analytic_id']=============================",dic['analytic_id']
+                
+                #discount=self.onchange_discount(cr,uid,ids,dic['discount_type'],dic['discount_value'],dic['po_amount'])
+                #dic['discount_amt']=discount['value']['discount_amt']
+                #deduction=self.onchange_deduction(cr,uid,ids,dic['deduction_type'],dic['deduction_value'],dic['po_amount'])
+                #dic['deduction_amt']=deduction['value']['deduction_amt']
+                purchase_id=self.search(cr, uid, [('ops_order_id','=',dic['ops_order_id'])])
+                purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
+                                     if purchase_id else self.create(cr,uid,dic,context={})
+            #print "purchase id==================================",purchase_id
+            order_line=self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
+            netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
+            invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
+            #print "ops     invoice==============",invoice
+            context=self.view_invoice(cr, uid, [purchase_id], context={})
+            #print "invoice id=======================================",context
+            if context.get('res_id',False):
+                self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
+            netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
+            return purchase_id
+        else:
+            return response
     
 PURCHASE_ORDER_LINE_DIC = {
                             'PURCHASEORDERNO': 'order_id' ,
@@ -822,7 +854,7 @@ class purchase_order_line(osv.osv):
                
             purchase_line_id=self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
             purchase_line_id = self.write(cr,uid,purchase_line_id[0],dic) and purchase_line_id[0] \
-                                     if purchase_line_id else self.create(cr,uid,dic)
+                                     if purchase_line_id else self.create(cr,uid,dic,context={})
         return purchase_line_id
 
 
@@ -885,10 +917,12 @@ class account_invoice_payment(osv.osv):
                 dic['invoice_id']=invoice_id[0]
             payment_id=self.search(cr, uid, [('pos_payment_id','=',dic['pos_payment_id'])])
             payment_id = self.write(cr,uid,payment_id[0],dic) and payment_id[0] \
-                                     if payment_id else self.create(cr,uid,dic)
-        return True
+                                     if payment_id else self.create(cr,uid,dic,context={})
+        return payment_id
+    
+    
 ACCOUNT_DETAILS={
-                 'VNO':'ops_code',
+               #  'VNO':'ops_code',
                 'ACCOUNTANTID':'ops_accountant',
                 'EMPLOYEECODE':'employee_code',
                 'PROJECTCODE':'project_code',
@@ -924,6 +958,8 @@ INVOICE_DATA_DIC = {
                 #'LOAN_DATAIL_DATA':'LOAN_DATAIL_DATA_LIST',
                 #'LOAN_REQUEST_DETAIL':'LOAN_REQUEST_DETAIL_LIST',
                 }
+
+
 class account_invoice(osv.osv):
     _inherit='account.invoice'
     _columns={
@@ -938,6 +974,7 @@ class account_invoice(osv.osv):
           'unit_discount':fields.float('Unit Discount'),
           'service_charge':fields.float('Service Charge'),
           }
+    
     def CreateRecord(self,cr,uid,vals):
         dic={}
         ids=[]
@@ -993,6 +1030,8 @@ INVOICE_DEATIL_LINE_DATA={
                     #'RECORDSTATUS':'',
                     }
 
+
+
 class account_invoice_details(osv.osv):
     _name='account.invoice.details'
     _columns={
@@ -1007,6 +1046,7 @@ class account_invoice_details(osv.osv):
               'rmr_number':fields.char('RMR Number'),
               'rmr_amount':fields.char('RMR Amount'),
               }
+    
     def CreateRecord(self,cr,uid,list):
         dic={}
         invoice=self.pool.get('account.invoice')
@@ -1020,7 +1060,7 @@ class account_invoice_details(osv.osv):
                     dic['invoice_id']=invoice_id[0]
                     ops_details_id=self.search(cr,uid,[('ops_details_id','=',dic['ops_details_id'])])
                     ops_details_id = self.write(cr,uid,ops_details_id[0],dic) and ops_details_id[0] \
-                                 if ops_details_id else self.create(cr,uid,dic)
+                                 if ops_details_id else self.create(cr,uid,dic,context={})
         return ops_details_id
 
 INVOICE_LINE_DATA=   {
@@ -1039,7 +1079,9 @@ INVOICE_LINE_DATA=   {
                     #'BUDGETDETAILID':'',
                     #'BUDGETENTITYID':'',
                     'LOANCODE':'invoice_id',
-                    }    
+                    }   
+
+ 
 class account_invoice_line(osv.osv):
     _inherit='account.invoice.line'
     _columns={
@@ -1049,6 +1091,7 @@ class account_invoice_line(osv.osv):
               'unit_discount':fields.float('Unit Discount'),
               'service_charge':fields.float('Service Charge'),
               }
+    
     def CreateRecord(self,cr,uid,list):
         dic={}
         product=self.pool.get('product.product')
@@ -1068,7 +1111,7 @@ class account_invoice_line(osv.osv):
                     dic['product_id']= product_id[0] if product_id else False
                     ops_details_request_id=self.search(cr,uid,[('ops_details_request_id','=',dic['ops_details_request_id'])])
                     ops_details_request_id = self.write(cr,uid,ops_details_request_id[0],dic) and ops_details_request_id[0] \
-                                 if ops_details_request_id else self.create(cr,uid,dic)
+                                 if ops_details_request_id else self.create(cr,uid,dic,context={})
         return ops_details_request_id
     
 

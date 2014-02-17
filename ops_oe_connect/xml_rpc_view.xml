@@ -46,12 +46,12 @@
     <menuitem
             id="location_config_menu" name="Location"
             parent="menu_purchase_partner_cat12121" sequence="2" />
-=======
-            parent="purchase.menu_purchase_config_purchase"/>
+<!--=======-->
+<!--            parent="purchase.menu_purchase_config_purchase"/>-->
     <menuitem
             id="location_config_menu" name="Products"
             parent="menu_purchase_partner_cat12121" sequence="30" groups="base.group_no_one"/>
->>>>>>> 4c466cba544d465fcc0cbbd6b2c354c0e2735992
+<!-->>>>>>> 4c466cba544d465fcc0cbbd6b2c354c0e2735992-->
     
     
 							<!--  PRODUCT  -->
@@ -355,7 +355,7 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
             
-            	<xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree/field[@name='to_date']" position="after">
+            	<xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree/field[@name='price_unit']" position="after">
 					  <field name="ops_details_request_id"/>
 			          <field name="invoice_details_id"/>
 			          <field name="unit_discount"/>
