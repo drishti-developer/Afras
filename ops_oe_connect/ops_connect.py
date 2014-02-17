@@ -631,7 +631,7 @@ PURCHASE_ORDER_DIC={
 #           'product_id':'product_id',
 #           'order_line':'order_line'
    }
-    
+
 class purchase_order(osv.osv):
     _inherit='purchase.order'
     
@@ -665,7 +665,18 @@ class purchase_order(osv.osv):
         for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
             result[line.order_id.id] = True
         return result.keys()
-    
+    def check_material(self,cr,uid,vals):
+        for val in vals:
+            if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
+                return True
+            else:
+                if not val.get('REQUESTNO',False):
+                    error="Please send 'REQUESTNO' "
+                elif not val.get('REQUESTDETAILID',False):
+                    error="Please send 'REQUESTDETAILID' "
+                else:
+                    error='Please Create Material Request First'
+                return error
     _columns={
               'ops_order_id':fields.char('OPS ID'),
               'purchse_type':fields.char('Purchase Type'),
@@ -732,49 +743,53 @@ class purchase_order(osv.osv):
         ids=[]
         val1=vals['DetailData']
         del vals['DetailData']
-        analytic_obj=self.pool.get('account.analytic.account')
-        for key,value in vals.iteritems():
-            dic[PURCHASE_ORDER_DIC.get(key)] =  value 
-        #location_id=self.pool.get('location.setting').search(cr,uid,[])[0]
-        dic.update({'name':dic['ops_order_id'],'invoice_method':'manual'})
-        partner_id=self.pool.get('res.partner').search(cr,uid,[('ops_code','=',dic['partner_id'])])
-        partner_id=partner_id[0] if isinstance (partner_id,(list,tuple)) else partner_id
-        
-        pricelist_id=self.pool.get('res.partner').browse(cr, uid, partner_id).property_product_pricelist_purchase.id
-        self.onchange_pricelist(cr, uid, ids, pricelist_id, context=None)
-        #self.onchange_warehouse_id(cr, uid, ids, warehouse_id)
-        self.onchange_partner_id(cr, uid, ids, partner_id)
-        dic['partner_id']=partner_id or False
-        dic ['pricelist_id']=pricelist_id or False
-        dic['location_id']=16
-        dic.update({'name':dic['ops_order_id'],'invoice_method':'picking'})
-        if dic['project_code'] :
-            if dic['location_serial_counter'] :
-                ref = str(dic['project_code']) + '0'*(3-len(str(dic['location_serial_counter']))) + str(dic['location_serial_counter'])
-            else:
-                ref =  str(dic['project_code'])
-            # Assuming Project already available in analytic account otherwise we will not create and pass as False    
-            dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
-            #print "dic['analytic_id']=============================",dic['analytic_id']
+        response=self.check_material(cr,uid,val1)
+        if response == True:
+            analytic_obj=self.pool.get('account.analytic.account')
+            for key,value in vals.iteritems():
+                dic[PURCHASE_ORDER_DIC.get(key)] =  value 
+            #location_id=self.pool.get('location.setting').search(cr,uid,[])[0]
+            dic.update({'name':dic['ops_order_id'],'invoice_method':'manual'})
+            partner_id=self.pool.get('res.partner').search(cr,uid,[('ops_code','=',dic['partner_id'])])
+            partner_id = partner_id and partner_id[0] if isinstance (partner_id,(list,tuple)) else partner_id
             
-            #discount=self.onchange_discount(cr,uid,ids,dic['discount_type'],dic['discount_value'],dic['po_amount'])
-            #dic['discount_amt']=discount['value']['discount_amt']
-            #deduction=self.onchange_deduction(cr,uid,ids,dic['deduction_type'],dic['deduction_value'],dic['po_amount'])
-            #dic['deduction_amt']=deduction['value']['deduction_amt']
-            purchase_id=self.search(cr, uid, [('ops_order_id','=',dic['ops_order_id'])])
-            purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
-                                 if purchase_id else self.create(cr,uid,dic,context={})
-        #print "purchase id==================================",purchase_id
-        order_line=self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
-        netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
-        invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
-        #print "ops     invoice==============",invoice
-        context=self.view_invoice(cr, uid, [purchase_id], context={})
-        #print "invoice id=======================================",context
-        if context.get('res_id',False):
-            self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
-        netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
-        return purchase_id
+            pricelist_id=self.pool.get('res.partner').browse(cr, uid, partner_id).property_product_pricelist_purchase.id
+            self.onchange_pricelist(cr, uid, ids, pricelist_id, context=None)
+            #self.onchange_warehouse_id(cr, uid, ids, warehouse_id)
+            self.onchange_partner_id(cr, uid, ids, partner_id)
+            dic['partner_id']=partner_id or False
+            dic ['pricelist_id']=pricelist_id or False
+            dic['location_id']=16
+            dic.update({'name':dic['ops_order_id'],'invoice_method':'picking'})
+            if dic['project_code'] :
+                if dic['location_serial_counter'] :
+                    ref = str(dic['project_code']) + '0'*(3-len(str(dic['location_serial_counter']))) + str(dic['location_serial_counter'])
+                else:
+                    ref =  str(dic['project_code'])
+                # Assuming Project already available in analytic account otherwise we will not create and pass as False    
+                dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
+                #print "dic['analytic_id']=============================",dic['analytic_id']
+                
+                #discount=self.onchange_discount(cr,uid,ids,dic['discount_type'],dic['discount_value'],dic['po_amount'])
+                #dic['discount_amt']=discount['value']['discount_amt']
+                #deduction=self.onchange_deduction(cr,uid,ids,dic['deduction_type'],dic['deduction_value'],dic['po_amount'])
+                #dic['deduction_amt']=deduction['value']['deduction_amt']
+                purchase_id=self.search(cr, uid, [('ops_order_id','=',dic['ops_order_id'])])
+                purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
+                                     if purchase_id else self.create(cr,uid,dic,context={})
+            #print "purchase id==================================",purchase_id
+            order_line=self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
+            netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
+            invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
+            #print "ops     invoice==============",invoice
+            context=self.view_invoice(cr, uid, [purchase_id], context={})
+            #print "invoice id=======================================",context
+            if context.get('res_id',False):
+                self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
+            netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
+            return purchase_id
+        else:
+            return response
     
 PURCHASE_ORDER_LINE_DIC = {
                             'PURCHASEORDERNO': 'order_id' ,
