@@ -749,9 +749,10 @@ class purchase_order(osv.osv):
         dic={}
         ids=[]
        # value={}
-        val1=vals['DetailData']
-        del vals['DetailData']
-        response=self.check_material(cr,uid,val1)
+        #val1=vals['DetailData']
+       # del vals['DetailData']
+#        response=self.check_material(cr,uid,val1)
+        response=True
         if response == True:
             analytic_obj=self.pool.get('account.analytic.account')
             for key,value in vals.iteritems():
