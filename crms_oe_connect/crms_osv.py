@@ -612,6 +612,10 @@ def CreateRequest(self, cr, uid, data):
                         response_data += "<%s>%s</%s>"%('CRMSBookingID', crms_id or 0, 'CRMSBookingID')
                         response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
                         
+                        cr.execute("""select message_id from crms_payment where id=%s""",(record_id,))
+                        msg_id = cr.fetchone()
+                        response_data += "<%s>%s</%s>"%('ERPTransactionID', msg_id and msg_id[0] or 0, 'ERPTransactionID')
+                        
                         if payment_id :
                             cr.execute('select id from crms_payment_intermediatepayment_history where crms_id=%s',(payment_id,))
                             record_id = cr.fetchone()
