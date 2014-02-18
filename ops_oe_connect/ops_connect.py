@@ -682,7 +682,7 @@ class purchase_order(osv.osv):
                     error="Please send 'REQUESTDETAILID' "
                 else:
                     error='Please Create Material Request First'
-                return error
+                return True
     _columns={
               'ops_order_id':fields.char('OPS ID'),
               'purchse_type':fields.char('Purchase Type'),
@@ -786,15 +786,15 @@ class purchase_order(osv.osv):
                 purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
                                      if purchase_id else self.create(cr,uid,dic,context={})
             #print "purchase id==================================",purchase_id
-            order_line=self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
-            netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
-            invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
+           # order_line=self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
+#            netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
+           # invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
             #print "ops     invoice==============",invoice
-            context=self.view_invoice(cr, uid, [purchase_id], context={})
+            #context=self.view_invoice(cr, uid, [purchase_id], context={})
             #print "invoice id=======================================",context
-            if context.get('res_id',False):
-                self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
-            netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
+#            if context.get('res_id',False):
+#                self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
+#            netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
            #value['PurchaseERPID'] = purchase_id
             return purchase_id
         else:
