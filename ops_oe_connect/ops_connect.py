@@ -672,6 +672,7 @@ class purchase_order(osv.osv):
         return result.keys()
     def check_material(self,cr,uid,vals):
         for val in vals:
+            print val,"check request=============="
             if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
                 return True
             else:
@@ -747,7 +748,7 @@ class purchase_order(osv.osv):
     def CreateRecord(self,cr,uid,vals):
         dic={}
         ids=[]
-        value={}
+       # value={}
         val1=vals['DetailData']
         del vals['DetailData']
         response=self.check_material(cr,uid,val1)
@@ -794,7 +795,7 @@ class purchase_order(osv.osv):
             if context.get('res_id',False):
                 self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
             netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
-            value['PurchaseERPID'] = purchase_id
+           #value['PurchaseERPID'] = purchase_id
             return purchase_id
         else:
             return response
