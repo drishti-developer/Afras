@@ -607,7 +607,7 @@ PURCHASE_ORDER_DIC={
            'LOCATIONSERIALCOUNTER':'location_serial_counter',
            
            'QUOTATIONNUMBER':'partner_ref',
-          # 'RECORDSTATUS':'state',
+           'RECORDSTATUS':'status',
           # 'PAYMENTSTATUS':'',
            'TOTALAMOUNT':'po_amount',
           # 'DISCOUNTACT':'discount_type',
@@ -699,6 +699,7 @@ class purchase_order(osv.osv):
               'deduction_amt':fields.float('Deduction'),
               'service_amt':fields.float('Service Amount'),
               'revenue_type':fields.char('Revenue Type'),
+              'status':fields.char('Record Status'),
               'reimurses_status':fields.char('Reimburse Status'),
               'reimurses_com_amt':fields.integer('Reimburse Commission'),
               'reimurses_total_amt':fields.float('Reimburse Total'),
