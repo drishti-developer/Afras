@@ -24,7 +24,7 @@ PRODUCT_LIST = {
                 'ITEMNUMBER':'ops_code',
                 'ITEMNAMEA':'name_arabic',
                 'ITEMNAMEE':'name',
-                'ITEMSTATUS':'active',
+                'ITEMSTATUS':'status',
                 'CATEGORYCODE':'categ_id',
                 'DESC2':'description',
                  }
@@ -158,8 +158,12 @@ class product_product(osv.osv):
     _columns={
             'ops_code':fields.char('OPS Code'),
             'name_arabic':fields.char('Arbic Name',size=64),
+            'status':fields.char('Item Status',readonly=True),
             
             }
+    _defaults={
+               'active':True,
+               }
                 
     def CreateRecord(self, cr, uid, vals, context=None):
         
@@ -386,7 +390,6 @@ class purchase_requisition(osv.osv):
         requisition_id = self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
         requisition_id = self.write(cr,uid,requisition_id[0],dic) and requisition_id[0] \
                                  if requisition_id else self.create(cr,uid,dic,context={})
-        
         return requisition_id  
          
     
@@ -604,7 +607,7 @@ PURCHASE_ORDER_DIC={
            'LOCATIONSERIALCOUNTER':'location_serial_counter',
            
            'QUOTATIONNUMBER':'partner_ref',
-          # 'RECORDSTATUS':'state',
+           'RECORDSTATUS':'status',
           # 'PAYMENTSTATUS':'',
            'TOTALAMOUNT':'po_amount',
           # 'DISCOUNTACT':'discount_type',
@@ -668,17 +671,21 @@ class purchase_order(osv.osv):
             result[line.order_id.id] = True
         return result.keys()
     def check_material(self,cr,uid,vals):
+        print "check material =========",vals,type(vals)
         for val in vals:
-            if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
-                return True
-            else:
-                if not val.get('REQUESTNO',False):
-                    error="Please send 'REQUESTNO' "
-                elif not val.get('REQUESTDETAILID',False):
-                    error="Please send 'REQUESTDETAILID' "
+            if isinstance(val,dict):
+                print val,"check request=============="
+                if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
+                    return True
                 else:
-                    error='Please Create Material Request First'
-                return error
+                    if not val.get('REQUESTNO',False):
+                        error="Please send 'REQUESTNO' "
+                    elif not val.get('REQUESTDETAILID',False):
+                        error="Please send 'REQUESTDETAILID' "
+                    else:
+                        error='Please Create Material Request First'
+                    return error
+            
     _columns={
               'ops_order_id':fields.char('OPS ID'),
               'purchse_type':fields.char('Purchase Type'),
@@ -696,6 +703,7 @@ class purchase_order(osv.osv):
               'deduction_amt':fields.float('Deduction'),
               'service_amt':fields.float('Service Amount'),
               'revenue_type':fields.char('Revenue Type'),
+              'status':fields.char('Record Status'),
               'reimurses_status':fields.char('Reimburse Status'),
               'reimurses_com_amt':fields.integer('Reimburse Commission'),
               'reimurses_total_amt':fields.float('Reimburse Total'),
@@ -741,8 +749,10 @@ class purchase_order(osv.osv):
                
                }
     def CreateRecord(self,cr,uid,vals):
+        print "==============purchase order==========================",vals
         dic={}
         ids=[]
+        value={}
         val1=vals['DetailData']
         del vals['DetailData']
         response=self.check_material(cr,uid,val1)
@@ -789,6 +799,7 @@ class purchase_order(osv.osv):
             if context.get('res_id',False):
                 self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
             netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
+           #value['PurchaseERPID'] = purchase_id
             return purchase_id
         else:
             return response
@@ -836,6 +847,7 @@ class purchase_order_line(osv.osv):
    
     def CreateRecord(self,cr,uid,vals):
         dic={}
+        line={}
         purchase_obj=self.pool.get('purchase.order')
         requisition_obj=self.pool.get('purchase.requisition')
         requisition_line_obj=self.pool.get('purchase.requisition.line')
@@ -855,7 +867,8 @@ class purchase_order_line(osv.osv):
             purchase_line_id=self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
             purchase_line_id = self.write(cr,uid,purchase_line_id[0],dic) and purchase_line_id[0] \
                                      if purchase_line_id else self.create(cr,uid,dic,context={})
-        return purchase_line_id
+            line['DetailERPID'] = purchase_line_id
+        return line
 
 
 
@@ -1050,7 +1063,7 @@ class account_invoice_details(osv.osv):
     def CreateRecord(self,cr,uid,list):
         dic={}
         invoice=self.pool.get('account.invoice')
-        invoice_detail=self.pool.get('account.invoice.details')
+#        invoice_detail=self.pool.get('account.invoice.details')
         for vals in list:
             for key,value in vals.iteritems():
                 dic[INVOICE_DEATIL_LINE_DATA.get(key)] =  value
