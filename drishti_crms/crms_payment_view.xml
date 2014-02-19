@@ -104,8 +104,10 @@
 	                        		<field name="property_cash_journal" required="1"/>
 			                    	<field name="property_bank_journal" required="1"/>
 			                    	<field name="property_sale_journal" required="1"/>
+			                    	<field name="property_opening_journal" required="1"/>
 			                    	<field name="property_advance_account" required="1"/>
 			                    	<field name="property_retail_account" required="1"/>
+			                    	<field name="property_suspense_account" required="1"/>
 			                    	<field name="property_revenue_account" required="1"/>
 			                    	<field name="property_discount_account" required="1"/>
 			                    	<field name="property_extra_hours_account" required="1"/>
@@ -168,6 +170,8 @@
 			                    <group col="4" colspan="2">
 			                    	<field name="remaining_amount"/>
 			                    	<field name="last_expense_date"/>
+			                    	<field name="initial_contract"/>
+			                    	<field name="initial_amount"/>
 			                    </group>	                        	
 	                        </page>
 	                    </notebook>

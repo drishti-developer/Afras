@@ -35,7 +35,7 @@ STANDARD_LIST_ERROR_RESPONSE = """<?xml version="1.0" encoding="utf-8"?><Respons
 
 VIEW_CLASS_LIST = ['res.currency', 'res.country', 'res.country.state', 'res.state.city', 'res.city.area', 'sale.shop', 'fleet.vehicle.model.brand', 'fleet.type', 'fleet.vehicle.model','fleet.vehicle','res.partner',]
 
-CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle', 'crms.daily.revenue','crms.payment.car.history','crms.cash.branch']
+CREATE_CLASS_LIST = ['res.partner', 'crms.payment', 'fleet.vehicle', 'crms.daily.revenue','crms.payment.car.history','crms.cash.branch','crms.payment.initializelive']
 
 CURRENCY_LIST = [
 			('id','ERPCurrencyID'),
@@ -294,6 +294,25 @@ CASH_BRANCH = [
            ('branch_id','ERPBranchID'),
            ]
 
+RENTAL_INITIALIZE = [
+            ('crms_id','CRMSBookingID'),
+            ('partner_id',('id','ERPCustomerID',0,'res.partner')),
+            ('vehicle_id',('id','ERPCarID',0,'fleet.vehicle')),
+            ('model_id',('id','ERPModelID',0,'fleet.vehicle.model')),
+            ('rental_from_date','RentalFromDate'),
+            ('rental_to_date','RentalToDate'),
+            ('pickup_branch_id',('id','ERPBranchID',0,'sale.shop')),
+            ('receivable_amt','ReceivableAmount'),
+            ('live_date','LiveDate'),
+            ('advance_amt','AdvanceAmount'),
+            ('balance_due_amount','BalanceDue'),
+            ('payment_type','PaymentMode'),
+            ('state','RentalStatus'),
+            ('per_day_amount','RatePerDay'),
+            ('exa','Exa'),
+            ('discount','Discounts'),
+           ]
+
 def getDataArray(responseDOM, tag, level_1, level_2=False):
     responsearray = []
     for node in responseDOM.getElementsByTagName(tag):
@@ -529,6 +548,9 @@ def CreateRequest(self, cr, uid, data):
         elif self._name == 'crms.cash.branch':#CRMS CASH BRANCH
             response_type = 'CashBranch'
             field_list = CASH_BRANCH
+        elif self._name == 'crms.payment.initializelive':#CRMS CASH BRANCH
+            response_type = 'RentalInitializeLive'
+            field_list = RENTAL_INITIALIZE
                          
         response_data = ''
         response_name = response_type+"Response"
@@ -550,7 +572,7 @@ def CreateRequest(self, cr, uid, data):
                 response_data += "<%s>"%(response_name)
                 if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
                 
-                elif response_type != 'DailyRevenue': crms_id = response.get('CRMS'+response_type+'ID',False)
+                elif response_type not in ['DailyRevenue','RentalInitializeLive'] : crms_id = response.get('CRMS'+response_type+'ID',False)
 
                 if response_type == 'DailyRevenue' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('date','=',response.get('Date'))])
                 
@@ -587,6 +609,7 @@ def CreateRequest(self, cr, uid, data):
                                 if field[1] == 'CRMSDiscountID' :  discount_id = response.get(field[1])
                                 if field[1] == 'CRMSTrafficViolationID' :  traffic_violation_id = response.get(field[1])
                                 if field[1] == 'ERPBookingID' and response_type in ['DailyRevenue','CarHistory']:  booking_id = response.get(field[1])
+                                if field[1] == 'CRMSBookingID' and response_type == 'RentalInitializeLive' :  booking_id = response.get(field[1])
                                 if field[1] == 'ERPBranchID' and response_type == 'CashBranch':  branch_id = response.get(field[1])
 
                 try :
@@ -607,11 +630,14 @@ def CreateRequest(self, cr, uid, data):
                         success -= 1
                         failure += 1
     
-                    if response_type == 'RentalPayment' :
+                    if response_type in ['RentalPayment', 'RentalInitializeLive'] :
                         
-                        response_data += "<%s>%s</%s>"%('CRMSBookingID', crms_id or 0, 'CRMSBookingID')
                         response_data += "<%s>%s</%s>"%('ERPBookingID', record_id, 'ERPBookingID')
-                        
+                        if  response_type ==  'RentalInitializeLive':
+                            response_data += "<%s>%s</%s>"%('CRMSBookingID', booking_id or 0, 'CRMSBookingID')
+                        else:
+                            response_data += "<%s>%s</%s>"%('CRMSBookingID', crms_id or 0, 'CRMSBookingID')
+                            
                         cr.execute("""select message_id from crms_payment where id=%s""",(record_id,))
                         msg_id = cr.fetchone()
                         response_data += "<%s>%s</%s>"%('ERPTransactionID', msg_id and msg_id[0] or 0, 'ERPTransactionID')
@@ -654,7 +680,10 @@ def CreateRequest(self, cr, uid, data):
                     success += 1
                     
                 except Exception ,e:
-                    response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
+                    if response_type == 'RentalInitializeLive':
+                        response_data += "<%s>%s</%s>"%('ERPBookingID', 0, 'ERPBookingID')
+                    else:
+                        response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', 0, 'ERP'+response_type+'ID')
                     if crms_id:
                         response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id, 'CRMS'+response_type+'ID')
                     response_data += "<RecordStatus>FAILURE - %s</RecordStatus>"%(e)
