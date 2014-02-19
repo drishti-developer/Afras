@@ -671,18 +671,21 @@ class purchase_order(osv.osv):
             result[line.order_id.id] = True
         return result.keys()
     def check_material(self,cr,uid,vals):
+        print "check material =========",vals,type(vals)
         for val in vals:
-            print val,"check request=============="
-            if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
-                return True
-            else:
-                if not val.get('REQUESTNO',False):
-                    error="Please send 'REQUESTNO' "
-                elif not val.get('REQUESTDETAILID',False):
-                    error="Please send 'REQUESTDETAILID' "
+            if isinstance(val,dict):
+                print val,"check request=============="
+                if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
+                    return True
                 else:
-                    error='Please Create Material Request First'
-                return error
+                    if not val.get('REQUESTNO',False):
+                        error="Please send 'REQUESTNO' "
+                    elif not val.get('REQUESTDETAILID',False):
+                        error="Please send 'REQUESTDETAILID' "
+                    else:
+                        error='Please Create Material Request First'
+                    return error
+            
     _columns={
               'ops_order_id':fields.char('OPS ID'),
               'purchse_type':fields.char('Purchase Type'),
