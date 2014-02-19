@@ -4,7 +4,6 @@ import datetime
 from openerp.tools.translate import _
 from crms_osv import Call
 import re
-import sys
 
 
 class res_currency(osv.osv):

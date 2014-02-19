@@ -164,6 +164,10 @@ class crms_payment(osv.osv):
     'exa':fields.selection([('Yes','Yes'),('No','No')],string='Exa'),
     'arabic_rental_from_date':fields.datetime('Arabic Rental From Date'),
     'message_id':fields.many2one('mail.message','Message Id'),
+    'initial_contract':fields.boolean(string="Initial Contract"),
+    'property_opening_journal': fields.property('account.journal', type='many2one', relation='account.journal', string="Opening Journal", view_load=True, help="Opening Journal",),
+    'property_suspense_account': fields.property('account.account', type='many2one', relation='account.account', string="Suspense Account", view_load=True, help=" Suspense Account",),
+    'initial_amount':fields.float('Initial Amount'),
     }
     
     _sql_constraints = [
@@ -205,26 +209,67 @@ class crms_payment(osv.osv):
     def create(self, cr, uid, data, context=None):
         
         if context is None: context = {}
+        
+        if data.get('initial_contract',False):
+            booking_id = super(crms_payment, self).create(cr, uid, data, context=context)
+            crms_payment_brw = self.browse(cr, uid, booking_id)
+             
+            ctx = context.copy()
+            ctx.update(company_id=crms_payment_brw.pickup_branch_id.company_id.id,account_period_prefer_normal=True)
+            period_ids = self.pool.get('account.period').find(cr, uid, data['live_date'], context=ctx)
+            pay_type = 'receipt'
+            create = False
             
-        data['last_expense_date'] = data.get('rental_from_date')
-        if data.get('amount_paid') and float(data.get('amount_paid',0.0)) > 0.0 and data.get('crms_payment_id',False) and data.get('payment_type',False) and data.get('amount_receive_date',False):
-            data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id'),'voucher_amount':data.get('amount_paid'),'admin_expenses':data.get('admin_expenses',0.0),})]
+            if data.get('advance_amt',False) and float(data.get('advance_amt',0.0)) > 0:
+                amount = float(data.get('advance_amt',0.0))
+                lines = [(0,0,{'account_id': crms_payment_brw.property_advance_account.id, 'amount': amount, 'type': 'dr',})]
+                create = True
+            elif data.get('receivable_amt',False) and float(data.get('receivable_amt',0.0)) > 0:
+                amount = float(data.get('receivable_amt',0.0))
+                pay_type = 'payment'
+                lines = [(0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': amount , 'type': 'cr',})]
+                create = True
+            
+            if create :        
+                voucher_id = self.pool.get('account.voucher').create(cr, uid, {
+                'partner_id': crms_payment_brw.partner_id.id,
+                'journal_id': crms_payment_brw.property_opening_journal.id,
+                'type' : pay_type,
+                'cost_analytic_id' : crms_payment_brw.pickup_branch_id.project_id.id,
+                'company_id' : crms_payment_brw.pickup_branch_id.company_id.id,
+                'account_id' : crms_payment_brw.property_suspense_account.id,
+                'date': data['live_date'],
+                'period_id': period_ids and period_ids[0] or False,
+                'amount':amount,
+                'crms_payment_id':booking_id,
+                'line_ids': lines
+                })
+                 
+                netsvc.LocalService("workflow").trg_validate(uid, 'account.voucher', voucher_id, 'proforma_voucher', cr)
+            
+        else: 
+            if data.get('payment_type',False) and data.get('payment_type') not in ['Cash','Card','Span']:
+                raise osv.except_osv(_('Error!'), _('Invalid Payment Mode.'))
+            
+            data['last_expense_date'] = data.get('rental_from_date')
+            if data.get('amount_paid') and float(data.get('amount_paid',0.0)) > 0.0 and data.get('crms_payment_id',False) and data.get('payment_type',False) and data.get('amount_receive_date',False):
+                data['amount_history_ids'] = [(0,0,{'date':data.get('amount_receive_date'),'amount':data.get('amount_paid'),'payment_type':data.get('payment_type'),'crms_id':data.get('crms_payment_id'),'voucher_amount':data.get('amount_paid'),'admin_expenses':data.get('admin_expenses',0.0),})]
+            
+            #Check whether is a new discount is applied or not.
+            if data.get('discount',False) and float(data.get('discount')) > 0 and data.get('discount_date',False) and data.get('crms_discount_id',False):
+                data['discount_history_ids'] = [(0,0,{'date':data.get('discount_date'),'discount':data.get('discount'),'crms_id':data.get('crms_discount_id')})]
+                  
+            data['total_amount_paid'] = float(data.get('amount_paid',0.0))
+            
+            if data.has_key('amount_paid'): data.pop('amount_paid')
+            if data.has_key('crms_payment_id') : data.pop('crms_payment_id')
+            if data.has_key('payment_type') : data.pop('payment_type')
+            if data.has_key('amount_receive_date') : data.pop('amount_receive_date')
+            if data.has_key('discount_date') : data.pop('discount_date')
+            if data.has_key('discount') : data.pop('discount')
+            if data.has_key('crms_discount_id') : data.pop('crms_discount_id')
         
-        #Check whether is a new discount is applied or not.
-        if data.get('discount',False) and float(data.get('discount')) > 0 and data.get('discount_date',False) and data.get('crms_discount_id',False):
-            data['discount_history_ids'] = [(0,0,{'date':data.get('discount_date'),'discount':data.get('discount'),'crms_id':data.get('crms_discount_id')})]
-              
-        data['total_amount_paid'] = float(data.get('amount_paid',0.0))
-        
-        if data.has_key('amount_paid'): data.pop('amount_paid')
-        if data.has_key('crms_payment_id') : data.pop('crms_payment_id')
-        if data.has_key('payment_type') : data.pop('payment_type')
-        if data.has_key('amount_receive_date') : data.pop('amount_receive_date')
-        if data.has_key('discount_date') : data.pop('discount_date')
-        if data.has_key('discount') : data.pop('discount')
-        if data.has_key('crms_discount_id') : data.pop('crms_discount_id')
-        
-        booking_id = super(crms_payment, self).create(cr, uid, data, context=context)
+            booking_id = super(crms_payment, self).create(cr, uid, data, context=context)
         
         changes = ""
         for key,value in data.iteritems():
@@ -234,6 +279,9 @@ class crms_payment(osv.osv):
         return booking_id
     
     def write(self, cr, uid, ids, vals, context={}):
+        
+        if vals.get('payment_type',False) and vals.get('payment_type') not in ['Cash','Card','Span']:
+            raise osv.except_osv(_('Error!'), _('Invalid Payment Mode.'))
         
         crms_payment_brw = self.browse(cr, uid, ids[0])
         
@@ -907,6 +955,7 @@ class crms_cash_branch(osv.osv):
     'property_cash_head_office_account': fields.property('account.account', type='many2one', relation='account.account', string="HeadOffice Cash A/C", view_load=True, help=" Advance Account",required =True),
     'line_ids': fields.one2many('account.move.line','crms_branch_id',string="Lines"),
     }
+    
     def create(self,cr,uid, data,context=None):
         res=super(crms_cash_branch,self).create(cr,uid,data,context)
         move_line_obj=self.pool.get('account.move.line')
@@ -948,6 +997,35 @@ class crms_cash_branch(osv.osv):
         return res
     
 crms_cash_branch()
+
+class crms_payment_initializelive(osv.osv):
+    _name = 'crms.payment.initializelive'
+    _columns = {}
+    
+    def create(self,cr,uid, data,context=None):
+        crms_payment_pool = self.pool.get('crms.payment')
+        crms_payment_id = data.get('crms_id')
+        crms_payment_ids = crms_payment_pool.search(cr, uid, [('crms_id','=',int(crms_payment_id))])
+        if crms_payment_ids:
+            return crms_payment_ids[0]
+        
+        crms_payment_data = data.copy()
+        crms_payment_data['initial_contract'] = True
+        crms_payment_data['drop_branch_id'] = crms_payment_data['pickup_branch_id']
+        crms_payment_data['booking_branch_id'] = crms_payment_data['pickup_branch_id']
+        crms_payment_data['last_expense_date'] = data.get('rental_from_date')
+        
+        if crms_payment_data.get('advance_amt') and float(crms_payment_data.get('advance_amt',0.0)) > 0:
+            crms_payment_data['remaining_amount'] = float(crms_payment_data.get('advance_amt'))
+            crms_payment_data['initial_amount'] = float(crms_payment_data.get('advance_amt'))
+        elif crms_payment_data.get('advance_amt') and float(crms_payment_data.get('advance_amt',0.0)) > 0:
+            crms_payment_data['remaining_amount'] = float(crms_payment_data.get('receivable_amt'))
+            crms_payment_data['initial_amount'] = float(crms_payment_data.get('receivable_amt')) 
+        
+        erp_payment_id = crms_payment_pool.create(cr, uid, crms_payment_data, context)
+        return erp_payment_id
+    
+crms_payment_initializelive()
 
 class account_move_line(osv.osv):
     _inherit='account.move.line'
