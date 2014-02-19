@@ -749,6 +749,7 @@ class purchase_order(osv.osv):
                
                }
     def CreateRecord(self,cr,uid,vals):
+        print "==============purchase order==========================",vals
         dic={}
         ids=[]
         value={}
