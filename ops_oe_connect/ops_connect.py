@@ -808,7 +808,7 @@ PURCHASE_ORDER_LINE_DIC = {
                             'PURCHASEORDERNO': 'order_id' ,
                             'PURCHASEDETAILID': 'ops_id',
                             'QUOTATIONNUMBER': 'quotation_number' ,
-                            #'RECORDSTATUS': '',
+                            'RECORDSTATUS': 'status',
                             'REQUESTNO' : 'requisition_id',
                             'REQUESTDETAILID' : 'requisition_line_id',
                             'ITEMPRICE' : 'price_unit',
@@ -840,6 +840,7 @@ class purchase_order_line(osv.osv):
               'quotation_detail_number':fields.char('Quotation Detail Number'),
               'quotation_number':fields.char('Quotation Number'),
               'vendor_status':fields.char('Vendor Status'),
+              'status':fields.char('Status'),
               'price_subtotal': fields.function(_amount_line, string='Subtotal', digits_compute= dp.get_precision('Account')),
               }
     
