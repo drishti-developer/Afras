@@ -137,7 +137,8 @@
 				<xpath expr="/form[@string='Partners']/sheet/notebook/page[@string='History']" position="after">
 			        	<page string="Accountant">
 				        	<group col="4" colspan="2">
-				        	    
+				        	    <field name="accountant_name"/>
+				        	    <field name="employee_id"/>
 		          				<field name="ops_accountant"/>
 		          				<field name="project_code"/>
 		          				<field name="employee_code"/>

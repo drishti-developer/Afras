@@ -211,6 +211,8 @@ class res_partner(osv.osv):
               'project_code':fields.char('Project Code',size=64),
               'employee_code':fields.char('Employee Code',size=64),
               'location_serial_counter':fields.integer('Location Serial Counter'),
+              'accountant_name':fields.char('Accountant Name'),
+              'employee_id':fields.many2one('hr.employee','Employee'),
              }
     
     #request for multiple record is to be done
@@ -221,12 +223,12 @@ class res_partner(osv.osv):
         state_obj=self.pool.get('res.country.state')
         bank_obj=self.pool.get('res.bank')
         partner_bank_obj=self.pool.get('res.partner.bank')
-        if vals.get('ACCOUNTANTID') and vals.get('EMPLOYEECODE') and vals.get('PROJECTCODE'):
-            name = 'Accountant' + '-' + str(vals['EMPLOYEECODE']) + '-' + str(vals['ACCOUNTANTID'])
+        if vals.get('ACCOUNTANTID') and vals.get('EMPLOYEECODE') and vals.get('PROJECTCODE') and vals.get('ACCOUNTANTNAME'):
+            name = vals['ACCOUNTANTNAME'] + '-' + str(vals['EMPLOYEECODE']) + '-' + str(vals['PROJECTCODE'])
             partner_id = partner_obj.search(cr,uid,[('ops_accountant','=',vals['ACCOUNTANTID'])])
             partner_id = self.write(cr,uid,partner_id[0],vals) and partner_id[0] \
                             if partner_id else self.create(cr,uid,{'name':name,'ops_accountant':vals['ACCOUNTANTID'],'project_code':vals['PROJECTCODE'],
-                                                                            'employee_code':vals['EMPLOYEECODE'],'location_serial_counter':vals['LOCATIONSERIALNUMBER']},context={})
+                                                                            'employee_code':vals['EMPLOYEECODE'],'location_serial_counter':vals['LOCATIONSERIALNUMBER'],'accountant_name':vals['ACCOUNTANTNAME']},context={})
             
             return partner_id
         
