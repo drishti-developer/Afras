@@ -634,7 +634,7 @@ PURCHASE_ORDER_DIC={
            'DEDUCTIONAMOUNT':'deduction_value',
            'SERVICEAMOUNT':'service_amt',
            'NETAMOUNT':'amount_total',
-          # 'EXPENSETYPE':'revenue_type',
+           'EXPENSETYPE':'revenue_type',
            'REIMBURSESTATUS':'reimurses_status',
            'REIMBURSECOMMAMOUNT':'reimurses_com_amt',
            'REIMBURSABLEAMOUNT':'reimurses_total_amt',
@@ -791,7 +791,7 @@ class purchase_order(osv.osv):
             for key,value in vals.iteritems():
                 dic[PURCHASE_ORDER_DIC.get(key)] =  value 
             #location_id=self.pool.get('location.setting').search(cr,uid,[])[0]
-            dic.update({'name':dic['ops_order_id'],'invoice_method':'manual'})
+            dic.update({'name':str(dic['ops_order_id']),'invoice_method':'manual'})
             partner_id=self.pool.get('res.partner').search(cr,uid,[('ops_code','=',dic['partner_id'])])
             partner_id = partner_id and partner_id[0] if isinstance (partner_id,(list,tuple)) else partner_id
             
