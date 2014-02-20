@@ -222,7 +222,7 @@ class res_partner(osv.osv):
         bank_obj=self.pool.get('res.bank')
         partner_bank_obj=self.pool.get('res.partner.bank')
         if vals.get('ACCOUNTANTID') and vals.get('EMPLOYEECODE') and vals.get('PROJECTCODE'):
-            name = 'Accountant' + '-' + vals['EMPLOYEECODE'] + '-' + vals['ACCOUNTANTID']
+            name = 'Accountant' + '-' + str(vals['EMPLOYEECODE']) + '-' + str(vals['ACCOUNTANTID'])
             partner_id = partner_obj.search(cr,uid,[('ops_accountant','=',vals['ACCOUNTANTID'])])
             partner_id = self.write(cr,uid,partner_id[0],vals) and partner_id[0] \
                             if partner_id else self.create(cr,uid,{'name':name,'ops_accountant':vals['ACCOUNTANTID'],'project_code':vals['PROJECTCODE'],
@@ -999,7 +999,6 @@ class account_invoice(osv.osv):
     
     def CreateRecord(self,cr,uid,vals):
         dic={}
-        ids=[]
         invoice_line=self.pool.get('account.invoice.line')
         detail_line=self.pool.get('account.invoice.details')
         analytic_obj=self.pool.get('account.analytic.account')
