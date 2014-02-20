@@ -150,16 +150,7 @@
            </field>
     </record>
     
-    <record id="purchase_order_form12" model="ir.ui.view">
-            <field name="name">purchase.order.form</field>
-            <field name="model">purchase.order</field>
-            <field name="inherit_id" ref="purchase.purchase_order_form" />
-            <field name="arch" type="xml">
-                <xpath expr="/form/header/button[@name='print_quotation']" position="after">
-	             <button name="CreateRecord" string="Confirm1" type="object" class="oe_highlight"/>
-	        	</xpath>
-     		</field>
-     </record>
+   
 						<!--    COMPANY -->
      
      <record id="inherit_view_company_form" model="ir.ui.view">
@@ -278,17 +269,7 @@
 			<field eval="1" name="priority" />
 			<field name="inherit_id" ref="purchase.purchase_order_form" />
 			<field name="arch" type="xml">
-				<field name="partner_ref" position="after">
-					<field name="ops_order_id" readonly="1"/>
-					<field name="purchse_type" />
-					<field name="discount_type" on_change='onchange_discount(discount_type,discount_value,po_amount)'/>
-					<field name="deduction_type" on_change='onchange_deduction(discount_type,deduction_value,po_amount)'/>
-					<field name="service_type" />
-				</field>
-				<field name="company_id" position="after">
-					<field name='discount_value' on_change='onchange_discount(discount_type,discount_value,po_amount)'/>
-					<field name="deduction_value" on_change='onchange_deduction(discount_type,deduction_value,po_amount)'/>
-				</field>
+				
 				<xpath expr="/form/sheet/notebook/page[@string='Purchase Order']/field[@name='order_line']/tree/field[@name='name']" position="after">
 					  <field name='ops_id'/>
 		        </xpath>
@@ -300,23 +281,21 @@
 				<xpath expr="/form/sheet/notebook/page[@string='Purchase Order']/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
 					  <field name='additional_charge_per_qty'/>
 		        </xpath>
-<!--				<field name="order_line" position="inside">-->
-<!--					<field name='requisition_id'/>-->
-<!--					<field name='requisition_line_id'/>-->
-<!--					<field name='ops_id'/>-->
-<!--					<field name='quotation_detail_number'/>-->
-<!--					<field name='additional_charge_per_qty'/>-->
-<!--				</field>-->
+		        <xpath expr="/form/sheet/notebook/page[@string='Incoming Shipments &amp; Invoices']" position="after">
+		        	<group>
+						<field name="ops_order_id" readonly="1"/>
+						<field name="purchse_type" />
+					</group>
+					<group>
+						<field name='discount_value' readonly='1'/>
+						<field name="deduction_value" />
+					</group>
+		        </xpath>
 				<field name="amount_untaxed" position="after">
 					<field name="po_amount" invisible='1' />
-<!--					<field name="discount_type" />-->
-<!--					<field name="deduction_type" />-->
 					<field name="service_type" />
 				</field>
-<!--				<field name="company_id" position="after">-->
-<!--					<field name='discount_amt' />-->
-<!--					<field name="deduction_amt" />-->
-<!--				</field>-->
+
 				<field name="amount_untaxed" position="after">
 					<field name="deduction_amt" />
 					<field name='service_amt' />

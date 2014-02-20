@@ -820,16 +820,18 @@ class purchase_order(osv.osv):
                 purchase_id = self.write(cr,uid,purchase_id[0],dic) and purchase_id[0] \
                                      if purchase_id else self.create(cr,uid,dic,context={})
             #print "purchase id==================================",purchase_id
-            order_line=self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
+            self.pool.get('purchase.order.line').CreateRecord(cr,uid,val1)
             netsvc.LocalService("workflow").trg_validate(uid, 'purchase.order', purchase_id, 'purchase_confirm', cr)
-            invoice=self.action_invoice_create(cr, uid, [purchase_id], context={})
-            #print "ops     invoice==============",invoice
-            context=self.view_invoice(cr, uid, [purchase_id], context={})
-            #print "invoice id=======================================",context
-            if context.get('res_id',False):
-                self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
-            netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
-           #value['PurchaseERPID'] = purchase_id
+            invoice_id=self.pool.get('account.invoice').search(cr,uid,[('origin','=',dic['name'])])
+            if not invoice_id:
+                self.action_invoice_create(cr, uid, [purchase_id], context={})
+                #print "ops     invoice==============",invoice
+                context=self.view_invoice(cr, uid, [purchase_id], context={})
+                #print "invoice id=======================================",context
+                if context.get('res_id',False):
+                    self.pool.get('account.invoice').write(cr,uid,context['res_id'],{'cost_analytic_id':8260})
+                netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', context['res_id'], 'invoice_open', cr)
+#           value['PurchaseERPID'] = purchase_id
             return purchase_id
         else:
             return response
@@ -971,7 +973,18 @@ class account_invoice_payment(osv.osv):
     def CreateRecord(self,cr,uid,vals):
         dic={}
         account_obj=self.pool.get('account.invoice')
-        for val in vals:
+        if isinstance(vals,(list,tuple)):
+            for val in vals:
+                for key,value in val.iteritems():
+                    dic[payment_term_dic.get(key)] =  value
+                invoice_id=account_obj.search(cr,uid,[('origin','=',dic['purchase'])])
+                if invoice_id:
+                    dic['invoice_id']=invoice_id[0]
+                payment_id=self.search(cr, uid, [('pos_payment_id','=',dic['pos_payment_id'])])
+                payment_id = self.write(cr,uid,payment_id[0],dic) and payment_id[0] \
+                                         if payment_id else self.create(cr,uid,dic,context={})
+            return payment_id
+        else:
             for key,value in val.iteritems():
                 dic[payment_term_dic.get(key)] =  value
             invoice_id=account_obj.search(cr,uid,[('origin','=',dic['purchase'])])
@@ -979,8 +992,9 @@ class account_invoice_payment(osv.osv):
                 dic['invoice_id']=invoice_id[0]
             payment_id=self.search(cr, uid, [('pos_payment_id','=',dic['pos_payment_id'])])
             payment_id = self.write(cr,uid,payment_id[0],dic) and payment_id[0] \
-                                     if payment_id else self.create(cr,uid,dic,context={})
-        return payment_id
+                                         if payment_id else self.create(cr,uid,dic,context={})
+            return payment_id
+            
     
     
 
