@@ -206,7 +206,7 @@ class res_partner(osv.osv):
               'phone_ext':fields.char('Phone Ext',size=64),
               'crno':fields.char('Company Registration Number',size=64),
               'fax_ext':fields.char('Fax Ext',size=64),
-              'name':fields.char('Name',size=64),
+             # 'name':fields.char('Name',size=64),
               'ops_accountant':fields.integer('Ops Accountant'),
               'project_code':fields.char('Project Code',size=64),
               'employee_code':fields.char('Employee Code',size=64),
@@ -224,10 +224,11 @@ class res_partner(osv.osv):
         bank_obj=self.pool.get('res.bank')
         partner_bank_obj=self.pool.get('res.partner.bank')
         if vals.get('ACCOUNTANTID') and vals.get('EMPLOYEECODE') and vals.get('PROJECTCODE') and vals.get('ACCOUNTANTNAME'):
-            name = vals['ACCOUNTANTNAME'] + '-' + str(vals['EMPLOYEECODE']) + '-' + str(vals['PROJECTCODE'])
+            name = vals['ACCOUNTANTNAME'] 
+            #employee_id=self.pool.get('hr.employee').search()
             partner_id = partner_obj.search(cr,uid,[('ops_accountant','=',vals['ACCOUNTANTID'])])
             partner_id = self.write(cr,uid,partner_id[0],vals) and partner_id[0] \
-                            if partner_id else self.create(cr,uid,{'name':name,'ops_accountant':vals['ACCOUNTANTID'],'project_code':vals['PROJECTCODE'],
+                            if partner_id else self.create(cr,uid,{'arabic_name':name,'name':name,'ops_accountant':vals['ACCOUNTANTID'],'project_code':vals['PROJECTCODE'],
                                                                             'employee_code':vals['EMPLOYEECODE'],'location_serial_counter':vals['LOCATIONSERIALNUMBER'],'accountant_name':vals['ACCOUNTANTNAME']},context={})
             
             return partner_id
