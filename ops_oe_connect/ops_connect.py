@@ -770,8 +770,8 @@ class purchase_order(osv.osv):
         dic={}
         ids=[]
         value={}
-        val1=vals['DetailData']
-        del vals['DetailData']
+        val1=vals['DETAILDATA']
+        del vals['DETAILDATA']
         response=self.check_material(cr,uid,val1)
         if response == True:
             analytic_obj=self.pool.get('account.analytic.account')
