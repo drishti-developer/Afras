@@ -64,7 +64,12 @@ SUPPLIER_LIST = {
             'REGDOCPATH':'',
              'BANKDOCPATH':'',
             }
-
+ACCOUNT_DETAILS={
+                'ACCOUNTANTID':'ops_accountant',
+                'EMPLOYEECODE':'employee_code',
+                'PROJECTCODE':'project_code',
+                'LOCATIONSERIALNUMBER':'location_serial_counter',
+                }
 PURCHASE_ORDER_DIC={
            'PURCHASEORDERNO':'ops_order_id',  #ops_id
            'PURCHASEDATE':'date_order',
@@ -216,114 +221,123 @@ class res_partner(osv.osv):
         state_obj=self.pool.get('res.country.state')
         bank_obj=self.pool.get('res.bank')
         partner_bank_obj=self.pool.get('res.partner.bank')
+        if vals.get('ACCOUNTANTID') and vals.get('EMPLOYEECODE') and vals.get('PROJECTCODE'):
+            name = 'Accountant' + '-' + vals['EMPLOYEECODE'] + '-' + vals['ACCOUNTANTID']
+            partner_id = partner_obj.search(cr,uid,[('ops_accountant','=',vals['ACCOUNTANTID'])])
+            partner_id = self.write(cr,uid,partner_id[0],vals) and partner_id[0] \
+                            if partner_id else self.create(cr,uid,{'name':name,'ops_accountant':vals['ACCOUNTANTID'],'project_code':vals['PROJECTCODE'],
+                                                                            'employee_code':vals['EMPLOYEECODE'],'location_serial_counter':vals['LOCATIONSERIALNUMBER']},context={})
+            
+            return partner_id
         
-        for key,value in vals.iteritems():
-            dic[SUPPLIER_LIST.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
-
-        if dic.get('ops_code',False):
-            partner_id = partner_obj.search(cr, uid, [('ops_code','=',dic['ops_code'])])
-            
-            
-            #Assuming country is created in OpenERP and same name is available in OPS. OPS Should use either name(English) or code of the country
-            # Country OPS ID
-            # Please confirm whether Region will pass as Arabic or English or both
-            # Region OPS ID
-            # Need to confirm from OPS whether we need to create Region in OpenERP or not if state not available
-            #  
-            # If we need to create then we must need state code also because code is a required field
-            
-            if dic.get('country_id',False):
-                name_domain = [('name','=',dic['country_id'])]
-                code_domain = [('code','=',dic['country_id'])]
-                country_id = country_obj.search(cr, uid, name_domain) or \
-                                 country_obj.search(cr, uid, code_domain)
-                dic['country_id'] = country_id and country_id[0] or False
-                if dic.get('state_id',False):
-                    name_domain = [('name','=',dic['state_id']),('country_id','=',dic['country_id'])]
-                    code_domain = [('code','=',dic['state_id']),('country_id','=',dic['country_id'])]
-                    state_id = state_obj.search(cr, uid, name_domain) or \
-                                   state_obj.search(cr, uid, code_domain)
-                    dic['state_id'] = state_id and state_id[0] or False
-            dic['active'] = True if dic['active'] == 'A' else False  
-            
-            #Vendor is a company and supplier
-            dic['is_company'] =True
-            dic['supplier'] =True
-            partner_id = self.write(cr,uid,partner_id[0],dic) and partner_id[0] \
-                             if partner_id else self.create(cr,uid,dic,context={})                  
-            
-            # if contact name then one record will create for contact and map to vendor
-            if dic.get('contact_name',False): 
-                domain = [('parent_id','=',partner_id),('name','=',dic['contact_name'])]
-                partner_id = partner_obj.search(cr, uid, domain)
-                  
-                contact_dic = { 'name': dic['contact_name'],'parent_id':partner_id ,
-                                'phone': dic.get('contact_phone',False),
-                                'phone_ext': dic.get('contact_phone_ext',False), }
-                partner_id = self.write(cr,uid,partner_id[0],contact_dic) and partner_id[0] \
-                                 if partner_id else self.create(cr,uid,contact_dic,context={})
+        else:
+            for key,value in vals.iteritems():
+                dic[SUPPLIER_LIST.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
+    
+            if dic.get('ops_code',False):
+                partner_id = partner_obj.search(cr, uid, [('ops_code','=',dic['ops_code'])])
                 
-            # if owner name then one record will create for owner and map to vendor   
-            if dic.get('owner_name',False):  
-                domain = [('parent_id','=',partner_id),('name','=',dic['owner_name'])]
-                partner_id = partner_obj.search(cr, uid, domain)
-                owner_dic ={ 'name': dic['owner_name'],'parent_id':partner_id,
-                             'phone': dic.get('owner_phone',False),
-                             'email': dic.get('owner_email',False),}
-                partner_id = self.write(cr,uid,partner_id[0],owner_dic) and partner_id[0] \
-                                 if partner_id else self.create(cr,uid,owner_dic,context={})
-             
-            # if ceo name then one record will create for CEO and map to vendor
-            if dic.get('ceo_name',False): 
-                domain = [('parent_id','=',partner_id),('name','=',dic['ceo_name'])]
-                partner_id = partner_obj.search(cr, uid, domain) 
-                ceo_dic ={ 'name': dic['ceo_name'],
-                           'parent_id':partner_id }   
-                partner_id = self.write(cr,uid,partner_id[0],ceo_dic) and partner_id[0] \
-                                 if partner_id else self.create(cr,uid,ceo_dic,context={})
-                                 
-            # if BankID(ops_id) then create bank in OpenERP res.bank     
-            # OPS Need to send Bank Name Also     
-            if dic.get('ops_id',False):  
-                domain = [('ops_id','=',dic['ops_id'])]
-                bank_id = bank_obj.search(cr, uid, domain)
-                bank_dic ={ 'name': dic['ops_id'],'country': dic['country_id'],
-                            'ops_id':  dic.get('ops_id',False),
-                            'bic': dic.get('bank_bic',False),}
-                bank_id = bank_id[0] if bank_id else bank_obj.create(cr,uid,bank_dic,context={})  
-                     
-                # if Bank Holder name then one record will create for BankHolderName and map to vendor   
-                if dic.get('bank_holder_name',False): 
-                    domain =  [('parent_id','=',partner_id),('name','=',dic['bank_holder_name'])]
-                    bank_holder_id = partner_obj.search(cr, uid, domain)
-                    bank_holder_dic ={ 'name': dic['bank_holder_name'],
-                                       'parent_id':partner_id }
-                    bank_holder_id = bank_holder_id[0] if bank_holder_id else self.create(cr,uid,bank_holder_dic,context={})
+                
+                #Assuming country is created in OpenERP and same name is available in OPS. OPS Should use either name(English) or code of the country
+                # Country OPS ID
+                # Please confirm whether Region will pass as Arabic or English or both
+                # Region OPS ID
+                # Need to confirm from OPS whether we need to create Region in OpenERP or not if state not available
+                #  
+                # If we need to create then we must need state code also because code is a required field
+                
+                if dic.get('country_id',False):
+                    name_domain = [('name','=',dic['country_id'])]
+                    code_domain = [('code','=',dic['country_id'])]
+                    country_id = country_obj.search(cr, uid, name_domain) or \
+                                     country_obj.search(cr, uid, code_domain)
+                    dic['country_id'] = country_id and country_id[0] or False
+                    if dic.get('state_id',False):
+                        name_domain = [('name','=',dic['state_id']),('country_id','=',dic['country_id'])]
+                        code_domain = [('code','=',dic['state_id']),('country_id','=',dic['country_id'])]
+                        state_id = state_obj.search(cr, uid, name_domain) or \
+                                       state_obj.search(cr, uid, code_domain)
+                        dic['state_id'] = state_id and state_id[0] or False
+                dic['active'] = True if dic['active'] == 'A' else False  
+                
+                #Vendor is a company and supplier
+                dic['is_company'] =True
+                dic['supplier'] =True
+                partner_id = self.write(cr,uid,partner_id[0],dic) and partner_id[0] \
+                                 if partner_id else self.create(cr,uid,dic,context={})                  
+                
+                # if contact name then one record will create for contact and map to vendor
+                if dic.get('contact_name',False): 
+                    domain = [('parent_id','=',partner_id),('name','=',dic['contact_name'])]
+                    partner_id = partner_obj.search(cr, uid, domain)
                       
-                    # Create vendor Bank account in OpenERP res.partner.bank 
-                    #Assuming country of Bank is same as vendor country
-                    if  dic.get('acc_number',False):   
-                        partner_bank_dic = { 'acc_number': dic['acc_number'],'state' : 'bank',
-                                             #'partner_id':partner_id and partner_id[0] or False,
-                                             'bank_name' : dic.get('bank_name',False),  
-                                             'bank_bic' : dic.get('bank_bic',False),
-                                             'owner_name': dic.get('bank_holder_name',False),
-                                             'bank': bank_id,
-                                             'partner_id' : partner_id,
-                                             'country_id':dic['country_id'],}
-                    # According to me if bank account type is IBAN then we need to create another bank record
-                    # WE Must need bank identifier code or swift code for IBAN Account Bank
-                    # Assuming IBAN and Normal both belong to same bank as we are getting only one bankid
-#                         if dic.get('bank_bic',False):
-#                             partner_bank_dic['state'] = 'iban'
-                        domain = [('partner_id','=',bank_holder_id),('bank','=',bank_id),('acc_number','=',dic['acc_number'])]
-                        partner_bank_id = partner_bank_obj.search(cr, uid, domain)    
-                        if not partner_bank_id:
-                            partner_bank_id = partner_bank_id[0] if partner_bank_id \
-                                      else partner_bank_obj.create(cr, uid,partner_bank_dic,context={})
-                        
-                                                
-            return partner_id  
+                    contact_dic = { 'name': dic['contact_name'],'parent_id':partner_id ,
+                                    'phone': dic.get('contact_phone',False),
+                                    'phone_ext': dic.get('contact_phone_ext',False), }
+                    partner_id = self.write(cr,uid,partner_id[0],contact_dic) and partner_id[0] \
+                                     if partner_id else self.create(cr,uid,contact_dic,context={})
+                    
+                # if owner name then one record will create for owner and map to vendor   
+                if dic.get('owner_name',False):  
+                    domain = [('parent_id','=',partner_id),('name','=',dic['owner_name'])]
+                    partner_id = partner_obj.search(cr, uid, domain)
+                    owner_dic ={ 'name': dic['owner_name'],'parent_id':partner_id,
+                                 'phone': dic.get('owner_phone',False),
+                                 'email': dic.get('owner_email',False),}
+                    partner_id = self.write(cr,uid,partner_id[0],owner_dic) and partner_id[0] \
+                                     if partner_id else self.create(cr,uid,owner_dic,context={})
+                 
+                # if ceo name then one record will create for CEO and map to vendor
+                if dic.get('ceo_name',False): 
+                    domain = [('parent_id','=',partner_id),('name','=',dic['ceo_name'])]
+                    partner_id = partner_obj.search(cr, uid, domain) 
+                    ceo_dic ={ 'name': dic['ceo_name'],
+                               'parent_id':partner_id }   
+                    partner_id = self.write(cr,uid,partner_id[0],ceo_dic) and partner_id[0] \
+                                     if partner_id else self.create(cr,uid,ceo_dic,context={})
+                                     
+                # if BankID(ops_id) then create bank in OpenERP res.bank     
+                # OPS Need to send Bank Name Also     
+                if dic.get('ops_id',False):  
+                    domain = [('ops_id','=',dic['ops_id'])]
+                    bank_id = bank_obj.search(cr, uid, domain)
+                    bank_dic ={ 'name': dic['ops_id'],'country': dic['country_id'],
+                                'ops_id':  dic.get('ops_id',False),
+                                'bic': dic.get('bank_bic',False),}
+                    bank_id = bank_id[0] if bank_id else bank_obj.create(cr,uid,bank_dic,context={})  
+                         
+                    # if Bank Holder name then one record will create for BankHolderName and map to vendor   
+                    if dic.get('bank_holder_name',False): 
+                        domain =  [('parent_id','=',partner_id),('name','=',dic['bank_holder_name'])]
+                        bank_holder_id = partner_obj.search(cr, uid, domain)
+                        bank_holder_dic ={ 'name': dic['bank_holder_name'],
+                                           'parent_id':partner_id }
+                        bank_holder_id = bank_holder_id[0] if bank_holder_id else self.create(cr,uid,bank_holder_dic,context={})
+                          
+                        # Create vendor Bank account in OpenERP res.partner.bank 
+                        #Assuming country of Bank is same as vendor country
+                        if  dic.get('acc_number',False):   
+                            partner_bank_dic = { 'acc_number': dic['acc_number'],'state' : 'bank',
+                                                 #'partner_id':partner_id and partner_id[0] or False,
+                                                 'bank_name' : dic.get('bank_name',False),  
+                                                 'bank_bic' : dic.get('bank_bic',False),
+                                                 'owner_name': dic.get('bank_holder_name',False),
+                                                 'bank': bank_id,
+                                                 'partner_id' : partner_id,
+                                                 'country_id':dic['country_id'],}
+                        # According to me if bank account type is IBAN then we need to create another bank record
+                        # WE Must need bank identifier code or swift code for IBAN Account Bank
+                        # Assuming IBAN and Normal both belong to same bank as we are getting only one bankid
+    #                         if dic.get('bank_bic',False):
+    #                             partner_bank_dic['state'] = 'iban'
+                            domain = [('partner_id','=',bank_holder_id),('bank','=',bank_id),('acc_number','=',dic['acc_number'])]
+                            partner_bank_id = partner_bank_obj.search(cr, uid, domain)    
+                            if not partner_bank_id:
+                                partner_bank_id = partner_bank_id[0] if partner_bank_id \
+                                          else partner_bank_obj.create(cr, uid,partner_bank_dic,context={})
+                            
+                                                    
+                return partner_id  
         
 res_partner()
 
@@ -808,7 +822,7 @@ PURCHASE_ORDER_LINE_DIC = {
                             'PURCHASEORDERNO': 'order_id' ,
                             'PURCHASEDETAILID': 'ops_id',
                             'QUOTATIONNUMBER': 'quotation_number' ,
-                            'RECORDSTATUS': 'status',
+                            #'RECORDSTATUS': 'status',
                             'REQUESTNO' : 'requisition_id',
                             'REQUESTDETAILID' : 'requisition_line_id',
                             'ITEMPRICE' : 'price_unit',
@@ -859,7 +873,7 @@ class purchase_order_line(osv.osv):
             requisition_id=requisition_obj.search(cr,uid,[('ops_id','=',dic['requisition_id'])])
             requisition_line_id=requisition_line_obj.search(cr,uid,[('ops_id','=',dic['requisition_line_id'])])
             order_id=purchase_obj.search(cr,uid,[('ops_order_id','=',dic['order_id'])])
-            print requisition_line_id,"11111111111"
+            #print requisition_line_id,"11111111111"
             line_obj=requisition_line_obj.browse(cr,uid,requisition_line_id[0])
             if order_id:
                 dic.update({'order_id':order_id[0],'requisition_id':requisition_id[0],'requisition_line_id':requisition_line_id[0],'product_id':line_obj.product_id.id,'name':line_obj.product_id.name,
@@ -935,13 +949,7 @@ class account_invoice_payment(osv.osv):
         return payment_id
     
     
-ACCOUNT_DETAILS={
-               #  'VNO':'ops_code',
-                'ACCOUNTANTID':'ops_accountant',
-                'EMPLOYEECODE':'employee_code',
-                'PROJECTCODE':'project_code',
-                'LOCATIONSERIALNUMBER':'location_serial_counter',
-                }
+
 
 #class res_partner(osv.osv):
 #    _inherit='res.partner'

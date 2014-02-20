@@ -135,12 +135,13 @@
 					</page>
                 </xpath>
 				<xpath expr="/form[@string='Partners']/sheet/notebook/page[@string='History']" position="after">
-			        	<page string="Account">
+			        	<page string="Accountant">
 				        	<group col="4" colspan="2">
-				        	    <field name="name"/>
+				        	    
 		          				<field name="ops_accountant"/>
 		          				<field name="project_code"/>
 		          				<field name="employee_code"/>
+		          				<field name="location_serial_counter"/>
 		          			</group>
 			        	</page>
 	        	</xpath>
