@@ -704,17 +704,17 @@ class purchase_order(osv.osv):
                         else:
                             error='Please Create Material Request First'
                         return error
+        else:
+            if vals.get('REQUESTNO',False) and vals.get('REQUESTDETAILID',False):
+                    return True
             else:
-                if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
-                        return True
+                if not vals.get('REQUESTNO',False):
+                    error="Please send 'REQUESTNO' "
+                elif not vals.get('REQUESTDETAILID',False):
+                    error="Please send 'REQUESTDETAILID' "
                 else:
-                    if not val.get('REQUESTNO',False):
-                        error="Please send 'REQUESTNO' "
-                    elif not val.get('REQUESTDETAILID',False):
-                        error="Please send 'REQUESTDETAILID' "
-                    else:
-                        error='Please Create Material Request First'
-                    return error
+                    error='Please Create Material Request First'
+                return error
             
     _columns={
               'ops_order_id':fields.char('OPS ID'),
@@ -903,7 +903,7 @@ class purchase_order_line(osv.osv):
                 line['DetailERPID'] = purchase_line_id
             return line
         else:
-            for key,value in val.iteritems():
+            for key,value in vals.iteritems():
                 dic[PURCHASE_ORDER_LINE_DIC.get(key)] =  value
             requisition_id=requisition_obj.search(cr,uid,[('ops_id','=',dic['requisition_id'])])
             requisition_line_id=requisition_line_obj.search(cr,uid,[('ops_id','=',dic['requisition_line_id'])])
