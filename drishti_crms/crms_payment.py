@@ -222,12 +222,12 @@ class crms_payment(osv.osv):
             
             if data.get('advance_amt',False) and float(data.get('advance_amt',0.0)) > 0:
                 amount = float(data.get('advance_amt',0.0))
-                lines = [(0,0,{'account_id': crms_payment_brw.property_advance_account.id, 'amount': amount, 'type': 'dr',})]
+                lines = [(0,0,{'account_id': crms_payment_brw.property_advance_account.id, 'amount': amount, 'type': 'cr',})]
                 create = True
             elif data.get('receivable_amt',False) and float(data.get('receivable_amt',0.0)) > 0:
                 amount = float(data.get('receivable_amt',0.0))
                 pay_type = 'payment'
-                lines = [(0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': amount , 'type': 'cr',})]
+                lines = [(0,0,{'account_id': crms_payment_brw.property_retail_account.id, 'amount': amount , 'type': 'dr',})]
                 create = True
             
             if create :        
@@ -1018,8 +1018,8 @@ class crms_payment_initializelive(osv.osv):
         if crms_payment_data.get('advance_amt') and float(crms_payment_data.get('advance_amt',0.0)) > 0:
             crms_payment_data['remaining_amount'] = float(crms_payment_data.get('advance_amt'))
             crms_payment_data['initial_amount'] = float(crms_payment_data.get('advance_amt'))
-        elif crms_payment_data.get('advance_amt') and float(crms_payment_data.get('advance_amt',0.0)) > 0:
-            crms_payment_data['remaining_amount'] = float(crms_payment_data.get('receivable_amt'))
+        elif crms_payment_data.get('receivable_amt') and float(crms_payment_data.get('receivable_amt',0.0)) > 0:
+            crms_payment_data['remaining_amount'] = float(crms_payment_data.get('receivable_amt'))*-1
             crms_payment_data['initial_amount'] = float(crms_payment_data.get('receivable_amt')) 
         
         erp_payment_id = crms_payment_pool.create(cr, uid, crms_payment_data, context)
