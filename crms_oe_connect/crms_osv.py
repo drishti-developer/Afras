@@ -26,6 +26,7 @@ import datetime
 import urllib
 from xml.dom.minidom import parseString
 import logging
+import openerp
 
 _logger = logging.getLogger('CRMSLOG')
 
@@ -256,7 +257,7 @@ DISCOUNT_LIST = [
 			]
 
 DAILY_REVENUE_LIST = [
-			('booking_id','ERPBookingID'),
+			('booking_id',('id','ERPBookingID',0,'crms.payment')),
 			('date','Date'),
 			('open_balance','OpenBalance'),
 			('revenue','Revenue'),
@@ -272,13 +273,13 @@ DAILY_REVENUE_LIST = [
             ('extra_hours_charges','AdditionalHourCharges'),
             ('extra_km_charges','ExtraKMCharges'),
             ('additional_driver_charges','AdditionalDriverCharges'),
-            ('vehicle_id','ERPCarID'),
+            ('vehicle_id',('id','ERPCarID',0,'fleet.vehicle')),
 			]
 
 CAR_HISTORY = [
-            ('booking_id','ERPBookingID'),
-            ('car_id','ERPCarID'),
-            ('vehicle_model','ERPModelID'),
+            ('booking_id',('id','ERPBookingID',0,'crms.payment')),
+            ('car_id',('id','ERPCarID',0,'fleet.vehicle')),
+            ('vehicle_model',('id','ERPModelID',0,'fleet.vehicle.model')),
             ('change_date','ChangeDate'),
            ]
 
@@ -291,7 +292,7 @@ CASH_BRANCH = [
            ('total_branch_expenses','TotalBranchExpenses'),
            ('cash_paid_head_office','CashPaidHeadOffice'),
            ('closing_bal','ClosingBalance'),
-           ('branch_id','ERPBranchID'),
+           ('branch_id',('id','ERPBranchID',1,'sale.shop')),
            ]
 
 RENTAL_INITIALIZE = [
@@ -563,56 +564,59 @@ def CreateRequest(self, cr, uid, data):
         _logger.info('Create Request from CRMS for %s :- %s', response_name, data)
         
         try :
+            
+            dbname = cr.dbname
             success = 0
             failure = 0
             responseDOM = parseString(data)
             responsearray = getDataArray(responseDOM, 'RequestData', response_type+'List', response_type)       
             for response in responsearray:
-                crms_id=False
-                response_data += "<%s>"%(response_name)
-                if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
-                
-                elif response_type not in ['DailyRevenue','RentalInitializeLive'] : crms_id = response.get('CRMS'+response_type+'ID',False)
-
-                if response_type == 'DailyRevenue' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('date','=',response.get('Date'))])
-                
-                elif response_type == 'Car' : search_id = self.search(cr,uid,[('vin_sn','=',str(response.get('VIN')))])
-                
-                elif response_type == 'CarHistory' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('car_id','=',response.get('ERPCarID')),('change_date','=',response.get('ChangeDate'))])
-                
-                elif response_type == 'CashBranch': search_id = self.search(cr,uid,[('branch_id','=',int(response.get('ERPBranchID'))),('date','=',response.get('Date'))])
-
-                elif crms_id : search_id = self.search(cr,uid,[('crms_id','=',int(crms_id))])
-
-                else : search_id = []
-
-                record_value = {}
-                payment_id = 0
-                discount_id = 0
-                traffic_violation_id = 0
-                booking_id = 0
-                branch_id = 0
-                
-                for field in field_list:
-                    if field[0] not in ['id','current_branch_id']:#skip fields
-                        if field[0] == 'analytic_account_ids' and len(search_id) > 0 and response.get(field[1],False):
-                            search_branch(self,cr,uid,search_id[0],response.get(field[1]))
-                        else :
-                            if isinstance(field[1],tuple):
-                                ext_field = field[1]
-                                if ext_field[0] not in ['crms_id'] and response.get(ext_field[1],False):#skip fields
-                                    search_value_id = self.pool.get(ext_field[3]).search(cr,uid,[(ext_field[0],'=',response.get(ext_field[1]))])
-                                    record_value[field[0]] = search_value_id and search_value_id[0] or ext_field[2]
-                            elif response.get(field[1],False) :
-                                record_value[field[0]] = response.get(field[1],False)
-                                if field[1] == 'CRMSRentalPaymentID' :  payment_id = response.get(field[1])
-                                if field[1] == 'CRMSDiscountID' :  discount_id = response.get(field[1])
-                                if field[1] == 'CRMSTrafficViolationID' :  traffic_violation_id = response.get(field[1])
-                                if field[1] == 'ERPBookingID' and response_type in ['DailyRevenue','CarHistory']:  booking_id = response.get(field[1])
-                                if field[1] == 'CRMSBookingID' and response_type == 'RentalInitializeLive' :  booking_id = response.get(field[1])
-                                if field[1] == 'ERPBranchID' and response_type == 'CashBranch':  branch_id = response.get(field[1])
-
                 try :
+                    cr = openerp.pooler.get_db(dbname).cursor()
+                    crms_id = False
+                    response_data += "<%s>"%(response_name)
+
+                    if response_type == 'RentalPayment' : crms_id = response.get('CRMSBookingID',False)
+                    elif response_type not in ['DailyRevenue','RentalInitializeLive'] : crms_id = response.get('CRMS'+response_type+'ID',False)
+
+                    if response_type == 'DailyRevenue' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('date','=',response.get('Date'))])
+                    elif response_type == 'Car' : search_id = self.search(cr,uid,[('vin_sn','=',str(response.get('VIN')))])
+                    elif response_type == 'CarHistory' : search_id = self.search(cr,uid,[('booking_id','=',int(response.get('ERPBookingID'))),('car_id','=',response.get('ERPCarID')),('change_date','=',response.get('ChangeDate'))])
+                    elif response_type == 'CashBranch': search_id = self.search(cr,uid,[('branch_id','=',int(response.get('ERPBranchID'))),('date','=',response.get('Date'))])
+                    elif crms_id : search_id = self.search(cr,uid,[('crms_id','=',int(crms_id))])
+                    else : search_id = []
+
+                    record_value = {}
+                    payment_id = 0
+                    discount_id = 0
+                    traffic_violation_id = 0
+                    booking_id = 0
+                    branch_id = 0
+                
+                    for field in field_list:
+                        if field[0] not in ['id','current_branch_id']:#skip fields
+                            if field[0] == 'analytic_account_ids' and len(search_id) > 0 and response.get(field[1],False):
+                                search_branch(self,cr,uid,search_id[0],response.get(field[1]))
+                            else :
+                                if isinstance(field[1],tuple):
+                                    ext_field = field[1]
+                                    if ext_field[0] not in ['crms_id'] and response.get(ext_field[1],False):#skip fields
+                                        search_value_id = self.pool.get(ext_field[3]).search(cr,uid,[(ext_field[0],'=',response.get(ext_field[1]))])
+                                        if len(search_value_id) > 0:
+                                            record_value[field[0]] = search_value_id and search_value_id[0]
+                                        else:
+                                            raise osv.except_osv(_('Error!'), _('Invalid '+ext_field[1]))
+                                        record_value[field[0]] = search_value_id and search_value_id[0] or ext_field[2]
+                                elif response.get(field[1],False) :
+                                    record_value[field[0]] = response.get(field[1],False)
+                                    if field[1] == 'CRMSRentalPaymentID' :  payment_id = response.get(field[1])
+                                    if field[1] == 'CRMSDiscountID' :  discount_id = response.get(field[1])
+                                    if field[1] == 'CRMSTrafficViolationID' :  traffic_violation_id = response.get(field[1])
+                                    if field[1] == 'ERPBookingID' and response_type in ['DailyRevenue','CarHistory']:  booking_id = response.get(field[1])
+                                    if field[1] == 'CRMSBookingID' and response_type == 'RentalInitializeLive' :  booking_id = response.get(field[1])
+                                    if field[1] == 'ERPBranchID' and response_type == 'CashBranch':  branch_id = response.get(field[1])
+
+#                try :
                     msg = 'SUCCESS'
                     record_id = 0
                     
@@ -669,7 +673,7 @@ def CreateRequest(self, cr, uid, data):
                         response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
                    
                     elif response_type == 'CashBranch' : 
-                        response_data += "<%s>%s</%s>"%('ERPBookingID', branch_id or 0, 'ERPBookingID')
+                        response_data += "<%s>%s</%s>"%('ERPBranchID', branch_id or 0, 'ERPBranchID')
                         response_data += "<%s>%s</%s>"%('ERP'+response_type+'ID', record_id, 'ERP'+response_type+'ID')
                     
                     else :    
@@ -678,6 +682,7 @@ def CreateRequest(self, cr, uid, data):
                     
                     response_data += "<RecordStatus>%s</RecordStatus>"%(msg)
                     success += 1
+                    cr.commit()
                     
                 except Exception ,e:
                     if response_type == 'RentalInitializeLive':
@@ -688,8 +693,10 @@ def CreateRequest(self, cr, uid, data):
                         response_data += "<%s>%s</%s>"%('CRMS'+response_type+'ID', crms_id, 'CRMS'+response_type+'ID')
                     response_data += "<RecordStatus>FAILURE - %s</RecordStatus>"%(e)
                     failure += 1
+                    cr.rollback()
 
                 response_data += "</%s>"%(response_name)
+                cr.close()
 
             return_response = STANDARD_LIST_RESPONSE % {'collectiondate':str(datetime.date.today()), 'responsename': response_service, 'responsedata':response_data,'success':success,'failure':failure}
 #             _logger.info('Return Response for %s :- %s', response_name, return_response)

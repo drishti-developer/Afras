@@ -209,7 +209,10 @@ class crms_payment(osv.osv):
     def create(self, cr, uid, data, context=None):
         
         if context is None: context = {}
-        
+        print data
+        if data.get('payment_type',False) and data.get('payment_type') not in ['Cash','Card','Span']:
+            raise osv.except_osv(_('Error!'), _('Invalid Payment Mode.'))
+            
         if data.get('initial_contract',False):
             booking_id = super(crms_payment, self).create(cr, uid, data, context=context)
             crms_payment_brw = self.browse(cr, uid, booking_id)
