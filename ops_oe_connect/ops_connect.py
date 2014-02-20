@@ -689,11 +689,24 @@ class purchase_order(osv.osv):
         return result.keys()
     def check_material(self,cr,uid,vals):
         print "check material =========",vals,type(vals)
-        for val in vals:
-            if isinstance(val,dict):
-                print val,"check request=============="
+        if isinstance(vals,(list,tuple)):
+            
+            for val in vals:
+                if isinstance(val,dict):
+                    print val,"check request=============="
+                    if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
+                        return True
+                    else:
+                        if not val.get('REQUESTNO',False):
+                            error="Please send 'REQUESTNO' "
+                        elif not val.get('REQUESTDETAILID',False):
+                            error="Please send 'REQUESTDETAILID' "
+                        else:
+                            error='Please Create Material Request First'
+                        return error
+            else:
                 if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
-                    return True
+                        return True
                 else:
                     if not val.get('REQUESTNO',False):
                         error="Please send 'REQUESTNO' "
@@ -870,7 +883,26 @@ class purchase_order_line(osv.osv):
         requisition_obj=self.pool.get('purchase.requisition')
         requisition_line_obj=self.pool.get('purchase.requisition.line')
 #        analytic_obj=self.pool.get('account.analytic.account')
-        for val in vals:
+        if isinstance(vals,(list,tuple)):
+            
+            for val in vals:
+                for key,value in val.iteritems():
+                    dic[PURCHASE_ORDER_LINE_DIC.get(key)] =  value
+                requisition_id=requisition_obj.search(cr,uid,[('ops_id','=',dic['requisition_id'])])
+                requisition_line_id=requisition_line_obj.search(cr,uid,[('ops_id','=',dic['requisition_line_id'])])
+                order_id=purchase_obj.search(cr,uid,[('ops_order_id','=',dic['order_id'])])
+                #print requisition_line_id,"11111111111"
+                line_obj=requisition_line_obj.browse(cr,uid,requisition_line_id[0])
+                if order_id:
+                    dic.update({'order_id':order_id[0],'requisition_id':requisition_id[0],'requisition_line_id':requisition_line_id[0],'product_id':line_obj.product_id.id,'name':line_obj.product_id.name,
+                                'date_planned':str(datetime.datetime.today())})
+                   
+                purchase_line_id=self.search(cr, uid, [('ops_id','=',dic['ops_id'])])
+                purchase_line_id = self.write(cr,uid,purchase_line_id[0],dic) and purchase_line_id[0] \
+                                         if purchase_line_id else self.create(cr,uid,dic,context={})
+                line['DetailERPID'] = purchase_line_id
+            return line
+        else:
             for key,value in val.iteritems():
                 dic[PURCHASE_ORDER_LINE_DIC.get(key)] =  value
             requisition_id=requisition_obj.search(cr,uid,[('ops_id','=',dic['requisition_id'])])
@@ -886,8 +918,7 @@ class purchase_order_line(osv.osv):
             purchase_line_id = self.write(cr,uid,purchase_line_id[0],dic) and purchase_line_id[0] \
                                      if purchase_line_id else self.create(cr,uid,dic,context={})
             line['DetailERPID'] = purchase_line_id
-        return line
-
+            return line
 
 
 
