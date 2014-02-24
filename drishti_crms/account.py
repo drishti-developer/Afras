@@ -102,9 +102,11 @@ class account_invoice(osv.osv):
     
     def invoice_pay_customer(self, cr, uid, ids, context=None):
         if not ids: return []
+        
         dummy, view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account_voucher', 'view_vendor_receipt_dialog_form')
 
         inv = self.browse(cr, uid, ids[0], context=context)
+        
         return {
             'name':_("Pay Invoice"),
             'view_mode': 'form',

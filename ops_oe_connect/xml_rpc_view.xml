@@ -337,8 +337,8 @@
             <field name="arch" type="xml">
             
             	<xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree/field[@name='price_unit']" position="after">
-					  <field name="ops_details_request_id"/>
-			          <field name="invoice_details_id"/>
+					  <field name="ops_details_request_id" invisible='1'/>
+			          <field name="invoice_details_id" invisible='1'/>
 			          <field name="unit_discount"/>
 			          <field name="service_charge"/>
 		        </xpath>
@@ -391,13 +391,28 @@
 			        	 	</tree>
 			        	 	<form string="Account Details">
 				        	 	<group col="4" colspan="4">
-				        	 	   <field name="invoice_id"/>
-                               	   <field name="ops_details_id"/> 
-				        	 	   <field name="invoice_vendor"/>
-                                   <field name="ops_invoice_number"/>
-                                   <field name="invoice_date"/> 
-                                   <field name="invoice_amt"/>
-                                   <field name="discount"/>
+				        	 	   <field name="invoice_id" readonly='1'/>
+                               	   <field name="ops_details_id" readonly='1'/> 
+				        	 	   <field name="invoice_vendor" readonly='1'/>
+                                   <field name="ops_invoice_number" readonly='1'/>
+                                   <field name="invoice_date" readonly='1'/> 
+                                   <field name="invoice_amt" readonly='1'/>
+                                   <field name="discount" readonly='1'/>
+                                   <field name="discount" readonly='1'/>
+                                </group>
+                                <separator string="Loan Detail"/>
+                                <group colspan='4'>
+                                	<field name="line_detail" nolabel='1'>
+                                		<tree>
+                                			<field name='product_id'/>
+                                			<field name='name'/>
+                                			<field name='account_id'/>
+                                			<field name='quantity'/>
+                                			<field name='price_unit'/>
+                                			<field name='unit_discount'/>
+                                			<field name='price_subtotal'/>
+                                		</tree>
+                                	</field>
                                 </group>
 			        	 	</form>
 			        	 </field>

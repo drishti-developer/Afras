@@ -2,7 +2,7 @@ from openerp.osv import fields, osv
 import openerp.addons.decimal_precision as dp
 import datetime
 from openerp import netsvc
-
+from openerp.tools.translate import _
 
 
 class location_setting(osv.osv):
@@ -64,6 +64,25 @@ SUPPLIER_LIST = {
             'REGDOCPATH':'',
              'BANKDOCPATH':'',
             }
+
+CUSTOMER_LIST = {
+            'CNO':'ops_code',
+            'CNAMEE':'name',
+            'CNAMEA':'arabic_name',
+            'FAX':'fax',
+            'COMPANYID':'company_id',
+            'CITY':'city',
+            'ADDRESS1':'street',
+            'ADDRESS2':'street2',
+            'REGION':'state_id',
+            'COUNTRY':'country_id',
+            'EMAIL':'email',
+            'WEBSITE':'website',
+            'TELEPHONE':'phone',
+            'PROJECTCODE':'project_code',
+            'LOCATIONSERIALNUMBER':'location_serial_counter',
+            }
+
 ACCOUNT_DETAILS={
                 'ACCOUNTANTID':'ops_accountant',
                 'EMPLOYEECODE':'employee_code',
@@ -220,19 +239,46 @@ class res_partner(osv.osv):
         dic = {}
         partner_obj=self.pool.get('res.partner')
         country_obj=self.pool.get('res.country')
+        company_obj=self.pool.get('res.company')
+        analytic_obj = self.pool.get('account.analytic.account')
         state_obj=self.pool.get('res.country.state')
         bank_obj=self.pool.get('res.bank')
         partner_bank_obj=self.pool.get('res.partner.bank')
-        if vals.get('ACCOUNTANTID') and vals.get('EMPLOYEECODE') and vals.get('PROJECTCODE') and vals.get('ACCOUNTANTNAME'):
+        print "partner================",vals
+        if vals.get('ACCOUNTANTID') and vals.get('EMPLOYEECODE') and vals.get('PROJECTCODE') and vals.get('ACCOUNTANTNAME') and vals.get('ACCOUNTANTNAMEA'):
             name = vals['ACCOUNTANTNAME'] 
             #employee_id=self.pool.get('hr.employee').search()
             partner_id = partner_obj.search(cr,uid,[('ops_accountant','=',vals['ACCOUNTANTID'])])
             partner_id = self.write(cr,uid,partner_id[0],vals) and partner_id[0] \
-                            if partner_id else self.create(cr,uid,{'arabic_name':name,'name':name,'ops_accountant':vals['ACCOUNTANTID'],'project_code':vals['PROJECTCODE'],
+                            if partner_id else self.create(cr,uid,{'arabic_name':vals['ACCOUNTANTNAMEA'],'name':name,'ops_accountant':vals['ACCOUNTANTID'],'project_code':vals['PROJECTCODE'],
                                                                             'employee_code':vals['EMPLOYEECODE'],'location_serial_counter':vals['LOCATIONSERIALNUMBER'],'accountant_name':vals['ACCOUNTANTNAME']},context={})
-            
             return partner_id
         
+        if vals.get('CNO') and vals.get('CNAMEE') and vals.get('CNAMEA'):
+            for key,value in vals.iteritems():
+                dic[CUSTOMER_LIST.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
+                
+            company_id=company_obj.search(cr,uid,[('ops_code','=',dic['company_id'])])
+            dic['company_id'] = company_id and company_id[0] or False
+            country_id=country_obj.search(cr,uid,[('ops_id','=',dic['country_id'])])
+            dic['country_id'] = country_id and country_id[0] or False
+            partner_id = self.search(cr, uid,[('ops_code','=',dic['ops_code'])])
+            partner_id = self.write(cr,uid,partner_id[0],dic) and partner_id[0] \
+                                    if partner_id else self.create(cr,uid,dic,context={})
+            
+            if vals.get('PROJECTCODE') and vals.get('LOCATIONSERIALNUMBER'):
+                code = str(dic['project_code']) + '0'*(3-len(str(dic['location_serial_counter']))) + str(dic['location_serial_counter'])
+                analytic_dic={
+                              'name':dic['name'],
+                              'partner_id':partner_id,
+                              'type':'normal',
+                              'code':code,
+                              'company_id': company_id and company_id[0],
+                              }
+                analytic_id=analytic_obj.search(cr,uid,[('code','=',code)])
+                analytic_id = analytic_obj.write(cr,uid,analytic_id[0],analytic_dic) and analytic_id[0] \
+                                    if analytic_id else analytic_obj.create(cr,uid,analytic_dic,context={})
+            return partner_id    
         else:
             for key,value in vals.iteritems():
                 dic[SUPPLIER_LIST.get(key)] = value.encode('utf-8') if isinstance(value, (str, unicode)) else value
@@ -455,6 +501,41 @@ class purchase_requisition_line(osv.osv):
 #            'CURRENCYCODE':'currency_id',
 #            }
 
+COMPANY_DIC={
+            'ERPID':'',
+            'OPSID':'',
+            }
+class res_company(osv.osv):
+    _inherit='res.company'
+    _columns={
+              'ops_code':fields.char('OPS Company ID',readonly=True),
+              
+              } 
+    def ListRecord(self,cr,uid):
+        res=[]
+        dic={}
+        company_obj=self.pool.get('res.country')
+        company_ids = company_obj.search(cr,uid,[])
+        for val in company_obj.browse(cr,uid,company_ids):
+            dic={
+                  'ERPID':val.id,
+                  'NAME':val.name,
+                  }
+            res.append(dic)
+        return res
+    
+    def UpdateRecord(self,cr,uid,vals):
+        if isinstance(vals,(list,tuple)):
+            for dic in vals:
+                if dic.get('ERPID',False) and dic.get('OPSID',False):
+                    self.pool.get('res.country').write(cr,uid,[dic['ERPID']],{'ops_id':dic['OPSID']})
+        else:
+            if vals.get('ERPID',False) and vals.get('OPSID',False):
+                    self.pool.get('res.country').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
+        return True
+
+
+
 COUNTRY_DIC={
             'ERPID':'1',
             'OPSID':'5',
@@ -484,9 +565,9 @@ class res_country(osv.osv):
     
     def UpdateRecord(self,cr,uid,vals):
         if isinstance(vals,(list,tuple)):
-            for dict in vals:
-                if dict.get('ERPID',False) and dict.get('OPSID',False):
-                    self.pool.get('res.country').write(cr,uid,[dict['ERPID']],{'ops_id':dict['OPSID']})
+            for dic in vals:
+                if dic.get('ERPID',False) and dic.get('OPSID',False):
+                    self.pool.get('res.country').write(cr,uid,[dic['ERPID']],{'ops_id':dic['OPSID']})
         else:
             if vals.get('ERPID',False) and vals.get('OPSID',False):
                     self.pool.get('res.country').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
@@ -500,26 +581,26 @@ class res_country_state(osv.osv):
                }
     def ListRecord(self,cr,uid):
         res=[]
-        dict={}
+        dic={}
         region_obj=self.pool.get('res.country.state')
         for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
 #assuming country ops code is updated in ERP
             if val.country_id.ops_id >0:
-                dict={
+                dic={
                       'ERPID':val.id,
                       'REGIONNAME':val.name,
                       'REGIONCODE':val.code,
                       'COUNTRYOPSID':val.country_id.ops_id,
                       'COUNTRYERPID':val.country_id.id,
                       }
-                res.append(dict)
+                res.append(dic)
         return res
     
     def UpdateRecord(self,cr,uid,vals):
         if isinstance(vals,(list,tuple)):
-            for dict in vals:
-                if dict.get('ERPID',False) and dict.get('OPSID',False):
-                    self.pool.get('res.country.state').write(cr,uid,[dict['ERPID']],{'ops_id':dict['OPSID']})
+            for dic in vals:
+                if dic.get('ERPID',False) and dic.get('OPSID',False):
+                    self.pool.get('res.country.state').write(cr,uid,[dic['ERPID']],{'ops_id':dic['OPSID']})
         else:
             if vals.get('ERPID',False) and vals.get('OPSID',False):
                     self.pool.get('res.country.state').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
@@ -542,12 +623,12 @@ class res_state_city(osv.osv):
     
     def ListRecord(self,cr,uid):
         res=[]
-        dict={}
+        dic={}
         region_obj=self.pool.get('res.state.city')
         for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
 #assuming country ops code and region ops code is updated in ERP
             if val.country_id.ops_id > 0 and val.state_id.ops_id > 0:
-                dict={
+                dic={
                       'ERPID':val.id,
                       'CITYNAME':val.name,
                       'CITYNAMEARABIC':val.arabic_name,
@@ -557,14 +638,14 @@ class res_state_city(osv.osv):
                       'REGIONOPSID':val.state_id.ops_id,
                       'REGIONERPID':val.state_id.id,
                       }
-                res.append(dict)
+                res.append(dic)
         return res
     
     def UpdateRecord(self,cr,uid,vals):
         if isinstance(vals,(list,tuple)):
-            for dict in vals:
-                if dict.get('ERPID',False) and dict.get('OPSID',False):
-                    self.pool.get('res.state.city').write(cr,uid,[dict['ERPID']],{'ops_id':dict['OPSID']})
+            for dic in vals:
+                if dic.get('ERPID',False) and dic.get('OPSID',False):
+                    self.pool.get('res.state.city').write(cr,uid,[dic['ERPID']],{'ops_id':dic['OPSID']})
         else:
             if vals.get('ERPID',False) and vals.get('OPSID',False):
                     self.pool.get('res.state.city').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
@@ -580,27 +661,29 @@ class res_state_city(osv.osv):
 class res_bank(osv.osv):
     _inherit='res.bank'
     _columns={
-              'ops_id':fields.char('Bank OPS ID'),
+              'ops_id':fields.char('Bank OPS ID',readonly=True),
+              'name_arabic':fields.char('Arabic Name'),
               }
     def ListRecord(self,cr,uid):
         res=[]
-        dict={}
+        dic={}
         region_obj=self.pool.get('res.bank')
         for val in region_obj.browse(cr,uid,region_obj.search(cr,uid,[])):
 #assuming country ops code and region ops code is updated in ERP
-                dict={
+                dic={
                       'ERPID':val.id,
                       'BANKNAME':val.name,
+                      'BANKNAMEA':val.name_arabic,
                       'BANKBIC':val.bic,
                       }
-                res.append(dict)
+                res.append(dic)
         return res
     
     def UpdateRecord(self,cr,uid,vals):
         if isinstance(vals,(list,tuple)):
-            for dict in vals:
-                if dict.get('ERPID',False) and dict.get('OPSID',False):
-                    self.pool.get('res.bank').write(cr,uid,[dict['ERPID']],{'ops_id':dict['OPSID']})
+            for dic in vals:
+                if dic.get('ERPID',False) and dic.get('OPSID',False):
+                    self.pool.get('res.bank').write(cr,uid,[dic['ERPID']],{'ops_id':dic['OPSID']})
         else:
             if vals.get('ERPID',False) and vals.get('OPSID',False):
                     self.pool.get('res.bank').write(cr,uid,[vals['ERPID']],{'ops_id':vals['OPSID']})
@@ -608,10 +691,11 @@ class res_bank(osv.osv):
     
     
     def CreateRecord(self,cr,uid,vals):
-        if vals.get('IDENTIFIERCODE',False) and vals.get('BANKNAME',False):
+        if vals.get('IDENTIFIERCODE',False) and vals.get('BANKNAME',False) and vals.get('BANKNAMEA',False):
             bank_id=self.search(cr,uid,[('name','=',vals['BANKNAME']),('bic','=',vals['IDENTIFIERCODE'])])
             if not bank_id:
-                bank_id=self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'bic':vals['IDENTIFIERCODE'],'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)},context={})
+                bank_id=self.pool.get('res.bank').create(cr,uid,{'name':vals['BANKNAME'],'name_arabic':vals['BANKNAMEA'],'bic':vals['IDENTIFIERCODE'],
+                                                                 'ops_id':vals['OPSID'],'country_id':vals.get('COUNTRYERPID',False)},context={})
         return bank_id
 
 PURCHASE_ORDER_DIC={
@@ -622,14 +706,10 @@ PURCHASE_ORDER_DIC={
            'PROJECTCODE':'project_code',
            'PURCHASETYPE':'purchase_type',
            'LOCATIONSERIALCOUNTER':'location_serial_counter',
-           
            'QUOTATIONNUMBER':'partner_ref',
            'RECORDSTATUS':'status',
           # 'PAYMENTSTATUS':'',
            'TOTALAMOUNT':'po_amount',
-          # 'DISCOUNTACT':'discount_type',
-         #  'SERVICEACT':'service_type',
-          # 'DEDUCTIONACT':'deduction_type',
            'DISCOUNTAMOUNT':'discount_value',
            'DEDUCTIONAMOUNT':'deduction_value',
            'SERVICEAMOUNT':'service_amt',
@@ -688,22 +768,37 @@ class purchase_order(osv.osv):
             result[line.order_id.id] = True
         return result.keys()
     def check_material(self,cr,uid,vals):
-        print "check material =========",vals,type(vals)
+#        print "check material =========",vals,type(vals)
+        flag=flag1=flag2=False
+        error=''
         if isinstance(vals,(list,tuple)):
-            
             for val in vals:
                 if isinstance(val,dict):
-                    print val,"check request=============="
+#                    print val,"check request=============="
                     if val.get('REQUESTNO',False) and val.get('REQUESTDETAILID',False):
-                        return True
+                        flag=flag1=flag2=True
+#                        return True
                     else:
                         if not val.get('REQUESTNO',False):
-                            error="Please send 'REQUESTNO' "
+                            flag1=False
+#                            error="Please send 'REQUESTNO' "
                         elif not val.get('REQUESTDETAILID',False):
-                            error="Please send 'REQUESTDETAILID' "
+                            flag2=False
+#                            error="Please send 'REQUESTDETAILID' "
                         else:
-                            error='Please Create Material Request First'
-                        return error
+                            flag=False
+#                            error='Please Create Material Request First'
+#                        return error
+            if flag == True:
+                return True
+            elif flag1 == False:
+                error="Please send 'REQUESTNO' "
+            elif flag2 == False:
+                error="Please send 'REQUESTDETAILID' "
+            else:
+                error='Please Create Material Request First'
+            return error
+                
         else:
             if vals.get('REQUESTNO',False) and vals.get('REQUESTDETAILID',False):
                     return True
@@ -779,7 +874,7 @@ class purchase_order(osv.osv):
                
                }
     def CreateRecord(self,cr,uid,vals):
-        print "==============purchase order==========================",vals
+#        print "==============purchase order==========================",vals
         dic={}
         ids=[]
         value={}
@@ -809,7 +904,7 @@ class purchase_order(osv.osv):
                 else:
                     ref =  str(dic['project_code'])
                 # Assuming Project already available in analytic account otherwise we will not create and pass as False    
-                dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
+                analytic_id = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
                 #print "dic['analytic_id']=============================",dic['analytic_id']
                 
                 #discount=self.onchange_discount(cr,uid,ids,dic['discount_type'],dic['discount_value'],dic['po_amount'])
@@ -1017,14 +1112,16 @@ class account_invoice_payment(osv.osv):
 INVOICE_DATA_DIC = {
                 'LOANCODE':'ops_loan_id',
                 'ACCOUNTANTID':'partner_id',
-                #'LOANSTATUS':'',
+                'LOANSTATUS':'status',
                # 'ROLLBACKSTATUS':'',
                 #'ROLLBACKREMARK':'',
                 'AMOUNT':'amount_total',
                 'RMRGRANDTOTAL':'rmr_grant_total',
+                'DISCOUNT':'unit_discount',
                 'RMRAMOUNT':'rmr_total',
                 'ISBUDGET':'is_budget',
                 'CREATEDDATE':'date_invoice',
+                
                 #'LOAN_DATAIL_DATA':'LOAN_DATAIL_DATA_LIST',
                 #'LOAN_REQUEST_DETAIL':'LOAN_REQUEST_DETAIL_LIST',
                 }
@@ -1032,6 +1129,36 @@ INVOICE_DATA_DIC = {
 
 class account_invoice(osv.osv):
     _inherit='account.invoice'
+    
+    
+    
+    def _amount_all(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for invoice in self.browse(cr, uid, ids, context=context):
+            res[invoice.id] = {
+                'amount_untaxed': 0.0,
+                'amount_tax': 0.0,
+                'amount_total': 0.0,
+            }
+            for line in invoice.invoice_line:
+                res[invoice.id]['amount_untaxed'] += line.price_subtotal
+            for line in invoice.tax_line:
+                res[invoice.id]['amount_tax'] += line.amount
+            res[invoice.id]['amount_total'] = res[invoice.id]['amount_tax'] + res[invoice.id]['amount_untaxed'] - invoice.unit_discount
+        return res
+    
+    def _get_invoice_line(self, cr, uid, ids, context=None):
+        result = {}
+        for line in self.pool.get('account.invoice.line').browse(cr, uid, ids, context=context):
+            result[line.invoice_id.id] = True
+        return result.keys()
+    
+    def _get_invoice_tax(self, cr, uid, ids, context=None):
+        result = {}
+        for tax in self.pool.get('account.invoice.tax').browse(cr, uid, ids, context=context):
+            result[tax.invoice_id.id] = True
+        return result.keys()
+    
     _columns={
           'ops_loan_id':fields.float('Ops Loan Id'),
           'rmr_total':fields.float('Rmr Total'),
@@ -1042,11 +1169,63 @@ class account_invoice(osv.osv):
           'ops_details_request_id':fields.integer('Ops details request id'),
           'invoice_details_id':fields.many2one('account.invoice.details','Invoice Details Id'),
           'unit_discount':fields.float('Unit Discount'),
+          'status':fields.char('Status'),
           'service_charge':fields.float('Service Charge'),
+          'amount_untaxed': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Subtotal', track_visibility='always',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
+            },
+            multi='all'),
+           'amount_tax': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Tax',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
+            },
+            multi='all'),
+            'amount_total': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Total',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
+                'account.invoice.tax': (_get_invoice_tax, None, 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
+            },
+            multi='all'),
           }
-    
+    def invoice_pay_customer(self, cr, uid, ids, context=None):
+        if not ids: return []
+        journal_id=False
+        dummy, view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account_voucher', 'view_vendor_receipt_dialog_form')
+        if context.get('journal_id'):
+            journal_id=context['journal_id']
+        inv = self.browse(cr, uid, ids[0], context=context)
+        return {
+            'name':_("Pay Invoice"),
+            'view_mode': 'form',
+            'view_id': view_id,
+            'view_type': 'form',
+            'res_model': 'account.voucher',
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'new',
+            'domain': '[]',
+            'context': {
+                'payment_expected_currency': inv.currency_id.id,
+                'default_partner_id': self.pool.get('res.partner')._find_accounting_partner(inv.partner_id).id,
+                'default_amount': inv.type in ('out_refund', 'in_refund') and -inv.residual or inv.residual,
+                'default_reference': inv.name,
+                'default_journal_id': journal_id,
+                'close_after_process': True,
+                'invoice_type': inv.type,
+                'invoice_id': inv.id,
+                'default_type': inv.type in ('out_invoice','out_refund') and 'receipt' or 'payment',
+                'type': inv.type in ('out_invoice','out_refund') and 'receipt' or 'payment'
+            }
+        }
     def CreateRecord(self,cr,uid,vals):
-        dic={}
+        invoice_dic={}
+        voucher_obj = self.pool.get('account.voucher')
         invoice_line=self.pool.get('account.invoice.line')
         detail_line=self.pool.get('account.invoice.details')
         analytic_obj=self.pool.get('account.analytic.account')
@@ -1056,11 +1235,15 @@ class account_invoice(osv.osv):
         del vals['LOAN_DATAIL_DATA']
         del vals['LOAN_REQUEST_DEATIL']
         for key,value in vals.iteritems():
-            dic[INVOICE_DATA_DIC.get(key)] =  value 
-        if dic('partner_id',False):
-            partner_id=partner.search(cr,uid,[('ops_accountant','=',dic['partner_id'])])
+            invoice_dic[INVOICE_DATA_DIC.get(key)] =  value 
+        if invoice_dic['is_budget'].lower() == 'true':
+            invoice_dic['is_budget'] = True
+        else:
+            invoice_dic['is_budget'] = False
+        if invoice_dic.get('partner_id'):
+            partner_id=partner.search(cr,uid,[('ops_accountant','=',invoice_dic['partner_id'])])
             if partner_id:
-                dic['partner_id'] = partner_id[0]
+                invoice_dic['partner_id'] = partner_id[0]
                 partner_obj = partner.browse(cr,uid,partner_id[0])
                 
                 
@@ -1069,15 +1252,47 @@ class account_invoice(osv.osv):
                 else:
                     ref =  str(partner_obj.project_code)
             # Assuming Project already available in analytic account otherwise we will not create and pass as False    
-                dic['cost_analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
-                dic['account_id']=partner_obj.property_account_payable.id
+                invoice_dic['cost_analytic_id'] = analytic_obj.search(cr, uid, [('code','=',ref)]) and analytic_obj.search(cr, uid, [('code','=',ref)])[0] or False
+                invoice_dic['account_id']=partner_obj.property_account_payable.id
+                
+                invoice_dic['cost_analytic_id']=8260
+                invoice_dic['type']='in_invoice'
             # Assuming Project already available in analytic account otherwise we will not create and pass as False    
                 #dic['analytic_id'] = analytic_obj.search(cr, uid, [('code','=',obj.project_code)]) and analytic_obj.search(cr, uid, [('code','=',obj.project_code)])[0] or False
             #dic['partner_id'] = partner_id[0] if partner_id else False
-            ops_loan_id=self.search(cr,uid,[('ops_loan_id','=',dic['ops_loan_id'])])
-            ops_loan_id = self.write(cr,uid,ops_loan_id,dic) if ops_loan_id else self.create(cr,uid,dic,context=None)
-        detail_line.CreateRecord(cr,uid,detail_line_list)
-        invoice_line.CreateRecord(cr,uid,invoice_line_list)
+            ops_loan_id=self.search(cr,uid,[('ops_loan_id','=',invoice_dic['ops_loan_id'])])
+            if ops_loan_id:
+                ops_loan_id = self.write(cr,uid,ops_loan_id,invoice_dic)  
+            else:
+                ops_loan_id=self.create(cr,uid,invoice_dic,context=None)
+                detail_line.CreateRecord(cr,uid,detail_line_list)
+                invoice_line.CreateRecord(cr,uid,invoice_line_list)
+                netsvc.LocalService("workflow").trg_validate(uid, 'account.invoice', ops_loan_id, 'invoice_open', cr)
+                inv=self.browse(cr, uid, ops_loan_id)
+                journal=self.pool.get('account.journal').browse(cr,uid,314)
+                voucher_dic= {
+                'expected_currency': inv.currency_id.id,
+                'partner_id': self.pool.get('res.partner')._find_accounting_partner(inv.partner_id).id,
+                'amount': inv.type in ('out_refund', 'in_refund') and -inv.residual or inv.residual,
+                'reference': inv.name,
+                'journal_id': journal.id,
+                'close_after_process': True,
+                'invoice_type': inv.type,
+                'invoice_id': inv.id,
+                'account_id': journal.default_credit_account_id.id or journal.default_debit_account_id.id,
+                'default_type': inv.type in ('out_invoice','out_refund') and 'receipt' or 'payment',
+                'type': inv.type in ('out_invoice','out_refund') and 'receipt' or 'payment'
+            }
+                
+#                voucher_id=self.invoice_pay_customer(cr, uid, [ops_loan_id], context={'journal_id':314})
+                voucher_id=voucher_obj.create(cr,uid,voucher_dic,context={})
+                print "=============voucher id===========================",voucher_id
+                
+                
+                voucher_obj.button_proforma_voucher(cr, uid, [voucher_id], context={})
+                
+#        detail_line.CreateRecord(cr,uid,detail_line_list)
+#        invoice_line.CreateRecord(cr,uid,invoice_line_list)
         
         return ops_loan_id
 
@@ -1105,7 +1320,7 @@ class account_invoice_details(osv.osv):
     _name='account.invoice.details'
     _columns={
               'detail_id':fields.many2one('account.invoice','Account Invoice'),
-              'invoice_id':fields.float('invoice id'),
+              'invoice_id':fields.char('invoice id'),
               'ops_details_id':fields.integer('Ops Details ID'),
               'invoice_vendor':fields.char('Invoice Vendor',size=64),
               'ops_invoice_number':fields.char('Ops Invoice Number',size=64),
@@ -1114,6 +1329,7 @@ class account_invoice_details(osv.osv):
               'discount':fields.float('Discount Amount'),
               'rmr_number':fields.char('RMR Number'),
               'rmr_amount':fields.char('RMR Amount'),
+              'line_detail':fields.one2many('account.invoice.line','invoice_details_id','Invoice Line',readonly=True),
               }
     
     def CreateRecord(self,cr,uid,list):
@@ -1123,10 +1339,10 @@ class account_invoice_details(osv.osv):
         for vals in list:
             for key,value in vals.iteritems():
                 dic[INVOICE_DEATIL_LINE_DATA.get(key)] =  value
-            if dic('detail_id',False):
+            if dic.get('detail_id',False):
                 invoice_id=invoice.search(cr,uid,[('ops_loan_id','=',dic['detail_id'])])
                 if invoice_id:
-                    dic['invoice_id']=invoice_id[0]
+                    dic['detail_id']=invoice_id[0]
                     ops_details_id=self.search(cr,uid,[('ops_details_id','=',dic['ops_details_id'])])
                     ops_details_id = self.write(cr,uid,ops_details_id[0],dic) and ops_details_id[0] \
                                  if ops_details_id else self.create(cr,uid,dic,context={})
@@ -1134,7 +1350,7 @@ class account_invoice_details(osv.osv):
 
 INVOICE_LINE_DATA=   {
                     'LOANREQUESTDETAILID':'ops_details_request_id',
-                    'LOANREQUESTNO':'ops_invoice_id',
+                    #'LOANREQUESTNO':'ops_invoice_id', 
                     'LOANDETAILID':'invoice_details_id',
                     #'EMPLOYEECODE':'',
                     'ITEMNUMBER':'product_id',
@@ -1153,30 +1369,47 @@ INVOICE_LINE_DATA=   {
  
 class account_invoice_line(osv.osv):
     _inherit='account.invoice.line'
+    
+    def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict):
+        res = {}
+        tax_obj = self.pool.get('account.tax')
+        cur_obj = self.pool.get('res.currency')
+        for line in self.browse(cr, uid, ids):
+            price = line.price_unit * (1-(line.discount or 0.0)/100.0)
+            taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id, partner=line.invoice_id.partner_id)
+            res[line.id] = taxes['total'] - line.quantity * line.unit_discount
+            if line.invoice_id:
+                cur = line.invoice_id.currency_id
+                res[line.id] = cur_obj.round(cr, uid, cur, res[line.id])
+        return res
+    
     _columns={
               'ops_details_request_id':fields.integer('Ops details request id'),
-              'ops_invoice_id':fields.integer('OPS Invoice ID',readonly=True),
+              #'ops_invoice_id':fields.integer('OPS Invoice ID',readonly=True),
               'invoice_details_id':fields.many2one('account.invoice.details','Invoice Details Id'),
               'unit_discount':fields.float('Unit Discount'),
               'service_charge':fields.float('Service Charge'),
+              'price_subtotal': fields.function(_amount_line, string='Amount', type="float",
+                                                digits_compute= dp.get_precision('Account'), store=True),
               }
     
-    def CreateRecord(self,cr,uid,list):
+    def CreateRecord(self,cr,uid,data):
         dic={}
         product=self.pool.get('product.product')
         invoice=self.pool.get('account.invoice')
         invoice_detail=self.pool.get('account.invoice.details')
-        for vals in list:
+        for vals in data:
             for key,value in vals.iteritems():
                 dic[INVOICE_LINE_DATA.get(key)] =  value
-            if dic('invoice_id',False):
+            if dic.get('invoice_id',False):
                 invoice_id=invoice.search(cr,uid,[('ops_loan_id','=',dic['invoice_id'])])
                 product_id=product.search(cr,uid,[('ops_code','=',dic['product_id'])])
                 if invoice_id:
                     dic['invoice_id']=invoice_id[0]
-                    invoice_details_id=invoice_detail.search(cr,uid,[('ops_detail_id','=',dic['invoice_details_id'])])
+                    invoice_details_id=invoice_detail.search(cr,uid,[('ops_details_id','=',dic['invoice_details_id'])])
                     dic['invoice_details_id']= invoice_details_id[0] if invoice_details_id else False
-                    dic['account_id']=self._default_account_id(self, cr, uid, context=None)
+                    #dic['account_id']=self._default_account_id(self, cr, uid, context=None)
+                    dic['account_id']=966
                     dic['product_id']= product_id[0] if product_id else False
                     ops_details_request_id=self.search(cr,uid,[('ops_details_request_id','=',dic['ops_details_request_id'])])
                     ops_details_request_id = self.write(cr,uid,ops_details_request_id[0],dic) and ops_details_request_id[0] \
